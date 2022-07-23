@@ -25,6 +25,17 @@ const menuData = [
       },
     ],
   },
+  {
+    id: '20',
+    name: 'pm',
+    children: [
+      {
+        id: '201',
+        name: 'pmTest',
+        path: '/test/pmTest',
+      },
+    ],
+  },
 ];
 
 const getIcon = icon => {

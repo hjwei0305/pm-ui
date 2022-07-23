@@ -18,6 +18,11 @@ export default [
         name: 'moduleName',
         routes: [{ path: '/moduleName/demo', component: './Demo' }],
       },
+      {
+        path: '/test',
+        name: 'pmTest',
+        routes: [{ path: '/test/pmTest', component: './Test/PmTest' }],
+      },
     ],
   },
 ];

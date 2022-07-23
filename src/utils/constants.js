@@ -35,6 +35,7 @@ const APP_BASE = base;
 const LOCAL_PATH = process.env.NODE_ENV !== 'production' ? '..' : `../${APP_BASE}`;
 
 const SERVER_PATH = getServerPath();
+const PROJECT_PATH = `${getServerPath()}/pm-api`;
 
 const LOGIN_STATUS = {
   SUCCESS: 'success',
@@ -56,6 +57,7 @@ export default {
   APP_BASE,
   LOCAL_PATH,
   SERVER_PATH,
+  PROJECT_PATH,
   APP_MODULE_BTN_KEY,
   LOGIN_STATUS,
 };
