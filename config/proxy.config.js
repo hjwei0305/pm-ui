@@ -6,7 +6,7 @@ export default {
     pathRewrite: { '^/mocker.api': '' },
   },
   '/api-gateway/pm': {
-    target: 'http://localhost:80801',
+    target: 'http://localhost:8080',
     changeOrigin: true,
     secure: false,
     pathRewrite: { '^/api-gateway/pm': '' },
