@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button, Popconfirm } from 'antd';
-import { ExtTable, ExtIcon, Space } from 'suid';
+import { ExtTable, ExtIcon } from 'suid';
 import EditModal from './EditModal';
 import {constants} from "@/utils";
 
@@ -117,7 +117,7 @@ class ProjectSchedule extends Component {
         className: 'action',
         required: true,
         render: (_, record) => (
-          <Space>
+          <Fragment>
             <ExtIcon
               key="edit"
               className="edit"
@@ -135,7 +135,7 @@ class ProjectSchedule extends Component {
             >
               {this.renderDelBtn(record)}
             </Popconfirm>
-          </Space>
+          </Fragment>
         ),
       },
       {
@@ -231,7 +231,7 @@ class ProjectSchedule extends Component {
     ];
     const toolBarProps = {
       left: (
-        <Space>
+        <Fragment>
           <Button
             key="add"
             type="primary"
@@ -243,7 +243,7 @@ class ProjectSchedule extends Component {
             新建
           </Button>
           <Button onClick={this.refresh}>刷新</Button>
-        </Space>
+        </Fragment>
       ),
     };
     return {
