@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Fragment , Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Input , DatePicker, Row, Col } from 'antd';
-import { ExtTable, ExtIcon, Space, ComboList } from 'suid';
+import { ExtTable, ExtIcon, ComboList } from 'suid';
 import { constants } from '@/utils';
 import { Link } from "react-router-dom";
 import styles from './index.less'
@@ -194,7 +194,7 @@ class PmBaseInfo extends Component {
         className: 'action',
         required: true,
         render: (_, record) => (
-          <Space>
+          <Fragment>
             {/* <ExtIcon
               key="edit"
               className="edit"
@@ -236,7 +236,7 @@ class PmBaseInfo extends Component {
             >
               {this.renderDelBtn(record)}
             </Popconfirm> */}
-          </Space>
+          </Fragment>
         ),
       },
       {
@@ -315,9 +315,9 @@ class PmBaseInfo extends Component {
     const toolBarProps = {
       layout: { leftSpan: 22, rightSpan: 2 },
       left: (
-        <Space>
+        <Fragment>
           项目名称：{' '}
-          <Input onChange={(event) => this.setState({ nameFilter: event.target.value })} allowClear></Input>
+          <Input style={{width:"150px"}} onChange={(event) => this.setState({ nameFilter: event.target.value })} allowClear></Input>
           当前状态：{' '}
           <ComboList
             style={{ width: '150px', marginRight: '12px' }}
@@ -335,7 +335,7 @@ class PmBaseInfo extends Component {
             }}
           />
           主导人：{' '}
-          <Input onChange={(event) => this.setState({ projectMasterFilter: event.target.value })} allowClear></Input>
+          <Input style={{width:"150px"}} onChange={(event) => this.setState({ projectMasterFilter: event.target.value })} allowClear></Input>
           开始日期：<DatePicker onChange={item => this.onDateChange(item)} format="YYYY-MM-DD" />
           {/* <Button
             key="add"
@@ -345,7 +345,7 @@ class PmBaseInfo extends Component {
             }}
             ignore="true"
           >新建</Button> */}
-        </Space>
+        </Fragment>
       ),
     };
     const filters = this.getTableFilters();

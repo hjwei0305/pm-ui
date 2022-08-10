@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag } from 'antd';
-import { ExtIcon, Space, ExtTable, ComboList } from 'suid';
+import { ExtIcon, ExtTable, ComboList } from 'suid';
 import EditModal from './EditModal';
 import ToDoEditModal from './ToDoEditModal';
 import { Link } from "react-router-dom";
@@ -148,7 +148,7 @@ class PmBaseInfoEdit extends Component {
         className: 'action',
         required: true,
         render: (_, record) => (
-          <Space>
+          <Fragment>
             <ExtIcon
               key="edit"
               className="edit"
@@ -166,7 +166,7 @@ class PmBaseInfoEdit extends Component {
             >
               {this.renderDelBtn(record)}
             </Popconfirm>
-          </Space>
+          </Fragment>
         ),
       },
       {
@@ -184,7 +184,7 @@ class PmBaseInfoEdit extends Component {
     ];
     const toolBarProps = {
       left: (
-        <Space>
+        <Fragment>
           <Button
             key="add"
             type="primary"
@@ -196,7 +196,7 @@ class PmBaseInfoEdit extends Component {
             新建
           </Button>
           <Button onClick={this.refresh}>刷新</Button>
-        </Space>
+        </Fragment>
       ),
     };
     return {
@@ -296,7 +296,7 @@ class PmBaseInfoEdit extends Component {
         className: 'action',
         required: true,
         render: (_, record) => (
-          <Space>
+          <Fragment>
             <ExtIcon
               key="edit"
               className="edit"
@@ -314,7 +314,7 @@ class PmBaseInfoEdit extends Component {
             >
               {this.renderDelBtn(record)}
             </Popconfirm>
-          </Space>
+          </Fragment>
         ),
       },
       {
@@ -405,7 +405,7 @@ class PmBaseInfoEdit extends Component {
     ];
     const toolBarProps = {
       left: (
-        <Space>
+        <Fragment>
           是否结案：{' '}
           <ComboList
             style={{ width: '150px', marginRight: '12px' }}
@@ -424,7 +424,7 @@ class PmBaseInfoEdit extends Component {
             }}
           />
           责任人：{' '}
-          <Input onChange={(event) => this.setState({ ondutyNameFilter: event.target.value })} allowClear></Input>
+          <Input style={{width:"150px",marginRight:"5px"}} onChange={(event) => this.setState({ ondutyNameFilter: event.target.value })} allowClear></Input>
           <Button
             key="add"
             type="primary"
@@ -436,7 +436,7 @@ class PmBaseInfoEdit extends Component {
             新建
           </Button>
           {/* <Button onClick={this.refresh}>刷新</Button> */}
-        </Space>
+        </Fragment>
       ),
     };
     const filters = this.getToDoTableFilters();
