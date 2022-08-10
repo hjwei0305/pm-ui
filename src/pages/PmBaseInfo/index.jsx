@@ -387,7 +387,7 @@ class PmBaseInfo extends Component {
       <>
         <div className={styles['container']}>
           <Row style={{height:"180px"}} className="row-content">
-            <div style={{margin:"16px 24px",background:"white",height:"152px",borderRadius:"4px"}}>
+            <div style={{margin:"9px 12px",background:"white",height:"152px",borderRadius:"4px"}}>
               <div>
                 <Col className="col-content">
                   <div className="item item-color1">
@@ -447,7 +447,7 @@ class PmBaseInfo extends Component {
               </div>
             </div>
           </Row>
-          <Row style={{height:"550px",padding:"0 24px"}}>
+          <Row style={{height:"550px",padding:"0 12px"}}>
               <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
           </Row>
         </div>

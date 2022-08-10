@@ -510,7 +510,7 @@ class PmBaseInfoEdit extends Component {
 
     return (
       <>
-      <div style={{background: "#F4F8FC",padding:"16px 24px"}}>
+      <div style={{background: "#F4F8FC",padding:"8px 12px"}}>
         <Row>
           <Col span={4}>
             <div className={styles['goBack']}>
@@ -620,7 +620,7 @@ class PmBaseInfoEdit extends Component {
                   Content of Tab Pane 3
                 </TabPane>
                 <TabPane tab="待办事项" key="5">
-                  <ExtTable style={{height:"585px"}} onTableRef={inst => (this.tableRef = inst)} {...this.getTodoListExtableProps()} />
+                  <ExtTable style={{height:"605px"}} onTableRef={inst => (this.tableRef = inst)} {...this.getTodoListExtableProps()} />
                   {modalVisibleToDo ? <ToDoEditModal {...this.getToDoEditModalProps()} /> : null}
                 </TabPane>
                 <TabPane tab="流程配置" key="6">
