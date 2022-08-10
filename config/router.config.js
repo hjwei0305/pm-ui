@@ -19,9 +19,41 @@ export default [
         routes: [{ path: '/moduleName/demo', component: './Demo' }],
       },
       {
-        path: '/test',
-        name: 'pmTest',
-        routes: [{ path: '/test/pmTest', component: './Test/PmTest' }],
+        path: '/pm',
+        name: '项目管理',
+        routes: [
+          {
+            path: '/pm/PmBaseInfo',
+            component: './PmBaseInfo',
+            title: '项目基础信息',
+          },
+          {
+            path: '/pm/PmBaseInfoEdit',
+            component: './PmBaseInfoEdit',
+            title: '项目基础信息编辑',
+          },
+          {
+            path: '/pm/ProjectMembers',
+            component: './ProjectMembers',
+            title: '项目人员？',
+          },
+          {
+            path: '/pm/ProjectSchedule',
+            component: './ProjectSchedule',
+            title: '项目进度',
+          },
+          {
+            path: '/pm/TodoList',
+            component: './TodoList',
+            title: 'TodoList',
+          },
+          {
+            path: '/pm/WfConfig',
+            component: './WfConfig',
+            title: 'WfConfig',
+          },
+
+        ],
       },
     ],
   },

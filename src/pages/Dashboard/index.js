@@ -15,24 +15,38 @@ const menuData = [
     path: '/user/login',
   },
   {
-    id: '10',
-    name: 'moduleName',
-    children: [
-      {
-        id: '100',
-        name: 'menuName',
-        path: '/moduleName/demo',
-      },
-    ],
-  },
-  {
     id: '20',
     name: 'pm',
     children: [
       {
         id: '201',
-        name: 'pmTest',
-        path: '/test/pmTest',
+        name: '项目基础信息',
+        path: '/pm/PmBaseInfo',
+      },
+      {
+        id: '2011',
+        name: '项目基础信息编辑',
+        path: '/pm/PmBaseInfoEdit',
+      },
+      {
+        id: '202',
+        name: '项目管理人员',
+        path: '/pm/ProjectMembers',
+      },
+      {
+        id: '203',
+        name: '项目计划表',
+        path: '/pm/ProjectSchedule',
+      },
+      {
+        id: '204',
+        name: '项目待办',
+        path: '/pm/TodoList',
+      },
+      {
+        id: '205',
+        name: '流程节点（设置附件）',
+        path: '/pm/WfConfig',
       },
     ],
   },

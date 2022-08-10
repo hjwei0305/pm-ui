@@ -1,3 +1,3 @@
-import { PageLoader } from 'suid';
+import {PageLoader} from 'suid';
 
 export default PageLoader;
