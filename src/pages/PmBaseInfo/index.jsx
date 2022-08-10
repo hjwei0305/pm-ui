@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, Popconfirm, Input , DatePicker, Row, Col } from 'antd';
+import { Input , DatePicker, Row, Col } from 'antd';
 import { ExtTable, ExtIcon, Space, ComboList } from 'suid';
-import Filter from '@/components/Filter';
-import EditModal from './EditModal';
 import { constants } from '@/utils';
 import { Link } from "react-router-dom";
 import styles from './index.less'
@@ -13,7 +11,7 @@ import logo2 from '../../../static/proj-two.png'
 import logo3 from '../../../static/proj-three.png'
 import logo4 from '../../../static/proj-four.png'
 import logo5 from '../../../static/proj-five.png'
-import { hashHistory } from 'React-router'
+
 
 const { PROJECT_PATH } = constants;
 
