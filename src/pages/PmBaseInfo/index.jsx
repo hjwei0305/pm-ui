@@ -34,7 +34,7 @@ class PmBaseInfo extends Component {
       id: 2,
       code: 1,
       name: '待审核',
-    },]
+    }]
   };
 
   onDateChange = data => {
@@ -447,7 +447,7 @@ class PmBaseInfo extends Component {
               </div>
             </div>
           </Row>
-          <Row style={{height:"550px",padding:"0 12px"}}>
+          <Row style={{height:"calc(100% - 192px)",padding:"0 12px"}}>
               <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
           </Row>
         </div>

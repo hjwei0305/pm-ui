@@ -50,6 +50,11 @@ const menuData = [
       },
     ],
   },
+  {
+    id: '301',
+    name: '人员管理',
+    path: '/em/Emp',
+  },
 ];
 
 const getIcon = icon => {

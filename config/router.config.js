@@ -55,6 +55,17 @@ export default [
 
         ],
       },
+      {
+        path: '/em',
+        name: '人员管理',
+        routes: [
+          {
+            path: '/em/Emp',
+            component: './Emp',
+            title: '人员管理',
+          },
+        ],
+      },
     ],
   },
 ];
