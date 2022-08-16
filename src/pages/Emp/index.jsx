@@ -3,7 +3,6 @@ import { connect } from 'dva';
 import { ProLayout, ExtTable, ComboList, utils } from 'suid';
 import { Tree, Tabs, Input, Button, message } from 'antd';
 import TreeView from '@/components/TreeView';
-import Table from './components/Table';
 import { constants,exportXlsx } from '@/utils';
 
 const { request } = utils;
