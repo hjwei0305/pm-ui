@@ -6,7 +6,7 @@
  */
 import { message } from 'antd';
 import { utils } from 'suid';
-import { del, save, getTree, updateEmp } from './service';
+import { del, save, getTree, updateEmp} from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -21,6 +21,7 @@ export default modelExtend(model, {
     treeData: [],
     empData: [],
     currNode: null,
+    editData: [],
   },
   effects: {
     *queryTree({ payload }, { call, put }) {
