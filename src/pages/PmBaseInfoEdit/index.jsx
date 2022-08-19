@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag } from 'antd';
+import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select } from 'antd';
 import { ExtIcon, ExtTable, ComboList } from 'suid';
-import EditModal from './EditModal';
+//import EditModal from './EditModal';
 import ToDoEditModal from './ToDoEditModal';
 import { Link } from "react-router-dom";
 import styles from './index.less'
 import { constants } from '@/utils';
-
+const { Option } = Select;
 const { PROJECT_PATH } = constants;
 const { TextArea } = Input
 const { TabPane } = Tabs;
@@ -16,11 +16,35 @@ const { TabPane } = Tabs;
 @withRouter
 @connect(({ pmBaseInfoEdit, loading }) => ({ pmBaseInfoEdit, loading }))
 class PmBaseInfoEdit extends Component {
+
+  constructor(props) {
+    super(props);
+    const { dispatch } = props;
+    dispatch({
+      type: 'pmBaseInfoEdit/findEmp',
+      payload: {
+        filters: [
+
+        ],
+      },
+    }).then(res => {
+      debugger;
+      const { data } = res;
+      console.log(data);
+      for (let i = 0; i < data.rows.length; i++) {
+        this.state.employee.push(<Option key={data.rows[i].employeeName}>{data.rows[i].employeeName}</Option>);
+      }
+    });
+  }
+
+
+
   state = {
     delId: null,
     isFinishedFilter: null,
     ondutyNameFilter: null,
-    isFinishedData : [
+    employee: [],
+    isFinishedData: [
       {
         name: '已结案',
         code: 1,
@@ -29,23 +53,22 @@ class PmBaseInfoEdit extends Component {
         name: '未结案',
         code: 0,
       },
-    ]
+    ],
   };
 
   dispatchAction = ({ type, payload }) => {
     const { dispatch } = this.props;
-
     return dispatch({
       type,
-      payload,
+      payload
     });
-  };
+  }
 
   refresh = () => {
     if (this.tableRef) {
       this.tableRef.remoteDataRefresh();
     }
-  };
+  }
 
   handleEvent = (type, row) => {
     switch (type) {
@@ -247,12 +270,12 @@ class PmBaseInfoEdit extends Component {
     return {
       onSave: this.handleToDoSave,
       editToDoData,
-      code,name,
+      code, name,
       visible: modalVisibleToDo,
       onClose: this.handleToDoClose,
       saving: loading.effects['pmBaseInfoEdit/saveToDo'],
     };
-  }; 
+  };
 
   getToDoTableFilters = () => {
     const { isFinishedFilter, ondutyNameFilter } = this.state;
@@ -377,7 +400,7 @@ class PmBaseInfoEdit extends Component {
         width: 100,
         required: false,
         render: (_, row) => {
-          
+
           if (row.isCompleted) {
             return <Tag color="green">是</Tag>;
           }
@@ -424,7 +447,7 @@ class PmBaseInfoEdit extends Component {
             }}
           />
           责任人：{' '}
-          <Input style={{width:"150px",marginRight:"5px"}} onChange={(event) => this.setState({ ondutyNameFilter: event.target.value })} allowClear></Input>
+          <Input style={{ width: "150px", marginRight: "5px" }} onChange={(event) => this.setState({ ondutyNameFilter: event.target.value })} allowClear></Input>
           <Button
             key="add"
             type="primary"
@@ -451,7 +474,7 @@ class PmBaseInfoEdit extends Component {
       store: {
         type: 'POST',
         url:
-        `${PROJECT_PATH}/todoList/findByPage`, 
+          `${PROJECT_PATH}/todoList/findByPage`,
       },
     };
   };
@@ -499,143 +522,148 @@ class PmBaseInfoEdit extends Component {
 
   render() {
     const { pmBaseInfoEdit } = this.props;
-    const { modalVisible, modalVisibleToDo } = pmBaseInfoEdit;
+    const { modalVisibleToDo } = pmBaseInfoEdit;
+
     const callback = (key) => {
       console.log(key);
     }
-    const { id, code, projectTypes, name, currentPeriod, projectMaster, 
-      attendanceMemberrCount, submissionDate, planningApproval, 
-      currentDescription, requirementDescription, improveBenefits, 
+
+    const { code, projectTypes, name, currentPeriod, projectMaster,
+      attendanceMemberrCount, submissionDate, planningApproval,
+      currentDescription, requirementDescription, improveBenefits,
       promotionDegree, hardwareRequirement } = this.props.location.state;
 
     return (
       <>
-      <div style={{background: "#F4F8FC",padding:"8px 12px"}}>
-        <Row>
-          <Col span={4} style={{height:"100%"}}>
-            <div className={styles['goBack']}>
-              <Icon type="left" />
-              <Link to={`/pm/PmBaseInfo`}>
-                返回
-              </Link>
-            </div>
-            <div className={styles['basicInfo']}>
-              test
-            </div>
-            <div className={styles['member']}>
-              <div className="memberTitle">项目组成员</div>
-              <div className="memberCtr" >管理成员</div>
-              <div>
-                小组名称：张三（主导人）李四（开发）
+        <div style={{ background: "#F4F8FC", padding: "8px 12px" }}>
+          <Row>
+            <Col span={4} style={{ height: "100%" }}>
+              <div className={styles['goBack']}>
+                <Icon type="left" />
+                <Link to={`/pm/PmBaseInfo`}>
+                  返回
+                </Link>
               </div>
-            </div>
-            
-          </Col>
-          <Col span={20} style={{height:"100%"}}>
-            <div style={{marginLeft:"12px",background:"white",height:"100%"}}>
-              <Tabs defaultActiveKey="1" onChange={callback}>
-                <TabPane tab="基础信息" key="1">
-                   <Form className={styles['basic']}>
-                    <Row gutter={24} justify="space-around" style={{margin:"10px 0"}}>
-                      <Col span={8}>
-                        <span >档案编码：</span>
-                        <Input value={code} disabled></Input>
-                      </Col>
-                      <Col span={8}>
-                        <span >项目类型：</span>
-                        <Input value={projectTypes} disabled></Input>
-                      </Col>
-                      <Col span={8}>
-                        <span >项目名称：</span>
-                        <Input value={name} disabled></Input>
-                      </Col>
-                    </Row>
-                    <Row gutter={24} justify="space-around" style={{margin:"10px 0"}}>
-                      <Col span={8}>
-                        <span >项目阶段：</span>
-                        <Input value={currentPeriod} disabled></Input>
-                      </Col>
-                      <Col span={8}>
-                        <span >项目类型：</span>
-                        <Input value={projectTypes} disabled></Input>
-                      </Col>
-                      <Col span={8}>
-                        <span>主导人：</span>
-                        <Input value={projectMaster} disabled></Input>
-                      </Col>
-                    </Row>
-                    <Row gutter={24} justify="space-around" style={{margin:"10px 0"}}>
-                      <Col span={8}>
-                        <span>参与人数：</span>
-                        <Input value={attendanceMemberrCount} disabled></Input>
-                      </Col>
-                      <Col span={8}>
-                        <span >提案日期：</span>
-                        <Input value={submissionDate} disabled></Input>
-                      </Col>
-                      <Col span={8}>
-                        <span >规划审批：</span>
-                        <Input value={planningApproval} disabled></Input>
-                      </Col>
-                    </Row>
-                    <Row gutter={24} justify="space-around" style={{margin:"10px 0"}}>
-                      <Col span={24}>
-                        <span>现状描述：</span>
-                        <TextArea className="rowStyle" value={currentDescription} disabled></TextArea>
-                      </Col>
-                    </Row>
-                    <Row gutter={24} justify="space-around" style={{margin:"10px 0"}}>
-                      <Col span={24}>
-                        <span>需求描述：</span>
-                        <TextArea className="rowStyle" value={requirementDescription} disabled></TextArea>
-                      </Col>
-                    </Row>
-                    <Row gutter={24} justify="space-around" style={{margin:"10px 0"}}>
-                      <Col span={24}>
-                        <span>改善效益：</span>
-                        <TextArea className="rowStyle" value={improveBenefits} disabled></TextArea>
-                      </Col>
-                    </Row>
-                    <Row gutter={24} justify="space-around" style={{margin:"10px 0"}}>
-                      <Col span={24}>
-                        <span>推广度：</span>
-                        <TextArea className="rowStyle" value={promotionDegree} disabled></TextArea>
-                      </Col>
-                    </Row>
-                    <Row gutter={24} justify="space-around" style={{margin:"10px 0"}}>
-                      <Col span={24}>
-                        <span>硬件要求：</span>
-                        <TextArea className="rowStyle" value={hardwareRequirement} disabled></TextArea>
-                      </Col>
-                    </Row>
-                   </Form>
-                </TabPane>
-                <TabPane tab="进度跟进" key="2">
-                  Content of Tab Pane 2
-                </TabPane>
-                <TabPane tab="附件信息" key="3">
-                  Content of Tab Pane 3
-                </TabPane>
-                <TabPane tab="计划表" key="4">
-                  Content of Tab Pane 3
-                </TabPane>
-                <TabPane tab="待办事项" key="5">
-                  <ExtTable style={{height:"620px"}} onTableRef={inst => (this.tableRef = inst)} {...this.getTodoListExtableProps()} />
-                  {modalVisibleToDo ? <ToDoEditModal {...this.getToDoEditModalProps()} /> : null}
-                </TabPane>
-                <TabPane tab="流程配置" key="6">
-                  Content of Tab Pane 3
-                </TabPane>
-                <TabPane tab="操作日志" key="7">
-                  Content of Tab Pane 3
-                </TabPane>
-              </Tabs>
-            </div>
-          </Col>
-        </Row>
-      </div>
-        
-        
+              <div className={styles['basicInfo']}>
+                test
+              </div>
+              <div className={styles['member']}>
+                <div className="memberTitle">项目组成员</div>
+                <div className="memberCtr" >管理成员</div>
+                <div>
+                  <div>主导人：<Select mode="tags" style={{ width: '100%' }} placeholder="选择主导人">{this.state.employee}</Select></div>
+                  <div>UI设计：<Select mode="tags" style={{ width: '100%' }} placeholder="选择UI设计">{this.state.employee}</Select></div>
+                  <div>开发人员：<Select mode="tags" style={{ width: '100%' }} placeholder="选择主导人">{this.state.employee}</Select></div>
+                  <div>实施：<Select mode="tags" style={{ width: '100%' }} placeholder="选择主导人">{this.state.employee}</Select></div>
+                </div>
+              </div>
+
+            </Col>
+            <Col span={20} style={{ height: "100%" }}>
+              <div style={{ marginLeft: "12px", background: "white", height: "100%" }}>
+                <Tabs defaultActiveKey="1" onChange={callback}>
+                  <TabPane tab="基础信息" key="1">
+                    <Form className={styles['basic']}>
+                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                        <Col span={8}>
+                          <span >档案编码：</span>
+                          <Input value={code} disabled></Input>
+                        </Col>
+                        <Col span={8}>
+                          <span >项目类型：</span>
+                          <Input value={projectTypes} disabled></Input>
+                        </Col>
+                        <Col span={8}>
+                          <span >项目名称：</span>
+                          <Input value={name} disabled></Input>
+                        </Col>
+                      </Row>
+                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                        <Col span={8}>
+                          <span >项目阶段：</span>
+                          <Input value={currentPeriod} disabled></Input>
+                        </Col>
+                        <Col span={8}>
+                          <span >项目类型：</span>
+                          <Input value={projectTypes} disabled></Input>
+                        </Col>
+                        <Col span={8}>
+                          <span>主导人：</span>
+                          <Input value={projectMaster} disabled></Input>
+                        </Col>
+                      </Row>
+                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                        <Col span={8}>
+                          <span>参与人数：</span>
+                          <Input value={attendanceMemberrCount} disabled></Input>
+                        </Col>
+                        <Col span={8}>
+                          <span >提案日期：</span>
+                          <Input value={submissionDate} disabled></Input>
+                        </Col>
+                        <Col span={8}>
+                          <span >规划审批：</span>
+                          <Input value={planningApproval} disabled></Input>
+                        </Col>
+                      </Row>
+                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                        <Col span={24}>
+                          <span>现状描述：</span>
+                          <TextArea className="rowStyle" value={currentDescription} disabled></TextArea>
+                        </Col>
+                      </Row>
+                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                        <Col span={24}>
+                          <span>需求描述：</span>
+                          <TextArea className="rowStyle" value={requirementDescription} disabled></TextArea>
+                        </Col>
+                      </Row>
+                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                        <Col span={24}>
+                          <span>改善效益：</span>
+                          <TextArea className="rowStyle" value={improveBenefits} disabled></TextArea>
+                        </Col>
+                      </Row>
+                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                        <Col span={24}>
+                          <span>推广度：</span>
+                          <TextArea className="rowStyle" value={promotionDegree} disabled></TextArea>
+                        </Col>
+                      </Row>
+                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                        <Col span={24}>
+                          <span>硬件要求：</span>
+                          <TextArea className="rowStyle" value={hardwareRequirement} disabled></TextArea>
+                        </Col>
+                      </Row>
+                    </Form>
+                  </TabPane>
+                  <TabPane tab="进度跟进" key="2">
+                    Content of Tab Pane 2
+                  </TabPane>
+                  <TabPane tab="附件信息" key="3">
+                    Content of Tab Pane 3
+                  </TabPane>
+                  <TabPane tab="计划表" key="4">
+                    Content of Tab Pane 3
+                  </TabPane>
+                  <TabPane tab="待办事项" key="5">
+                    <ExtTable style={{ height: "620px" }} onTableRef={inst => (this.tableRef = inst)} {...this.getTodoListExtableProps()} />
+                    {modalVisibleToDo ? <ToDoEditModal {...this.getToDoEditModalProps()} /> : null}
+                  </TabPane>
+                  <TabPane tab="流程配置" key="6">
+                    Content of Tab Pane 3
+                  </TabPane>
+                  <TabPane tab="操作日志" key="7">
+                    Content of Tab Pane 3
+                  </TabPane>
+                </Tabs>
+              </div>
+            </Col>
+          </Row>
+        </div>
+
+
 
         {/* <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} /> */}
         {/* {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null} */}

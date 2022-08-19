@@ -16,6 +16,15 @@ const contextPath = '/pmBaseInfoEdit';
 const contextToDoPath = '/todoList';
 
 
+export async function findEmp(data) {
+  const url = `${PROJECT_PATH}/pmEmployee/findEmp`;
+  return request({
+    url,
+    method: 'POST',
+    data,
+  });
+}
+
 /** 保存 */
 export async function save(data) {
   const url = `${PROJECT_PATH}${contextPath}/save`;

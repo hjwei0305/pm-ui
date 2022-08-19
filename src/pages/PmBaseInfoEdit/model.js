@@ -6,7 +6,7 @@
  */
 import { message } from 'antd';
 import { utils } from 'suid';
-import { del, save, saveToDo, delToDo } from './service';
+import { del, save, saveToDo, delToDo,findEmp } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -66,6 +66,30 @@ export default modelExtend(model, {
       message.destroy();
       if (success) {
         message.success(msg);
+      } else {
+        message.error(msg);
+      }
+
+      return result;
+    },
+    // *findEmp({ payload }, { call , put }) {
+    //   const result = yield call(findEmp, payload);
+    //   const { data, success, message: msg } = result || {};
+    //   yield put({
+    //     type: 'updateState',
+    //     payload: {
+    //       empData: [].concat(data),
+    //     },
+    //   });
+
+    //   return payload;
+    // },
+    *findEmp({ payload }, { call }) {
+      const result = yield call(findEmp, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+        // message.success(msg);
       } else {
         message.error(msg);
       }
