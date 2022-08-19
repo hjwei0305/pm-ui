@@ -38,8 +38,8 @@ export default [
             title: '项目人员？',
           },
           {
-            path: '/pm/ProjectSchedule',
-            component: './ProjectSchedule',
+            path: '/pm/ProjectPlan',
+            component: './ProjectPlan',
             title: '项目进度',
           },
           {

@@ -516,10 +516,10 @@ class Emp extends Component {
              onChange={this.callback}
              >
               <TabPane tab="人员" key="1">
-                <ExtTable style={{height:"500px"}} onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
+                  <ExtTable style={{height:"600px"}} onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
               </TabPane>
               <TabPane tab="组织" key="2">
-                <ExtTable style={{height:"500px"}} onTableRef={inst => (this.tableRef = inst)} {...this.getOrgExtableProps()} />
+                <ExtTable style={{height:"600px"}} onTableRef={inst => (this.tableRef = inst)} {...this.getOrgExtableProps()} />
                 {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null}
               </TabPane>
             </Tabs>

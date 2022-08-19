@@ -36,7 +36,7 @@ const menuData = [
       {
         id: '203',
         name: '项目计划表',
-        path: '/pm/ProjectSchedule',
+        path: '/pm/ProjectPlan',
       },
       {
         id: '204',
