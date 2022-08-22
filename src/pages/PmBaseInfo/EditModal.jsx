@@ -14,24 +14,24 @@ const formItemLayout = {
 
 @Form.create()
 class FormModal extends PureComponent {
-  handleSave = () => {
-    const { form, onSave, editData } = this.props;
+  handleSync = () => {
+    const { form, onSync } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
         return;
       }
       const params = {};
-      Object.assign(params, editData, formData);
-      if (onSave) {
-        onSave(params);
+      Object.assign(params, formData);
+      if (onSync) {
+        onSync(params.newProjCode);
       }
     });
   };
 
   render() {
-    const { form, editData, onClose, saving, visible } = this.props;
+    const { form, onClose, sync, visible } = this.props;
     const { getFieldDecorator } = form;
-    const title = editData ? '编辑' : '新增';
+    const title = '新增';
 
     return (
       <ExtModal
@@ -39,37 +39,22 @@ class FormModal extends PureComponent {
         onCancel={onClose}
         visible={visible}
         centered
-        confirmLoading={saving}
+        confirmLoading={sync}
         maskClosable={false}
         title={title}
-        onOk={this.handleSave}
+        onOk={this.handleSync}
       >
         <Form {...formItemLayout} layout="horizontal">
-          <FormItem label="代码">
-            {getFieldDecorator('code', {
-              initialValue: editData && editData.code,
+          <FormItem label="项目编码">
+            {getFieldDecorator('newProjCode', {
+              initialValue: '',
               rules: [
                 {
                   required: true,
-                  message: '代码不能为空',
-                },
-                {
-                  max: 10,
-                  message: '代码不能超过5个字符',
+                  message: '项目编码不能为空',
                 },
               ],
-            })(<Input disabled={!!editData || saving} />)}
-          </FormItem>
-          <FormItem label="名称">
-            {getFieldDecorator('name', {
-              initialValue: editData && editData.name,
-              rules: [
-                {
-                  required: true,
-                  message: '名称不能为空',
-                },
-              ],
-            })(<Input disabled={saving} />)}
+            })(<Input disabled={sync} />)}
           </FormItem>
         </Form>
       </ExtModal>

@@ -1,8 +1,8 @@
-import React, { Fragment , Component } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Input , DatePicker, Row, Col } from 'antd';
-import { ExtTable, ExtIcon, ComboList } from 'suid';
+import { Input , DatePicker, Row, Col, Button } from 'antd';
+import { ExtTable, ExtIcon, ComboList, Space } from 'suid';
 import { constants } from '@/utils';
 import { Link } from "react-router-dom";
 import styles from './index.less'
@@ -11,7 +11,6 @@ import logo2 from '../../../static/proj-two.png'
 import logo3 from '../../../static/proj-three.png'
 import logo4 from '../../../static/proj-four.png'
 import logo5 from '../../../static/proj-five.png'
-
 
 const { PROJECT_PATH } = constants;
 
@@ -146,11 +145,12 @@ class PmBaseInfo extends Component {
     }
   };
 
-  handleSave = data => {
+  handleSync = data => {
     this.dispatchAction({
-      type: 'pmBaseInfo/save',
+      type: 'pmBaseInfo/syncProjectInfo',
       payload: data,
     }).then(res => {
+      console.log(res)
       if (res.success) {
         this.dispatchAction({
           type: 'pmBaseInfo/updateState',
@@ -168,7 +168,7 @@ class PmBaseInfo extends Component {
       type: 'pmBaseInfo/updateState',
       payload: {
         modalVisible: false,
-        editData: null,
+        newProjCode: null,
       },
     });
   };
@@ -183,7 +183,6 @@ class PmBaseInfo extends Component {
   };
 
   getExtableProps = () => {
-    const { filterConditon } = this.state;
     const columns = [
       {
         title: '操作',
@@ -194,22 +193,11 @@ class PmBaseInfo extends Component {
         className: 'action',
         required: true,
         render: (_, record) => (
-          <Fragment>
-            {/* <ExtIcon
-              key="edit"
-              className="edit"
-              onClick={() => this.handleEvent('edit', record)}
-              type="edit"
-              status="success"
-              tooltip={{ title: '编辑' }}
-              antd
-            /> */}
-            {/* <Link to={`/pm/PmBaseInfoEdit?id=${record.id}`}>
-              查看详情
-            </Link> */}
+          <Space>
             <Link to={{
               pathname:`/pm/PmBaseInfoEdit`,
               state:{
+                disable: true,
                 name: record.name,
                 id: record.id,
                 code: record.code,
@@ -236,7 +224,7 @@ class PmBaseInfo extends Component {
             >
               {this.renderDelBtn(record)}
             </Popconfirm> */}
-          </Fragment>
+          </Space>
         ),
       },
       {
@@ -315,12 +303,12 @@ class PmBaseInfo extends Component {
     const toolBarProps = {
       layout: { leftSpan: 22, rightSpan: 2 },
       left: (
-        <Fragment>
+        <Space>
           项目名称：{' '}
           <Input style={{width:"150px"}} onChange={(event) => this.setState({ nameFilter: event.target.value })} allowClear></Input>
           当前状态：{' '}
           <ComboList
-            style={{ width: '150px', marginRight: '12px' }}
+            style={{ width: '150px' }}
             showSearch={false}
             pagination={false}
             dataSource={this.state.status}
@@ -337,15 +325,38 @@ class PmBaseInfo extends Component {
           主导人：{' '}
           <Input style={{width:"150px"}} onChange={(event) => this.setState({ projectMasterFilter: event.target.value })} allowClear></Input>
           开始日期：<DatePicker onChange={item => this.onDateChange(item)} format="YYYY-MM-DD" />
-          {/* <Button
+          <Button
             key="add"
             type="primary"
             onClick={() => {
               this.handleEvent('add', null);
             }}
             ignore="true"
-          >新建</Button> */}
-        </Fragment>
+          >
+            <Link to={{
+              pathname:`/pm/PmBaseInfoEdit`,
+              state:{
+                disable: false,
+                name: '',
+                id: '',
+                code: '',
+                projectTypes: '',
+                currentPeriod: '',
+                projectMaster: '',
+                attendanceMemberrCount: '',
+                submissionDate: '',
+                planningApproval: '',
+                currentDescription: '',
+                requirementDescription: '',
+                improveBenefits: '',
+                promotionDegree: '',
+                hardwareRequirement: '',
+              }
+            }}>
+              新建
+            </Link>
+          </Button>
+        </Space>
       ),
     };
     const filters = this.getTableFilters();
@@ -367,14 +378,13 @@ class PmBaseInfo extends Component {
 
   getEditModalProps = () => {
     const { loading, pmBaseInfo } = this.props;
-    const { modalVisible, editData } = pmBaseInfo;
+    const { modalVisible } = pmBaseInfo;
 
     return {
-      onSave: this.handleSave,
-      editData,
+      onSync: this.handleSync,
       visible: modalVisible,
       onClose: this.handleClose,
-      saving: loading.effects['pmBaseInfo/save'],
+      sync: loading.effects['pmBaseInfo/syncProjectInfo'],
     };
   };
 
@@ -450,8 +460,8 @@ class PmBaseInfo extends Component {
           <Row style={{height:"calc(100% - 192px)",padding:"0 12px"}}>
               <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
           </Row>
+          {/* {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null} */}
         </div>
-        {/* {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null} */}
       </>
     );
   }

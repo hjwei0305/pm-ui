@@ -12,6 +12,7 @@ const { request } = utils;
 //   '/mock/5e02d29836608e42d52b1d81/template-service';
 
 const {PROJECT_PATH} = constants;
+const contextBaseInfoPath = '/pmBaseinfo';
 const contextPath = '/pmBaseInfoEdit';
 const contextToDoPath = '/todoList';
 
@@ -56,4 +57,10 @@ export async function updateStateToDo(data) {
 export async function delToDo(params) {
   const url = `${PROJECT_PATH}${contextToDoPath}/delete/${params.id}`;
   return request.delete(url);
+}
+
+/** 根据编码查找项目 */
+export async function syncProjectInfo(params) {
+  const url = `${PROJECT_PATH}${contextBaseInfoPath}/syncProjectInfo?code=${params.code}`;
+  return request.post(url);
 }

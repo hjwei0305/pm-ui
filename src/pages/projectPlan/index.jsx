@@ -1,12 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, Popconfirm, InputNumber, Input, DatePicker } from 'antd';
+import { Button, InputNumber, Input, DatePicker } from 'antd';
 import { ExtTable, ExtIcon, Space, ComboList } from 'suid';
-import {constants} from "@/utils";
+// import {constants} from "@/utils";
 import moment from 'moment';
 
-const {PROJECT_PATH} = constants
+// const {PROJECT_PATH} = constants
 
 @withRouter
 @connect(({ projectPlan, loading }) => ({ projectPlan, loading }))
@@ -19,15 +19,6 @@ class projectPlan extends Component {
         title: '序号',
         dataIndex: 'schedureNo',
         width: 90,
-        required: true,
-        elem: 'INPUT',
-        editFlag: true,
-        fixed: 'left',
-      },
-      {
-        title: 'id',
-        dataIndex: 'projectId',
-        width: 100,
         required: true,
         elem: 'INPUT',
         editFlag: true,
@@ -204,7 +195,7 @@ class projectPlan extends Component {
 
   componentDidMount() {
     this.init();
-    const { dispatch } = this.props;
+    const { dispatch, id } = this.props;
     dispatch({
       type: 'projectPlan/findByPage',
       payload: {
@@ -217,7 +208,7 @@ class projectPlan extends Component {
           {
             fieldName: 'projectId',
             operator: 'EQ',
-            value: "235C2B6B-1AE1-11ED-BF87-34C93D8809B5",
+            value: id,
           },
         ],
       }
@@ -375,14 +366,19 @@ class projectPlan extends Component {
   };
 
   save = () => {
+    const { id } = this.props;
     const save_obj = [];
     this.state.obj.forEach(
-      item =>
-        (item.schedureNo !== '' ||
+      item => {
+        if((item.schedureNo !== '' ||
           item.projectId !== '' ||
           item.workType !== '' ||
-          item.workTodoList !== '' ) &&
-          save_obj.push(item),
+          item.workTodoList !== '' )){
+            item.projectId = id;
+            save_obj.push(item);
+          } 
+          
+      }
     );
     this.handleSaveBatch(save_obj)
   };
@@ -537,7 +533,7 @@ class projectPlan extends Component {
   };
 
   refresh = () => {
-    const { dispatch } = this.props;
+    const { dispatch, id } = this.props;
     dispatch({
       type: 'projectPlan/findByPage',
       payload: {
@@ -550,7 +546,7 @@ class projectPlan extends Component {
           {
             fieldName: 'projectId',
             operator: 'EQ',
-            value: "235C2B6B-1AE1-11ED-BF87-34C93D8809B5",
+            value: id,
           },
         ],
       }
@@ -567,7 +563,6 @@ class projectPlan extends Component {
 
   render() {
     const { projectPlan } = this.props;
-    const { modalVisible } = projectPlan;
 
     return (
       <>

@@ -40,7 +40,7 @@ export default [
           {
             path: '/pm/ProjectPlan',
             component: './ProjectPlan',
-            title: '项目进度',
+            title: '项目计划表',
           },
           {
             path: '/pm/TodoList',

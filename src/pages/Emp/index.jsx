@@ -1,17 +1,16 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { ProLayout, ExtTable, ComboList, utils, ExtIcon } from 'suid';
-import { Tree, Tabs, Input, Button, message, Tag } from 'antd';
+import { Tabs, Input, Button, message, Tag } from 'antd';
 import TreeView from '@/components/TreeView';
 import { constants,exportXlsx } from '@/utils';
 import EditModal from './EditModal';
 
 const { request } = utils;
-const { TreeNode } = Tree;
 const { TabPane } = Tabs;
 const { PROJECT_PATH } = constants;
 
-const { SiderBar, Content, Header  } = ProLayout;
+const { SiderBar, Content  } = ProLayout;
 @connect(({ emp, loading }) => ({ emp, loading }))
 class Emp extends Component {
   state = {
@@ -279,7 +278,7 @@ class Emp extends Component {
   getTableFilters = () =>{
     const { idpathFilter,employeeNameFilter,empstatidFilter } = this.state;
     const filters = [];
-    if (idpathFilter !== null) {
+    if (idpathFilter != null) {
       filters.push({
         fieldName: 'idpath',
         operator: 'LK',
@@ -287,7 +286,7 @@ class Emp extends Component {
         value: idpathFilter,
       });
     }
-    if (employeeNameFilter !== null) {
+    if (employeeNameFilter != null) {
       filters.push({
         fieldName: 'employeeName',
         operator: 'LK',
@@ -295,7 +294,7 @@ class Emp extends Component {
         value: employeeNameFilter,
       });
     }
-    if (empstatidFilter !== null) {
+    if (empstatidFilter != null) {
       filters.push({
         fieldName: 'empstatid',
         operator: 'EQ',
@@ -312,7 +311,7 @@ class Emp extends Component {
   getTableOrgFilters = () =>{
     const { idpathFilter, nameFilter, groupNameFilter} = this.state;
     const filters = [];
-    if (idpathFilter !== null) {
+    if (idpathFilter != null) {
       filters.push({
         fieldName: 'idpath',
         operator: 'LK',
@@ -320,7 +319,7 @@ class Emp extends Component {
         value: idpathFilter,
       });
     }
-    if (nameFilter !== null && nameFilter != '') {
+    if (nameFilter != null && nameFilter != '') {
       filters.push({
         fieldName: 'name',
         operator: 'LK',
@@ -328,7 +327,7 @@ class Emp extends Component {
         value: nameFilter,
       });
     }
-    if (groupNameFilter !== null && groupNameFilter != '') {
+    if (groupNameFilter != null && groupNameFilter != '') {
       filters.push({
         fieldName: 'groupName',
         operator: 'LK',
@@ -500,7 +499,7 @@ class Emp extends Component {
 
   render() {
     const { emp } = this.props;
-    const { treeData, currNode, modalVisible } = emp;
+    const { treeData, modalVisible } = emp;
 
     return (
       <ProLayout style={{background: "#F4F8FC",padding:"8px 12px"}}>

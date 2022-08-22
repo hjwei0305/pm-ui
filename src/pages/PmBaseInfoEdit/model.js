@@ -6,7 +6,7 @@
  */
 import { message } from 'antd';
 import { utils } from 'suid';
-import { del, save, saveToDo, delToDo,findEmp } from './service';
+import { del, save, saveToDo, delToDo, findEmp, syncProjectInfo } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -94,6 +94,18 @@ export default modelExtend(model, {
         message.error(msg);
       }
 
+      return result;
+    },
+
+    *syncProjectInfo({ payload }, { call }) {
+      const result = yield call(syncProjectInfo, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+        message.success(msg);
+      } else {
+        message.error(msg);
+      }
       return result;
     },
   },
