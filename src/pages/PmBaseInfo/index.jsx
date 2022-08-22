@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Input , DatePicker, Row, Col, Button } from 'antd';
+import { Input , DatePicker, Row, Col, Button,Tag  } from 'antd';
 import { ExtTable, ExtIcon, ComboList, Space } from 'suid';
 import { constants } from '@/utils';
 import { Link } from "react-router-dom";
@@ -234,9 +234,15 @@ class PmBaseInfo extends Component {
         required: true,
       },
       {
+        title: '项目编码',
+        dataIndex: 'code',
+        width: 150,
+        required: true,
+      },
+      {
         title: '项目名称',
         dataIndex: 'name',
-        width: 100,
+        width: 200,
         required: true,
       },
       {
@@ -298,6 +304,107 @@ class PmBaseInfo extends Component {
         dataIndex: 'remark',
         width: 100,
         required: true,
+      },
+      {
+        title: '需求评审',
+        dataIndex: 'requireReview',
+        width: 100,
+        render: 
+            tag => {
+              let color = tag===true ? 'blue' : 'red';
+              let value=tag===true ? '通过' : '不通过';
+              return (
+                <span>
+                <Tag color={color}>
+                  {value}
+                </Tag>
+                </span>
+              );
+            }
+      },
+      {
+        title: 'UI评审',
+        dataIndex: 'uiReview',
+        width: 100,
+        render: 
+        tag => {
+          let color = tag===true ? 'blue' : 'red';
+          let value=tag===true ? '通过' : '不通过';
+          return (
+            <span>
+            <Tag color={color}>
+              {value}
+            </Tag>
+            </span>
+          );
+        }
+      },
+      {
+        title: '前端评审',
+        dataIndex: 'webReview',
+        width: 100,
+        render: 
+        tag => {
+          let color = tag===true ? 'blue' : 'red';
+          let value=tag===true ? '通过' : '不通过';
+          return (
+            <span>
+            <Tag color={color}>
+              {value}
+            </Tag>
+            </span>
+          );
+        }
+      },
+      {
+        title: '后端评审',
+        dataIndex: 'codeReview',
+        width: 100,
+        render: 
+        tag => {
+          let color = tag===true ? 'blue' : 'red';
+          let value=tag===true ? '通过' : '不通过';
+          return (
+            <span>
+            <Tag color={color}>
+              {value}
+            </Tag>
+            </span>
+          );
+        }
+      },
+       {
+        title: '测试结果',
+        dataIndex: 'test',
+        width: 100,
+        render: 
+        tag => {
+          let color = tag===true ? 'blue' : 'red';
+          let value=tag===true ? '通过' : '不通过';
+          return (
+            <span>
+            <Tag color={color}>
+              {value}
+            </Tag>
+            </span>
+          );
+        }
+      },{
+        title: '项目验收',
+        dataIndex: 'test',
+        width: 100,
+        render: 
+        tag => {
+          let color = tag===0 ? 'blue' : 'red';
+          let value=tag===0 ? '通过' : '不通过';
+          return (
+            <span>
+            <Tag color={color}>
+              {value}
+            </Tag>
+            </span>
+          );
+        }
       },
     ];
     const toolBarProps = {
