@@ -9,8 +9,8 @@ import moment from 'moment';
 // const {PROJECT_PATH} = constants
 
 @withRouter
-@connect(({ projectPlan, loading }) => ({ projectPlan, loading }))
-class projectPlan extends Component {
+@connect(({ ProjectPlan, loading }) => ({ ProjectPlan, loading }))
+class ProjectPlan extends Component {
   state = {
     editingKey: '',
     delId: null,
@@ -376,8 +376,8 @@ class projectPlan extends Component {
           item.workTodoList !== '' )){
             item.projectId = id;
             save_obj.push(item);
-          } 
-          
+          }
+
       }
     );
     this.handleSaveBatch(save_obj)
@@ -439,7 +439,7 @@ class projectPlan extends Component {
                     />
                   );
                 break;
-                case 'DATE_PICK': 
+                case 'DATE_PICK':
                   dom.a = (
                     <DatePicker
                       ref={node => (this.input = node)}
@@ -562,7 +562,7 @@ class projectPlan extends Component {
   };
 
   render() {
-    const { projectPlan } = this.props;
+    const { ProjectPlan } = this.props;
 
     return (
       <>
@@ -572,4 +572,4 @@ class projectPlan extends Component {
   }
 }
 
-export default projectPlan;
+export default ProjectPlan;

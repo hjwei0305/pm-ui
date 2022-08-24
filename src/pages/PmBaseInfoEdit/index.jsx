@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select } from 'antd';
-import { ExtIcon, ExtTable, ComboList } from 'suid';
+import { ExtIcon, ExtTable, ComboList, ProLayout } from 'suid';
 //import EditModal from './EditModal';
 import ToDoEditModal from './ToDoEditModal';
 import { Link } from "react-router-dom";
@@ -10,18 +10,50 @@ import styles from './index.less'
 import { constants } from '@/utils';
 import ProjectPlan from '../ProjectPlan'
 
+
 const { Option } = Select;
 const { PROJECT_PATH } = constants;
 const { TextArea } = Input
 const { TabPane } = Tabs;
+const { SiderBar, Content } = ProLayout;
+const formItemLayout = {
+  labelCol: {
+    span: 6,
+  },
+  wrapperCol: {
+    span: 18,
+  },
+};
 
-
+@Form.create()
 @withRouter
 @connect(({ pmBaseInfoEdit, loading }) => ({ pmBaseInfoEdit, loading }))
 class PmBaseInfoEdit extends Component {
-
   constructor(props) {
     super(props);
+    if(this.props.location.state && this.props.location.state.code != ''){
+      this.state = {
+        employee: [],
+        disable: this.props.location.state.disable,
+        dataList:
+          {
+            code: this.props.location.state.code,
+            name: this.props.location.state.name,
+            id: this.props.location.state.id,
+            projectTypes: this.props.location.state.projectTypes,
+            currentPeriod: this.props.location.state.currentPeriod,
+            projectMaster: this.props.location.state.projectMaster,
+            attendanceMemberrCount: this.props.location.state.attendanceMemberrCount,
+            submissionDate: this.props.location.state.submissionDate,
+            planningApproval: this.props.location.state.planningApproval,
+            currentDescription: this.props.location.state.currentDescription,
+            requirementDescription: this.props.location.state.requirementDescription,
+            improveBenefits: this.props.location.state.improveBenefits,
+            promotionDegree: this.props.location.state.promotionDegree,
+            hardwareRequirement: this.props.location.state.hardwareRequirement,
+          }
+      }
+    }
     const { dispatch } = props;
     dispatch({
       type: 'pmBaseInfoEdit/findEmp',
@@ -31,16 +63,12 @@ class PmBaseInfoEdit extends Component {
         ],
       },
     }).then(res => {
-      debugger;
       const { data } = res;
-      console.log(data);
-      for (let i = 0; i < data.rows.length; i++) {
-        this.state.employee.push(<Option key={data.rows[i].employeeName}>{data.rows[i].employeeName}</Option>);
+      for (let i = 0; i < data.length; i++) {
+        this.state.employee.push(<Option key={data[i].employeeName}>{data[i].employeeName}</Option>);
       }
     });
   }
-
-
 
   state = {
     delId: null,
@@ -57,6 +85,32 @@ class PmBaseInfoEdit extends Component {
         code: 0,
       },
     ],
+    // 项目信息
+    // projData: [
+    //   {id}
+    // ],
+    disable: false,
+    dataList:
+      {
+        id: null,
+        code: null,
+        projectTypes: null,
+        name: null,
+        currentPeriod: null,
+        projectMaster: null,
+        attendanceMemberrCount: null,
+        submissionDate: null,
+        planningApproval: null,
+        currentDescription: null,
+        requirementDescription: null,
+        improveBenefits: null,
+        promotionDegree: null,
+        hardwareRequirement: null,
+        leader: [],
+        designer: [],
+        developer: [],
+        implementer: [],
+      }
   };
 
   dispatchAction = ({ type, payload }) => {
@@ -115,44 +169,36 @@ class PmBaseInfoEdit extends Component {
   };
 
   handleSave = data => {
-    this.dispatchAction({
-      type: 'pmBaseInfoEdit/save',
-      payload: data,
-    }).then(res => {
-      if (res.success) {
-        this.dispatchAction({
-          type: 'pmBaseInfoEdit/updateState',
-          payload: {
-            modalVisible: false,
-          },
-        });
-        this.refresh();
-      }
-    });
+    if(data.code != ''){
+      this.dispatchAction({
+        type: 'pmBaseInfoEdit/save',
+        payload: data,
+      })
+    }
   };
 
-  handleClose = () => {
-    this.dispatchAction({
-      type: 'pmBaseInfoEdit/updateState',
-      payload: {
-        modalVisible: false,
-        editData: null,
-      },
-    });
-  };
+  // handleClose = () => {
+  //   this.dispatchAction({
+  //     type: 'pmBaseInfoEdit/updateState',
+  //     payload: {
+  //       modalVisible: false,
+  //       editData: null,
+  //     },
+  //   });
+  // };
 
-  getEditModalProps = () => {
-    const { loading, pmBaseInfoEdit } = this.props;
-    const { modalVisible, editData } = pmBaseInfoEdit;
+  // getEditModalProps = () => {
+  //   const { loading, pmBaseInfoEdit } = this.props;
+  //   const { modalVisible, editData } = pmBaseInfoEdit;
 
-    return {
-      onSave: this.handleSave,
-      editData,
-      visible: modalVisible,
-      onClose: this.handleClose,
-      saving: loading.effects['pmBaseInfoEdit/save'],
-    };
-  };
+  //   return {
+  //     onSave: this.handleSave,
+  //     editData,
+  //     visible: modalVisible,
+  //     onClose: this.handleClose,
+  //     saving: loading.effects['pmBaseInfoEdit/save'],
+  //   };
+  // };
 
   renderDelBtn = row => {
     const { loading } = this.props;
@@ -163,80 +209,80 @@ class PmBaseInfoEdit extends Component {
     return <ExtIcon status="error" tooltip={{ title: '删除' }} type="delete" antd />;
   };
 
-  getExtableProps = () => {
-    const columns = [
-      {
-        title: '操作',
-        key: 'operation',
-        width: 100,
-        align: 'center',
-        dataIndex: 'id',
-        className: 'action',
-        required: true,
-        render: (_, record) => (
-          <Fragment>
-            <ExtIcon
-              key="edit"
-              className="edit"
-              onClick={() => this.handleEvent('edit', record)}
-              type="edit"
-              status="success"
-              tooltip={{ title: '编辑' }}
-              antd
-            />
-            <Popconfirm
-              key="del"
-              placement="topLeft"
-              title="确定要删除吗？"
-              onConfirm={() => this.handleEvent('del', record)}
-            >
-              {this.renderDelBtn(record)}
-            </Popconfirm>
-          </Fragment>
-        ),
-      },
-      {
-        title: '代码',
-        dataIndex: 'code',
-        width: 120,
-        required: true,
-      },
-      {
-        title: '名称',
-        dataIndex: 'name',
-        width: 220,
-        required: true,
-      },
-    ];
-    const toolBarProps = {
-      left: (
-        <Fragment>
-          <Button
-            key="add"
-            type="primary"
-            onClick={() => {
-              this.handleEvent('add', null);
-            }}
-            ignore="true"
-          >
-            新建
-          </Button>
-          <Button onClick={this.refresh}>刷新</Button>
-        </Fragment>
-      ),
-    };
-    return {
-      columns,
-      bordered: false,
-      toolBar: toolBarProps,
-      remotePaging: true,
-      store: {
-        type: 'POST',
-        url:
-          '/mock/5e02d29836608e42d52b1d81/template-service/simple-master/findByPage',
-      },
-    };
-  };
+  // getExtableProps = () => {
+  //   const columns = [
+  //     {
+  //       title: '操作',
+  //       key: 'operation',
+  //       width: 100,
+  //       align: 'center',
+  //       dataIndex: 'id',
+  //       className: 'action',
+  //       required: true,
+  //       render: (_, record) => (
+  //         <Fragment>
+  //           <ExtIcon
+  //             key="edit"
+  //             className="edit"
+  //             onClick={() => this.handleEvent('edit', record)}
+  //             type="edit"
+  //             status="success"
+  //             tooltip={{ title: '编辑' }}
+  //             antd
+  //           />
+  //           <Popconfirm
+  //             key="del"
+  //             placement="topLeft"
+  //             title="确定要删除吗？"
+  //             onConfirm={() => this.handleEvent('del', record)}
+  //           >
+  //             {this.renderDelBtn(record)}
+  //           </Popconfirm>
+  //         </Fragment>
+  //       ),
+  //     },
+  //     {
+  //       title: '代码',
+  //       dataIndex: 'code',
+  //       width: 120,
+  //       required: true,
+  //     },
+  //     {
+  //       title: '名称',
+  //       dataIndex: 'name',
+  //       width: 220,
+  //       required: true,
+  //     },
+  //   ];
+  //   const toolBarProps = {
+  //     left: (
+  //       <Fragment>
+  //         <Button
+  //           key="add"
+  //           type="primary"
+  //           onClick={() => {
+  //             this.handleEvent('add', null);
+  //           }}
+  //           ignore="true"
+  //         >
+  //           新建
+  //         </Button>
+  //         <Button onClick={this.refresh}>刷新</Button>
+  //       </Fragment>
+  //     ),
+  //   };
+  //   return {
+  //     columns,
+  //     bordered: false,
+  //     toolBar: toolBarProps,
+  //     remotePaging: true,
+  //     store: {
+  //       type: 'POST',
+  //       url:
+  //         '/mock/5e02d29836608e42d52b1d81/template-service/simple-master/findByPage',
+  //     },
+  //   };
+  // };
 
   handleToDoSave = data => {
     this.dispatchAction({
@@ -282,17 +328,19 @@ class PmBaseInfoEdit extends Component {
 
   getToDoTableFilters = () => {
     const { isFinishedFilter, ondutyNameFilter } = this.state;
-    const { code } = this.props.location.state;
+    const { code } = this.state.dataList;
     const filters = [];
-    if (code !== null) {
+    if (code != null && code != '') {
       filters.push({
         fieldName: 'projectCode',
         operator: 'EQ',
         fieldType: 'string',
         value: code,
       });
+    }else {
+      return
     }
-    if (isFinishedFilter !== null) {
+    if (isFinishedFilter != null && isFinishedFilter != '') {
       filters.push({
         fieldName: 'isFinished',
         operator: 'EQ',
@@ -300,7 +348,7 @@ class PmBaseInfoEdit extends Component {
         value: isFinishedFilter,
       });
     }
-    if (ondutyNameFilter !== null) {
+    if (ondutyNameFilter != null && ondutyNameFilter != '') {
       filters.push({
         fieldName: 'ondutyName',
         operator: 'LK',
@@ -524,144 +572,166 @@ class PmBaseInfoEdit extends Component {
   };
 
   syncProjectInfo = (e) =>{
-    console.log(e.target.value)
     this.dispatchAction({
       type: 'pmBaseInfoEdit/syncProjectInfo',
       payload: {
         code: e.target.value,
       },
-    }).then(res =>{
-      if(res.success){
-        console.log(res)
+    }).then(res => {
+      if (res.success) {
+        const { data } = res
+        this.setState(
+          {
+            dataList: {
+              id: data.id,
+              code: data.code,
+              projectTypes: data.projectTypes,
+              name: data.name,
+              currentPeriod: data.currentPeriod,
+              projectMaster: data.projectMaster,
+              attendanceMemberrCount: data.attendanceMemberrCount,
+              submissionDate: data.submissionDate,
+              planningApproval: data.planningApproval,
+              currentDescription: data.currentDescription,
+              requirementDescription: data.requirementDescription,
+              improveBenefits: data.improveBenefits,
+              promotionDegree: data.promotionDegree,
+              hardwareRequirement: data.hardwareRequirement,
+            }
+          },
+          () => this.refresh(),
+        );
       }
     });
+  }
+
+  change = (event) =>{
+    this.state.dataList.code = event.target.value
+    // this.setState({
+    //   dataList: {
+    //     code: event.target.value
+    //   }
+    // })
   }
 
   render() {
     const { pmBaseInfoEdit } = this.props;
     const { modalVisibleToDo } = pmBaseInfoEdit;
-
-    const callback = (key) => {
-      console.log(key);
-    }
-
-    if(this.props.location.state){
-       var { disable, id ,code, projectTypes, name, currentPeriod, projectMaster,
-        attendanceMemberrCount, submissionDate, planningApproval,
-        currentDescription, requirementDescription, improveBenefits,
-        promotionDegree, hardwareRequirement } = this.props.location.state;
-        console.log(this.props.location.state)
-    }
-
     return (
       <>
-        <div style={{ background: "#F4F8FC", padding: "8px 12px" }}>
-          <Row>
-            <Col span={4} style={{ height: "100%" }}>
-              <div className={styles['goBack']}>
-                <Icon type="left" />
-                <Link to={`/pm/PmBaseInfo`}>
-                  返回
-                </Link>
-              </div>
-              <div className={styles['basicInfo']}>
-                test
-              </div>
-              <div className={styles['member']}>
-                <div className="memberTitle">项目组成员</div>
-                {/* <div className="memberCtr" >管理成员</div> */}
-                <div>
-                  <div>主导人：<Select mode="tags" style={{ width: '100%' }} placeholder="选择主导人">{this.state.employee}</Select></div>
-                  <div>UI设计：<Select mode="tags" style={{ width: '100%' }} placeholder="选择UI设计">{this.state.employee}</Select></div>
-                  <div>开发人员：<Select mode="tags" style={{ width: '100%' }} placeholder="选择主导人">{this.state.employee}</Select></div>
-                  <div>实施：<Select mode="tags" style={{ width: '100%' }} placeholder="选择主导人">{this.state.employee}</Select></div>
-                </div>
-              </div>
+      <ProLayout style={{background: "#F4F8FC",padding:"8px 12px"}}>
+        {/* <div style={{ background: "#F4F8FC", padding: "8px 12px" }}> */}
 
-            </Col>
+
+          <SiderBar allowCollapse width={300} gutter={[0,8]}>
+            <Row>
+              <Col span={24} style={{ height: "100%" }}>
+                <div className={styles['goBack']}>
+                  <Icon type="left" />
+                  <Link to={`/pm/PmBaseInfo`}>
+                    返回
+                  </Link>
+                </div>
+                <div className={styles['basicInfo']}>
+                  test
+                </div>
+                <div className={styles['member']}>
+                  <div className="memberTitle">项目组成员</div>
+                  {/* <div className="memberCtr" >管理成员</div> */}
+                  <div>
+                    <div>主导人：<Select mode="tags" style={{ width: '100%' }} placeholder="选择主导人" onChange={(value,_) => this.state.dataList.leader = value.join(",")}>{this.state.employee}</Select></div>
+                    <div>UI设计：<Select mode="tags" style={{ width: '100%' }} placeholder="选择UI设计" onChange={(value,_) => this.state.dataList.designer = value.join(",")}>{this.state.employee}</Select></div>
+                    <div>开发人员：<Select mode="tags" style={{ width: '100%' }} placeholder="选择开发人员" onChange={(value,_) => this.state.dataList.developer = value.join(",") }>{this.state.employee}</Select></div>
+                    <div>实施：<Select mode="tags" style={{ width: '100%' }} placeholder="选择实施人员" onChange={(value,_) => this.state.dataList.implementer = value.join(",")}>{this.state.employee}</Select></div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </SiderBar>
+          <Content>
             <Col span={20} style={{ height: "100%" }}>
               <div style={{ marginLeft: "12px", background: "white", height: "100%" }}>
-                <Tabs defaultActiveKey="1" onChange={callback}>
+                <Tabs defaultActiveKey="1">
                   <TabPane tab="基础信息" key="1">
                     <Form className={styles['basic']}>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
-                        <Button 
-                          type="primary" 
-                          style={{ marginRight: '16px' }} 
+                        <Button
+                          type="primary"
+                          style={{ marginRight: '16px' }}
                           ghost
-                          onClick={this.handleSave}
+                          onClick={() => this.handleSave(this.state.dataList)}
                           >保存</Button>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={8}>
                           <span >档案编码：</span>
-                          <Input defaultValue={code} disabled={disable} onBlur={(event) => this.syncProjectInfo(event)}></Input>
+                          <Input onChange={this.change} placeholder='请输入提案编号' defaultValue={this.state.dataList.code} disabled={this.state.disable} onBlur={(event) => this.syncProjectInfo(event)}></Input>
                         </Col>
                         <Col span={8}>
                           <span >项目类型：</span>
-                          <Input defaultValue={projectTypes} disabled></Input>
+                          <Input value={this.state.dataList.projectTypes} disabled></Input>
                         </Col>
                         <Col span={8}>
                           <span >项目名称：</span>
-                          <Input defaultValue={name} disabled></Input>
+                          <Input value={this.state.dataList.name} disabled></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={8}>
                           <span >项目阶段：</span>
-                          <Input defaultValue={currentPeriod} disabled></Input>
+                          <Input value={this.state.dataList.currentPeriod} disabled></Input>
                         </Col>
                         <Col span={8}>
                           <span >项目类型：</span>
-                          <Input defaultValue={projectTypes} disabled></Input>
+                          <Input value={this.state.projectTypes} disabled></Input>
                         </Col>
                         <Col span={8}>
                           <span>主导人：</span>
-                          <Input defaultValue={projectMaster} disabled></Input>
+                          <Input value={this.state.dataList.projectMaster} disabled></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={8}>
                           <span>参与人数：</span>
-                          <Input defaultValue={attendanceMemberrCount} disabled></Input>
+                          <Input value={this.state.dataList.attendanceMemberrCount} disabled></Input>
                         </Col>
                         <Col span={8}>
                           <span >提案日期：</span>
-                          <Input defaultValue={submissionDate} disabled></Input>
+                          <Input value={this.state.dataList.submissionDate} disabled></Input>
                         </Col>
                         <Col span={8}>
                           <span >规划审批：</span>
-                          <Input defaultValue={planningApproval} disabled></Input>
+                          <Input value={this.state.dataList.planningApproval} disabled></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>现状描述：</span>
-                          <TextArea className="rowStyle" defaultValue={currentDescription} disabled></TextArea>
+                          <TextArea className="rowStyle" value={this.state.dataList.currentDescription} disabled></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>需求描述：</span>
-                          <TextArea className="rowStyle" defaultValue={requirementDescription} disabled></TextArea>
+                          <TextArea className="rowStyle" value={this.state.dataList.requirementDescription} disabled></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>改善效益：</span>
-                          <TextArea className="rowStyle" defaultValue={improveBenefits} disabled></TextArea>
+                          <TextArea className="rowStyle" value={this.state.dataList.improveBenefits} disabled></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>推广度：</span>
-                          <TextArea className="rowStyle" defaultValue={promotionDegree} disabled></TextArea>
+                          <TextArea className="rowStyle" value={this.state.dataList.promotionDegree} disabled></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>硬件要求：</span>
-                          <TextArea className="rowStyle" defaultValue={hardwareRequirement} disabled></TextArea>
+                          <TextArea className="rowStyle" value={this.state.dataList.hardwareRequirement} disabled></TextArea>
                         </Col>
                       </Row>
                     </Form>
@@ -673,7 +743,7 @@ class PmBaseInfoEdit extends Component {
                     Content of Tab Pane 3
                   </TabPane>
                   <TabPane tab="计划表" key="4">
-                    <ProjectPlan id={id}></ProjectPlan>
+                    <ProjectPlan id={this.state.dataList.id}></ProjectPlan>
                   </TabPane>
                   <TabPane tab="待办事项" key="5">
                     <ExtTable style={{ height: "620px" }} onTableRef={inst => (this.tableRef = inst)} {...this.getTodoListExtableProps()} />
@@ -688,9 +758,10 @@ class PmBaseInfoEdit extends Component {
                 </Tabs>
               </div>
             </Col>
-          </Row>
-        </div>
+          </Content>
 
+        {/* </div> */}
+        </ProLayout>
 
 
         {/* <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} /> */}
@@ -698,6 +769,7 @@ class PmBaseInfoEdit extends Component {
       </>
     );
   }
+
 }
 
 export default PmBaseInfoEdit;

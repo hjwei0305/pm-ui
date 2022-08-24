@@ -28,8 +28,7 @@ export async function findEmp(data) {
 
 /** 保存 */
 export async function save(data) {
-  const url = `${PROJECT_PATH}${contextPath}/save`;
-
+  const url = `${PROJECT_PATH}${contextBaseInfoPath}/save`;
   return request.post(url, data);
 }
 
@@ -42,7 +41,6 @@ export async function del(params) {
 /** ToDoList保存 */
 export async function saveToDo(data) {
   const url = `${PROJECT_PATH}${contextToDoPath}/save`;
-  console.log(data)
   return request.post(url, data);
 }
 
