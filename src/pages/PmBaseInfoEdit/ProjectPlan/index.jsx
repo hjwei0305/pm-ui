@@ -65,7 +65,8 @@ class ProjectPlan extends Component {
   state = {
     editingKey: '',
     delId: null,
-    columns: [
+    columns: [],
+    columns1: [
       {
         title: '序号',
         dataIndex: 'schedureNo',
@@ -73,7 +74,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        fixed: 'left',
+        
       },
       {
         title: '状态',
@@ -82,7 +83,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'COMBOLIST',
         editFlag: true,
-        fixed: 'left',
+        
       },
       {
         title: '任务类型',
@@ -91,7 +92,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        fixed: 'left',
+        
       },
       {
         title: '任务列表',
@@ -100,7 +101,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        fixed: 'left',
+        
       },
       {
         title: '负责人',
@@ -109,7 +110,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        fixed: 'left',
+        
       },
       {
         title: '协助人',
@@ -118,7 +119,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        fixed: 'left',
+        
       },
       {
         title: '计划开始日期',
@@ -127,7 +128,7 @@ class ProjectPlan extends Component {
         required: false,
         elem: 'DATE_PICK',
         editFlag: true,
-        fixed: 'left',
+        
       },
       {
         title: '计划结束日期',
@@ -136,7 +137,7 @@ class ProjectPlan extends Component {
         required: false,
         elem: 'DATE_PICK',
         editFlag: true,
-        fixed: 'left',
+        
       },
       {
         title: '实际开始日期',
@@ -145,7 +146,7 @@ class ProjectPlan extends Component {
         required: false,
         elem: 'DATE_PICK',
         editFlag: true,
-        fixed: 'left',
+        
       },
       {
         title: '实际结束日期',
@@ -154,7 +155,7 @@ class ProjectPlan extends Component {
         required: false,
         elem: 'DATE_PICK',
         editFlag: true,
-        fixed: 'left',
+        
       },
       {
         title: '天数',
@@ -163,7 +164,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        fixed: 'left',
+        
       },
       {
         title: '备注',
@@ -172,7 +173,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        fixed: 'left',
+        
       },
       {
         title: '操作',
@@ -236,7 +237,7 @@ class ProjectPlan extends Component {
   };
 
   init = () => {
-    const tempColumn = this.state.columns;
+    const tempColumn = this.state.columns1;
     for (const item of tempColumn) {
       if (item.editFlag) {
         item.editable = true;
@@ -412,6 +413,7 @@ class ProjectPlan extends Component {
             const editRow = this.editData[i.index];
             if (c.editable && this.isEditing(r)) {
               const dom = {};
+              this.editRef = {};
               switch (c.elem) {
                 case 'INPUT':
                   dom.a = (
@@ -506,9 +508,6 @@ class ProjectPlan extends Component {
   handleCellSave = (e, r, c) => {
     const row = r;
     const obj_copy = this.state.obj
-    console.log(e)
-    console.log(r)
-    console.log(c)
     if(c.elem === 'COMBOLIST'){
       row[c.dataIndex] = e.name;
     }else if(c.elem === 'DATE_PICK'){
@@ -559,7 +558,7 @@ class ProjectPlan extends Component {
   render() {
     return (
       <>
-        <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
+        <ExtTable style={{ height: "620px" }} onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
       </>
     );
   }

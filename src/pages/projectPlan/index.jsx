@@ -9,7 +9,7 @@ import moment from 'moment';
 // const {PROJECT_PATH} = constants
 
 @withRouter
-@connect(({ ProjectPlan, loading }) => ({ ProjectPlan, loading }))
+@connect(({ projectPlan, loading }) => ({ projectPlan, loading }))
 class ProjectPlan extends Component {
   state = {
     editingKey: '',
@@ -168,7 +168,7 @@ class ProjectPlan extends Component {
 
   constructor(props) {
     super(props);
-    const { dispatch } = props;
+    const { dispatch,id } = this.props;
     let cg = [];
     this.editData = {};
     for (let i = 1; i <= 5; i++) {
@@ -185,17 +185,7 @@ class ProjectPlan extends Component {
       });
     }
     this.state.obj = cg;
-  }
 
-  componentWillUnmount() {
-    this.setState = (state, callback) => {
-        return
-    }
-  }
-
-  componentDidMount() {
-    this.init();
-    const { dispatch, id } = this.props;
     dispatch({
       type: 'projectPlan/findByPage',
       payload: {
@@ -215,7 +205,9 @@ class ProjectPlan extends Component {
     }).then(res =>{
       const { rows } = res.data;
       for(let [index,item] of rows.entries()){
-        item.key = index
+        console.log(index)
+        console.log(item)
+        // item.key = index
       }
       if(rows.length > 0){
         this.setState({
@@ -223,11 +215,16 @@ class ProjectPlan extends Component {
         })
       }
     })
+  }
+
+  componentDidMount() {
+    this.init();
+
   };
 
   handleDel = record => {
     const new_obj = [];
-    this.state.obj.forEach(item => item !== record && new_obj.push(item));
+    this.state.obj.forEach(item => item != record && new_obj.push(item));
     this.state.obj = new_obj;
     for (let i = 0; i <= this.state.obj.length - 1; i++) {
       this.state.obj[i].index = i + 1;
@@ -370,10 +367,10 @@ class ProjectPlan extends Component {
     const save_obj = [];
     this.state.obj.forEach(
       item => {
-        if((item.schedureNo !== '' ||
-          item.projectId !== '' ||
-          item.workType !== '' ||
-          item.workTodoList !== '' )){
+        if((item.schedureNo != '' ||
+          item.projectId != '' ||
+          item.workType != '' ||
+          item.workTodoList != '' )){
             item.projectId = id;
             save_obj.push(item);
           }
@@ -562,8 +559,6 @@ class ProjectPlan extends Component {
   };
 
   render() {
-    const { ProjectPlan } = this.props;
-
     return (
       <>
         <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
