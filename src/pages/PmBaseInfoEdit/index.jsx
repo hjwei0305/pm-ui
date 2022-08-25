@@ -736,10 +736,7 @@ class PmBaseInfoEdit extends Component {
                     <ExtTable style={{ height: "620px" }} onTableRef={inst => (this.tableRef = inst)} {...this.getTodoListExtableProps()} />
                     {modalVisibleToDo ? <ToDoEditModal {...this.getToDoEditModalProps()} /> : null}
                   </TabPane>
-                  <TabPane tab="流程配置" key="6">
-                    Content of Tab Pane 3
-                  </TabPane>
-                  <TabPane tab="操作日志" key="7">
+                  <TabPane tab="操作日志" key="6">
                     Content of Tab Pane 3
                   </TabPane>
                 </Tabs>
