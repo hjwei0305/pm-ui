@@ -23,7 +23,6 @@ export default modelExtend(model, {
     *save({ payload }, { call }) {
       const result = yield call(save, payload);
       const { success, message: msg } = result || {};
-
       message.destroy();
       if (success) {
         message.success(msg);

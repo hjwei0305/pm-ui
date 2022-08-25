@@ -29,7 +29,7 @@ export async function findEmp(data) {
 
 /** 保存 */
 export async function save(data) {
-  const url = `${PROJECT_PATH}${contextBaseInfoPath}/save`;
+  const url = `${PROJECT_PATH}${contextBaseInfoPath}/saveBaseInfo`;
   return request.post(url, data);
 }
 

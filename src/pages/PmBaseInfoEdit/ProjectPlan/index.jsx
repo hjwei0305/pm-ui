@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, InputNumber, Input, DatePicker } from 'antd';
-import { ExtTable, ExtIcon, Space, ComboList } from 'suid';
+import { Button, InputNumber, Input, DatePicker, Radio  } from 'antd';
+import { ExtTable, ExtIcon, Space, ComboList,ProLayout } from 'suid';
 import moment from 'moment';
+
+const { Header ,Content } = ProLayout;
 
 // const {PROJECT_PATH} = constants
 
@@ -47,6 +49,11 @@ class ProjectPlan extends Component {
             operator: 'EQ',
             value: id,
           },
+          {
+            fieldName: 'planType',
+            operator: 'EQ',
+            value: 0,
+          }
         ],
       }
     }).then(res =>{
@@ -65,6 +72,7 @@ class ProjectPlan extends Component {
   state = {
     editingKey: '',
     delId: null,
+    planType: 0,
     columns: [],
     columns1: [
       {
@@ -371,6 +379,7 @@ class ProjectPlan extends Component {
           item.workType !== '' ||
           item.workTodoList !== '' )){
             item.projectId = id;
+            item.planType = this.state.planType
             save_obj.push(item);
           }
 
@@ -542,6 +551,53 @@ class ProjectPlan extends Component {
             operator: 'EQ',
             value: id,
           },
+          {
+            fieldName: 'planType',
+            operator: 'EQ',
+            value: this.state.planType,
+          },
+        ],
+      }
+    }).then(res =>{
+      const { rows } = res.data;
+      for(let [index,item] of rows.entries()){
+        item.key = `${index}${new Date()}`
+      }
+      this.setState({
+        obj : rows
+      })
+    })
+  };
+
+  changePlanType = (e) => {
+    console.log(e.target.value)
+    this.setState({
+      planType: e.target.value
+    })
+    this.refreshPlanType(e.target.value)
+  }
+
+  refreshPlanType = (planType) => {
+    const { dispatch, id } = this.props;
+    dispatch({
+      type: 'pmBaseInfoEdit/projPlanFindByPage',
+      payload: {
+        sortOrders: [
+          {
+            property: 'schedureNo'
+          }
+        ],
+        filters: [
+          {
+            fieldName: 'projectId',
+            operator: 'EQ',
+            value: id,
+          },
+          {
+            fieldName: 'planType',
+            operator: 'EQ',
+            value: planType,
+          },
         ],
       }
     }).then(res =>{
@@ -558,7 +614,22 @@ class ProjectPlan extends Component {
   render() {
     return (
       <>
-        <ExtTable style={{ height: "620px" }} onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
+      <ProLayout>
+        <Header>
+          <div>
+            <Radio.Group defaultValue="0" buttonStyle="solid" onChange={this.changePlanType} size="large">
+              <Radio.Button value="0">主计划</Radio.Button>
+              <Radio.Button value="1">后端开发计划</Radio.Button>
+              <Radio.Button value="2">前端开发计划</Radio.Button>
+              <Radio.Button value="3">实施计划</Radio.Button>
+            </Radio.Group>
+          </div>
+        </Header>
+        <Content>
+          <ExtTable style={{ height: "620px" }} onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
+        </Content>
+      </ProLayout>
+        
       </>
     );
   }

@@ -41,6 +41,10 @@ class PmBaseInfoEdit extends Component {
             improveBenefits: this.props.location.state.improveBenefits,
             promotionDegree: this.props.location.state.promotionDegree,
             hardwareRequirement: this.props.location.state.hardwareRequirement,
+            leader: this.props.location.state.leader,
+            designer: this.props.location.state.designer,
+            developer: this.props.location.state.developer,
+            implementer: this.props.location.state.implementer,
           }
       }
     }
@@ -159,7 +163,7 @@ class PmBaseInfoEdit extends Component {
   };
 
   handleSave = data => {
-    if(data.code != ''){
+    if(data.code != '' && data.code != null){
       this.dispatchAction({
         type: 'pmBaseInfoEdit/save',
         payload: data,
@@ -598,11 +602,6 @@ class PmBaseInfoEdit extends Component {
 
   change = (event) =>{
     this.state.dataList.code = event.target.value
-    // this.setState({
-    //   dataList: {
-    //     code: event.target.value
-    //   }
-    // })
   }
 
   render() {
@@ -611,9 +610,6 @@ class PmBaseInfoEdit extends Component {
     return (
       <>
       <ProLayout style={{background: "#F4F8FC",padding:"8px 12px"}}>
-        {/* <div style={{ background: "#F4F8FC", padding: "8px 12px" }}> */}
-
-
           <SiderBar allowCollapse width={300} gutter={[0,8]}>
             <Row>
               <Col span={24} style={{ height: "100%" }}>
@@ -630,10 +626,10 @@ class PmBaseInfoEdit extends Component {
                   <div className="memberTitle">项目组成员</div>
                   {/* <div className="memberCtr" >管理成员</div> */}
                   <div>
-                    <div>主导人：<Select mode="tags" style={{ width: '100%' }} placeholder="选择主导人" onChange={(value,_) => this.state.dataList.leader = value.join(",")}>{this.state.employee}</Select></div>
-                    <div>UI设计：<Select mode="tags" style={{ width: '100%' }} placeholder="选择UI设计" onChange={(value,_) => this.state.dataList.designer = value.join(",")}>{this.state.employee}</Select></div>
-                    <div>开发人员：<Select mode="tags" style={{ width: '100%' }} placeholder="选择开发人员" onChange={(value,_) => this.state.dataList.developer = value.join(",") }>{this.state.employee}</Select></div>
-                    <div>实施：<Select mode="tags" style={{ width: '100%' }} placeholder="选择实施人员" onChange={(value,_) => this.state.dataList.implementer = value.join(",")}>{this.state.employee}</Select></div>
+                    <div>主导人：<Select defaultValue={this.state.dataList.leader} mode="tags" style={{ width: '100%' }} placeholder="选择主导人" onChange={(value,_) => this.state.dataList.leader = value.join(",")}>{this.state.employee}</Select></div>
+                    <div>UI设计：<Select defaultValue={this.state.dataList.designer} mode="tags" style={{ width: '100%' }} placeholder="选择UI设计" onChange={(value,_) => this.state.dataList.designer = value.join(",")}>{this.state.employee}</Select></div>
+                    <div>开发人员：<Select defaultValue={this.state.dataList.developer} mode="tags" style={{ width: '100%' }} placeholder="选择开发人员" onChange={(value,_) => this.state.dataList.developer = value.join(",") }>{this.state.employee}</Select></div>
+                    <div>实施：<Select defaultValue={this.state.dataList.implementer} mode="tags" style={{ width: '100%' }} placeholder="选择实施人员" onChange={(value,_) => this.state.dataList.implementer = value.join(",")}>{this.state.employee}</Select></div>
                   </div>
                 </div>
               </Col>

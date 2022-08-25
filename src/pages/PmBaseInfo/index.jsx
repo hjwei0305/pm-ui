@@ -209,6 +209,10 @@ class PmBaseInfo extends Component {
                 improveBenefits: record.improveBenefits,
                 promotionDegree: record.promotionDegree,
                 hardwareRequirement: record.hardwareRequirement,
+                leader: record.leader,
+                designer: record.designer,
+                developer: record.developer,
+                implementer: record.implementer,
               }
             }}>
               查看详情
