@@ -468,6 +468,7 @@ class PmBaseInfoEdit extends Component {
       },
     ];
     const toolBarProps = {
+      layout:{ leftSpan: 16, rightSpan: 8 },
       left: (
         <Fragment>
           是否结案：{' '}
