@@ -3,14 +3,65 @@ import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button, InputNumber, Input, DatePicker } from 'antd';
 import { ExtTable, ExtIcon, Space, ComboList } from 'suid';
-// import {constants} from "@/utils";
 import moment from 'moment';
 
 // const {PROJECT_PATH} = constants
 
 @withRouter
-@connect(({ projectPlan, loading }) => ({ projectPlan, loading }))
+@connect(({ pmBaseInfoEdit, loading }) => ({ pmBaseInfoEdit, loading }))
 class ProjectPlan extends Component {
+  static editData;
+
+  constructor(props) {
+    super(props);
+    const { dispatch,id } = props;
+    console.log(props)
+    let cg = [];
+    this.editData = {};
+    for (let i = 1; i <= 5; i++) {
+      cg = cg.concat({
+        id: i,
+        key: i,
+        orderCode: '',
+        goodsCode: '',
+        goodsName: '',
+        specificationModal: '',
+        unit: '',
+        number: '',
+        remark: '',
+      });
+    }
+    this.state.obj = cg;
+
+    dispatch({
+      type: 'pmBaseInfoEdit/projPlanFindByPage',
+      payload: {
+        sortOrders: [
+          {
+            property: 'schedureNo'
+          }
+        ],
+        filters: [
+          {
+            fieldName: 'projectId',
+            operator: 'EQ',
+            value: id,
+          },
+        ],
+      }
+    }).then(res =>{
+      const { rows } = res.data;
+      for(let [index,item] of rows.entries()){
+        item.key = index
+      }
+      if(rows.length > 0){
+        this.setState({
+          obj : rows
+        })
+      }
+    })
+  }
+
   state = {
     editingKey: '',
     delId: null,
@@ -152,70 +203,17 @@ class ProjectPlan extends Component {
       code: 0,
       name: '未开始',
     },
-    {
-      id: 2,
-      code: 1,
-      name: '进行中',
-    },
-    {
-      id: 3,
-      code: 2,
-      name: '完成',
-    }],
+      {
+        id: 2,
+        code: 1,
+        name: '进行中',
+      },
+      {
+        id: 3,
+        code: 2,
+        name: '完成',
+      }],
   };
-
-  static editData;
-
-  constructor(props) {
-    super(props);
-    const { dispatch,id } = this.props;
-    let cg = [];
-    this.editData = {};
-    for (let i = 1; i <= 5; i++) {
-      cg = cg.concat({
-        id: i,
-        key: i,
-        orderCode: '',
-        goodsCode: '',
-        goodsName: '',
-        specificationModal: '',
-        unit: '',
-        number: '',
-        remark: '',
-      });
-    }
-    this.state.obj = cg;
-
-    dispatch({
-      type: 'projectPlan/findByPage',
-      payload: {
-        sortOrders: [
-          {
-            property: 'schedureNo'
-          }
-        ],
-        filters: [
-          {
-            fieldName: 'projectId',
-            operator: 'EQ',
-            value: id,
-          },
-        ],
-      }
-    }).then(res =>{
-      const { rows } = res.data;
-      for(let [index,item] of rows.entries()){
-        console.log(index)
-        console.log(item)
-        // item.key = index
-      }
-      if(rows.length > 0){
-        this.setState({
-          obj : rows
-        })
-      }
-    })
-  }
 
   componentDidMount() {
     this.init();
@@ -223,10 +221,10 @@ class ProjectPlan extends Component {
   };
 
   handleDel = record => {
-    const new_obj = [];
-    this.state.obj.forEach(item => item != record && new_obj.push(item));
-    this.state.obj = new_obj;
-    for (let i = 0; i <= this.state.obj.length - 1; i++) {
+    const newObj = [];
+    this.state.obj.forEach(item => item !== record && newObj.push(item));
+    this.state.obj = newObj;
+    for (let i = 0; i <= this.state.obj.length - 1; i+1) {
       this.state.obj[i].index = i + 1;
     }
     if (record.id != null) {
@@ -277,7 +275,7 @@ class ProjectPlan extends Component {
           },
           () => {
             this.dispatchAction({
-              type: 'projectPlan/del',
+              type: 'pmBaseInfoEdit/projPlanDel',
               payload: {
                 id: row.id,
               },
@@ -299,26 +297,26 @@ class ProjectPlan extends Component {
     }
   };
 
-  handleSave = data => {
-    this.dispatchAction({
-      type: 'projectPlan/save',
-      payload: data,
-    }).then(res => {
-      if (res.success) {
-        this.dispatchAction({
-          type: 'projectPlan/updateState',
-          payload: {
-            modalVisible: false,
-          },
-        });
-        this.refresh();
-      }
-    });
-  };
+  // handleSave = data => {
+  //   this.dispatchAction({
+  //     type: 'projectPlan/save',
+  //     payload: data,
+  //   }).then(res => {
+  //     if (res.success) {
+  //       this.dispatchAction({
+  //         type: 'projectPlan/updateState',
+  //         payload: {
+  //           modalVisible: false,
+  //         },
+  //       });
+  //       this.refresh();
+  //     }
+  //   });
+  // };
 
   handleSaveBatch = data => {
     this.dispatchAction({
-      type: 'projectPlan/saveBatch',
+      type: 'pmBaseInfoEdit/projPlanSaveBatch',
       payload: data,
     }).then(res =>{
       if(res.success){
@@ -327,20 +325,20 @@ class ProjectPlan extends Component {
     })
   };
 
-  handleClose = () => {
-    this.dispatchAction({
-      type: 'projectPlan/updateState',
-      payload: {
-        modalVisible: false,
-        editData: null,
-      },
-    });
-  };
+  // handleClose = () => {
+  //   this.dispatchAction({
+  //     type: 'projectPlan/updateState',
+  //     payload: {
+  //       modalVisible: false,
+  //       editData: null,
+  //     },
+  //   });
+  // };
 
   renderDelBtn = row => {
     const { loading } = this.props;
     const { delId } = this.state;
-    if (loading.effects['projectPlan/del'] && delId === row.id) {
+    if (loading.effects['pmBaseInfoEdit/projPlanDel'] && delId === row.id) {
       return <ExtIcon status="error" tooltip={{ title: '删除' }} type="loading" antd />;
     }
     return <ExtIcon status="error" tooltip={{ title: '删除' }} type="delete" antd />;
@@ -367,10 +365,10 @@ class ProjectPlan extends Component {
     const save_obj = [];
     this.state.obj.forEach(
       item => {
-        if((item.schedureNo != '' ||
-          item.projectId != '' ||
-          item.workType != '' ||
-          item.workTodoList != '' )){
+        if((item.schedureNo !== '' ||
+          item.projectId !== '' ||
+          item.workType !== '' ||
+          item.workTodoList !== '' )){
             item.projectId = id;
             save_obj.push(item);
           }
@@ -511,9 +509,9 @@ class ProjectPlan extends Component {
     console.log(e)
     console.log(r)
     console.log(c)
-    if(c.elem == 'COMBOLIST'){
+    if(c.elem === 'COMBOLIST'){
       row[c.dataIndex] = e.name;
-    }else if(c.elem == 'DATE_PICK'){
+    }else if(c.elem === 'DATE_PICK'){
       row[c.dataIndex] = e;
     }else{
       row[c.dataIndex] = e.target.value;
@@ -532,7 +530,7 @@ class ProjectPlan extends Component {
   refresh = () => {
     const { dispatch, id } = this.props;
     dispatch({
-      type: 'projectPlan/findByPage',
+      type: 'pmBaseInfoEdit/projPlanFindByPage',
       payload: {
         sortOrders: [
           {

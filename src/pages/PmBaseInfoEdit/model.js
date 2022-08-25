@@ -6,7 +6,7 @@
  */
 import { message } from 'antd';
 import { utils } from 'suid';
-import { del, save, saveToDo, delToDo, findEmp, syncProjectInfo } from './service';
+import { del, save, saveToDo, delToDo, findEmp, syncProjectInfo, projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -72,18 +72,6 @@ export default modelExtend(model, {
 
       return result;
     },
-    // *findEmp({ payload }, { call , put }) {
-    //   const result = yield call(findEmp, payload);
-    //   const { data, success, message: msg } = result || {};
-    //   yield put({
-    //     type: 'updateState',
-    //     payload: {
-    //       empData: [].concat(data),
-    //     },
-    //   });
-
-    //   return payload;
-    // },
     *findEmp({ payload }, { call }) {
       const result = yield call(findEmp, payload);
       const { success, message: msg } = result || {};
@@ -106,6 +94,59 @@ export default modelExtend(model, {
       } else {
         message.error(msg);
       }
+      return result;
+    },
+
+    // projectPlan
+    *projPlanSave({ payload }, { call }) {
+      const result = yield call(projPlanSave, payload);
+      const { success, message: msg } = result || {};
+
+      message.destroy();
+      if (success) {
+        message.success(msg);
+      } else {
+        message.error(msg);
+      }
+
+      return result;
+    },
+    *projPlanSaveBatch({ payload }, { call }) {
+      const result = yield call(projPlanSaveBatch, payload);
+      const { success, message: msg } = result || {};
+
+      message.destroy();
+      if (success) {
+        message.success(msg);
+      } else {
+        message.error(msg);
+      }
+
+      return result;
+    },
+    *projPlanDel({ payload }, { call }) {
+      const result = yield call(projPlanDel, payload);
+      const { success, message: msg } = result || {};
+
+      message.destroy();
+      if (success) {
+        message.success(msg);
+      } else {
+        message.error(msg);
+      }
+
+      return result;
+    },
+    *projPlanFindByPage({ payload }, { call }) {
+      const result = yield call(projPlanFindByPage, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+        message.success(msg);
+      } else {
+        message.error(msg);
+      }
+
       return result;
     },
   },

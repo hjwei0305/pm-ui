@@ -15,6 +15,7 @@ const {PROJECT_PATH} = constants;
 const contextBaseInfoPath = '/pmBaseinfo';
 const contextPath = '/pmBaseInfoEdit';
 const contextToDoPath = '/todoList';
+const ProjPlanPath = '/projectPlan';
 
 
 export async function findEmp(data) {
@@ -61,4 +62,29 @@ export async function delToDo(params) {
 export async function syncProjectInfo(params) {
   const url = `${PROJECT_PATH}${contextBaseInfoPath}/syncProjectInfo?code=${params.code}`;
   return request.post(url);
+}
+
+/** projectPlan */
+/** 保存 */
+export async function projPlanSave(data) {
+  const url =  `${PROJECT_PATH}${ProjPlanPath}/save`;
+  return request.post(url, data);
+}
+
+/** 批量保存 */
+export async function projPlanSaveBatch(data) {
+  const url =  `${PROJECT_PATH}${ProjPlanPath}/saveBatch`;
+  return request.post(url, data);
+}
+
+/** 删除 */
+export async function projPlanDel(params) {
+  const url = `${PROJECT_PATH}${ProjPlanPath}/delete/${params.id}`;
+  return request.delete(url);
+}
+
+/** 查询 */
+export async function projPlanFindByPage(data) {
+  const url = `${PROJECT_PATH}${ProjPlanPath}/findByPage`;
+  return request.post(url,data);
 }

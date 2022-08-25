@@ -3,27 +3,17 @@ import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select } from 'antd';
 import { ExtIcon, ExtTable, ComboList, ProLayout } from 'suid';
-//import EditModal from './EditModal';
 import ToDoEditModal from './ToDoEditModal';
 import { Link } from "react-router-dom";
 import styles from './index.less'
 import { constants } from '@/utils';
-import ProjectPlan from '../ProjectPlan'
-
+import ProjectPlan from './ProjectPlan'
 
 const { Option } = Select;
 const { PROJECT_PATH } = constants;
 const { TextArea } = Input
 const { TabPane } = Tabs;
 const { SiderBar, Content } = ProLayout;
-const formItemLayout = {
-  labelCol: {
-    span: 6,
-  },
-  wrapperCol: {
-    span: 18,
-  },
-};
 
 @Form.create()
 @withRouter
@@ -649,7 +639,7 @@ class PmBaseInfoEdit extends Component {
             </Row>
           </SiderBar>
           <Content>
-            <Col span={20} style={{ height: "100%" }}>
+            <Col style={{ height: "100%" }}>
               <div style={{ marginLeft: "12px", background: "white", height: "100%" }}>
                 <Tabs defaultActiveKey="1">
                   <TabPane tab="基础信息" key="1">
