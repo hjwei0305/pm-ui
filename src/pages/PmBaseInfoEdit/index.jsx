@@ -204,33 +204,35 @@ class PmBaseInfoEdit extends Component {
   };
 
   handleSave = data => {
-    if(typeof(data.projectTypes) == "string"){
+    var dataReplace = Object.assign({},data)
+    if(typeof(dataReplace.projectTypes) == "string"){
       for(let item of this.state.projTypeList){
-        if(item.name == data.projectTypes){
-          data.projectTypes = item.code
+        if(item.name == dataReplace.projectTypes){
+          dataReplace.projectTypes = item.code
         }
       }
     }
-    if(data.leader.length > 0 || data.developer.length > 0 || data.implementer.length > 0 || data.designer.length > 0){
+    if(dataReplace.leader.length > 0 || dataReplace.developer.length > 0 || dataReplace.implementer.length > 0 || dataReplace.designer.length > 0){
       let count = 0;
-      var str = [data.leader,data.developer,data.implementer,data.designer]
+      var str = [dataReplace.leader,dataReplace.developer,dataReplace.implementer,dataReplace.designer]
       for(let memb of str){
         if(memb.length > 0){
           count = count + memb.length;
         }
       }
       data.attendanceMemberrCount = count
+      dataReplace.attendanceMemberrCount = count
     }
-    data.leader = data.leader.join(",")
-    data.developer = data.developer.join(",")
-    data.implementer = data.implementer.join(",")
-    data.designer = data.designer.join(",")
-    data.proOpt = data.proOpt.join(",")
-    console.log(data)
-    if(data.code != '' && data.code != null){
+    dataReplace.leader = dataReplace.leader.join(",")
+    dataReplace.developer = dataReplace.developer.join(",")
+    dataReplace.implementer = dataReplace.implementer.join(",")
+    dataReplace.designer = dataReplace.designer.join(",")
+    dataReplace.proOpt = dataReplace.proOpt.join(",")
+   
+    if(dataReplace.code != '' && dataReplace.code != null){
       this.dispatchAction({
         type: 'pmBaseInfoEdit/save',
-        payload: data,
+        payload: dataReplace,
       })
     }
   };
@@ -669,7 +671,6 @@ class PmBaseInfoEdit extends Component {
   }
 
   render() {
-    console.log(this.state)
     const { pmBaseInfoEdit } = this.props;
     const { modalVisibleToDo } = pmBaseInfoEdit;
     return (
