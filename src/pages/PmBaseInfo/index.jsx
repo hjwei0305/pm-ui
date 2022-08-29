@@ -209,11 +209,11 @@ class PmBaseInfo extends Component {
                 improveBenefits: record.improveBenefits,
                 promotionDegree: record.promotionDegree,
                 hardwareRequirement: record.hardwareRequirement,
-                leader: record.leader == null || record.leader === '' ? [] : record.leader  ,
-                designer: record.designer == null || record.designer === '' ? [] : record.designer,
-                developer: record.developer == null || record.developer === '' ? [] : record.developer,
-                implementer: record.implementer == null || record.implementer === '' ? [] : record.implementer,
-                proOpt: record.proOpt == null || record.proOpt === '' ? [] : record.proOpt,
+                leader: record.leader == null || record.leader === '' ? [] : record.leader.split(',')  ,
+                designer: record.designer == null || record.designer === '' ? [] : record.designer.split(','),
+                developer: record.developer == null || record.developer === '' ? [] : record.developer.split(','),
+                implementer: record.implementer == null || record.implementer === '' ? [] : record.implementer.split(','),
+                proOpt: record.proOpt == null || record.proOpt === '' ? [] : record.proOpt.split(','),
               }
             }}>
               查看详情
@@ -397,7 +397,6 @@ class PmBaseInfo extends Component {
         width: 100,
         render:
         tag => {
-          debugger;
           let color = tag==='1' ? 'blue' : 'red';
           let value=tag==='1' ? '通过' : '不通过';
           return (
