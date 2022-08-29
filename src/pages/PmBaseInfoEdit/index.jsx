@@ -23,7 +23,21 @@ class PmBaseInfoEdit extends Component {
     super(props);
     if(this.props.location.state && this.props.location.state.code != ''){
       this.state = {
+        projTypeList: [
+          {
+            name: 'KPI项目',
+            code: 0,
+          },
+          {
+            name: '年度重点项目',
+            code: 1,
+          },{
+            name: '其他项目',
+            code: 2,
+          },
+        ],
         employee: [],
+        proOptList: [],
         disable: this.props.location.state.disable,
         dataList:
           {
@@ -45,10 +59,22 @@ class PmBaseInfoEdit extends Component {
             designer: this.props.location.state.designer,
             developer: this.props.location.state.developer,
             implementer: this.props.location.state.implementer,
+            proOpt: this.props.location.state.proOpt,
           }
       }
     }
     const { dispatch } = props;
+    dispatch({
+      type: 'pmBaseInfoEdit/getProOpt',
+      payload:{}
+    }).then(res => {
+      const { data } = res;
+      for (let i = 0; i < data.length; i++) {
+        this.state.proOptList.push(<Option key={data[i].dataValue}>{data[i].dataName}</Option>);
+      }
+    })
+
+
     dispatch({
       type: 'pmBaseInfoEdit/findEmp',
       payload: {
@@ -69,6 +95,20 @@ class PmBaseInfoEdit extends Component {
     isFinishedFilter: null,
     ondutyNameFilter: null,
     employee: [],
+    proOptList: [],
+    projTypeList: [
+      {
+        name: 'KPI项目',
+        code: 6,
+      },
+      {
+        name: '年度重点项目',
+        code: 1,
+      },{
+        name: '其他项目',
+        code: 2,
+      },
+    ],
     isFinishedData: [
       {
         name: '已结案',
@@ -104,6 +144,7 @@ class PmBaseInfoEdit extends Component {
         designer: [],
         developer: [],
         implementer: [],
+        proOpt: [],
       }
   };
 
@@ -163,6 +204,30 @@ class PmBaseInfoEdit extends Component {
   };
 
   handleSave = data => {
+    if(typeof(data.projectTypes) == "string"){
+      for(let item of this.state.projTypeList){
+        if(item.name == data.projectTypes){
+          data.projectTypes = item.code
+        }
+      }
+    }
+
+    if(data.leader.length > 0 || data.developer.length > 0 || data.implementer.length > 0 || data.designer.length > 0){
+      let count = 0;
+      var str = [data.leader,data.developer,data.implementer,data.designer]
+      for(let memb of str){
+        if(memb.length > 0){
+          count++;
+          let mem = memb
+          while(mem.indexOf(',') != -1){
+            count++;
+            let index = memb.indexOf(',') +1
+            mem = memb.substr(index)
+          }
+        }
+      }
+      data.attendanceMemberrCount = count
+    }
     if(data.code != '' && data.code != null){
       this.dispatchAction({
         type: 'pmBaseInfoEdit/save',
@@ -605,6 +670,7 @@ class PmBaseInfoEdit extends Component {
   }
 
   render() {
+    console.log(this.state)
     const { pmBaseInfoEdit } = this.props;
     const { modalVisibleToDo } = pmBaseInfoEdit;
     return (
@@ -622,13 +688,17 @@ class PmBaseInfoEdit extends Component {
                 <div className={styles['basicInfo']}>
                   test
                 </div>
+                <div className={styles['procedure']}>
+                  <div className="procedureTitle">流程配置</div>
+                  <div><Select tokenSeparators="," defaultValue={this.state.dataList.proOpt} mode="tags" style={{ width: '100%' }} placeholder="选择项目流程" onChange={(value,_) => this.state.dataList.proOpt = value.join(",")}>{this.state.proOptList}</Select></div>
+                </div>
                 <div className={styles['member']}>
                   <div className="memberTitle">项目组成员</div>
                   {/* <div className="memberCtr" >管理成员</div> */}
                   <div>
                     <div>主导人：<Select defaultValue={this.state.dataList.leader} mode="tags" style={{ width: '100%' }} placeholder="选择主导人" onChange={(value,_) => this.state.dataList.leader = value.join(",")}>{this.state.employee}</Select></div>
                     <div>UI设计：<Select defaultValue={this.state.dataList.designer} mode="tags" style={{ width: '100%' }} placeholder="选择UI设计" onChange={(value,_) => this.state.dataList.designer = value.join(",")}>{this.state.employee}</Select></div>
-                    <div>开发人员：<Select defaultValue={this.state.dataList.developer} mode="tags" style={{ width: '100%' }} placeholder="选择开发人员" onChange={(value,_) => this.state.dataList.developer = value.join(",") }>{this.state.employee}</Select></div>
+                    <div>开发人员：<Select defaultValue={this.state.dataList.developer} mode="tags" style={{ width: '100%' }} placeholder="选择开发人员" onChange={(value,_) => this.state.dataList.developer = value.join(",")}>{this.state.employee}</Select></div>
                     <div>实施：<Select defaultValue={this.state.dataList.implementer} mode="tags" style={{ width: '100%' }} placeholder="选择实施人员" onChange={(value,_) => this.state.dataList.implementer = value.join(",")}>{this.state.employee}</Select></div>
                   </div>
                 </div>
@@ -656,7 +726,22 @@ class PmBaseInfoEdit extends Component {
                         </Col>
                         <Col span={8}>
                           <span >项目类型：</span>
-                          <Input value={this.state.dataList.projectTypes} disabled></Input>
+                          <ComboList
+                            defaultValue={this.state.dataList.projectTypes}
+                            dataSource={this.state.projTypeList}
+                            showSearch={false}
+                            pagination={false}
+                            name="name"
+                            field={['name']}
+                            afterClear={() => this.state.dataList.projectTypes = null }
+                            afterSelect={item => this.state.dataList.projectTypes = item.code }
+                            reader={{
+                              name: 'name',
+                              field: ['name'],
+                            }}
+                            style={{width:200}}
+                          ></ComboList>
+                          {/* <Input defaultValue={this.state.dataList.projectTypes}></Input> */}
                         </Col>
                         <Col span={8}>
                           <span >项目名称：</span>
@@ -668,13 +753,13 @@ class PmBaseInfoEdit extends Component {
                           <span >项目阶段：</span>
                           <Input value={this.state.dataList.currentPeriod} disabled></Input>
                         </Col>
-                        <Col span={8}>
+                        {/* <Col span={8}>
                           <span >项目类型：</span>
                           <Input value={this.state.projectTypes} disabled></Input>
-                        </Col>
+                        </Col> */}
                         <Col span={8}>
                           <span>主导人：</span>
-                          <Input value={this.state.dataList.projectMaster} disabled></Input>
+                          <Input value={this.state.dataList.leader} disabled></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>

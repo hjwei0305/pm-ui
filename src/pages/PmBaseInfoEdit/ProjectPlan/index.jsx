@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, InputNumber, Input, DatePicker, Radio  } from 'antd';
+import { Button, InputNumber, Input, DatePicker, Radio, Form  } from 'antd';
 import { ExtTable, ExtIcon, Space, ComboList,ProLayout } from 'suid';
 import moment from 'moment';
 
@@ -9,6 +9,7 @@ const { Header ,Content } = ProLayout;
 
 // const {PROJECT_PATH} = constants
 
+@Form.create()
 @withRouter
 @connect(({ pmBaseInfoEdit, loading }) => ({ pmBaseInfoEdit, loading }))
 class ProjectPlan extends Component {
@@ -17,7 +18,6 @@ class ProjectPlan extends Component {
   constructor(props) {
     super(props);
     const { dispatch,id } = props;
-    console.log(props)
     let cg = [];
     this.editData = {};
     for (let i = 1; i <= 5; i++) {
@@ -80,9 +80,8 @@ class ProjectPlan extends Component {
         dataIndex: 'schedureNo',
         width: 90,
         required: true,
-        elem: 'INPUT',
+        elem:'INPUT',
         editFlag: true,
-        
       },
       {
         title: '状态',
@@ -91,7 +90,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'COMBOLIST',
         editFlag: true,
-        
+
       },
       {
         title: '任务类型',
@@ -100,7 +99,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        
+
       },
       {
         title: '任务列表',
@@ -109,7 +108,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        
+
       },
       {
         title: '负责人',
@@ -118,7 +117,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        
+
       },
       {
         title: '协助人',
@@ -127,7 +126,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        
+
       },
       {
         title: '计划开始日期',
@@ -136,7 +135,7 @@ class ProjectPlan extends Component {
         required: false,
         elem: 'DATE_PICK',
         editFlag: true,
-        
+
       },
       {
         title: '计划结束日期',
@@ -145,7 +144,7 @@ class ProjectPlan extends Component {
         required: false,
         elem: 'DATE_PICK',
         editFlag: true,
-        
+
       },
       {
         title: '实际开始日期',
@@ -154,7 +153,7 @@ class ProjectPlan extends Component {
         required: false,
         elem: 'DATE_PICK',
         editFlag: true,
-        
+
       },
       {
         title: '实际结束日期',
@@ -163,7 +162,7 @@ class ProjectPlan extends Component {
         required: false,
         elem: 'DATE_PICK',
         editFlag: true,
-        
+
       },
       {
         title: '天数',
@@ -172,7 +171,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        
+
       },
       {
         title: '备注',
@@ -181,7 +180,7 @@ class ProjectPlan extends Component {
         required: true,
         elem: 'INPUT',
         editFlag: true,
-        
+
       },
       {
         title: '操作',
@@ -629,7 +628,7 @@ class ProjectPlan extends Component {
           <ExtTable style={{ height: "620px" }} onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
         </Content>
       </ProLayout>
-        
+
       </>
     );
   }

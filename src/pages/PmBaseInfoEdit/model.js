@@ -6,7 +6,7 @@
  */
 import { message } from 'antd';
 import { utils } from 'suid';
-import { del, save, saveToDo, delToDo, findEmp, syncProjectInfo, projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch } from './service';
+import { del, save, saveToDo, delToDo, findEmp,getProOpt, syncProjectInfo, projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -71,6 +71,19 @@ export default modelExtend(model, {
 
       return result;
     },
+    *getProOpt({ payload }, { call }) {
+      const result = yield call(getProOpt, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+        // message.success(msg);
+      } else {
+        message.error(msg);
+      }
+
+      return result;
+    },
+
     *findEmp({ payload }, { call }) {
       const result = yield call(findEmp, payload);
       const { success, message: msg } = result || {};

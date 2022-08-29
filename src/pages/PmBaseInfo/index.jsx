@@ -209,10 +209,11 @@ class PmBaseInfo extends Component {
                 improveBenefits: record.improveBenefits,
                 promotionDegree: record.promotionDegree,
                 hardwareRequirement: record.hardwareRequirement,
-                leader: record.leader,
-                designer: record.designer,
-                developer: record.developer,
-                implementer: record.implementer,
+                leader: record.leader == null || record.leader === '' ? [] : record.leader  ,
+                designer: record.designer == null || record.designer === '' ? [] : record.designer,
+                developer: record.developer == null || record.developer === '' ? [] : record.developer,
+                implementer: record.implementer == null || record.implementer === '' ? [] : record.implementer,
+                proOpt: record.proOpt == null || record.proOpt === '' ? [] : record.proOpt,
               }
             }}>
               查看详情
@@ -254,7 +255,7 @@ class PmBaseInfo extends Component {
       },
       {
         title: '主导人',
-        dataIndex: 'projectMaster',
+        dataIndex: 'leader',
         width: 100,
         required: true,
       },

@@ -12,11 +12,20 @@ const { request } = utils;
 //   '/mock/5e02d29836608e42d52b1d81/template-service';
 
 const {PROJECT_PATH} = constants;
+const { SERVER_PATH } = constants;
 const contextBaseInfoPath = '/pmBaseinfo';
 const contextPath = '/pmBaseInfoEdit';
 const contextToDoPath = '/todoList';
 const ProjPlanPath = '/projectPlan';
 
+
+export async function getProOpt() {
+  const url = `${SERVER_PATH}/dms/dataDict/getCanUseDataDictValues?dictCode=ProcedureOption`;
+  return request({
+    url,
+    method: 'GET',
+  });
+}
 
 export async function findEmp(data) {
   const url = `${PROJECT_PATH}/pmEmployee/findEmp`;
