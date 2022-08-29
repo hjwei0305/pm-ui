@@ -39,6 +39,7 @@ class PmBaseInfo extends Component {
   onDateChange = data => {
     if(data){
       const date = data.format('YYYY-MM-DD');
+      console.log(date);
       this.setState({
         dateFilter: date,
       });
@@ -99,6 +100,7 @@ class PmBaseInfo extends Component {
         value: dateFilter,
       });
     }
+    console.log(filters)
     return filters;
   };
 
@@ -148,6 +150,7 @@ class PmBaseInfo extends Component {
       type: 'pmBaseInfo/syncProjectInfo',
       payload: data,
     }).then(res => {
+      console.log(res)
       if (res.success) {
         this.dispatchAction({
           type: 'pmBaseInfo/updateState',
@@ -209,10 +212,6 @@ class PmBaseInfo extends Component {
                 improveBenefits: record.improveBenefits,
                 promotionDegree: record.promotionDegree,
                 hardwareRequirement: record.hardwareRequirement,
-                leader: record.leader,
-                designer: record.designer,
-                developer: record.developer,
-                implementer: record.implementer,
               }
             }}>
               查看详情
@@ -310,7 +309,7 @@ class PmBaseInfo extends Component {
         title: '需求评审',
         dataIndex: 'requireReview',
         width: 100,
-        render:
+        render: 
             tag => {
               let color = tag===true ? 'blue' : 'red';
               let value=tag===true ? '通过' : '不通过';
@@ -327,7 +326,7 @@ class PmBaseInfo extends Component {
         title: 'UI评审',
         dataIndex: 'uiReview',
         width: 100,
-        render:
+        render: 
         tag => {
           let color = tag===true ? 'blue' : 'red';
           let value=tag===true ? '通过' : '不通过';
@@ -344,7 +343,7 @@ class PmBaseInfo extends Component {
         title: '前端评审',
         dataIndex: 'webReview',
         width: 100,
-        render:
+        render: 
         tag => {
           let color = tag===true ? 'blue' : 'red';
           let value=tag===true ? '通过' : '不通过';
@@ -361,7 +360,7 @@ class PmBaseInfo extends Component {
         title: '后端评审',
         dataIndex: 'codeReview',
         width: 100,
-        render:
+        render: 
         tag => {
           let color = tag===true ? 'blue' : 'red';
           let value=tag===true ? '通过' : '不通过';
@@ -378,7 +377,7 @@ class PmBaseInfo extends Component {
         title: '测试结果',
         dataIndex: 'test',
         width: 100,
-        render:
+        render: 
         tag => {
           let color = tag===true ? 'blue' : 'red';
           let value=tag===true ? '通过' : '不通过';
@@ -392,12 +391,12 @@ class PmBaseInfo extends Component {
         }
       },{
         title: '项目验收',
-        dataIndex: 'test',
+        dataIndex: 'status',
         width: 100,
-        render:
+        render: 
         tag => {
-          let color = tag===0 ? 'blue' : 'red';
-          let value=tag===0 ? '通过' : '不通过';
+          let color = tag===1 ? 'blue' : 'red';
+          let value=tag===1 ? '通过' : '不通过';
           return (
             <span>
             <Tag color={color}>
