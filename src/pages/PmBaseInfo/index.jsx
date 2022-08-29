@@ -393,12 +393,13 @@ class PmBaseInfo extends Component {
         }
       },{
         title: '项目验收',
-        dataIndex: 'test',
+        dataIndex: 'status',
         width: 100,
         render:
         tag => {
-          let color = tag===0 ? 'blue' : 'red';
-          let value=tag===0 ? '通过' : '不通过';
+          debugger;
+          let color = tag==='1' ? 'blue' : 'red';
+          let value=tag==='1' ? '通过' : '不通过';
           return (
             <span>
             <Tag color={color}>
