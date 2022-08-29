@@ -396,8 +396,8 @@ class PmBaseInfo extends Component {
         render: 
         tag => {
           debugger;
-          let color = tag===1 ? 'blue' : 'red';
-          let value=tag===1 ? '通过' : '不通过';
+          let color = tag==='1' ? 'blue' : 'red';
+          let value=tag==='1' ? '通过' : '不通过';
           return (
             <span>
             <Tag color={color}>
