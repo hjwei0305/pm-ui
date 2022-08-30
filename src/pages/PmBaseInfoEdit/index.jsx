@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import styles from './index.less'
 import { constants } from '@/utils';
 import ProjectPlan from './ProjectPlan'
+import ProjectSchedule from './ProjectSchedule'
 
 const { Option } = Select;
 const { PROJECT_PATH } = constants;
@@ -809,7 +810,7 @@ class PmBaseInfoEdit extends Component {
                     </Form>
                   </TabPane>
                   <TabPane tab="进度跟进" key="2">
-                    Content of Tab Pane 2
+                    <ProjectSchedule id={this.state.dataList.id}></ProjectSchedule>
                   </TabPane>
                   <TabPane tab="附件信息" key="3">
                     Content of Tab Pane 3

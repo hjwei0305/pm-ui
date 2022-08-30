@@ -6,7 +6,8 @@
  */
 import { message } from 'antd';
 import { utils } from 'suid';
-import { del, save, saveToDo, delToDo, findEmp,getProOpt, syncProjectInfo, projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch } from './service';
+import { del, save, saveToDo, delToDo, findEmp,getProOpt, syncProjectInfo
+  , projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch,findByIdForSchedule } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -159,6 +160,19 @@ export default modelExtend(model, {
         message.error(msg);
       }
 
+      return result;
+    },
+
+    // ProjectSchedule
+    *findByIdForSchedule({ payload }, { call }) {
+      const result = yield call(findByIdForSchedule, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+        message.success(msg);
+      } else {
+        message.error(msg);
+      }
       return result;
     },
   },

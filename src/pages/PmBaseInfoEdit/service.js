@@ -97,3 +97,15 @@ export async function projPlanFindByPage(data) {
   const url = `${PROJECT_PATH}${ProjPlanPath}/findByPage`;
   return request.post(url,data);
 }
+
+/**
+ * 
+ * @returns 
+ */
+export async function findByIdForSchedule(data) {
+  const url = `${PROJECT_PATH}${contextBaseInfoPath}/findByIdForSchedule?id=${data.id}`;
+  return request({
+    url,
+    method: 'GET',
+  });
+}
