@@ -699,7 +699,7 @@ class PmBaseInfoEdit extends Component {
     return (
       <>
       <ProLayout style={{background: "#F4F8FC",padding:"8px 12px"}}>
-          <SiderBar allowCollapse width={300} gutter={[0,8]}>
+          <SiderBar allowCollapse width={330} gutter={[0,8]}>
             <Row>
               <Col span={24} style={{ height: "100%" }}>
                 <div className={styles['goBack']}>
@@ -713,7 +713,7 @@ class PmBaseInfoEdit extends Component {
                 </div>
                 <div className={styles['procedure']}>
                   <div className="procedureTitle">流程配置</div>
-                  <div><Select defaultValue={this.state.dataList.proOpt} mode="tags" style={{ width: '100%' }} placeholder="选择项目流程" onChange={(value,_) => this.state.dataList.proOpt = value}>{this.state.proOptList}</Select></div>
+                  <div><Select maxTagCount={6} defaultValue={this.state.dataList.proOpt} mode="tags" style={{ width: '100%' }} placeholder="选择项目流程" onChange={(value,_) => this.state.dataList.proOpt = value}>{this.state.proOptList}</Select></div>
                 </div>
                 <div className={styles['member']}>
                   <div className="memberTitle">项目组成员</div>
