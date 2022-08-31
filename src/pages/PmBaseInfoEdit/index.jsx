@@ -37,6 +37,7 @@ class PmBaseInfoEdit extends Component {
             code: 2,
           },
         ],
+        ScheduleArys: [],
         employee: [],
         proOptList: [],
         disable: this.props.location.state.disable,
@@ -92,6 +93,7 @@ class PmBaseInfoEdit extends Component {
   }
 
   state = {
+    ScheduleArys: [],
     delId: null,
     isFinishedFilter: null,
     ondutyNameFilter: null,
@@ -671,6 +673,26 @@ class PmBaseInfoEdit extends Component {
     this.state.dataList.code = event.target.value
   }
 
+  callback = (key) => {
+    if(key == 2){
+      if(this.state.dataList.id != undefined){
+        const { dispatch } = this.props;
+        dispatch({
+          type: 'pmBaseInfoEdit/findByIdForSchedule',
+          payload: {
+            id: this.state.dataList.id
+          }
+        }).then(res =>{
+          if(res.success){
+            this.setState({
+              ScheduleArys: JSON.parse(res.data.gfxJson)
+            })
+          }
+        })
+      }
+    }
+  }
+
   render() {
     const { pmBaseInfoEdit } = this.props;
     const { modalVisibleToDo } = pmBaseInfoEdit;
@@ -709,7 +731,7 @@ class PmBaseInfoEdit extends Component {
           <Content>
             <Col style={{ height: "100%" }}>
               <div style={{ marginLeft: "12px", background: "white", height: "100%" }}>
-                <Tabs defaultActiveKey="1">
+                <Tabs defaultActiveKey="1" onChange={this.callback}>
                   <TabPane tab="基础信息" key="1">
                     <Form className={styles['basic']}>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
@@ -810,7 +832,7 @@ class PmBaseInfoEdit extends Component {
                     </Form>
                   </TabPane>
                   <TabPane tab="进度跟进" key="2">
-                    <ProjectSchedule id={this.state.dataList.id}></ProjectSchedule>
+                    <ProjectSchedule id={this.state.dataList.id} ScheduleArys={this.state.ScheduleArys}></ProjectSchedule>
                   </TabPane>
                   <TabPane tab="附件信息" key="3">
                     Content of Tab Pane 3

@@ -9,32 +9,6 @@ import { withRouter } from 'umi';
 @withRouter
 @connect(({ pmBaseInfoEdit, loading }) => ({ pmBaseInfoEdit, loading }))
 class ProjectSchedule extends Component {
-  state = {
-    ScheduleArys: []
-  }
-
-  componentDidMount() {
-    if(this.props.id != undefined){
-      this.init()
-    }
-  };
-
-  init = () => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'pmBaseInfoEdit/findByIdForSchedule',
-      payload: {
-        id: this.props.id
-      }
-    }).then(res =>{
-      if(res.success){
-        this.setState({
-          ScheduleArys: JSON.parse(res.data.gfxJson)
-        })
-      }
-    })
-  }
-
 
   // ScheduleArys = {
   //   2.1: "0",
@@ -47,7 +21,7 @@ class ProjectSchedule extends Component {
   // };
 
   checkStage = target => { // 阶段验证
-    var scheduleKeys = Object.keys(this.state.ScheduleArys);
+    var scheduleKeys = Object.keys(this.props.ScheduleArys);
     if (scheduleKeys) {
       var scheduleKeysLen = scheduleKeys.length;
       target = parseFloat(target);
@@ -56,7 +30,7 @@ class ProjectSchedule extends Component {
       for (var y = 0; y < scheduleKeysLen; y++) {
         if (scheduleKeys[y].substring(0, 1) == target) {
           bNum++;
-          if (this.state.ScheduleArys[scheduleKeys[y]] == 1) {
+          if (this.props.ScheduleArys[scheduleKeys[y]] == 1) {
             tNum++;
           }
         }
@@ -85,12 +59,13 @@ class ProjectSchedule extends Component {
   };
 
   stageLineCls = () => { // 阶段百份比线条
-    var tNum = 2;
-    for (var i = 2; i <= 7; i++) {
+    var tNum = 7;
+    for (var i = 7; i >= 2; i--) {
       var checkResult = this.checkStage(i);
-      if (checkResult >= 0) {
+      if (checkResult < 0) {
         tNum = i;
       } else {
+        tNum = i;
         break;
       }
     }
@@ -98,12 +73,12 @@ class ProjectSchedule extends Component {
   };
 
   checkSchedule = target => { // 流程验证
-    var scheduleKeys = Object.keys(this.state.ScheduleArys);
+    var scheduleKeys = Object.keys(this.props.ScheduleArys);
     if (scheduleKeys) {
       var scheduleKeysLen = scheduleKeys.length;
       for (var i = 0; i < scheduleKeysLen; i++) {
         if (scheduleKeys[i] == target) {
-          return this.state.ScheduleArys[target];
+          return this.props.ScheduleArys[target];
         }
       }
       return -1;
