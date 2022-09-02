@@ -37,6 +37,19 @@ export async function findEmp(data) {
 }
 
 /** 保存 */
+export async function saveUpload(data) {
+  const url = `${PROJECT_PATH}${contextBaseInfoPath}/save`;
+  return request({
+    url,
+    method: 'POST',
+    // headers:{
+    //   'x-authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJyYW5kb21LZXkiOiI1ZGMzMTk2Mi0zZWJjLTQ3OTctOWE2Ni1kMWMwZTA1MWIxMGEiLCJzdWIiOiLnlKjmiLfotKblj7ciLCJhdXRob3JpdHlQb2xpY3kiOiJOb3JtYWxVc2VyIiwidXNlck5hbWUiOiLlvKDmmZPmqaYiLCJleHAiOjE2NjQ5OTA1MjcsInVzZXJJZCI6IkIwRkI0MzcwLTBCQkItMTFFRC1CRDQwLTAyNDJBQzE0MDAxMSIsImlhdCI6MTY2MjExMDUyNywidGVuYW50IjoidGVzdCIsImFjY291bnQiOiIzNzY5NTEifQ.MdDqYyCOPR3b0JDWpFDPikI7ZXwmR_SLcEbGtyYFacyVVC7om9_VEeLnog3PhIWuv8-N_Uo1exUhlPZr5oVVwg'
+    // },
+    data
+  });
+}
+
+/** 保存 */
 export async function save(data) {
   const url = `${PROJECT_PATH}${contextBaseInfoPath}/saveBaseInfo`;
   return request.post(url, data);

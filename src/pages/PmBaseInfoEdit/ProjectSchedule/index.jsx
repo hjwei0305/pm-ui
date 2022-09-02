@@ -1,14 +1,31 @@
 import React, { Component } from 'react';
 import cls from 'classnames';
 import styles from './index.less';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import Schedule from './Schedule';
 import { connect } from 'dva';
 import { withRouter } from 'umi';
+import EditModal from './EditModal'
 
 @withRouter
 @connect(({ pmBaseInfoEdit, loading }) => ({ pmBaseInfoEdit, loading }))
 class ProjectSchedule extends Component {
+
+  // state = {
+  //   projTypeList: [
+  //     {
+  //       name: 'KPI项目',
+  //       code: 6,
+  //     },
+  //     {
+  //       name: '年度重点项目',
+  //       code: 1,
+  //     },{
+  //       name: '其他项目',
+  //       code: 2,
+  //     },
+  //   ],
+  // }
 
   // ScheduleArys = {
   //   2.1: "0",
@@ -125,7 +142,116 @@ class ProjectSchedule extends Component {
     return cls(styles[clsName]);
   };
 
+  upload = (type) => {
+    switch (type) {
+      case 'test':
+        this.dispatchAction({
+          type: 'pmBaseInfoEdit/updateState',
+          payload: {
+            modalVisibleSche: true,
+          },
+        });
+        break;
+      default:
+        break;
+    }
+  };
+
+  SaveUpload = (flowCallBack = this.defaultCallBack) => {
+    const { dispatch,editData } = this.props;
+    var dataReplace = Object.assign({},editData)
+    // const { isValid, data } = this.requestHeadRef.getHeaderData();
+    // if (isValid) {
+      const docIdList = [];
+      debugger
+      if (this.attachmentRef) {
+        const status = this.attachmentRef.getAttachmentStatus();
+        console.log(status)
+        const { fileList, ready } = status;
+        if (!ready) {
+          flowCallBack({
+            success: false,
+            message: '附件正在上传中，请等待上传完成后操作，否则会导致附件丢失',
+          });
+          return;
+        }
+        if (fileList && fileList.length > 0) {
+          fileList.forEach(item => {
+            if (item.id && !docIdList.includes(item.id)) {
+              docIdList.push(item.id);
+            }
+          });
+        }
+      }
+      Object.assign(dataReplace, { attachmentIdList: docIdList });
+      dataReplace.leader = dataReplace.leader.join(',')
+      dataReplace.developer = dataReplace.developer.join(',')
+      dataReplace.designer = dataReplace.designer.join(',')
+      dataReplace.implementer = dataReplace.implementer.join(',')
+      dataReplace.proOpt = dataReplace.proOpt.join(',')
+      if(typeof(dataReplace.projectTypes) == "string"){
+        for(let item of this.state.projTypeList){
+          if(item.name == dataReplace.projectTypes){
+            dataReplace.projectTypes = item.code
+          }
+        }
+      }
+      dispatch({
+        type: 'pmBaseInfoEdit/saveUpload',
+        payload: {
+          ...editData,
+        },
+      }).then(res => console.log(editData));
+    // } 
+    // else {
+    //   flowCallBack({
+    //     success: false,
+    //     message: '数据校验未通过，请检查数据',
+    //   });
+    // }
+  };
+
+  defaultCallBack = res => {
+    if (!res.success) {
+      message.warning(res.message);
+    }
+  };
+
+  getEditModalProps = () => {
+    const { loading, pmBaseInfoEdit,editData, dispatch } = this.props;
+    const { modalVisibleSche } = pmBaseInfoEdit;
+    // const { code, name } = this.props.location.state;
+
+    return {
+      // onSave: this.SaveUpload,
+      editData,dispatch,
+      visible: modalVisibleSche,
+      onClose: this.handleClose,
+      saving: loading.effects['pmBaseInfoEdit/saveUpload'],
+    };
+  };
+
+  handleClose = () => {
+    this.dispatchAction({
+      type: 'pmBaseInfoEdit/updateState',
+      payload: {
+        modalVisibleSche: false,
+        editData: null,
+      },
+    });
+  };
+
+  dispatchAction = ({ type, payload }) => {
+    const { dispatch } = this.props;
+    return dispatch({
+      type,
+      payload
+    });
+  }
+
   render() {
+    const { pmBaseInfoEdit,editData } = this.props;
+    const { modalVisibleSche } = pmBaseInfoEdit;
     return (
       <>
         <p className={cls(styles['scheduleLine'])}>
@@ -193,7 +319,8 @@ class ProjectSchedule extends Component {
             <div className={cls(styles['step_font'])}>需求范围说明书</div>
             <ul className={cls(styles['step_btns'])}>
               <li><Button className={this.btnCls('2.1', 'template')} disabled={this.btnState('2.1')}>模板</Button></li>
-              <li><Button className={this.btnCls('2.1', 'upload')} disabled={this.btnState('2.1')}>上传</Button></li>
+              <li><Button className={this.btnCls('2.1', 'upload')} disabled={this.btnState('2.1')} onClick={() => this.upload('test')}>上传</Button></li>
+              {modalVisibleSche ? <EditModal {...this.getEditModalProps()} /> : null}
               <li><Button className={this.btnCls('2.1', 'check')} disabled={this.btnState('2.1')}>查看</Button></li>
             </ul>
             <div className={cls(styles['step_font'])}>验收标准</div>
@@ -256,28 +383,28 @@ class ProjectSchedule extends Component {
         <div className={`${styles.module} ${styles.module4}`}>
           <span className={this.titleCls('4.1')}>前端开发</span>
           <Schedule clsName='canvas4_1' width="140" height="100" color={this.lineColor('4.1')} Lines='[{"frX":40,"toX":40,"frY":5,"toY":95}]' direction="Vertical" />
-          <div className={`${styles.step_content} ${styles.step_content4_1}`}>
+          {/* <div className={`${styles.step_content} ${styles.step_content4_1}`}>
             <div className={cls(styles['step_font'])}>上传开发计划</div>
             <ul className={cls(styles['step_btns'])}>
               <li><Button className={this.btnCls('4.1', 'template')} disabled={this.btnState('4.1')}>模板</Button></li>
               <li><Button className={this.btnCls('4.1', 'upload')} disabled={this.btnState('4.1')}>上传</Button></li>
               <li><Button className={this.btnCls('4.1', 'check')} disabled={this.btnState('4.1')}>查看</Button></li>
             </ul>
-          </div>
+          </div> */}
 
           <span className={this.titleCls('4.2')}>前端评审</span>
           <Schedule clsName='canvas4_2' width="200" height="100" direction="Horizontal" color={this.lineColor('4.2')} lineMode="OnlyLine" Lines='[{"frX":40,"toX":40,"frY":5,"toY":60},{"toX":200,"toY":60}]' />
 
           <span className={this.titleCls('4.3')}>后端开发</span>
           <Schedule clsName='canvas4_3' width="140" height="100" color={this.lineColor('4.3')} Lines='[{"frX":40,"toX":40,"frY":5,"toY":95}]' direction="Vertical" />
-          <div className={`${styles.step_content} ${styles.step_content4_3}`}>
+          {/* <div className={`${styles.step_content} ${styles.step_content4_3}`}>
             <div className={cls(styles['step_font'])}>上传开发计划</div>
             <ul className={cls(styles['step_btns'])}>
               <li><Button className={this.btnCls('4.3', 'template')} disabled={this.btnState('4.3')}>模板</Button></li>
               <li><Button className={this.btnCls('4.3', 'upload')} disabled={this.btnState('4.3')}>上传</Button></li>
               <li><Button className={this.btnCls('4.3', 'check')} disabled={this.btnState('4.3')}>查看</Button></li>
             </ul>
-          </div>
+          </div> */}
 
           <span className={this.titleCls('4.4')}>后端评审</span>
           <Schedule clsName='canvas4_4' width="200" height="100" color={this.lineColor('4.4')} direction="Horizontal" lineMode="OnlyLine" Lines='[{"frX":40,"toX":40,"frY":5,"toY":60},{"toX":200,"toY":60}]' />
@@ -361,7 +488,7 @@ class ProjectSchedule extends Component {
 
           <span className={this.titleCls('7.2')}>验收</span>
           <Schedule clsName='canvas7_2' width="140" height="150" color={this.lineColor('7.2')} Lines='[{"frX":30,"toX":30,"frY":5,"toY":145}]' direction="Vertical" />
-          <div className={`${styles.step_content} ${styles.step_content7_2}`}>
+          {/* <div className={`${styles.step_content} ${styles.step_content7_2}`}>
             <div className={cls(styles['step_font'])}>验收单</div>
             <ul className={cls(styles['step_btns'])}>
               <li><Button className={this.btnCls('7.2', 'template')} disabled={this.btnState('7.2')}>模板</Button></li>
@@ -374,7 +501,7 @@ class ProjectSchedule extends Component {
               <li><Button className={this.btnCls('7.2', 'upload')} disabled={this.btnState('7.2')}>上传</Button></li>
               <li><Button className={this.btnCls('7.2', 'check')} disabled={this.btnState('7.2')}>查看</Button></li>
             </ul>
-          </div>
+          </div> */}
 
           <span className={cls(styles['step7_3'])}>项目完结</span>
         </div>

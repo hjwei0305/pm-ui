@@ -7,7 +7,7 @@
 import { message } from 'antd';
 import { utils } from 'suid';
 import { del, save, saveToDo, delToDo, findEmp,getProOpt, syncProjectInfo
-  , projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch,findByIdForSchedule } from './service';
+  , projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch,findByIdForSchedule,saveUpload } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -16,13 +16,25 @@ export default modelExtend(model, {
   namespace: 'pmBaseInfoEdit',
 
   state: {
-    editData: null,
+    // editData: null,
     // modalVisible: false,
     modalVisibleToDo: false,
   },
   effects: {
     *save({ payload }, { call }) {
       const result = yield call(save, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+        message.success(msg);
+      } else {
+        message.error(msg);
+      }
+
+      return result;
+    },
+    *saveUpload({ payload }, { call }) {
+      const result = yield call(saveUpload, payload);
       const { success, message: msg } = result || {};
       message.destroy();
       if (success) {

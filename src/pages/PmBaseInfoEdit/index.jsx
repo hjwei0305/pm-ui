@@ -2,16 +2,17 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select } from 'antd';
-import { ExtIcon, ExtTable, ComboList, ProLayout } from 'suid';
+import { ExtIcon, ExtTable, ComboList, ProLayout, Attachment } from 'suid';
 import ToDoEditModal from './ToDoEditModal';
 import { Link } from "react-router-dom";
 import styles from './index.less'
 import { constants } from '@/utils';
 import ProjectPlan from './ProjectPlan'
 import ProjectSchedule from './ProjectSchedule'
+// import get from 'lodash'
 
 const { Option } = Select;
-const { PROJECT_PATH } = constants;
+const { PROJECT_PATH, SERVER_PATH } = constants;
 const { TextArea } = Input
 const { TabPane } = Tabs;
 const { SiderBar, Content } = ProLayout;
@@ -91,6 +92,8 @@ class PmBaseInfoEdit extends Component {
       }
     });
   }
+
+  static attachmentRef = null;
 
   state = {
     ScheduleArys: [],
@@ -693,9 +696,29 @@ class PmBaseInfoEdit extends Component {
     }
   }
 
+  
+  
+  handlerGetFile = () => {
+    const status = this.attachmentRef.getAttachmentStatus();
+    console.log(status);
+  };
+
   render() {
     const { pmBaseInfoEdit } = this.props;
     const { modalVisibleToDo } = pmBaseInfoEdit;
+
+
+
+    // const attachmentProps = {
+    //   serviceHost: `${SERVER_PATH}/edm-service`,
+    //   multiple: true,
+    //   customBatchDownloadFileName: true,
+    //   onAttachmentRef: ref => (this.attachmentRef = ref),
+    //   allowUpload: !readOnly || action === 'finalEdit',
+    //   allowDelete: !readOnly,
+    //   entityId: get(editData, 'id'),
+    // };
+
     return (
       <>
       <ProLayout style={{background: "#F4F8FC",padding:"8px 12px"}}>
@@ -832,10 +855,10 @@ class PmBaseInfoEdit extends Component {
                     </Form>
                   </TabPane>
                   <TabPane tab="进度跟进" key="2">
-                    <ProjectSchedule id={this.state.dataList.id} ScheduleArys={this.state.ScheduleArys}></ProjectSchedule>
+                    <ProjectSchedule id={this.state.dataList.id} ScheduleArys={this.state.ScheduleArys} editData={this.state.dataList}></ProjectSchedule>
                   </TabPane>
                   <TabPane tab="附件信息" key="3">
-                    Content of Tab Pane 3
+                    test
                   </TabPane>
                   <TabPane tab="计划表" key="4">
                     <ProjectPlan style={{height: "620px"}} id={this.state.dataList.id}></ProjectPlan>
