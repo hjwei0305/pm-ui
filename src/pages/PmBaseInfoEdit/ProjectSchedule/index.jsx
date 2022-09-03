@@ -10,23 +10,6 @@ import EditModal from './EditModal'
 @withRouter
 @connect(({ pmBaseInfoEdit, loading }) => ({ pmBaseInfoEdit, loading }))
 class ProjectSchedule extends Component {
-
-  // state = {
-  //   projTypeList: [
-  //     {
-  //       name: 'KPI项目',
-  //       code: 6,
-  //     },
-  //     {
-  //       name: '年度重点项目',
-  //       code: 1,
-  //     },{
-  //       name: '其他项目',
-  //       code: 2,
-  //     },
-  //   ],
-  // }
-
   // ScheduleArys = {
   //   2.1: "0",
   //   '2.2': 1,
@@ -155,60 +138,6 @@ class ProjectSchedule extends Component {
       default:
         break;
     }
-  };
-
-  SaveUpload = (flowCallBack = this.defaultCallBack) => {
-    const { dispatch,editData } = this.props;
-    var dataReplace = Object.assign({},editData)
-    // const { isValid, data } = this.requestHeadRef.getHeaderData();
-    // if (isValid) {
-      const docIdList = [];
-      debugger
-      if (this.attachmentRef) {
-        const status = this.attachmentRef.getAttachmentStatus();
-        console.log(status)
-        const { fileList, ready } = status;
-        if (!ready) {
-          flowCallBack({
-            success: false,
-            message: '附件正在上传中，请等待上传完成后操作，否则会导致附件丢失',
-          });
-          return;
-        }
-        if (fileList && fileList.length > 0) {
-          fileList.forEach(item => {
-            if (item.id && !docIdList.includes(item.id)) {
-              docIdList.push(item.id);
-            }
-          });
-        }
-      }
-      Object.assign(dataReplace, { attachmentIdList: docIdList });
-      dataReplace.leader = dataReplace.leader.join(',')
-      dataReplace.developer = dataReplace.developer.join(',')
-      dataReplace.designer = dataReplace.designer.join(',')
-      dataReplace.implementer = dataReplace.implementer.join(',')
-      dataReplace.proOpt = dataReplace.proOpt.join(',')
-      if(typeof(dataReplace.projectTypes) == "string"){
-        for(let item of this.state.projTypeList){
-          if(item.name == dataReplace.projectTypes){
-            dataReplace.projectTypes = item.code
-          }
-        }
-      }
-      dispatch({
-        type: 'pmBaseInfoEdit/saveUpload',
-        payload: {
-          ...editData,
-        },
-      }).then(res => console.log(editData));
-    // } 
-    // else {
-    //   flowCallBack({
-    //     success: false,
-    //     message: '数据校验未通过，请检查数据',
-    //   });
-    // }
   };
 
   defaultCallBack = res => {
