@@ -18,6 +18,16 @@ const contextPath = '/pmBaseInfoEdit';
 const contextToDoPath = '/todoList';
 const ProjPlanPath = '/projectPlan';
 
+export async function review(data) {
+  const url = `${PROJECT_PATH}/edm-service/preview/readFile?docId=0DD9E9CE-2CDE-11ED-8A1B-0242AC14001F`;
+  return request({
+    url,
+    method: 'GET',
+    // headers:{
+    //   'Authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJyYW5kb21LZXkiOiI2NTk1YTU0Ny0wMWQ1LTQ4MTctOTJjNC1mZWQwMjg1ZDJmZWEiLCJzdWIiOiLnlKjmiLfotKblj7ciLCJhdXRob3JpdHlQb2xpY3kiOiJOb3JtYWxVc2VyIiwidXNlck5hbWUiOiLlvKDmmZPmqaYiLCJleHAiOjE2NjUyMjgwMDgsInVzZXJJZCI6IkIwRkI0MzcwLTBCQkItMTFFRC1CRDQwLTAyNDJBQzE0MDAxMSIsImlhdCI6MTY2MjM0ODAwOCwidGVuYW50IjoidGVzdCIsImFjY291bnQiOiIzNzY5NTEifQ.K1x115UBPrV1EmztPKvoAIJEDmvZMXZEa764WEFaiwsGRP9r6dvIKDo8RcbJwDTVtWSHdUJsS9J98LWtq_637A'
+    // },
+  });
+}
 
 export async function getProOpt() {
   const url = `${SERVER_PATH}/dms/dataDict/getCanUseDataDictValues?dictCode=ProcedureOption`;
@@ -39,11 +49,12 @@ export async function findEmp(data) {
 /** 保存 */
 export async function saveUpload(data) {
   const url = `${PROJECT_PATH}${contextBaseInfoPath}/save`;
+  // return request.post(url, data);
   return request({
     url,
     method: 'POST',
     // headers:{
-    //   'x-authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJyYW5kb21LZXkiOiI1ZGMzMTk2Mi0zZWJjLTQ3OTctOWE2Ni1kMWMwZTA1MWIxMGEiLCJzdWIiOiLnlKjmiLfotKblj7ciLCJhdXRob3JpdHlQb2xpY3kiOiJOb3JtYWxVc2VyIiwidXNlck5hbWUiOiLlvKDmmZPmqaYiLCJleHAiOjE2NjQ5OTA1MjcsInVzZXJJZCI6IkIwRkI0MzcwLTBCQkItMTFFRC1CRDQwLTAyNDJBQzE0MDAxMSIsImlhdCI6MTY2MjExMDUyNywidGVuYW50IjoidGVzdCIsImFjY291bnQiOiIzNzY5NTEifQ.MdDqYyCOPR3b0JDWpFDPikI7ZXwmR_SLcEbGtyYFacyVVC7om9_VEeLnog3PhIWuv8-N_Uo1exUhlPZr5oVVwg'
+    //   'Authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJyYW5kb21LZXkiOiI2NTk1YTU0Ny0wMWQ1LTQ4MTctOTJjNC1mZWQwMjg1ZDJmZWEiLCJzdWIiOiLnlKjmiLfotKblj7ciLCJhdXRob3JpdHlQb2xpY3kiOiJOb3JtYWxVc2VyIiwidXNlck5hbWUiOiLlvKDmmZPmqaYiLCJleHAiOjE2NjUyMjgwMDgsInVzZXJJZCI6IkIwRkI0MzcwLTBCQkItMTFFRC1CRDQwLTAyNDJBQzE0MDAxMSIsImlhdCI6MTY2MjM0ODAwOCwidGVuYW50IjoidGVzdCIsImFjY291bnQiOiIzNzY5NTEifQ.K1x115UBPrV1EmztPKvoAIJEDmvZMXZEa764WEFaiwsGRP9r6dvIKDo8RcbJwDTVtWSHdUJsS9J98LWtq_637A'
     // },
     data
   });
@@ -112,8 +123,8 @@ export async function projPlanFindByPage(data) {
 }
 
 /**
- * 
- * @returns 
+ *
+ * @returns
  */
 export async function findByIdForSchedule(data) {
   const url = `${PROJECT_PATH}${contextBaseInfoPath}/findByIdForSchedule?id=${data.id}`;

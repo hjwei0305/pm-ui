@@ -47,12 +47,14 @@ class FormModal extends PureComponent {
   };
 
   SaveUpload = (flowCallBack = this.defaultCallBack) => {
-    const { dispatch,editData } = this.props;
-    var dataReplace = Object.assign({},editData)
+    console.log(this.props)
+    const { dispatch,editData, fileType } = this.props;
+    const dataReplace = Object.assign({},editData)
     // const { isValid,data } = this.requestHeadRef.getHeaderData();
     // if (isValid) {
       const docIdList = [];
       if (this.attachmentRef) {
+        console.log(this.attachmentRef)
         const status = this.attachmentRef.getAttachmentStatus();
         const { fileList, ready } = status;
         if (!ready) {
@@ -83,20 +85,17 @@ class FormModal extends PureComponent {
           }
         }
       }
-      dataReplace.fileType = "RequireDoc";
+      dataReplace.fileType = fileType;
       dispatch({
         type: 'pmBaseInfoEdit/saveUpload',
         payload: {
           ...dataReplace,
         },
-      }).then(res => console.log(dataReplace));
-    // } 
-    // else {
-    //   flowCallBack({
-    //     success: false,
-    //     message: '数据校验未通过，请检查数据',
-    //   });
-    // }
+      }).then(res => {
+        if(res.success === false){
+          message.warning(res.message);
+        }
+      });
   };
 
   defaultCallBack = res => {
@@ -106,19 +105,21 @@ class FormModal extends PureComponent {
   };
 
   render() {
-    const { form, editData, onClose, saving, visible, loading = false } = this.props;
-    const { getFieldDecorator } = form;
+    const { form, editData, onClose, saving, visible, loading = false, attId } = this.props;
     // const title = editData ? '编辑' : '新增';
     const title = '附件上传查看';
- 
+    const dataReplace = Object.assign({},editData)
+    dataReplace.id = attId
+
     const attachmentProps = {
       serviceHost: `${SERVER_PATH}/edm-service`,
       multiple: true,
       customBatchDownloadFileName: true,
       onAttachmentRef: ref => (this.attachmentRef = ref),
-      entityId: get(editData, 'id'),
-      // itemFieldExtra: file => {
-      //   console.log(file);
+      entityId: get(dataReplace, 'id'),
+      // fileList: fileList,
+      // itemFieldExtra: fileList => {
+      //   console.log(fileList);
       //   return <span>自定义渲染</span>;
       // },
     };

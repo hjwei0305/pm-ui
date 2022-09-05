@@ -214,6 +214,22 @@ class PmBaseInfo extends Component {
                 developer: record.developer == null || record.developer === '' ? [] : record.developer.split(','),
                 implementer: record.implementer == null || record.implementer === '' ? [] : record.implementer.split(','),
                 proOpt: record.proOpt == null || record.proOpt === '' ? [] : record.proOpt.split(','),
+                requireDocId: record.requireDocId,
+                acceptStandardDocId: record.acceptStandardDocId,
+                startReportDocId: record.startReportDocId,
+                userRequireDocId: record.userRequireDocId,
+                designerDocId: record.designerDocId,
+                cropDocId: record.cropDocId,
+                testExampleDocId: record.testExampleDocId,
+                testReportDocId: record.testReportDocId,
+                sopDocId: record.sopDocId,
+                questionListDocId: record.questionListDocId,
+                checkListDocId: record.checkListDocId,
+                caseCloseReportDocId: record.caseCloseReportDocId,
+                satisfactionSurveyDocId: record.satisfactionSurveyDocId,
+                pageCheckDocId: record.pageCheckDocId,
+                acceptOrderDocId: record.acceptOrderDocId,
+                accpetReprotDocId: record.accpetReprotDocId,
               }
             }}>
               查看详情

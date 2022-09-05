@@ -52,6 +52,11 @@ export default [
             component: './WfConfig',
             title: 'WfConfig',
           },
+          {
+            path: '/pm/Home',
+            component: './Home',
+            title: '首页',
+          },
 
         ],
       },

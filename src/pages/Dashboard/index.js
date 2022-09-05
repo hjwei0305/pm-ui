@@ -55,6 +55,11 @@ const menuData = [
     name: '人员管理',
     path: '/em/Emp',
   },
+  {
+    id: '401',
+    name: '首页',
+    path: '/pm/Home',
+  },
 ];
 
 const getIcon = icon => {
