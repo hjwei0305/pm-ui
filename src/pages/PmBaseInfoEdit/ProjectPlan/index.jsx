@@ -232,7 +232,7 @@ class ProjectPlan extends Component {
     const newObj = [];
     this.state.obj.forEach(item => item !== record && newObj.push(item));
     this.state.obj = newObj;
-    for (let i = 0; i <= this.state.obj.length - 1; i+1) {
+    for (let i = 0; i <= this.state.obj.length - 1; i++) {
       this.state.obj[i].index = i + 1;
     }
     if (record.id != null) {
