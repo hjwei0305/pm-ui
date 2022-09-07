@@ -9,7 +9,7 @@ import styles from './index.less'
 import { constants } from '@/utils';
 import ProjectPlan from './ProjectPlan'
 import ProjectSchedule from './ProjectSchedule'
-// import get from 'lodash'
+import get from 'lodash'
 
 const { Option } = Select;
 const { PROJECT_PATH, SERVER_PATH } = constants;
@@ -738,18 +738,16 @@ class PmBaseInfoEdit extends Component {
   render() {
     const { pmBaseInfoEdit } = this.props;
     const { modalVisibleToDo } = pmBaseInfoEdit;
+    console.log(this.state.dataList)
 
-
-
-    // const attachmentProps = {
-    //   serviceHost: `${SERVER_PATH}/edm-service`,
-    //   multiple: true,
-    //   customBatchDownloadFileName: true,
-    //   onAttachmentRef: ref => (this.attachmentRef = ref),
-    //   allowUpload: !readOnly || action === 'finalEdit',
-    //   allowDelete: !readOnly,
-    //   entityId: get(editData, 'id'),
-    // };
+    const attachmentProps = {
+      serviceHost: `${SERVER_PATH}/edm-service`,
+      multiple: true,
+      customBatchDownloadFileName: true,
+      onAttachmentRef: ref => (this.attachmentRef = ref),
+      entityId: this.state.dataList.id,
+      style: {height: "620px"}
+    };
 
     return (
       <>
@@ -890,7 +888,7 @@ class PmBaseInfoEdit extends Component {
                     <ProjectSchedule id={this.state.dataList.id} ScheduleArys={this.state.ScheduleArys} editData={this.state.dataList}></ProjectSchedule>
                   </TabPane>
                   <TabPane tab="附件信息" key="3">
-                    test
+                    <Attachment {...attachmentProps} />
                   </TabPane>
                   <TabPane tab="计划表" key="4">
                     <ProjectPlan style={{height: "620px"}} id={this.state.dataList.id} employee={this.state.employee}></ProjectPlan>
