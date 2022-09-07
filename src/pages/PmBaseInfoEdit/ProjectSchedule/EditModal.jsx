@@ -192,6 +192,7 @@ class FormModal extends PureComponent {
         maskClosable={false}
         title={title}
         onOk={this.handleSave}
+        okText="保存"
       >
         <Attachment {...attachmentProps} />
       </ExtModal>
