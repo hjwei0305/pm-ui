@@ -893,7 +893,7 @@ class PmBaseInfoEdit extends Component {
                     test
                   </TabPane>
                   <TabPane tab="计划表" key="4">
-                    <ProjectPlan style={{height: "620px"}} id={this.state.dataList.id}></ProjectPlan>
+                    <ProjectPlan style={{height: "620px"}} id={this.state.dataList.id} employee={this.state.employee}></ProjectPlan>
                   </TabPane>
                   <TabPane tab="待办事项" key="5">
                     <ExtTable style={{ height: "620px" }} onTableRef={inst => (this.tableRef = inst)} {...this.getTodoListExtableProps()} />

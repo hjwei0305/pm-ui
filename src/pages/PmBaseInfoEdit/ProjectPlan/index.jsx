@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, InputNumber, Input, DatePicker, Radio, Form  } from 'antd';
+import { Button, InputNumber, Input, DatePicker, Radio, Form, Select  } from 'antd';
 import { ExtTable, ExtIcon, Space, ComboList,ProLayout } from 'suid';
 import moment from 'moment';
 
@@ -60,6 +60,8 @@ class ProjectPlan extends Component {
       const { rows } = res.data;
       for(let [index,item] of rows.entries()){
         item.key = index
+        item.workOnduty = item.workOnduty.split(',')
+        item.workAssist = item.workAssist.split(',')
       }
       if(rows.length > 0){
         this.setState({
@@ -78,7 +80,7 @@ class ProjectPlan extends Component {
       {
         title: '序号',
         dataIndex: 'schedureNo',
-        width: 90,
+        width: 100,
         required: true,
         elem:'INPUT',
         editFlag: true,
@@ -86,7 +88,7 @@ class ProjectPlan extends Component {
       {
         title: '状态',
         dataIndex: 'schedureStatus',
-        width: 90,
+        width: 100,
         required: true,
         elem: 'COMBOLIST',
         editFlag: true,
@@ -95,7 +97,7 @@ class ProjectPlan extends Component {
       {
         title: '任务类型',
         dataIndex: 'workType',
-        width: 90,
+        width: 150,
         required: true,
         elem: 'INPUT',
         editFlag: true,
@@ -104,7 +106,7 @@ class ProjectPlan extends Component {
       {
         title: '任务列表',
         dataIndex: 'workTodoList',
-        width: 90,
+        width: 150,
         required: true,
         elem: 'INPUT',
         editFlag: true,
@@ -113,25 +115,25 @@ class ProjectPlan extends Component {
       {
         title: '负责人',
         dataIndex: 'workOnduty',
-        width: 90,
+        width: 220,
         required: true,
-        elem: 'INPUT',
+        elem: 'EMPSELECT',
         editFlag: true,
 
       },
       {
         title: '协助人',
         dataIndex: 'workAssist',
-        width: 90,
+        width: 220,
         required: true,
-        elem: 'INPUT',
+        elem: 'EMPSELECT',
         editFlag: true,
 
       },
       {
         title: '计划开始日期',
         dataIndex: 'planStartDate',
-        width: 130,
+        width: 150,
         required: false,
         elem: 'DATE_PICK',
         editFlag: true,
@@ -140,7 +142,7 @@ class ProjectPlan extends Component {
       {
         title: '计划结束日期',
         dataIndex: 'planEndDate',
-        width: 130,
+        width: 150,
         required: false,
         elem: 'DATE_PICK',
         editFlag: true,
@@ -149,7 +151,7 @@ class ProjectPlan extends Component {
       {
         title: '实际开始日期',
         dataIndex: 'actualStartDate',
-        width: 130,
+        width: 150,
         required: false,
         elem: 'DATE_PICK',
         editFlag: true,
@@ -158,7 +160,7 @@ class ProjectPlan extends Component {
       {
         title: '实际结束日期',
         dataIndex: 'actualEndDate',
-        width: 130,
+        width: 150,
         required: false,
         elem: 'DATE_PICK',
         editFlag: true,
@@ -167,7 +169,7 @@ class ProjectPlan extends Component {
       {
         title: '天数',
         dataIndex: 'schedureDays',
-        width: 70,
+        width: 100,
         required: true,
         elem: 'INPUT',
         editFlag: true,
@@ -176,7 +178,7 @@ class ProjectPlan extends Component {
       {
         title: '备注',
         dataIndex: 'remark',
-        width: 90,
+        width: 150,
         required: true,
         elem: 'INPUT',
         editFlag: true,
@@ -377,9 +379,12 @@ class ProjectPlan extends Component {
           item.projectId !== '' ||
           item.workType !== '' ||
           item.workTodoList !== '' )){
-            item.projectId = id;
-            item.planType = this.state.planType
-            save_obj.push(item);
+            var dataReplace = Object.assign({},item)
+            dataReplace.projectId = id;
+            dataReplace.planType = this.state.planType
+            dataReplace.workOnduty = item.workOnduty.join(",")
+            dataReplace.workAssist = item.workAssist.join(",")
+            save_obj.push(dataReplace);
           }
 
       }
@@ -478,6 +483,18 @@ class ProjectPlan extends Component {
                     />
                   );
                   break;
+                  case 'EMPSELECT':
+                    dom.a = (
+                      <Select 
+                        defaultValue={(editRow && editRow[c.dataIndex]) || r[c.dataIndex]} 
+                        mode="tags" 
+                        style={{ width: '100%' }} 
+                        onChange={e => { this.handleCellSave(e, r, c)}}
+                      >
+                          {this.props.employee}
+                      </Select>
+                    );
+                    break;
                 default:
                   break;
               }
@@ -520,6 +537,8 @@ class ProjectPlan extends Component {
       row[c.dataIndex] = e.name;
     }else if(c.elem === 'DATE_PICK'){
       row[c.dataIndex] = e;
+    }else if(c.elem === 'EMPSELECT'){
+      row[c.dataIndex] = e;
     }else{
       row[c.dataIndex] = e.target.value;
     }
@@ -561,6 +580,8 @@ class ProjectPlan extends Component {
       const { rows } = res.data;
       for(let [index,item] of rows.entries()){
         item.key = `${index}${new Date()}`
+        item.workOnduty = item.workOnduty.split(',')
+        item.workAssist = item.workAssist.split(',')
       }
       this.setState({
         obj : rows
@@ -569,7 +590,6 @@ class ProjectPlan extends Component {
   };
 
   changePlanType = (e) => {
-    console.log(e.target.value)
     this.setState({
       planType: e.target.value
     })
