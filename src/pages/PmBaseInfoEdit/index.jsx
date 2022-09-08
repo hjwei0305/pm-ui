@@ -747,6 +747,8 @@ class PmBaseInfoEdit extends Component {
           }
         });
       }
+      // 维护state
+      maintainDocIdState(docIdList)
       dispatch({
         type: 'pmBaseInfoEdit/saveUploadList',
         payload: {
@@ -758,10 +760,53 @@ class PmBaseInfoEdit extends Component {
           message.warning(res.message);
         }
       });
-
-
-
     };
+  }
+
+  maintainDocIdState = (docIdList) => {
+    const { dataList } = this.state;
+    if(!dataList.includes(dataList.requireDocId)){
+      this.state.dataList.requireDocId = ''
+    }
+    if(!dataList.includes(dataList.acceptStandardDocId)){
+      this.state.dataList.acceptStandardDocId = ''
+    }
+    if(!dataList.includes(dataList.startReportDocId)){
+      this.state.dataList.startReportDocId = ''
+    }
+    if(!dataList.includes(dataList.userRequireDocId)){
+      this.state.dataList.userRequireDocId = ''
+    }
+    if(!dataList.includes(dataList.designerDocId)){
+      this.state.dataList.designerDocId = ''
+    }
+    if(!dataList.includes(dataList.cropDocId)){
+      this.state.dataList.cropDocId = ''
+    }
+    if(!dataList.includes(dataList.testExampleDocId)){
+      this.state.dataList.testExampleDocId = ''
+    }
+    if(!dataList.includes(dataList.testReportDocId)){
+      this.state.dataList.testReportDocId = ''
+    }
+    if(!dataList.includes(dataList.sopDocId)){
+      this.state.dataList.sopDocId = ''
+    }
+    if(!dataList.includes(dataList.questionListDocId)){
+      this.state.dataList.questionListDocId = ''
+    }
+    if(!dataList.includes(dataList.checkListDocId)){
+      this.state.dataList.checkListDocId = ''
+    }
+    if(!dataList.includes(dataList.caseCloseReportDocId)){
+      this.state.dataList.caseCloseReportDocId = ''
+    }
+    if(!dataList.includes(dataList.satisfactionSurveyDocId)){
+      this.state.dataList.satisfactionSurveyDocId = ''
+    }
+    if(!dataList.includes(dataList.pageCheckDocId)){
+      this.state.dataList.pageCheckDocId = ''
+    }
   }
 
   render() {
