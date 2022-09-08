@@ -748,7 +748,7 @@ class PmBaseInfoEdit extends Component {
         });
       }
       // 维护state
-      maintainDocIdState(docIdList)
+      this.maintainDocIdState(docIdList)
       dispatch({
         type: 'pmBaseInfoEdit/saveUploadList',
         payload: {
