@@ -565,8 +565,43 @@ class ProjectPlan extends Component {
     this.setState({
       planType: e.target.value
     })
-    this.refresh()
+    this.refreshPlanType(e.target.value)
   }
+
+  
+  refreshPlanType = (planType) => {
+    const { dispatch, id } = this.props;
+    dispatch({
+      type: 'pmBaseInfoEdit/projPlanFindByPage',
+      payload: {
+        sortOrders: [
+          {
+            property: 'schedureNo'
+          }
+        ],
+        filters: [
+          {
+            fieldName: 'projectId',
+            operator: 'EQ',
+            value: id,
+          },
+          {
+            fieldName: 'planType',
+            operator: 'EQ',
+            value: planType,
+          },
+        ],
+      }
+    }).then(res =>{
+      const { rows } = res.data;
+      for(let [index,item] of rows.entries()){
+        item.key = `${index}${new Date()}`
+      }
+      this.setState({
+        obj : rows
+      })
+    })
+  };
 
   render() {
     return (
