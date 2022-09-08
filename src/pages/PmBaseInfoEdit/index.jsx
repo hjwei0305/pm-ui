@@ -765,46 +765,46 @@ class PmBaseInfoEdit extends Component {
 
   maintainDocIdState = (docIdList) => {
     const { dataList } = this.state;
-    if(!dataList.includes(dataList.requireDocId)){
+    if(!docIdList.includes(dataList.requireDocId)){
       this.state.dataList.requireDocId = ''
     }
-    if(!dataList.includes(dataList.acceptStandardDocId)){
+    if(!docIdList.includes(dataList.acceptStandardDocId)){
       this.state.dataList.acceptStandardDocId = ''
     }
-    if(!dataList.includes(dataList.startReportDocId)){
+    if(!docIdList.includes(dataList.startReportDocId)){
       this.state.dataList.startReportDocId = ''
     }
-    if(!dataList.includes(dataList.userRequireDocId)){
+    if(!docIdList.includes(dataList.userRequireDocId)){
       this.state.dataList.userRequireDocId = ''
     }
-    if(!dataList.includes(dataList.designerDocId)){
+    if(!docIdList.includes(dataList.designerDocId)){
       this.state.dataList.designerDocId = ''
     }
-    if(!dataList.includes(dataList.cropDocId)){
+    if(!docIdList.includes(dataList.cropDocId)){
       this.state.dataList.cropDocId = ''
     }
-    if(!dataList.includes(dataList.testExampleDocId)){
+    if(!docIdList.includes(dataList.testExampleDocId)){
       this.state.dataList.testExampleDocId = ''
     }
-    if(!dataList.includes(dataList.testReportDocId)){
+    if(!docIdList.includes(dataList.testReportDocId)){
       this.state.dataList.testReportDocId = ''
     }
-    if(!dataList.includes(dataList.sopDocId)){
+    if(!docIdList.includes(dataList.sopDocId)){
       this.state.dataList.sopDocId = ''
     }
-    if(!dataList.includes(dataList.questionListDocId)){
+    if(!docIdList.includes(dataList.questionListDocId)){
       this.state.dataList.questionListDocId = ''
     }
-    if(!dataList.includes(dataList.checkListDocId)){
+    if(!docIdList.includes(dataList.checkListDocId)){
       this.state.dataList.checkListDocId = ''
     }
-    if(!dataList.includes(dataList.caseCloseReportDocId)){
+    if(!docIdList.includes(dataList.caseCloseReportDocId)){
       this.state.dataList.caseCloseReportDocId = ''
     }
-    if(!dataList.includes(dataList.satisfactionSurveyDocId)){
+    if(!docIdList.includes(dataList.satisfactionSurveyDocId)){
       this.state.dataList.satisfactionSurveyDocId = ''
     }
-    if(!dataList.includes(dataList.pageCheckDocId)){
+    if(!docIdList.includes(dataList.pageCheckDocId)){
       this.state.dataList.pageCheckDocId = ''
     }
   }
