@@ -7,8 +7,6 @@ import moment from 'moment';
 
 const { Header ,Content } = ProLayout;
 
-// const {PROJECT_PATH} = constants
-
 @Form.create()
 @withRouter
 @connect(({ pmBaseInfoEdit, loading }) => ({ pmBaseInfoEdit, loading }))
@@ -60,8 +58,8 @@ class ProjectPlan extends Component {
       const { rows } = res.data;
       for(let [index,item] of rows.entries()){
         item.key = index
-        item.workOnduty = item.workOnduty.split(',')
-        item.workAssist = item.workAssist.split(',')
+        item.workOnduty = item.workOnduty === '' ? [] : item.workOnduty.split(',')
+        item.workAssist = item.workAssist === '' ? [] : item.workAssist.split(',')
       }
       if(rows.length > 0){
         this.setState({
@@ -307,23 +305,6 @@ class ProjectPlan extends Component {
     }
   };
 
-  // handleSave = data => {
-  //   this.dispatchAction({
-  //     type: 'projectPlan/save',
-  //     payload: data,
-  //   }).then(res => {
-  //     if (res.success) {
-  //       this.dispatchAction({
-  //         type: 'projectPlan/updateState',
-  //         payload: {
-  //           modalVisible: false,
-  //         },
-  //       });
-  //       this.refresh();
-  //     }
-  //   });
-  // };
-
   handleSaveBatch = data => {
     this.dispatchAction({
       type: 'pmBaseInfoEdit/projPlanSaveBatch',
@@ -334,16 +315,6 @@ class ProjectPlan extends Component {
       }
     })
   };
-
-  // handleClose = () => {
-  //   this.dispatchAction({
-  //     type: 'projectPlan/updateState',
-  //     payload: {
-  //       modalVisible: false,
-  //       editData: null,
-  //     },
-  //   });
-  // };
 
   renderDelBtn = row => {
     const { loading } = this.props;
@@ -382,6 +353,7 @@ class ProjectPlan extends Component {
             var dataReplace = Object.assign({},item)
             dataReplace.projectId = id;
             dataReplace.planType = this.state.planType
+            debugger
             dataReplace.workOnduty = item.workOnduty.join(",")
             dataReplace.workAssist = item.workAssist.join(",")
             save_obj.push(dataReplace);
@@ -580,8 +552,8 @@ class ProjectPlan extends Component {
       const { rows } = res.data;
       for(let [index,item] of rows.entries()){
         item.key = `${index}${new Date()}`
-        item.workOnduty = item.workOnduty.split(',')
-        item.workAssist = item.workAssist.split(',')
+        item.workOnduty = item.workOnduty === '' || item.workOnduty === null ? [] : item.workOnduty.split(',')
+        item.workAssist = item.workAssist === '' || item.workAssist === null ? [] : item.workAssist.split(',')
       }
       this.setState({
         obj : rows
@@ -593,62 +565,27 @@ class ProjectPlan extends Component {
     this.setState({
       planType: e.target.value
     })
-    this.refreshPlanType(e.target.value)
+    this.refresh()
   }
-
-  refreshPlanType = (planType) => {
-    const { dispatch, id } = this.props;
-    dispatch({
-      type: 'pmBaseInfoEdit/projPlanFindByPage',
-      payload: {
-        sortOrders: [
-          {
-            property: 'schedureNo'
-          }
-        ],
-        filters: [
-          {
-            fieldName: 'projectId',
-            operator: 'EQ',
-            value: id,
-          },
-          {
-            fieldName: 'planType',
-            operator: 'EQ',
-            value: planType,
-          },
-        ],
-      }
-    }).then(res =>{
-      const { rows } = res.data;
-      for(let [index,item] of rows.entries()){
-        item.key = `${index}${new Date()}`
-      }
-      this.setState({
-        obj : rows
-      })
-    })
-  };
 
   render() {
     return (
       <>
-      <ProLayout>
-        <Header>
-          <div>
-            <Radio.Group defaultValue="0" buttonStyle="solid" onChange={this.changePlanType} size="large">
-              <Radio.Button value="0">主计划</Radio.Button>
-              <Radio.Button value="1">后端开发计划</Radio.Button>
-              <Radio.Button value="2">前端开发计划</Radio.Button>
-              <Radio.Button value="3">实施计划</Radio.Button>
-            </Radio.Group>
-          </div>
-        </Header>
-        <Content>
-          <ExtTable style={{ height: "620px" }} onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
-        </Content>
-      </ProLayout>
-
+        <ProLayout>
+          <Header>
+            <div>
+              <Radio.Group defaultValue="0" buttonStyle="solid" onChange={this.changePlanType} size="large">
+                <Radio.Button value="0">主计划</Radio.Button>
+                <Radio.Button value="1">后端开发计划</Radio.Button>
+                <Radio.Button value="2">前端开发计划</Radio.Button>
+                <Radio.Button value="3">实施计划</Radio.Button>
+              </Radio.Group>
+            </div>
+          </Header>
+          <Content>
+            <ExtTable style={{ height: "620px" }} onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
+          </Content>
+        </ProLayout>
       </>
     );
   }
