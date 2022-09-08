@@ -18,17 +18,6 @@ const contextPath = '/pmBaseInfoEdit';
 const contextToDoPath = '/todoList';
 const ProjPlanPath = '/projectPlan';
 
-export async function review(data) {
-  const url = `${PROJECT_PATH}/edm-service/preview/readFile?docId=0DD9E9CE-2CDE-11ED-8A1B-0242AC14001F`;
-  return request({
-    url,
-    method: 'GET',
-    // headers:{
-    //   'Authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJyYW5kb21LZXkiOiI2NTk1YTU0Ny0wMWQ1LTQ4MTctOTJjNC1mZWQwMjg1ZDJmZWEiLCJzdWIiOiLnlKjmiLfotKblj7ciLCJhdXRob3JpdHlQb2xpY3kiOiJOb3JtYWxVc2VyIiwidXNlck5hbWUiOiLlvKDmmZPmqaYiLCJleHAiOjE2NjUyMjgwMDgsInVzZXJJZCI6IkIwRkI0MzcwLTBCQkItMTFFRC1CRDQwLTAyNDJBQzE0MDAxMSIsImlhdCI6MTY2MjM0ODAwOCwidGVuYW50IjoidGVzdCIsImFjY291bnQiOiIzNzY5NTEifQ.K1x115UBPrV1EmztPKvoAIJEDmvZMXZEa764WEFaiwsGRP9r6dvIKDo8RcbJwDTVtWSHdUJsS9J98LWtq_637A'
-    // },
-  });
-}
-
 export async function getProOpt() {
   const url = `${SERVER_PATH}/dms/dataDict/getCanUseDataDictValues?dictCode=ProcedureOption`;
   return request({
@@ -46,7 +35,7 @@ export async function findEmp(data) {
   });
 }
 
-/** 保存 */
+/** 保存节点附件 */
 export async function saveUpload(data) {
   const url = `${PROJECT_PATH}${contextBaseInfoPath}/save`;
   // return request.post(url, data);
@@ -54,7 +43,20 @@ export async function saveUpload(data) {
     url,
     method: 'POST',
     // headers:{
-    //   'Authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJyYW5kb21LZXkiOiI2NTk1YTU0Ny0wMWQ1LTQ4MTctOTJjNC1mZWQwMjg1ZDJmZWEiLCJzdWIiOiLnlKjmiLfotKblj7ciLCJhdXRob3JpdHlQb2xpY3kiOiJOb3JtYWxVc2VyIiwidXNlck5hbWUiOiLlvKDmmZPmqaYiLCJleHAiOjE2NjUyMjgwMDgsInVzZXJJZCI6IkIwRkI0MzcwLTBCQkItMTFFRC1CRDQwLTAyNDJBQzE0MDAxMSIsImlhdCI6MTY2MjM0ODAwOCwidGVuYW50IjoidGVzdCIsImFjY291bnQiOiIzNzY5NTEifQ.K1x115UBPrV1EmztPKvoAIJEDmvZMXZEa764WEFaiwsGRP9r6dvIKDo8RcbJwDTVtWSHdUJsS9J98LWtq_637A'
+    //   'Authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJyYW5kb21LZXkiOiJlYzY3YTY4Yy1jMmIwLTQzMTMtYmFjNC1kOGRkY2M4N2IzZjQiLCJzdWIiOiLnlKjmiLfotKblj7ciLCJhdXRob3JpdHlQb2xpY3kiOiJOb3JtYWxVc2VyIiwidXNlck5hbWUiOiLlvKDmmZPmqaYiLCJleHAiOjE2NjU0OTk2MDksInVzZXJJZCI6IkIwRkI0MzcwLTBCQkItMTFFRC1CRDQwLTAyNDJBQzE0MDAxMSIsImlhdCI6MTY2MjYxOTYwOSwidGVuYW50IjoidGVzdCIsImFjY291bnQiOiIzNzY5NTEifQ.hTU_oDa0XGbQVaFhSmJB1J8X3_hYhdCJgJ_5FqYwxlCH7d4y2bRbLMnjFG7F2Ao6HZqkQnODSXuaN2qLtH7kdg'
+    // },
+    data
+  });
+}
+
+/** 保存附件列表 */
+export async function saveUploadList(data) {
+  const url = `${PROJECT_PATH}${contextBaseInfoPath}/saveAttachList`;
+  return request({
+    url,
+    method: 'POST',
+    // headers:{
+    //   'Authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJyYW5kb21LZXkiOiJlYzY3YTY4Yy1jMmIwLTQzMTMtYmFjNC1kOGRkY2M4N2IzZjQiLCJzdWIiOiLnlKjmiLfotKblj7ciLCJhdXRob3JpdHlQb2xpY3kiOiJOb3JtYWxVc2VyIiwidXNlck5hbWUiOiLlvKDmmZPmqaYiLCJleHAiOjE2NjU0OTk2MDksInVzZXJJZCI6IkIwRkI0MzcwLTBCQkItMTFFRC1CRDQwLTAyNDJBQzE0MDAxMSIsImlhdCI6MTY2MjYxOTYwOSwidGVuYW50IjoidGVzdCIsImFjY291bnQiOiIzNzY5NTEifQ.hTU_oDa0XGbQVaFhSmJB1J8X3_hYhdCJgJ_5FqYwxlCH7d4y2bRbLMnjFG7F2Ao6HZqkQnODSXuaN2qLtH7kdg'
     // },
     data
   });

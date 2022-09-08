@@ -310,6 +310,18 @@ class PmBaseInfo extends Component {
         dataIndex: 'isOverdue',
         width: 100,
         required: true,
+        render:
+            tag => {
+              let color = tag===true ? 'blue' : 'red';
+              let value=tag===true ? '是' : '否';
+              return (
+                <span>
+                <Tag color={color}>
+                  {value}
+                </Tag>
+                </span>
+              );
+            }
       },
       {
         title: '逾期天数',

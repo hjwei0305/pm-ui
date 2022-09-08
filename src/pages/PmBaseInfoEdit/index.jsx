@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select } from 'antd';
+import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select, message } from 'antd';
 import { ExtIcon, ExtTable, ComboList, ProLayout, Attachment } from 'suid';
 import ToDoEditModal from './ToDoEditModal';
 import { Link } from "react-router-dom";
@@ -730,15 +730,43 @@ class PmBaseInfoEdit extends Component {
 
   
   
-  handlerGetFile = () => {
-    const status = this.attachmentRef.getAttachmentStatus();
-    console.log(status);
-  };
+  handlerGetFile = (files) => {
+    const { dispatch } = this.props;
+    const docIdList = [];
+    if (this.attachmentRef) {
+      const status = this.attachmentRef.getAttachmentStatus();
+      const { fileList, ready } = status;
+      if (!ready) {
+        message.warning('附件正在上传中，请等待上传完成后操作，否则会导致附件丢失');
+        return;
+      }
+      if (fileList && fileList.length > 0) {
+        fileList.forEach(item => {
+          if (item.id && !docIdList.includes(item.id)) {
+            docIdList.push(item.id);
+          }
+        });
+      }
+      dispatch({
+        type: 'pmBaseInfoEdit/saveUploadList',
+        payload: {
+          id: this.state.dataList.id,
+          attachmentIdList: docIdList,
+        },
+      }).then(res => {
+        if(res.success === false){
+          message.warning(res.message);
+        }
+      });
+
+
+
+    };
+  }
 
   render() {
     const { pmBaseInfoEdit } = this.props;
     const { modalVisibleToDo } = pmBaseInfoEdit;
-    console.log(this.state.dataList)
 
     const attachmentProps = {
       serviceHost: `${SERVER_PATH}/edm-service`,
@@ -746,7 +774,10 @@ class PmBaseInfoEdit extends Component {
       customBatchDownloadFileName: true,
       onAttachmentRef: ref => (this.attachmentRef = ref),
       entityId: this.state.dataList.id,
-      style: {height: "620px"}
+      onDeleteFile: this.handlerGetFile,
+      allowUpload: false,
+      style: {height: "620px"},
+      
     };
 
     return (
