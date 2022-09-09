@@ -148,41 +148,41 @@ class PmBaseInfoEdit extends Component {
     disable: false,
     dataList:
       {
-        id: null,
-        code: null,
-        projectTypes: null,
-        name: null,
-        currentPeriod: null,
-        projectMaster: null,
-        attendanceMemberrCount: null,
-        submissionDate: null,
-        planningApproval: null,
-        currentDescription: null,
-        requirementDescription: null,
-        improveBenefits: null,
-        promotionDegree: null,
-        hardwareRequirement: null,
+        id: '',
+        code: '',
+        projectTypes: '',
+        name: '',
+        currentPeriod: '',
+        projectMaster: '',
+        attendanceMemberrCount: '',
+        submissionDate: '',
+        planningApproval: '',
+        currentDescription: '',
+        requirementDescription: '',
+        improveBenefits: '',
+        promotionDegree: '',
+        hardwareRequirement: '',
         leader: [],
         designer: [],
         developer: [],
         implementer: [],
         proOpt: [],
-        requireDocId: null,
-        acceptStandardDocId: null,
-        startReportDocId: null,
-        userRequireDocId: null,
-        designerDocId: null,
-        cropDocId: null,
-        testExampleDocId: null,
-        testReportDocId: null,
-        sopDocId: null,
-        questionListDocId: null,
-        checkListDocId: null,
-        caseCloseReportDocId: null,
-        satisfactionSurveyDocId: null,
-        pageCheckDocId: null,
-        acceptOrderDocId: null,
-        accpetReprotDocId: null,
+        requireDocId: '',
+        acceptStandardDocId: '',
+        startReportDocId: '',
+        userRequireDocId: '',
+        designerDocId: '',
+        cropDocId: '',
+        testExampleDocId: '',
+        testReportDocId: '',
+        sopDocId: '',
+        questionListDocId: '',
+        checkListDocId: '',
+        caseCloseReportDocId: '',
+        satisfactionSurveyDocId: '',
+        pageCheckDocId: '',
+        acceptOrderDocId: '',
+        accpetReprotDocId: '',
       }
   };
 
@@ -271,6 +271,10 @@ class PmBaseInfoEdit extends Component {
       this.dispatchAction({
         type: 'pmBaseInfoEdit/save',
         payload: dataReplace,
+      }).then(res =>{
+        if(res.success){
+          this.state.dataList.id = res.data.id
+        }
       })
     }
   };
@@ -696,6 +700,27 @@ class PmBaseInfoEdit extends Component {
               improveBenefits: data.improveBenefits,
               promotionDegree: data.promotionDegree,
               hardwareRequirement: data.hardwareRequirement,
+              leader: [],
+              designer: [],
+              developer: [],
+              implementer: [],
+              proOpt: [],
+              requireDocId: '',
+              acceptStandardDocId: '',
+              startReportDocId: '',
+              userRequireDocId: '',
+              designerDocId: '',
+              cropDocId: '',
+              testExampleDocId: '',
+              testReportDocId: '',
+              sopDocId: '',
+              questionListDocId: '',
+              checkListDocId: '',
+              caseCloseReportDocId: '',
+              satisfactionSurveyDocId: '',
+              pageCheckDocId: '',
+              acceptOrderDocId: '',
+              accpetReprotDocId: '',
             }
           },
           () => this.refresh(),
@@ -885,7 +910,7 @@ class PmBaseInfoEdit extends Component {
                             pagination={false}
                             name="name"
                             field={['name']}
-                            afterClear={() => this.state.dataList.projectTypes = null }
+                            afterClear={() => this.state.dataList.projectTypes = '' }
                             afterSelect={item => this.state.dataList.projectTypes = item.code }
                             reader={{
                               name: 'name',
