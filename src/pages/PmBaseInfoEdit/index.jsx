@@ -9,7 +9,7 @@ import styles from './index.less'
 import { constants } from '@/utils';
 import ProjectPlan from './ProjectPlan'
 import ProjectSchedule from './ProjectSchedule'
-import get from 'lodash'
+import PmLog from './PmLog';
 
 const { Option } = Select;
 const { PROJECT_PATH, SERVER_PATH } = constants;
@@ -743,7 +743,7 @@ class PmBaseInfoEdit extends Component {
             id: this.state.dataList.id
           }
         }).then(res =>{
-          if(res.success){
+          if(res.data){
             this.setState({
               ScheduleArys: JSON.parse(res.data.gfxJson)
             })
@@ -999,7 +999,7 @@ class PmBaseInfoEdit extends Component {
                     {modalVisibleToDo ? <ToDoEditModal {...this.getToDoEditModalProps()} /> : null}
                   </TabPane>
                   <TabPane tab="操作日志" key="6">
-                    Content of Tab Pane 3
+                    <PmLog></PmLog>
                   </TabPane>
                 </Tabs>
               </div>
