@@ -337,6 +337,18 @@ class ProjectPlan extends Component {
     add_obj = this.state.obj.concat({
       key: key + 1,
       schedureNo: '',
+      schedureStatus: '',
+      workType: '',
+      workTodoList: '',
+      workOnduty: [],
+      workAssist: [],
+      planStartDate: '',
+      planEndDate: '',
+      actualStartDate: '',
+      actualEndDate: '',
+      schedureDays: '',
+      remark: '',
+
     });
     this.state.obj = add_obj;
     this.forceUpdate();
@@ -347,19 +359,16 @@ class ProjectPlan extends Component {
     const save_obj = [];
     this.state.obj.forEach(
       item => {
-        if((item.schedureNo !== '' ||
-          item.projectId !== '' ||
-          item.workType !== '' ||
-          item.workTodoList !== '' )){
+        if(item.schedureNo !== ''){
+          if((item.projectId !== '' ||item.workType !== '' ||item.workTodoList !== '' )){
             var dataReplace = Object.assign({},item)
             dataReplace.projectId = id;
             dataReplace.planType = this.state.planType
-            debugger
-            dataReplace.workOnduty = item.workOnduty.join(",")
-            dataReplace.workAssist = item.workAssist.join(",")
+            dataReplace.workOnduty = item.workOnduty.length === 0 ? '' : item.workOnduty.join(",")
+            dataReplace.workAssist = item.workAssist.length === 0 ? '' :item.workAssist.join(",")
             save_obj.push(dataReplace);
           }
-
+        }
       }
     );
     this.handleSaveBatch(save_obj)
