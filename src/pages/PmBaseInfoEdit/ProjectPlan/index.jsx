@@ -16,22 +16,23 @@ class ProjectPlan extends Component {
   constructor(props) {
     super(props);
     const { dispatch,id } = props;
-    let cg = [];
     this.editData = {};
-    for (let i = 1; i <= 5; i++) {
-      cg = cg.concat({
-        id: i,
-        key: i,
-        orderCode: '',
-        goodsCode: '',
-        goodsName: '',
-        specificationModal: '',
-        unit: '',
-        number: '',
-        remark: '',
-      });
-    }
-    this.state.obj = cg;
+    // 初始化五行
+    // let cg = [];
+    // for (let i = 1; i <= 5; i++) {
+    //   cg = cg.concat({
+    //     id: i,
+    //     key: i,
+    //     orderCode: '',
+    //     goodsCode: '',
+    //     goodsName: '',
+    //     specificationModal: '',
+    //     unit: '',
+    //     number: '',
+    //     remark: '',
+    //   });
+    // }
+    // this.state.obj = cg;
 
     dispatch({
       type: 'pmBaseInfoEdit/projPlanFindByPage',

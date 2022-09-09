@@ -17,7 +17,34 @@ const { PROJECT_PATH } = constants;
 @withRouter
 @connect(({ pmBaseInfo, loading }) => ({ pmBaseInfo, loading }))
 class PmBaseInfo extends Component {
+  constructor(props) {
+    super(props);
+    const { dispatch } = props;
+    dispatch({
+      type: 'pmBaseInfo/getProjectInfo',
+      payload:{
+      }
+    }).then(res => {
+      const { data } = res
+      if(res.success){
+        this.setState({
+          notStartedNum: data.notStartedNum,
+          processingNum: data.processingNum,
+          onLineNum: data.onLineNum,
+          advanceFinishNum: data.advanceFinishNum,
+          overTimeNum: data.overTimeNum,
+        })
+      }
+    })
+  
+  }
+
   state = {
+    notStartedNum: 0,
+    processingNum: 0,
+    onLineNum: 0,
+    advanceFinishNum: 0,
+    overTimeNum: 0,
     delId: null,
     fliterCondition: null,
     nameFilter: null,
@@ -488,6 +515,27 @@ class PmBaseInfo extends Component {
                 improveBenefits: '',
                 promotionDegree: '',
                 hardwareRequirement: '',
+                leader: [] ,
+                designer: [],
+                developer: [],
+                implementer: [],
+                proOpt: [],
+                requireDocId: '',
+                acceptStandardDocId: '',
+                startReportDocId: '',
+                userRequireDocId: '',
+                designerDocId: '',
+                cropDocId: '',
+                testExampleDocId: '',
+                testReportDocId: '',
+                sopDocId: '',
+                questionListDocId: '',
+                checkListDocId: '',
+                caseCloseReportDocId: '',
+                satisfactionSurveyDocId: '',
+                pageCheckDocId: '',
+                acceptOrderDocId: '',
+                accpetReprotDocId: '',
               }
             }}>
               新建
@@ -541,7 +589,7 @@ class PmBaseInfo extends Component {
                     <div className="item-img">
                       <img src={logo1} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
-                        <div className="item-text1">10</div>
+                        <div className="item-text1">{this.state.notStartedNum}</div>
                         <div className="item-text2">未开始项目</div>
                       </div>
                     </div>
@@ -552,7 +600,7 @@ class PmBaseInfo extends Component {
                     <div className="item-img">
                       <img src={logo2} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
-                        <div className="item-text1">10</div>
+                        <div className="item-text1">{this.state.processingNum}</div>
                         <div className="item-text2">进行中项目</div>
                       </div>
                     </div>
@@ -563,7 +611,7 @@ class PmBaseInfo extends Component {
                     <div className="item-img">
                       <img src={logo3} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
-                        <div className="item-text1">10</div>
+                        <div className="item-text1">{this.state.onLineNum}</div>
                         <div className="item-text2">本年度已上线项目</div>
                       </div>
                     </div>
@@ -574,7 +622,7 @@ class PmBaseInfo extends Component {
                     <div className="item-img">
                       <img src={logo4} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
-                        <div className="item-text1">10</div>
+                        <div className="item-text1">{this.state.advanceFinishNum}</div>
                         <div className="item-text2">本年度提前完成项目</div>
                       </div>
                     </div>
@@ -585,7 +633,7 @@ class PmBaseInfo extends Component {
                     <div className="item-img">
                       <img src={logo5} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
-                        <div className="item-text1">10</div>
+                        <div className="item-text1">{this.state.overTimeNum}</div>
                         <div className="item-text2">本年度逾期项目（含未完成）</div>
                       </div>
                     </div>

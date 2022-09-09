@@ -12,7 +12,7 @@ const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
 
 export default modelExtend(model, {
-  namespace: 'pmBaseInfo',
+  namespace: 'home',
 
   state: {
     editData: null,

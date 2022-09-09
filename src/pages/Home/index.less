@@ -1,91 +1,284 @@
 @import '../../themes/vars.less';
 
-.container{
+.container {
     background-color: #F4F8FC;
-    :global{
-    .row-content{
-        :global{
-        .col-content{
-            padding: 16px 8px;
-            width: 20%;
-            float: left;
-            :global{
-                .item-text1 {
-                    font-size: 22px; 
-                    line-height: 36px;
-                    font-weight: 700;
-                }
-                .item-text2 {
-                    font-size: 14px; 
-                    line-height: 24px;
-                    font-weight: 400;
+
+    :global {
+        .row-content {
+            :global {
+                .col-content {
+                    padding: 16px 8px;
+                    width: 20%;
+                    float: left;
+
+                    :global {
+                        .item-text1 {
+                            font-size: 22px;
+                            line-height: 36px;
+                            font-weight: 700;
+                        }
+
+                        .item-text2 {
+                            font-size: 14px;
+                            line-height: 24px;
+                            font-weight: 400;
+                        }
+                    }
+
+                    .item {
+                        height: 120px;
+                        border-radius: 4px;
+                    }
+
+                    .item-img {
+                        padding: 20px;
+                        display: flex;
+                        float: left;
+                    }
+
+                    .item-color1 {
+                        background: #E8E3FC;
+                    }
+
+                    .item-color2 {
+                        background: #E0ECFC;
+                    }
+
+                    .item-color3 {
+                        background: #E3F3ED;
+                    }
+
+                    .item-color4 {
+                        background: #FFF2EC;
+                    }
+
+                    .item-color5 {
+                        background: #FFF8E5;
+                    }
                 }
             }
-            .item{
-                height: 120px;
-                border-radius: 4px;
-            }
-            .item-img{
-                padding: 20px;
-                display: flex;
+
+            .col-content2 {
+                padding: 16px 8px;
+                width: 33%;
                 float: left;
+
+                :global {
+
+                    .item-text1 {
+                        font-size: 22px;
+                        line-height: 36px;
+                        font-weight: 700;
+                    }
+
+                    .item-text2 {
+                        font-size: 14px;
+                        line-height: 24px;
+                        font-weight: 400;
+                    }
+                }
+
+                .item {
+                    height: 120px;
+                    border-radius: 4px;
+                }
+
+                .item-img {
+                    padding: 20px;
+                    display: flex;
+                    float: left;
+                }
+
+                .item-color1 {
+                    background: #E8E3FC;
+                }
+
+                .item-color2 {
+                    background: #E0ECFC;
+                }
+
+                .item-color3 {
+                    background: #E3F3ED;
+                }
+
+                .item-color4 {
+                    background: #FFF2EC;
+                }
+
+                .item-color5 {
+                    background: #FFF8E5;
+                }
             }
-            .item-color1{
-                background: #E8E3FC;
-            }
-            .item-color2{
-                background: #E0ECFC;
-            }
-            .item-color3{
-                background: #E3F3ED;
-            }
-            .item-color4{
-                background: #FFF2EC;
-            }
-            .item-color5{
-                background: #FFF8E5;
-            }
-        }}
-        .col-content2{
+        }
+
+        .col-content3 {
             padding: 16px 8px;
             width: 33%;
             float: left;
-            :global{
+
+            :global {
+                .site-calendar-demo-card {
+                    width: 300px;
+                    border: 1px solid #f0f0f0;
+                    border-radius: 2px;
+                }
+
                 .item-text1 {
-                    font-size: 22px; 
+                    font-size: 22px;
                     line-height: 36px;
                     font-weight: 700;
                 }
+
                 .item-text2 {
-                    font-size: 14px; 
+                    font-size: 14px;
                     line-height: 24px;
                     font-weight: 400;
                 }
             }
-            .item{
+
+            .item {
                 height: 120px;
                 border-radius: 4px;
             }
-            .item-img{
+
+            .item-img {
                 padding: 20px;
                 display: flex;
                 float: left;
             }
-            .item-color1{
+
+            .item-color1 {
                 background: #E8E3FC;
             }
-            .item-color2{
+
+            .item-color2 {
                 background: #E0ECFC;
             }
-            .item-color3{
+
+            .item-color3 {
                 background: #E3F3ED;
             }
-            .item-color4{
+
+            .item-color4 {
                 background: #FFF2EC;
             }
-            .item-color5{
+
+            .item-color5 {
                 background: #FFF8E5;
             }
-        }}
+        }
+
+        .col-content4,
+        .col-content5,
+        .col-content6 {
+            padding: 16px 8px;
+            width: 33%;
+            float: left;
+        }
+
+        .col-content5,.col-content6 {
+            width: 100%;
+
+            .item {
+                display: flex;
+                justify-content: space-between;
+                .item-title {
+
+                    padding-left: 4px;
+                }
+
+                .item-title::before {
+                    position: absolute;
+                    display: block;
+                    content: '';
+                    width: 10px;
+                    height: 10px;
+                    transform: translate(-6px, 6px);
+                    border-radius: 50%;
+                    background-color: #f01414;
+                }
+
+                .item-time {
+                    // width: 100px;
+                    float: right;
+                }
+            }
+        }
+
+        .progress {
+            font-weight: 700;
+            font-size: 20px;
+            width: 140px;
+            height: 30px;
+        }
+
+        .project {
+            width: 188px;
+            height: 30px;
+            /* 鸿蒙/Bold/20pt */
+
+            font-family: 'HarmonyOS Sans SC';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .project span {
+            color: #FF4F4F;
+        }
+
+        .table {
+            display: flex;
+            width: 468px;
+            height: 100%;
+            border: 1px solid rgba(0, 0, 0, .1);
+        }
+
+        .table2 {
+            display: flex;
+            width: 616px;
+            height: 100%;
+            border: 1px solid rgba(0, 0, 0, .1);
+        }
+
+        .table2 .column:first-of-type span {
+            display: block;
+            width: 56px;
+            height: 47px;
+            line-height: 47px;
+            text-align: center;
+        }
+
+        .table .column:first-of-type span {
+            margin-left: 16px;
+        }
+
+        .header {
+            background: #F2F6FC;
+        }
+
+        .column div {
+            height: 47px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            border-top: solid 1px rgba(0, 0, 0, .1);
+        }
+
+        .column div:first-of-type {
+            border: none;
+        }
+
+        .first {
+            width: 258px;
+        }
+
+        .second {
+            width: 100px;
+        }
+
+        .third {
+            width: 110px;
+        }
     }
 }
