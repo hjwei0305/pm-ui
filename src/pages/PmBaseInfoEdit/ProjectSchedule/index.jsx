@@ -176,6 +176,8 @@ class ProjectSchedule extends Component {
       },
     });
     this.updateNode()
+    console.log(this.state)
+    this.forceUpdate();
   };
 
   dispatchAction = ({ type, payload }) => {
@@ -195,7 +197,7 @@ class ProjectSchedule extends Component {
   }
 
   updateNode = () => {
-      const { dispatch, id,ScheduleArys } = this.props;
+      const { dispatch, id } = this.props;
       dispatch({
         type: 'pmBaseInfoEdit/findByIdForSchedule',
         payload: {
