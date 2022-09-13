@@ -24,13 +24,15 @@ class ProjectSchedule extends Component {
   // };
 
   checkStage = target => { // 阶段验证
-    const { ScheduleArys } = this.props
-    if(ScheduleArys.length != 0 && this.state.ScheduleArys != ScheduleArys){
-      this.setState({
-        ScheduleArys: ScheduleArys
-      })
-    }
-    var scheduleKeys = Object.keys(this.state.ScheduleArys);
+    const { pmBaseInfoEdit } = this.props;
+    const { ScheduleArys } = pmBaseInfoEdit;
+    // const { ScheduleArys } = this.props
+    // if(ScheduleArys.length != 0 && this.state.ScheduleArys != ScheduleArys){
+    //   this.setState({
+    //     ScheduleArys: ScheduleArys
+    //   })
+    // }
+    var scheduleKeys = Object.keys(ScheduleArys);
     if (scheduleKeys) {
       var scheduleKeysLen = scheduleKeys.length;
       target = parseFloat(target);
@@ -39,7 +41,7 @@ class ProjectSchedule extends Component {
       for (var y = 0; y < scheduleKeysLen; y++) {
         if (scheduleKeys[y].substring(0, 1) == target) {
           bNum++;
-          if (this.state.ScheduleArys[scheduleKeys[y]] == 1) {
+          if (ScheduleArys[scheduleKeys[y]] == 1) {
             tNum++;
           }
         }
@@ -82,12 +84,14 @@ class ProjectSchedule extends Component {
   };
 
   checkSchedule = target => { // 流程验证
-    var scheduleKeys = Object.keys(this.state.ScheduleArys);
+    const { pmBaseInfoEdit } = this.props;
+    const { ScheduleArys } = pmBaseInfoEdit;
+    var scheduleKeys = Object.keys(ScheduleArys);
     if (scheduleKeys) {
       var scheduleKeysLen = scheduleKeys.length;
       for (var i = 0; i < scheduleKeysLen; i++) {
         if (scheduleKeys[i] == target) {
-          return this.state.ScheduleArys[target];
+          return ScheduleArys[target];
         }
       }
       return -1;
@@ -176,8 +180,6 @@ class ProjectSchedule extends Component {
       },
     });
     this.updateNode()
-    console.log(this.state)
-    this.forceUpdate();
   };
 
   dispatchAction = ({ type, payload }) => {
@@ -204,10 +206,17 @@ class ProjectSchedule extends Component {
           id: id
         }
       }).then(res =>{
-        if(res.data){
-          this.setState({
-            ScheduleArys: JSON.parse(res.data.gfxJson)
-          })
+        if(res.success){
+          this.dispatchAction({
+            type: 'pmBaseInfoEdit/updateState',
+            payload: {
+              ScheduleArys: JSON.parse(res.data.gfxJson)
+            },
+          });
+          // this.setState({
+          //   ScheduleArys: []
+          //   // ScheduleArys: JSON.parse(res.data.gfxJson)
+          // })
         }
       })
   }

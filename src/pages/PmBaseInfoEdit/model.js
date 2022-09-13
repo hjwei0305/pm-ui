@@ -23,6 +23,7 @@ export default modelExtend(model, {
     fileType: null,
     fileList: null,
     attId: null,
+    ScheduleArys: [],
   },
   effects: {
     *save({ payload }, { call }) {

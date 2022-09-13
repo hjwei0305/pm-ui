@@ -744,9 +744,15 @@ class PmBaseInfoEdit extends Component {
           }
         }).then(res =>{
           if(res.data){
-            this.setState({
-              ScheduleArys: JSON.parse(res.data.gfxJson)
-            })
+            this.dispatchAction({
+              type: 'pmBaseInfoEdit/updateState',
+              payload: {
+                ScheduleArys: JSON.parse(res.data.gfxJson)
+              },
+            });
+            // this.setState({
+            //   ScheduleArys: JSON.parse(res.data.gfxJson)
+            // })
           }
         })
       }
