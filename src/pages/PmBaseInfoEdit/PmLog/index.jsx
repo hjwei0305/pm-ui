@@ -99,6 +99,22 @@ class PmLog extends Component {
     });
   };
 
+    /**
+   *
+   * @returns 项目待办过滤
+   */
+     getTableFilters = () =>{
+      const filters = [];
+      filters.push({
+        fieldName: 'projectId',
+        operator: 'EQ',
+        fieldType: 'string',
+        value: this.props.id,
+      });
+      
+      return filters;
+    }
+
   renderDelBtn = row => {
     const { loading } = this.props;
     const { delId } = this.state;
@@ -225,12 +241,16 @@ class PmLog extends Component {
         </Filter>
       ),
     };
+    const filters = this.getTableFilters();
     return {
       columns,
       bordered: false,
       toolBar: toolBarProps,
       cascadeParams: filterConditon,
       remotePaging: true,
+      cascadeParams: {
+        filters,
+      },
       store: {
         type: 'POST',
         url: `${PROJECT_PATH}/pmLog/findByPage`,
@@ -257,7 +277,7 @@ class PmLog extends Component {
 
     return (
       <>
-        <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
+        <ExtTable style={{height:"600px"}} onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
         {/* {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null} */}
       </>
     );

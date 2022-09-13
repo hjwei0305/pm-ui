@@ -1002,7 +1002,7 @@ class PmBaseInfoEdit extends Component {
                     {modalVisibleToDo ? <ToDoEditModal {...this.getToDoEditModalProps()} /> : null}
                   </TabPane>
                   <TabPane tab="操作日志" key="6">
-                    <PmLog></PmLog>
+                    <PmLog id={this.state.dataList.id}></PmLog>
                   </TabPane>
                 </Tabs>
               </div>
