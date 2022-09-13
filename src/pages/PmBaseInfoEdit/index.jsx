@@ -750,9 +750,6 @@ class PmBaseInfoEdit extends Component {
                 ScheduleArys: JSON.parse(res.data.gfxJson)
               },
             });
-            // this.setState({
-            //   ScheduleArys: JSON.parse(res.data.gfxJson)
-            // })
           }
         })
       }
@@ -992,7 +989,7 @@ class PmBaseInfoEdit extends Component {
                     </Form>
                   </TabPane>
                   <TabPane tab="进度跟进" key="2">
-                    <ProjectSchedule id={this.state.dataList.id} ScheduleArys={this.state.ScheduleArys} editData={this.state.dataList}></ProjectSchedule>
+                    <ProjectSchedule id={this.state.dataList.id} editData={this.state.dataList}></ProjectSchedule>
                   </TabPane>
                   <TabPane tab="附件信息" key="3">
                     <Attachment {...attachmentProps} />

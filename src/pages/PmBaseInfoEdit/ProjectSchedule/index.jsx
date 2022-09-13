@@ -207,10 +207,6 @@ class ProjectSchedule extends Component {
               ScheduleArys: JSON.parse(res.data.gfxJson)
             },
           });
-          // this.setState({
-          //   ScheduleArys: []
-          //   // ScheduleArys: JSON.parse(res.data.gfxJson)
-          // })
         }
       })
   }
