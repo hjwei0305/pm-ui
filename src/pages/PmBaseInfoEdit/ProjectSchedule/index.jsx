@@ -10,6 +10,9 @@ import EditModal from './EditModal'
 @withRouter
 @connect(({ pmBaseInfoEdit, loading }) => ({ pmBaseInfoEdit, loading }))
 class ProjectSchedule extends Component {
+  state = {
+    ScheduleArys: []
+  }
   // ScheduleArys = {
   //   2.1: "0",
   //   '2.2': 1,
@@ -21,7 +24,13 @@ class ProjectSchedule extends Component {
   // };
 
   checkStage = target => { // 阶段验证
-    var scheduleKeys = Object.keys(this.props.ScheduleArys);
+    const { ScheduleArys } = this.props
+    if(ScheduleArys.length != 0 && this.state.ScheduleArys != ScheduleArys){
+      this.setState({
+        ScheduleArys: ScheduleArys
+      })
+    }
+    var scheduleKeys = Object.keys(this.state.ScheduleArys);
     if (scheduleKeys) {
       var scheduleKeysLen = scheduleKeys.length;
       target = parseFloat(target);
@@ -30,7 +39,7 @@ class ProjectSchedule extends Component {
       for (var y = 0; y < scheduleKeysLen; y++) {
         if (scheduleKeys[y].substring(0, 1) == target) {
           bNum++;
-          if (this.props.ScheduleArys[scheduleKeys[y]] == 1) {
+          if (this.state.ScheduleArys[scheduleKeys[y]] == 1) {
             tNum++;
           }
         }
@@ -73,12 +82,12 @@ class ProjectSchedule extends Component {
   };
 
   checkSchedule = target => { // 流程验证
-    var scheduleKeys = Object.keys(this.props.ScheduleArys);
+    var scheduleKeys = Object.keys(this.state.ScheduleArys);
     if (scheduleKeys) {
       var scheduleKeysLen = scheduleKeys.length;
       for (var i = 0; i < scheduleKeysLen; i++) {
         if (scheduleKeys[i] == target) {
-          return this.props.ScheduleArys[target];
+          return this.state.ScheduleArys[target];
         }
       }
       return -1;
@@ -166,6 +175,7 @@ class ProjectSchedule extends Component {
         attId: null,
       },
     });
+    this.updateNode()
   };
 
   dispatchAction = ({ type, payload }) => {
@@ -184,8 +194,24 @@ class ProjectSchedule extends Component {
     });
   }
 
+  updateNode = () => {
+      const { dispatch, id,ScheduleArys } = this.props;
+      dispatch({
+        type: 'pmBaseInfoEdit/findByIdForSchedule',
+        payload: {
+          id: id
+        }
+      }).then(res =>{
+        if(res.data){
+          this.setState({
+            ScheduleArys: JSON.parse(res.data.gfxJson)
+          })
+        }
+      })
+  }
+
   render() {
-    const { pmBaseInfoEdit,editData } = this.props;
+    const { pmBaseInfoEdit, editData } = this.props;
     const { modalVisibleSche } = pmBaseInfoEdit;
     return (
       <>

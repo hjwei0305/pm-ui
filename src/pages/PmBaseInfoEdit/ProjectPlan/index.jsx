@@ -374,6 +374,17 @@ class ProjectPlan extends Component {
     this.handleSaveBatch(save_obj)
   };
 
+  changeInput = (e,r,c) => {
+    const row = r;
+    const obj_copy = this.state.obj
+    row[c.dataIndex] = e.target.value
+    this.editData[r.key] = row;
+    obj_copy[r.key] = row
+    this.setState({
+      obj: obj_copy
+    })
+  }
+
   getExtableProps = () => {
     const toolBarProps = {
       left: (
@@ -416,7 +427,8 @@ class ProjectPlan extends Component {
                       onBlur={e => {
                         this.handleCellSave(e, r, c);
                       }}
-                      defaultValue={(editRow && editRow[c.dataIndex]) || r[c.dataIndex]}
+                      value={(editRow && editRow[c.dataIndex]) || r[c.dataIndex]}
+                      onChange={e =>{this.changeInput(e,r,c)}}
                     />
                   );
                   break;
@@ -519,6 +531,10 @@ class ProjectPlan extends Component {
       row[c.dataIndex] = e.name;
     }else if(c.elem === 'DATE_PICK'){
       row[c.dataIndex] = e;
+      if((c.dataIndex === "actualEndDate" || c.dataIndex === "actualStartDate") && (row.actualEndDate != '' && row.actualStartDate != '' )){
+        const days = (Date.parse(row.actualEndDate) - Date.parse(row.actualStartDate)) / 3600 / 1000 /24 + 1;
+        row.schedureDays = days;
+      }
     }else if(c.elem === 'EMPSELECT'){
       row[c.dataIndex] = e;
     }else{

@@ -35,7 +35,7 @@ class FormModal extends PureComponent {
 
 
   handleSave = () => {
-    const { form, editData } = this.props;
+    const { form, editData, onClose } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
         return;
@@ -44,6 +44,7 @@ class FormModal extends PureComponent {
       Object.assign(params, editData, formData);
       this.SaveUpload(params);
     });
+    onClose()
   };
 
   SaveUpload = () => {
