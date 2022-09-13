@@ -35,7 +35,7 @@ class FormModal extends PureComponent {
 
 
   handleSave = () => {
-    const { form, editData, onClose } = this.props;
+    const { form, editData } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
         return;
@@ -44,11 +44,10 @@ class FormModal extends PureComponent {
       Object.assign(params, editData, formData);
       this.SaveUpload(params);
     });
-    onClose()
   };
 
   SaveUpload = () => {
-    const { dispatch,editData, fileType } = this.props;
+    const { dispatch,editData, fileType, onClose } = this.props;
     const dataReplace = Object.assign({},editData)
     // const { isValid,data } = this.requestHeadRef.getHeaderData();
     // if (isValid) {
@@ -156,7 +155,9 @@ class FormModal extends PureComponent {
           ...dataReplace,
         },
       }).then(res => {
-        if(res.success === false){
+        if(res.success){
+          onClose()
+        }else{
           message.warning(res.message);
         }
       });

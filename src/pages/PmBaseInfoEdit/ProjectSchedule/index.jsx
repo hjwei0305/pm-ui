@@ -26,12 +26,6 @@ class ProjectSchedule extends Component {
   checkStage = target => { // 阶段验证
     const { pmBaseInfoEdit } = this.props;
     const { ScheduleArys } = pmBaseInfoEdit;
-    // const { ScheduleArys } = this.props
-    // if(ScheduleArys.length != 0 && this.state.ScheduleArys != ScheduleArys){
-    //   this.setState({
-    //     ScheduleArys: ScheduleArys
-    //   })
-    // }
     var scheduleKeys = Object.keys(ScheduleArys);
     if (scheduleKeys) {
       var scheduleKeysLen = scheduleKeys.length;
