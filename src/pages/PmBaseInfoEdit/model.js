@@ -184,7 +184,7 @@ export default modelExtend(model, {
       const { success, message: msg } = result || {};
       message.destroy();
       if (success) {
-        message.success(msg);
+        //message.success(msg);
       } else {
         message.error(msg);
       }
@@ -198,7 +198,7 @@ export default modelExtend(model, {
       const { success, message: msg } = result || {};
       message.destroy();
       if (success) {
-        message.success(msg);
+      //  message.success(msg);
       } else {
         message.error(msg);
       }
