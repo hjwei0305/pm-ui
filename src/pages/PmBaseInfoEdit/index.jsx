@@ -592,12 +592,12 @@ class PmBaseInfoEdit extends Component {
             dataSource={this.state.isFinishedData}
             allowClear
             name="name"
-            field={['name']}
+            field={['code']}
             afterClear={() => this.setState({ isFinishedFilter: null })}
             afterSelect={item => this.setState({ isFinishedFilter: item.code })}
             reader={{
               name: 'name',
-              field: ['name'],
+              field: ['code'],
             }}
           />
           责任人：{' '}
