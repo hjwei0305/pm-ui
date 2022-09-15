@@ -38,6 +38,16 @@ class PmBaseInfoEdit extends Component {
             code: 2,
           },
         ],
+        isFinishedData: [
+          {
+            name: '已结案',
+            code: 1,
+          },
+          {
+            name: '未结案',
+            code: 0,
+          },
+        ],
         ScheduleArys: [],
         employee: [],
         proOptList: [],
