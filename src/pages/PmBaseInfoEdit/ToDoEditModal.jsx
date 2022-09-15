@@ -21,6 +21,9 @@ class FormModal extends PureComponent {
       if (err) {
         return;
       }
+      if(editToDoData == null){
+        formData.type = '待办'
+      }
       const params = {};
       Object.assign(params, editToDoData, formData);
       if (onSave) {

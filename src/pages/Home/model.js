@@ -6,7 +6,7 @@
  */
 import { message } from 'antd';
 import { utils } from 'suid';
-import { del, save, getProjectInfo } from './service';
+import { del, save, getProjectInfo, saveToDoList } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -17,7 +17,6 @@ export default modelExtend(model, {
   state: {
     editData: null,
     modalVisible: false,
-    newProjCode: null,
   },
   effects: {
     *save({ payload }, { call }) {
@@ -48,6 +47,19 @@ export default modelExtend(model, {
     },
     *getProjectInfo({ payload }, { call }) {
       const result = yield call(getProjectInfo, payload);
+      const { success, message: msg } = result || {};
+
+      message.destroy();
+      if (success) {
+        // message.success(msg);
+      } else {
+        message.error(msg);
+      }
+
+      return result;
+    },
+    *saveToDoList({ payload }, { call }) {
+      const result = yield call(saveToDoList, payload);
       const { success, message: msg } = result || {};
 
       message.destroy();

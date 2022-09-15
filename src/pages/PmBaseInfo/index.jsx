@@ -362,107 +362,107 @@ class PmBaseInfo extends Component {
         width: 100,
         required: true,
       },
-      {
-        title: '需求评审',
-        dataIndex: 'requireReview',
-        width: 100,
-        render:
-            tag => {
-              let color = tag===true ? 'blue' : 'red';
-              let value=tag===true ? '通过' : '不通过';
-              return (
-                <span>
-                <Tag color={color}>
-                  {value}
-                </Tag>
-                </span>
-              );
-            }
-      },
-      {
-        title: 'UI评审',
-        dataIndex: 'uiReview',
-        width: 100,
-        render:
-        tag => {
-          let color = tag===true ? 'blue' : 'red';
-          let value=tag===true ? '通过' : '不通过';
-          return (
-            <span>
-            <Tag color={color}>
-              {value}
-            </Tag>
-            </span>
-          );
-        }
-      },
-      {
-        title: '前端评审',
-        dataIndex: 'webReview',
-        width: 100,
-        render:
-        tag => {
-          let color = tag===true ? 'blue' : 'red';
-          let value=tag===true ? '通过' : '不通过';
-          return (
-            <span>
-            <Tag color={color}>
-              {value}
-            </Tag>
-            </span>
-          );
-        }
-      },
-      {
-        title: '后端评审',
-        dataIndex: 'codeReview',
-        width: 100,
-        render:
-        tag => {
-          let color = tag===true ? 'blue' : 'red';
-          let value=tag===true ? '通过' : '不通过';
-          return (
-            <span>
-            <Tag color={color}>
-              {value}
-            </Tag>
-            </span>
-          );
-        }
-      },
-       {
-        title: '测试结果',
-        dataIndex: 'test',
-        width: 100,
-        render:
-        tag => {
-          let color = tag===true ? 'blue' : 'red';
-          let value=tag===true ? '通过' : '不通过';
-          return (
-            <span>
-            <Tag color={color}>
-              {value}
-            </Tag>
-            </span>
-          );
-        }
-      },{
-        title: '项目验收',
-        dataIndex: 'status',
-        width: 100,
-        render:
-        tag => {
-          let color = tag==='1' ? 'blue' : 'red';
-          let value=tag==='1' ? '通过' : '不通过';
-          return (
-            <span>
-            <Tag color={color}>
-              {value}
-            </Tag>
-            </span>
-          );
-        }
-      },
+      // {
+      //   title: '需求评审',
+      //   dataIndex: 'requireReview',
+      //   width: 100,
+      //   render:
+      //       tag => {
+      //         let color = tag===true ? 'blue' : 'red';
+      //         let value=tag===true ? '通过' : '不通过';
+      //         return (
+      //           <span>
+      //           <Tag color={color}>
+      //             {value}
+      //           </Tag>
+      //           </span>
+      //         );
+      //       }
+      // },
+      // {
+      //   title: 'UI评审',
+      //   dataIndex: 'uiReview',
+      //   width: 100,
+      //   render:
+      //   tag => {
+      //     let color = tag===true ? 'blue' : 'red';
+      //     let value=tag===true ? '通过' : '不通过';
+      //     return (
+      //       <span>
+      //       <Tag color={color}>
+      //         {value}
+      //       </Tag>
+      //       </span>
+      //     );
+      //   }
+      // },
+      // {
+      //   title: '前端评审',
+      //   dataIndex: 'webReview',
+      //   width: 100,
+      //   render:
+      //   tag => {
+      //     let color = tag===true ? 'blue' : 'red';
+      //     let value=tag===true ? '通过' : '不通过';
+      //     return (
+      //       <span>
+      //       <Tag color={color}>
+      //         {value}
+      //       </Tag>
+      //       </span>
+      //     );
+      //   }
+      // },
+      // {
+      //   title: '后端评审',
+      //   dataIndex: 'codeReview',
+      //   width: 100,
+      //   render:
+      //   tag => {
+      //     let color = tag===true ? 'blue' : 'red';
+      //     let value=tag===true ? '通过' : '不通过';
+      //     return (
+      //       <span>
+      //       <Tag color={color}>
+      //         {value}
+      //       </Tag>
+      //       </span>
+      //     );
+      //   }
+      // },
+      //  {
+      //   title: '测试结果',
+      //   dataIndex: 'test',
+      //   width: 100,
+      //   render:
+      //   tag => {
+      //     let color = tag===true ? 'blue' : 'red';
+      //     let value=tag===true ? '通过' : '不通过';
+      //     return (
+      //       <span>
+      //       <Tag color={color}>
+      //         {value}
+      //       </Tag>
+      //       </span>
+      //     );
+      //   }
+      // },{
+      //   title: '项目验收',
+      //   dataIndex: 'status',
+      //   width: 100,
+      //   render:
+      //   tag => {
+      //     let color = tag==='1' ? 'blue' : 'red';
+      //     let value=tag==='1' ? '通过' : '不通过';
+      //     return (
+      //       <span>
+      //       <Tag color={color}>
+      //         {value}
+      //       </Tag>
+      //       </span>
+      //     );
+      //   }
+      // },
     ];
     const toolBarProps = {
       layout: { leftSpan: 22, rightSpan: 2 },

@@ -15,6 +15,7 @@ const { request } = utils;
 // const contextPath = '/simple-master';
 
 const contextPath = '/pmBaseinfo';
+const toDoContextPath = '/todoList';
 
 /** 保存 */
 export async function save(data) {
@@ -32,5 +33,12 @@ export async function del(params) {
 /** 获取各阶段项目数量 */
 export async function getProjectInfo(data) {
   const url = `${PROJECT_PATH}${contextPath}/getProjectInfo`;
+  return request.post(url, data);
+}
+
+/** 保存待办修改 */
+export async function saveToDoList(data) {
+  console.log(data)
+  const url = `${PROJECT_PATH}${toDoContextPath}/save`;
   return request.post(url, data);
 }
