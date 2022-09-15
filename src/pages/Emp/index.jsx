@@ -514,9 +514,9 @@ class Emp extends Component {
             <Tabs defaultActiveKey="1"
              onChange={this.callback}
              >
-              <TabPane tab="人员" key="1">
+              {/* <TabPane tab="人员" key="1">
                   <ExtTable style={{height:"600px"}} onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
-              </TabPane>
+              </TabPane> */}
               <TabPane tab="组织" key="2">
                 <ExtTable style={{height:"600px"}} onTableRef={inst => (this.tableRef = inst)} {...this.getOrgExtableProps()} />
                 {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null}

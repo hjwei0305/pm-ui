@@ -599,7 +599,7 @@ class PmBaseInfoEdit extends Component {
               name: 'name',
               field: ['code'],
             }}
-          />
+          ></ComboList>
           责任人：{' '}
           <Input style={{ width: "150px", marginRight: "5px" }} onChange={(event) => this.setState({ ondutyNameFilter: event.target.value })} allowClear></Input>
           <Button
