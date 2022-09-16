@@ -876,7 +876,7 @@ class PmBaseInfoEdit extends Component {
                   </Link>
                 </div>
                 <div className={styles['basicInfo']}>
-                  test
+                  {this.state.dataList.name}
                 </div>
                 <div className={styles['procedure']}>
                   <div className="procedureTitle">流程配置</div>

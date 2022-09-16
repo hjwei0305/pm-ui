@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, InputNumber, Input, DatePicker, Radio, Form, Select  } from 'antd';
-import { ExtTable, ExtIcon, Space, ComboList,ProLayout } from 'suid';
+import { Button, InputNumber, Input, DatePicker, Radio, Form, Select, message  } from 'antd';
+import { ExtTable, ExtIcon, Space, ComboList,ProLayout, DataImport } from 'suid';
 import moment from 'moment';
 
 const { Header ,Content } = ProLayout;
@@ -357,6 +357,7 @@ class ProjectPlan extends Component {
   save = () => {
     const { id } = this.props;
     const save_obj = [];
+    let flag = true
     this.state.obj.forEach(
       item => {
         if(item.schedureNo !== ''){
@@ -368,10 +369,17 @@ class ProjectPlan extends Component {
             dataReplace.workAssist = item.workAssist.length === 0 ? '' :item.workAssist.join(",")
             save_obj.push(dataReplace);
           }
+        }else{
+          flag = false
         }
       }
     );
-    this.handleSaveBatch(save_obj)
+    if(flag){
+      this.handleSaveBatch(save_obj)
+    }else{
+      message.error('序号不能为空！！!')
+    }
+
   };
 
   changeInput = (e,r,c) => {
@@ -385,7 +393,97 @@ class ProjectPlan extends Component {
     })
   }
 
+ validateItem = (data) => {
+    return data.map(d => {
+      if ( d.schedureNo === undefined || d.schedureNo.trim() === '' ) {
+        return {
+          ...d,
+          validate: false,
+          status: '验证未通过',
+          statusCode: 'failed',
+          message: '序号不能为空',
+        };
+      }
+      return {
+        ...d,
+        validate: true,
+        status: '验证通过',
+        statusCode: 'success',
+        message: '验证通过',
+      };
+    });
+  }
+
+  importExcel = (data) => {
+    for(let item of data){
+      item.planType = this.state.planType
+      item.projectId = this.props.id
+      item.planEndDate -= 25569
+      item.planStartDate -= 25569
+      item.actualStartDate -= 25569
+      item.actualEndDate -= 25569
+    }
+    this.dispatchAction({
+      type: 'pmBaseInfoEdit/uploadMasterPlan',
+      payload: data,
+    }).then(res =>{
+      if(res.success){
+        this.refresh()
+      }
+    })
+  }
+
   getExtableProps = () => {
+    const excelColumns = [
+      {
+        dataIndex: 'schedureNo',
+        title: '序号',
+      },
+      {
+        dataIndex: 'schedureStatus',
+        title: '状态',
+      },
+      {
+        dataIndex: 'workType',
+        title: '任务类型',
+      },
+      {
+        dataIndex: 'workTodoList',
+        title: '任务列表',
+      },
+      {
+        dataIndex: 'workOnduty',
+        title: '负责人',
+      },
+      {
+        dataIndex: 'workAssist',
+        title: '协助人',
+      },
+      {
+        dataIndex: 'planStartDate',
+        title: '计划开始日期',
+      },
+      {
+        dataIndex: 'planEndDate',
+        title: '计划结束日期',
+      },
+      {
+        dataIndex: 'actualStartDate',
+        title: '实际开始日期',
+      },
+      {
+        dataIndex: 'actualEndDate',
+        title: '实际结束日期',
+      },
+      {
+        dataIndex: 'schedureDays',
+        title: '天数',
+      },
+      {
+        dataIndex: 'remark',
+        title: '备注',
+      },
+    ];
     const toolBarProps = {
       left: (
         <Space>
@@ -408,6 +506,19 @@ class ProjectPlan extends Component {
               保存
             </Button>
           <Button onClick={this.refresh}>刷新</Button>
+          <DataImport
+            tableProps={{ excelColumns, showSearch: false }}
+            validateFunc={this.validateItem}
+            validateAll={true}
+            importFunc={this.importExcel}
+            templateFileList={[
+              {
+                download: '/templates/项目计划导入模板.xlsx',
+                fileName: '项目计划导入模板.xlsx',
+                key: 'projectPlan',
+              },
+            ]}
+          />,
         </Space>
       ),
     };
@@ -479,10 +590,10 @@ class ProjectPlan extends Component {
                   break;
                   case 'EMPSELECT':
                     dom.a = (
-                      <Select 
-                        defaultValue={(editRow && editRow[c.dataIndex]) || r[c.dataIndex]} 
-                        mode="tags" 
-                        style={{ width: '100%' }} 
+                      <Select
+                        defaultValue={(editRow && editRow[c.dataIndex]) || r[c.dataIndex]}
+                        mode="tags"
+                        style={{ width: '100%' }}
                         onChange={e => { this.handleCellSave(e, r, c)}}
                       >
                           {this.props.employee}
@@ -594,7 +705,7 @@ class ProjectPlan extends Component {
     this.refreshPlanType(e.target.value)
   }
 
-  
+
   refreshPlanType = (planType) => {
     const { dispatch, id } = this.props;
     dispatch({

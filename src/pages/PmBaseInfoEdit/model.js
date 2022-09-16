@@ -7,7 +7,7 @@
 import { message } from 'antd';
 import { utils } from 'suid';
 import { del, save, saveToDo, delToDo, findEmp,getProOpt, syncProjectInfo
-  , projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch,findByIdForSchedule,saveUpload,saveUploadList } from './service';
+  , projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch,findByIdForSchedule,saveUpload,saveUploadList,uploadMasterPlan } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -140,6 +140,23 @@ export default modelExtend(model, {
     },
 
     // projectPlan
+    /**
+     * Excel上传计划
+     * @param payload
+     * @param call
+     * @returns {Generator<*, *, *>}
+     */
+    *uploadMasterPlan({ payload }, { call }) {
+      const result = yield call(uploadMasterPlan, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+      //  message.success(msg);
+      } else {
+        message.error(msg);
+      }
+      return result;
+    },
     *projPlanSave({ payload }, { call }) {
       const result = yield call(projPlanSave, payload);
       const { success, message: msg } = result || {};
