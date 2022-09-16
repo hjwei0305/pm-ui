@@ -11,8 +11,7 @@ const { request } = utils;
 // const MockServerPath =
 //   '/mock/5e02d29836608e42d52b1d81/template-service';
 
-const {PROJECT_PATH} = constants;
-const { SERVER_PATH } = constants;
+const {PROJECT_PATH, SERVER_PATH, LOCAL_PATH} = constants;
 const contextBaseInfoPath = '/pmBaseinfo';
 const contextPath = '/pmBaseInfoEdit';
 const contextToDoPath = '/todoList';
@@ -130,7 +129,7 @@ export async function projPlanFindByPage(data) {
 }
 
 /**
- *
+ * 查询项目进度节点信息
  * @returns
  */
 export async function findByIdForSchedule(data) {
@@ -138,5 +137,15 @@ export async function findByIdForSchedule(data) {
   return request({
     url,
     method: 'GET',
+  });
+}
+
+/** 项目进度导入模板 */
+export async function downLoadTemplate(data) {
+  const url = `${LOCAL_PATH}/templates/${data.type}模板.xlsx`;
+  return request({
+    url,
+    method: 'GET',
+    responseType: 'blob',
   });
 }

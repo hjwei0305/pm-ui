@@ -16,4 +16,21 @@ const exportXlsx = (fileTitle, cols, data) => {
     XLSX.writeFile(wb, `${fileTitle}.xlsx`);
   };
 
-export { exportXlsx, constants, userUtils };
+  const downFile = (blob, fileName) => {
+    if (window.navigator.msSaveOrOpenBlob) {
+      navigator.msSaveBlob(blob, fileName);
+    } else {
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      setTimeout(() => {
+        window.URL.revokeObjectURL(link.href);
+        document.body.removeChild(link);
+      }, 50);
+    }
+  };
+
+export { exportXlsx, constants, userUtils, downFile };

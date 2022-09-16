@@ -211,6 +211,15 @@ class ProjectSchedule extends Component {
       })
   }
 
+  downLoadTemplate = (type) => {
+    this.dispatchAction({
+      type: 'pmBaseInfoEdit/downLoadTemplate',
+      payload: {
+        type: type
+      }
+    });
+  }
+
   render() {
     const { pmBaseInfoEdit, editData } = this.props;
     const { modalVisibleSche } = pmBaseInfoEdit;
@@ -280,13 +289,13 @@ class ProjectSchedule extends Component {
           <div className={`${styles.step_content} ${styles.step_content2_1}`}>
             <div className={cls(styles['step_font'])}>需求范围说明书</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('2.1', 'template')} disabled={this.btnState('2.1')}>模板</Button></li>
+              <li><Button className={this.btnCls('2.1', 'template')} disabled={this.btnState('2.1')} onClick={() => this.downLoadTemplate('需求范围说明书')}>模板</Button></li>
               <li><Button className={this.btnCls('2.1', 'upload')} disabled={this.btnState('2.1')} onClick={() => this.upload('RequireDoc',editData.requireDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('2.1', 'check')} disabled={this.btnState('2.1')} onClick={() => this.check}>查看</Button></li> */}
             </ul>
             <div className={cls(styles['step_font'])}>验收标准</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('2.1', 'template')} disabled={this.btnState('2.1')}>模板</Button></li>
+              <li><Button className={this.btnCls('2.1', 'template')} disabled={this.btnState('2.1')} onClick={() => this.downLoadTemplate('验收标准')}>模板</Button></li>
               <li><Button className={this.btnCls('2.1', 'upload')} disabled={this.btnState('2.1')} onClick={() => this.upload('AcceptStandardDoc',editData.acceptStandardDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('2.1', 'check')} disabled={this.btnState('2.1')}>查看</Button></li> */}
             </ul>
@@ -297,7 +306,7 @@ class ProjectSchedule extends Component {
           <div className={`${styles.step_content} ${styles.step_content2_2}`}>
             <div className={cls(styles['step_font'])}>启动报告</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('2.2', 'template')} disabled={this.btnState('2.2')}>模板</Button></li>
+              <li><Button className={this.btnCls('2.2', 'template')} disabled={this.btnState('2.2')} onClick={() => this.downLoadTemplate('启动报告')}>模板</Button></li>
               <li><Button className={this.btnCls('2.2', 'upload')} disabled={this.btnState('2.2')}  onClick={() => this.upload('StartReportDoc',editData.startReportDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('2.2', 'check')} disabled={this.btnState('2.2')}>查看</Button></li> */}
             </ul>
@@ -308,7 +317,7 @@ class ProjectSchedule extends Component {
           <div className={`${styles.step_content} ${styles.step_content2_3}`}>
             <div className={cls(styles['step_font'])}>用户需求说明</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('2.3', 'template')} disabled={this.btnState('2.3')}>模板</Button></li>
+              <li><Button className={this.btnCls('2.3', 'template')} disabled={this.btnState('2.3')} onClick={() => this.downLoadTemplate('用户需求说明')}>模板</Button></li>
               <li><Button className={this.btnCls('2.3', 'upload')} disabled={this.btnState('2.3')} onClick={() => this.upload('UserRequireDoc',editData.userRequireDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('2.3', 'check')} disabled={this.btnState('2.3')}>查看</Button></li> */}
             </ul>
@@ -324,13 +333,13 @@ class ProjectSchedule extends Component {
           <div className={`${styles.step_content} ${styles.step_content3_1}`}>
             <div className={cls(styles['step_font'])}>设计图备份</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('3.1', 'template')} disabled={this.btnState('3.1')}>模板</Button></li>
+              <li><Button className={this.btnCls('3.1', 'template')} disabled={this.btnState('3.1')} onClick={() => this.downLoadTemplate('设计图备份')}>模板</Button></li>
               <li><Button className={this.btnCls('3.1', 'upload')} disabled={this.btnState('3.1')} onClick={() => this.upload('DesignerDoc',editData.designerDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('3.1', 'check')} disabled={this.btnState('3.1')}>查看</Button></li> */}
             </ul>
             <div className={cls(styles['step_font'])}>切图</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('3.1', 'template')} disabled={this.btnState('3.1')}>模板</Button></li>
+              <li><Button className={this.btnCls('3.1', 'template')} disabled={this.btnState('3.1')} onClick={() => this.downLoadTemplate('切图')}>模板</Button></li>
               <li><Button className={this.btnCls('3.1', 'upload')} disabled={this.btnState('3.1')} onClick={() => this.upload('CropDoc',editData.cropDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('3.1', 'check')} disabled={this.btnState('3.1')}>查看</Button></li> */}
             </ul>
@@ -377,13 +386,13 @@ class ProjectSchedule extends Component {
           <div className={`${styles.step_content} ${styles.step_content5_1}`}>
             <div className={cls(styles['step_font'])}>测试用例</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('5.1', 'template')} disabled={this.btnState('5.1')}>模板</Button></li>
+              <li><Button className={this.btnCls('5.1', 'template')} disabled={this.btnState('5.1')} onClick={() => this.downLoadTemplate('测试用例')}>模板</Button></li>
               <li><Button className={this.btnCls('5.1', 'upload')} disabled={this.btnState('5.1')}  onClick={() => this.upload('TestExampleDoc')}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('5.1', 'check')} disabled={this.btnState('5.1')}>查看</Button></li> */}
             </ul>
             <div className={cls(styles['step_font'])}>测试报告</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('5.1', 'template')} disabled={this.btnState('5.1')}>模板</Button></li>
+              <li><Button className={this.btnCls('5.1', 'template')} disabled={this.btnState('5.1')} onClick={() => this.downLoadTemplate('测试报告')}>模板</Button></li>
               <li><Button className={this.btnCls('5.1', 'upload')} disabled={this.btnState('5.1')}  onClick={() => this.upload('TestReportDoc',editData.testReportDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('5.1', 'check')} disabled={this.btnState('5.1')}>查看</Button></li> */}
             </ul>
@@ -399,13 +408,13 @@ class ProjectSchedule extends Component {
           <div className={`${styles.step_content} ${styles.step_content6_1}`}>
             <div className={cls(styles['step_font'])}>SOP</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('6.1', 'template')} disabled={this.btnState('6.1')}>模板</Button></li>
+              <li><Button className={this.btnCls('6.1', 'template')} disabled={this.btnState('6.1')} onClick={() => this.downLoadTemplate('SOP')}>模板</Button></li>
               <li><Button className={this.btnCls('6.1', 'upload')} disabled={this.btnState('6.1')} onClick={() => this.upload('SopDoc',editData.sopDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('6.1', 'check')} disabled={this.btnState('6.1')}>查看</Button></li> */}
             </ul>
             <div className={cls(styles['step_font'])}>问题点清单</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('6.1', 'template')} disabled={this.btnState('6.1')}>模板</Button></li>
+              <li><Button className={this.btnCls('6.1', 'template')} disabled={this.btnState('6.1')} onClick={() => this.downLoadTemplate('问题点清单')}>模板</Button></li>
               <li><Button className={this.btnCls('6.1', 'upload')} disabled={this.btnState('6.1')} onClick={() => this.upload('QuestionListDoc',editData.questionListDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('6.1', 'check')} disabled={this.btnState('6.1')}>查看</Button></li> */}
             </ul>
@@ -417,7 +426,7 @@ class ProjectSchedule extends Component {
           <div className={`${styles.step_content} ${styles.step_content6_2}`}>
             <div className={cls(styles['step_font'])}>关键节点点检表</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('6.2', 'template')} disabled={this.btnState('6.2')}>模板</Button></li>
+              <li><Button className={this.btnCls('6.2', 'template')} disabled={this.btnState('6.2')} onClick={() => this.downLoadTemplate('关键节点点检表')}>模板</Button></li>
               <li><Button className={this.btnCls('6.2', 'upload')} disabled={this.btnState('6.2')} onClick={() => this.upload('CheckListDoc',editData.checkListDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('6.2', 'check')} disabled={this.btnState('6.2')}>查看</Button></li> */}
             </ul>
@@ -429,19 +438,19 @@ class ProjectSchedule extends Component {
           <div className={`${styles.step_content} ${styles.step_content7_1}`}>
             <div className={cls(styles['step_font'])}>结案报告</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('7.1', 'template')} disabled={this.btnState('7.1')}>模板</Button></li>
+              <li><Button className={this.btnCls('7.1', 'template')} disabled={this.btnState('7.1')} onClick={() => this.downLoadTemplate('结案报告')}>模板</Button></li>
               <li><Button className={this.btnCls('7.1', 'upload')} disabled={this.btnState('7.1')} onClick={() => this.upload('CaseCloseReportDoc',editData.caseCloseReportDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('7.1', 'check')} disabled={this.btnState('7.1')}>查看</Button></li> */}
             </ul>
             <div className={cls(styles['step_font'])}>满意度调查</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('7.1', 'template')} disabled={this.btnState('7.1')}>模板</Button></li>
+              <li><Button className={this.btnCls('7.1', 'template')} disabled={this.btnState('7.1')} onClick={() => this.downLoadTemplate('满意度调查')}>模板</Button></li>
               <li><Button className={this.btnCls('7.1', 'upload')} disabled={this.btnState('7.1')} onClick={() => this.upload('SatisfactionSurveyDoc',editData.satisfactionSurveyDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('7.1', 'check')} disabled={this.btnState('7.1')}>查看</Button></li> */}
             </ul>
             <div className={cls(styles['step_font'])}>页面点检</div>
             <ul className={cls(styles['step_btns'])}>
-              <li><Button className={this.btnCls('7.1', 'template')} disabled={this.btnState('7.1')}>模板</Button></li>
+              <li><Button className={this.btnCls('7.1', 'template')} disabled={this.btnState('7.1')} onClick={() => this.downLoadTemplate('页面点检')}>模板</Button></li>
               <li><Button className={this.btnCls('7.1', 'upload')} disabled={this.btnState('7.1')} onClick={() => this.upload('PageCheckDoc',editData.pageCheckDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('7.1', 'check')} disabled={this.btnState('7.1')}>查看</Button></li> */}
             </ul>
