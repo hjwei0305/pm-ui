@@ -638,7 +638,7 @@ class PmBaseInfoEdit extends Component {
       store: {
         type: 'POST',
         url:
-          `${PROJECT_PATH}/todoList/findByPage`,
+          `${PROJECT_PATH}/todoList/projFindByPage`,
       },
     };
   };
