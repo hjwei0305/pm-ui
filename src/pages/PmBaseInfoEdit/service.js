@@ -11,8 +11,7 @@ const { request } = utils;
 // const MockServerPath =
 //   '/mock/5e02d29836608e42d52b1d81/template-service';
 
-const {PROJECT_PATH} = constants;
-const { SERVER_PATH } = constants;
+const {PROJECT_PATH, SERVER_PATH, LOCAL_PATH} = constants;
 const contextBaseInfoPath = '/pmBaseinfo';
 const contextPath = '/pmBaseInfoEdit';
 const contextToDoPath = '/todoList';
@@ -43,7 +42,7 @@ export async function saveUpload(data) {
     url,
     method: 'POST',
     // headers:{
-    //   'Authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJyYW5kb21LZXkiOiJlYzY3YTY4Yy1jMmIwLTQzMTMtYmFjNC1kOGRkY2M4N2IzZjQiLCJzdWIiOiLnlKjmiLfotKblj7ciLCJhdXRob3JpdHlQb2xpY3kiOiJOb3JtYWxVc2VyIiwidXNlck5hbWUiOiLlvKDmmZPmqaYiLCJleHAiOjE2NjU0OTk2MDksInVzZXJJZCI6IkIwRkI0MzcwLTBCQkItMTFFRC1CRDQwLTAyNDJBQzE0MDAxMSIsImlhdCI6MTY2MjYxOTYwOSwidGVuYW50IjoidGVzdCIsImFjY291bnQiOiIzNzY5NTEifQ.hTU_oDa0XGbQVaFhSmJB1J8X3_hYhdCJgJ_5FqYwxlCH7d4y2bRbLMnjFG7F2Ao6HZqkQnODSXuaN2qLtH7kdg'
+    //   'Authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJyYW5kb21LZXkiOiIyOGRhZjQ4OC0wYjIzLTQ3YjYtYjFhMC1lOWQyOWI4NWQ1YzEiLCJzdWIiOiLnlKjmiLfotKblj7ciLCJhdXRob3JpdHlQb2xpY3kiOiJOb3JtYWxVc2VyIiwidXNlck5hbWUiOiLlvKDmmZPmqaYiLCJleHAiOjE2NjYxMTAxMTEsInVzZXJJZCI6IkIwRkI0MzcwLTBCQkItMTFFRC1CRDQwLTAyNDJBQzE0MDAxMSIsImlhdCI6MTY2MzIzMDExMSwidGVuYW50IjoidGVzdCIsImFjY291bnQiOiIzNzY5NTEifQ.rxgc63JBRqroke1cUuDrpid2Fs0L2gA-HAxN-xkJY4rQhVhTbIYHXgS7OI7FqagIC0cTcmunUeu85WUUFIyTvg'
     // },
     data
   });
@@ -56,7 +55,7 @@ export async function saveUploadList(data) {
     url,
     method: 'POST',
     // headers:{
-    //   'Authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJyYW5kb21LZXkiOiJlYzY3YTY4Yy1jMmIwLTQzMTMtYmFjNC1kOGRkY2M4N2IzZjQiLCJzdWIiOiLnlKjmiLfotKblj7ciLCJhdXRob3JpdHlQb2xpY3kiOiJOb3JtYWxVc2VyIiwidXNlck5hbWUiOiLlvKDmmZPmqaYiLCJleHAiOjE2NjU0OTk2MDksInVzZXJJZCI6IkIwRkI0MzcwLTBCQkItMTFFRC1CRDQwLTAyNDJBQzE0MDAxMSIsImlhdCI6MTY2MjYxOTYwOSwidGVuYW50IjoidGVzdCIsImFjY291bnQiOiIzNzY5NTEifQ.hTU_oDa0XGbQVaFhSmJB1J8X3_hYhdCJgJ_5FqYwxlCH7d4y2bRbLMnjFG7F2Ao6HZqkQnODSXuaN2qLtH7kdg'
+    //   'Authorization' : 'eyJhbGciOiJIUzUxMiJ9.eyJyYW5kb21LZXkiOiIzZTU0ZGVlZC04MjRhLTRjMmMtYWIxNS1lNjIwMmNkNTkzMzQiLCJzdWIiOiLnlKjmiLfotKblj7ciLCJhdXRob3JpdHlQb2xpY3kiOiJOb3JtYWxVc2VyIiwidXNlck5hbWUiOiLlvKDmmZPmqaYiLCJleHAiOjE2NjU5MjEyODMsInVzZXJJZCI6IkIwRkI0MzcwLTBCQkItMTFFRC1CRDQwLTAyNDJBQzE0MDAxMSIsImlhdCI6MTY2MzA0MTI4MywidGVuYW50IjoidGVzdCIsImFjY291bnQiOiIzNzY5NTEifQ.7RN0AL5fZVs-JvqoukeCfXURoeIWBiDJCp-QEbib09ASttq0xhdSsqpGzV_5_d4Ieem334Sv8W6heCnjSXWuQg'
     // },
     data
   });
@@ -83,7 +82,6 @@ export async function saveToDo(data) {
 /** ToDoList更新 */
 export async function updateStateToDo(data) {
   const url = `${PROJECT_PATH}${contextToDoPath}/save`;
-  console.log(data)
   return request.post(url, data);
 }
 
@@ -100,6 +98,11 @@ export async function syncProjectInfo(params) {
 }
 
 /** projectPlan */
+/** 上传项目计划 */
+export async function uploadMasterPlan(data) {
+  const url =  `${PROJECT_PATH}${ProjPlanPath}/uploadMasterPlan`;
+  return request.post(url, data);
+}
 /** 保存 */
 export async function projPlanSave(data) {
   const url =  `${PROJECT_PATH}${ProjPlanPath}/save`;
@@ -125,7 +128,7 @@ export async function projPlanFindByPage(data) {
 }
 
 /**
- *
+ * 查询项目进度节点信息
  * @returns
  */
 export async function findByIdForSchedule(data) {
@@ -133,5 +136,15 @@ export async function findByIdForSchedule(data) {
   return request({
     url,
     method: 'GET',
+  });
+}
+
+/** 项目进度导入模板 */
+export async function downLoadTemplate(data) {
+  const url = `${LOCAL_PATH}/templates/${data.type}模板.xlsx`;
+  return request({
+    url,
+    method: 'GET',
+    responseType: 'blob',
   });
 }

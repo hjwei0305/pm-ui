@@ -6,8 +6,10 @@
  */
 import { message } from 'antd';
 import { utils } from 'suid';
+import { downFile } from '@/utils';
 import { del, save, saveToDo, delToDo, findEmp,getProOpt, syncProjectInfo
-  , projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch,findByIdForSchedule,saveUpload,saveUploadList } from './service';
+  , projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch
+  ,findByIdForSchedule,saveUpload,saveUploadList,uploadMasterPlan, downLoadTemplate } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -140,6 +142,23 @@ export default modelExtend(model, {
     },
 
     // projectPlan
+    /**
+     * Excel上传计划
+     * @param payload
+     * @param call
+     * @returns {Generator<*, *, *>}
+     */
+    *uploadMasterPlan({ payload }, { call }) {
+      const result = yield call(uploadMasterPlan, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+      //  message.success(msg);
+      } else {
+        message.error(msg);
+      }
+      return result;
+    },
     *projPlanSave({ payload }, { call }) {
       const result = yield call(projPlanSave, payload);
       const { success, message: msg } = result || {};
@@ -203,6 +222,13 @@ export default modelExtend(model, {
         message.error(msg);
       }
       return result;
+    },
+    *downLoadTemplate({ payload }, { call }) {
+      console.log(payload.type)
+      const ds = yield call(downLoadTemplate, payload);
+      if (ds.success) {
+        downFile(ds.data, payload.type + '模板');
+      }
     },
   },
 });
