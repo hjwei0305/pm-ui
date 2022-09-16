@@ -52,11 +52,10 @@ export default modelExtend(model, {
 
       message.destroy();
       if (success) {
-        message.success(msg);
+        // message.success(msg);
       } else {
         message.error(msg);
       }
-
       return result;
     },
   },

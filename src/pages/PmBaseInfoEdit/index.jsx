@@ -103,7 +103,6 @@ class PmBaseInfoEdit extends Component {
       }
     })
 
-
     dispatch({
       type: 'pmBaseInfoEdit/findEmp',
       payload: {
@@ -289,29 +288,6 @@ class PmBaseInfoEdit extends Component {
     }
   };
 
-  // handleClose = () => {
-  //   this.dispatchAction({
-  //     type: 'pmBaseInfoEdit/updateState',
-  //     payload: {
-  //       modalVisible: false,
-  //       editData: null,
-  //     },
-  //   });
-  // };
-
-  // getEditModalProps = () => {
-  //   const { loading, pmBaseInfoEdit } = this.props;
-  //   const { modalVisible, editData } = pmBaseInfoEdit;
-
-  //   return {
-  //     onSave: this.handleSave,
-  //     editData,
-  //     visible: modalVisible,
-  //     onClose: this.handleClose,
-  //     saving: loading.effects['pmBaseInfoEdit/save'],
-  //   };
-  // };
-
   renderDelBtn = row => {
     const { loading } = this.props;
     const { delId } = this.state;
@@ -320,81 +296,6 @@ class PmBaseInfoEdit extends Component {
     }
     return <ExtIcon status="error" tooltip={{ title: '删除' }} type="delete" antd />;
   };
-
-  // getExtableProps = () => {
-  //   const columns = [
-  //     {
-  //       title: '操作',
-  //       key: 'operation',
-  //       width: 100,
-  //       align: 'center',
-  //       dataIndex: 'id',
-  //       className: 'action',
-  //       required: true,
-  //       render: (_, record) => (
-  //         <Fragment>
-  //           <ExtIcon
-  //             key="edit"
-  //             className="edit"
-  //             onClick={() => this.handleEvent('edit', record)}
-  //             type="edit"
-  //             status="success"
-  //             tooltip={{ title: '编辑' }}
-  //             antd
-  //           />
-  //           <Popconfirm
-  //             key="del"
-  //             placement="topLeft"
-  //             title="确定要删除吗？"
-  //             onConfirm={() => this.handleEvent('del', record)}
-  //           >
-  //             {this.renderDelBtn(record)}
-  //           </Popconfirm>
-  //         </Fragment>
-  //       ),
-  //     },
-  //     {
-  //       title: '代码',
-  //       dataIndex: 'code',
-  //       width: 120,
-  //       required: true,
-  //     },
-  //     {
-  //       title: '名称',
-  //       dataIndex: 'name',
-  //       width: 220,
-  //       required: true,
-  //     },
-  //   ];
-  //   const toolBarProps = {
-  //     left: (
-  //       <Fragment>
-  //         <Button
-  //           key="add"
-  //           type="primary"
-  //           onClick={() => {
-  //             this.handleEvent('add', null);
-  //           }}
-  //           ignore="true"
-  //         >
-  //           新建
-  //         </Button>
-  //         <Button onClick={this.refresh}>刷新</Button>
-  //       </Fragment>
-  //     ),
-  //   };
-  //   return {
-  //     columns,
-  //     bordered: false,
-  //     toolBar: toolBarProps,
-  //     remotePaging: true,
-  //     store: {
-  //       type: 'POST',
-  //       url:
-  //         '/mock/5e02d29836608e42d52b1d81/template-service/simple-master/findByPage',
-  //     },
-  //   };
-  // };
 
   handleToDoSave = data => {
     this.dispatchAction({
@@ -452,7 +353,7 @@ class PmBaseInfoEdit extends Component {
     }else {
       return
     }
-    if (isFinishedFilter != null && isFinishedFilter != '') {
+    if (isFinishedFilter != null) {
       filters.push({
         fieldName: 'isFinished',
         operator: 'EQ',
@@ -460,7 +361,7 @@ class PmBaseInfoEdit extends Component {
         value: isFinishedFilter,
       });
     }
-    if (ondutyNameFilter != null && ondutyNameFilter != '') {
+    if (ondutyNameFilter != null) {
       filters.push({
         fieldName: 'ondutyName',
         operator: 'LK',
@@ -516,7 +417,7 @@ class PmBaseInfoEdit extends Component {
         required: true,
       },
       {
-        title: '代办事项',
+        title: '待办事项',
         dataIndex: 'todoList',
         width: 100,
         required: false,
@@ -602,12 +503,12 @@ class PmBaseInfoEdit extends Component {
             dataSource={this.state.isFinishedData}
             allowClear
             name="name"
-            field={['code']}
+            field={['name']}
             afterClear={() => this.setState({ isFinishedFilter: null })}
             afterSelect={item => this.setState({ isFinishedFilter: item.code })}
             reader={{
               name: 'name',
-              field: ['code'],
+              field: ['name'],
             }}
           ></ComboList>
           责任人：{' '}
@@ -629,6 +530,7 @@ class PmBaseInfoEdit extends Component {
     const filters = this.getToDoTableFilters();
     return {
       columns,
+      showSearch: false,
       bordered: false,
       toolBar: toolBarProps,
       remotePaging: true,
@@ -961,10 +863,10 @@ class PmBaseInfoEdit extends Component {
                           <span >提案日期：</span>
                           <Input value={this.state.dataList.submissionDate} disabled></Input>
                         </Col>
-                        <Col span={8}>
+                        {/* <Col span={8}>
                           <span >规划审批：</span>
                           <Input value={this.state.dataList.planningApproval} disabled></Input>
-                        </Col>
+                        </Col> */}
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>

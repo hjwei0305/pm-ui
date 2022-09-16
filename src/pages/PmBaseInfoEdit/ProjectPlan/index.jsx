@@ -361,14 +361,12 @@ class ProjectPlan extends Component {
     this.state.obj.forEach(
       item => {
         if(item.schedureNo !== ''){
-          if((item.projectId !== '' ||item.workType !== '' ||item.workTodoList !== '' )){
             var dataReplace = Object.assign({},item)
             dataReplace.projectId = id;
             dataReplace.planType = this.state.planType
             dataReplace.workOnduty = item.workOnduty.length === 0 ? '' : item.workOnduty.join(",")
             dataReplace.workAssist = item.workAssist.length === 0 ? '' :item.workAssist.join(",")
             save_obj.push(dataReplace);
-          }
         }else{
           flag = false
         }
@@ -688,7 +686,7 @@ class ProjectPlan extends Component {
     }).then(res =>{
       const { rows } = res.data;
       for(let [index,item] of rows.entries()){
-        item.key = `${index}${new Date()}`
+        item.key = `${index}`
         item.workOnduty = item.workOnduty === '' || item.workOnduty === null ? [] : item.workOnduty.split(',')
         item.workAssist = item.workAssist === '' || item.workAssist === null ? [] : item.workAssist.split(',')
       }

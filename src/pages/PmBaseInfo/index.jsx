@@ -52,14 +52,28 @@ class PmBaseInfo extends Component {
     projectMasterFilter: null,
     dateFilter:null,
     status:[{
-      id: 1,
       code: 0,
-      name: '起草',
+      name: '需求分析',
     },
     {
-      id: 2,
       code: 1,
-      name: '待审核',
+      name: 'UI设计',
+    },
+    {
+      code: 2,
+      name: '系统开发',
+    },
+    {
+      code: 3,
+      name: '测试',
+    },
+    {
+      code: 4,
+      name: '上线实施',
+    },
+    {
+      code: 5,
+      name: '项目结案',
     }]
   };
 
@@ -112,7 +126,7 @@ class PmBaseInfo extends Component {
     }
     if (projectMasterFilter) {
       filters.push({
-        fieldName: 'projectMaster',
+        fieldName: 'leader',
         operator: 'LK',
         fieldType: 'string',
         value: projectMasterFilter,
@@ -120,8 +134,8 @@ class PmBaseInfo extends Component {
     }
     if (dateFilter) {
       filters.push({
-        fieldName: 'date',
-        operator: 'EQ',
+        fieldName: 'startDate',
+        operator: 'GE',
         fieldType: 'date',
         value: dateFilter,
       });
@@ -470,7 +484,7 @@ class PmBaseInfo extends Component {
         <Space>
           项目名称：{' '}
           <Input style={{width:"150px"}} onChange={(event) => this.setState({ nameFilter: event.target.value })} allowClear></Input>
-          当前状态：{' '}
+          当前阶段：{' '}
           <ComboList
             style={{ width: '150px' }}
             showSearch={false}

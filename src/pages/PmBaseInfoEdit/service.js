@@ -82,7 +82,6 @@ export async function saveToDo(data) {
 /** ToDoList更新 */
 export async function updateStateToDo(data) {
   const url = `${PROJECT_PATH}${contextToDoPath}/save`;
-  console.log(data)
   return request.post(url, data);
 }
 
