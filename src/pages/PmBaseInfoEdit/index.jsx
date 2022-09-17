@@ -419,7 +419,7 @@ class PmBaseInfoEdit extends Component {
       {
         title: '待办事项',
         dataIndex: 'todoList',
-        width: 100,
+        width: 250,
         required: false,
       },
       // {

@@ -73,13 +73,13 @@ class Report extends Component {
       {
         title: '工号',
         dataIndex: 'employeeCode',
-        width: 250,
+        width: 100,
         required: true,
       },
       {
         title: '姓名',
         dataIndex: 'employeeName',
-        width: 250,
+        width: 100,
         required: true,
       },
       {
@@ -103,7 +103,7 @@ class Report extends Component {
       {
         title: '项目名称集合',
         dataIndex: 'projectNames',
-        width: 320,
+        width: 1000,
         required: true,
       },
     ];
