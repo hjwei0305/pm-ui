@@ -59,27 +59,27 @@ class FormModal extends PureComponent {
               initialValue: name,
             })(<Input disabled value={name}></Input>)}
           </FormItem>
-          <FormItem label="代办事项">
+          <FormItem label="待办事项">
             {getFieldDecorator('todoList', {
               initialValue: editToDoData && editToDoData.todoList,
             })(<Input disabled={ saving} />)}
           </FormItem>
-          <FormItem label="责任人工号">
+          {/* <FormItem label="责任人工号">
             {getFieldDecorator('ondutyCode', {
               initialValue: editToDoData && editToDoData.ondutyCode,
             })(<Input disabled={ saving} />)}
-          </FormItem>
-          <FormItem label="责任人姓名">
+          </FormItem> */}
+          <FormItem label="责任人">
             {getFieldDecorator('ondutyName', {
               initialValue: editToDoData && editToDoData.ondutyName,
             })(<Input disabled={ saving} />)}
           </FormItem>
-          <FormItem label="提出人工号">
+          {/* <FormItem label="提出人工号">
             {getFieldDecorator('submitCode', {
               initialValue: editToDoData && editToDoData.submitCode,
             })(<Input disabled={ saving} />)}
-          </FormItem>
-          <FormItem label="提出人姓名">
+          </FormItem> */}
+          <FormItem label="提出人">
             {getFieldDecorator('submitName', {
               initialValue: editToDoData && editToDoData.submitName,
             })(<Input disabled={ saving} />)}
@@ -94,13 +94,13 @@ class FormModal extends PureComponent {
               initialValue: editToDoData && editToDoData.endDate && moment.utc(editToDoData.endDate),
             })(<DatePicker format="YYYY-MM-DD" />)}
           </FormItem>
-          <FormItem label="是否完成">
+          <FormItem label="建议状态">
             {getFieldDecorator('isCompleted', {
               initialValue: editToDoData && editToDoData.isCompleted,
               valuePropName: 'checked',
             })(<Switch/>)}
           </FormItem>
-          <FormItem label="是否结案">
+          <FormItem label="结案状态">
             {getFieldDecorator('isFinished', {
               initialValue: editToDoData && editToDoData.isFinished,
               valuePropName: 'checked',

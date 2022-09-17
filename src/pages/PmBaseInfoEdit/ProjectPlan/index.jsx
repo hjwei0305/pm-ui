@@ -85,15 +85,6 @@ class ProjectPlan extends Component {
         editFlag: true,
       },
       {
-        title: '状态',
-        dataIndex: 'schedureStatus',
-        width: 100,
-        required: true,
-        elem: 'COMBOLIST',
-        editFlag: true,
-
-      },
-      {
         title: '任务类型',
         dataIndex: 'workType',
         width: 150,
@@ -103,29 +94,11 @@ class ProjectPlan extends Component {
 
       },
       {
-        title: '任务列表',
+        title: '主要任务/关键步骤',
         dataIndex: 'workTodoList',
-        width: 150,
+        width: 300,
         required: true,
         elem: 'INPUT',
-        editFlag: true,
-
-      },
-      {
-        title: '负责人',
-        dataIndex: 'workOnduty',
-        width: 220,
-        required: true,
-        elem: 'EMPSELECT',
-        editFlag: true,
-
-      },
-      {
-        title: '协助人',
-        dataIndex: 'workAssist',
-        width: 220,
-        required: true,
-        elem: 'EMPSELECT',
         editFlag: true,
 
       },
@@ -139,7 +112,7 @@ class ProjectPlan extends Component {
 
       },
       {
-        title: '计划结束日期',
+        title: '计划完成日期',
         dataIndex: 'planEndDate',
         width: 150,
         required: false,
@@ -157,7 +130,7 @@ class ProjectPlan extends Component {
 
       },
       {
-        title: '实际结束日期',
+        title: '实际完成日期',
         dataIndex: 'actualEndDate',
         width: 150,
         required: false,
@@ -166,11 +139,38 @@ class ProjectPlan extends Component {
 
       },
       {
-        title: '天数',
+        title: '实际天数',
         dataIndex: 'schedureDays',
         width: 100,
         required: true,
         elem: 'INPUT',
+        editFlag: true,
+
+      },
+      {
+        title: '开发状态',
+        dataIndex: 'schedureStatus',
+        width: 100,
+        required: true,
+        elem: 'COMBOLIST',
+        editFlag: true,
+
+      },
+      {
+        title: '执行人',
+        dataIndex: 'workOnduty',
+        width: 220,
+        required: true,
+        elem: 'EMPSELECT',
+        editFlag: true,
+
+      },
+      {
+        title: '协助人',
+        dataIndex: 'workAssist',
+        width: 220,
+        required: true,
+        elem: 'EMPSELECT',
         editFlag: true,
 
       },

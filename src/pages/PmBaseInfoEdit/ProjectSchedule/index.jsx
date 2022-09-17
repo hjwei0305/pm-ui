@@ -234,49 +234,49 @@ class ProjectSchedule extends Component {
               <div className={cls(styles['circleFinish'])}></div>
             </div>
             <div className={cls(styles['titleFontFinish'])}>项目提案</div>
-            <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div>
+            {/* <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div> */}
           </div>
           <div className={`${styles.titleLis2} ${styles.titleLis}`}>
             <div className={cls(styles['circle'])}>
               <div className={this.stageCls('2', 'circle')}></div>
             </div>
             <div className={this.stageCls('2', 'titleFont')}>需求分析</div>
-            <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div>
+            {/* <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div> */}
           </div>
           <div className={`${styles.titleLis3} ${styles.titleLis}`}>
             <div className={cls(styles['circle'])}>
               <div className={this.stageCls('3', 'circle')}></div>
             </div>
             <div className={this.stageCls('3', 'titleFont')}>UI设计</div>
-            <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div>
+            {/* <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div> */}
           </div>
           <div className={`${styles.titleLis4} ${styles.titleLis}`}>
             <div className={cls(styles['circle'])}>
               <div className={this.stageCls('4', 'circle')}></div>
             </div>
             <div className={this.stageCls('4', 'titleFont')}>系统开发</div>
-            <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div>
+            {/* <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div> */}
           </div>
           <div className={`${styles.titleLis5} ${styles.titleLis}`}>
             <div className={cls(styles['circle'])}>
               <div className={this.stageCls('5', 'circle')}></div>
             </div>
             <div className={this.stageCls('5', 'titleFont')}>测试</div>
-            <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div>
+            {/* <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div> */}
           </div>
           <div className={`${styles.titleLis6} ${styles.titleLis}`}>
             <div className={cls(styles['circle'])}>
               <div className={this.stageCls('6', 'circle')}></div>
             </div>
             <div className={this.stageCls('6', 'titleFont')}>上线实施</div>
-            <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div>
+            {/* <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div> */}
           </div>
           <div className={`${styles.titleLis7} ${styles.titleLis}`}>
             <div className={cls(styles['circle'])}>
               <div className={this.stageCls('7', 'circle')}></div>
             </div>
             <div className={this.stageCls('7', 'titleFont')}>项目结案</div>
-            <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div>
+            {/* <div className={cls(styles['titleDate'])}>2022.01.01 - 2022.12.31</div> */}
           </div>
         </p>
         <div className={`${styles.module} ${styles.module1}`}>

@@ -422,26 +422,26 @@ class PmBaseInfoEdit extends Component {
         width: 100,
         required: false,
       },
+      // {
+      //   title: '责任人工号',
+      //   dataIndex: 'ondutyCode',
+      //   width: 100,
+      //   required: false,
+      // },
       {
-        title: '责任人工号',
-        dataIndex: 'ondutyCode',
-        width: 100,
-        required: false,
-      },
-      {
-        title: '责任人姓名',
+        title: '责任人',
         dataIndex: 'ondutyName',
         width: 100,
         required: false,
       },
+      // {
+      //   title: '提出人工号',
+      //   dataIndex: 'submitCode',
+      //   width: 100,
+      //   required: false,
+      // },
       {
-        title: '提出人工号',
-        dataIndex: 'submitCode',
-        width: 100,
-        required: false,
-      },
-      {
-        title: '提出人姓名',
+        title: '提出人',
         dataIndex: 'submitName',
         width: 100,
         required: false,
@@ -459,7 +459,7 @@ class PmBaseInfoEdit extends Component {
         required: false,
       },
       {
-        title: '是否完成',
+        title: '建议状态',
         dataIndex: 'isCompleted',
         width: 100,
         required: false,
@@ -472,7 +472,7 @@ class PmBaseInfoEdit extends Component {
         },
       },
       {
-        title: '是否结案',
+        title: '结案状态',
         dataIndex: 'isFinished',
         width: 100,
         required: false,
