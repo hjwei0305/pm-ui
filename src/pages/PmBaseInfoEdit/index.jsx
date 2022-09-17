@@ -328,11 +328,12 @@ class PmBaseInfoEdit extends Component {
     const { loading, pmBaseInfoEdit } = this.props;
     const { modalVisibleToDo, editToDoData } = pmBaseInfoEdit;
     const { code, name } = this.props.location.state;
+    const { employee } = this.state
 
     return {
       onSave: this.handleToDoSave,
       editToDoData,
-      code, name,
+      code, name,employee,
       visible: modalVisibleToDo,
       onClose: this.handleToDoClose,
       saving: loading.effects['pmBaseInfoEdit/saveToDo'],

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, Input, DatePicker, Switch } from 'antd';
+import { Form, Input, DatePicker, Switch, Select } from 'antd';
 import { ExtModal } from 'suid';
 import moment from 'moment';
 
@@ -31,6 +31,11 @@ class FormModal extends PureComponent {
       }
     });
   };
+
+  renderOptions = () => {
+    const { employee } = this.props;
+    return <Select style={{width: 120}} allowClear showSearch>{employee}</Select>
+  } 
 
   render() {
     const { form, editToDoData, onClose, saving, visible, code, name } = this.props;
@@ -72,7 +77,7 @@ class FormModal extends PureComponent {
           <FormItem label="责任人">
             {getFieldDecorator('ondutyName', {
               initialValue: editToDoData && editToDoData.ondutyName,
-            })(<Input disabled={ saving} />)}
+            })(this.renderOptions())}
           </FormItem>
           {/* <FormItem label="提出人工号">
             {getFieldDecorator('submitCode', {
@@ -82,7 +87,7 @@ class FormModal extends PureComponent {
           <FormItem label="提出人">
             {getFieldDecorator('submitName', {
               initialValue: editToDoData && editToDoData.submitName,
-            })(<Input disabled={ saving} />)}
+            })(this.renderOptions())}
           </FormItem>
           <FormItem label="提出时间">
             {getFieldDecorator('submitDate', {
