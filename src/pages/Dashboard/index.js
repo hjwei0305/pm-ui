@@ -60,6 +60,11 @@ const menuData = [
     name: '首页',
     path: '/pm/Home',
   },
+  {
+    id: '501',
+    name: '数据报表',
+    path: '/pm/Report',
+  },
 ];
 
 const getIcon = icon => {

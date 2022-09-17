@@ -57,6 +57,11 @@ export default [
             component: './Home',
             title: '首页',
           },
+          {
+            path: '/pm/Report',
+            component: './Report',
+            title: '数据报表',
+          },
 
         ],
       },
