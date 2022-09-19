@@ -393,7 +393,7 @@ class ProjectPlan extends Component {
 
  validateItem = (data) => {
     return data.map(d => {
-      if ( d.schedureNo === undefined || d.schedureNo.trim() === '' ) {
+      if ( d.schedureNo === undefined) {
         return {
           ...d,
           validate: false,
