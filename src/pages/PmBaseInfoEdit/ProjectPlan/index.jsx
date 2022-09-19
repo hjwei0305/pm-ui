@@ -741,7 +741,9 @@ class ProjectPlan extends Component {
     }).then(res =>{
       const { rows } = res.data;
       for(let [index,item] of rows.entries()){
-        item.key = `${index}${new Date()}`
+        item.key = `${index}`
+        item.workOnduty = item.workOnduty === '' || item.workOnduty === null ? [] : item.workOnduty.split(',')
+        item.workAssist = item.workAssist === '' || item.workAssist === null ? [] : item.workAssist.split(',')
       }
       this.setState({
         obj : rows
