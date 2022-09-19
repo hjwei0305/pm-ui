@@ -431,6 +431,15 @@ class ProjectPlan extends Component {
     })
   }
 
+  downLoadTemplate = (type) => {
+    this.dispatchAction({
+      type: 'pmBaseInfoEdit/downLoadTemplate',
+      payload: {
+        type: type
+      }
+    });
+  }
+
   getExtableProps = () => {
     const excelColumns = [
       {
@@ -504,18 +513,19 @@ class ProjectPlan extends Component {
               保存
             </Button>
           <Button onClick={this.refresh}>刷新</Button>
+          <Button onClick={() => this.downLoadTemplate('项目计划导入')}>模板</Button>
           <DataImport
             tableProps={{ excelColumns, showSearch: false }}
             validateFunc={this.validateItem}
             validateAll={true}
             importFunc={this.importExcel}
-            templateFileList={[
-              {
-                download: '/templates/项目计划导入模板.xlsx',
-                fileName: '项目计划导入模板.xlsx',
-                key: 'projectPlan',
-              },
-            ]}
+            // templateFileList={[
+            //   {
+            //     download: '/templates/项目计划导入模板.xlsx',
+            //     fileName: '项目计划导入模板.xlsx',
+            //     key: 'projectPlan',
+            //   },
+            // ]}
           />,
         </Space>
       ),
