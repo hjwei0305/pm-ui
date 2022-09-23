@@ -144,7 +144,7 @@ class ProjectPlan extends Component {
         width: 100,
         required: true,
         elem: 'INPUT',
-        editFlag: true,
+        editFlag: false,
 
       },
       {
@@ -328,12 +328,17 @@ class ProjectPlan extends Component {
 
   handleAddGood = () => {
     let add_obj = [];
-    const key = Math.max.apply(
-      Math,
-      this.state.obj.map(item => {
-        return item.key;
-      }),
-    );
+    let key;
+    if(this.state.obj.length > 0){
+      key = Math.max.apply(
+        Math,
+        this.state.obj.map(item => {
+          return item.key;
+        }),
+      );
+    }else{
+      key = -1;
+    }
     add_obj = this.state.obj.concat({
       key: key + 1,
       schedureNo: '',
@@ -358,6 +363,7 @@ class ProjectPlan extends Component {
     const { id } = this.props;
     const save_obj = [];
     let flag = true
+    let requiredFlag = true
     this.state.obj.forEach(
       item => {
         if(item.schedureNo !== ''){
@@ -370,11 +376,16 @@ class ProjectPlan extends Component {
         }else{
           flag = false
         }
+        if(item.schedureStatus === '' || item.workOnduty.length === 0){
+          requiredFlag = false
+          if(flag)
+          message.error('序号[' + item.schedureNo + '] 计划状态或负责人不能为空') 
+        }
       }
     );
-    if(flag){
+    if(flag && requiredFlag){
       this.handleSaveBatch(save_obj)
-    }else{
+    }if(flag === false){
       message.error('序号不能为空！！!')
     }
 
@@ -585,6 +596,7 @@ class ProjectPlan extends Component {
                       pagination={false}
                       dataSource={this.state.status}
                       allowClear
+                      afterClear={e => { this.handleCellSave(e, r, c)}}
                       afterSelect={e => { this.handleCellSave(e, r, c)}}
                       defaultValue={(editRow && editRow[c.dataIndex]) || r[c.dataIndex]}
                       name="name"
@@ -647,7 +659,11 @@ class ProjectPlan extends Component {
     const row = r;
     const obj_copy = this.state.obj
     if(c.elem === 'COMBOLIST'){
-      row[c.dataIndex] = e.name;
+      if(e === undefined){
+        row[c.dataIndex] = '';
+      }else{
+        row[c.dataIndex] = e.name;
+      }    
     }else if(c.elem === 'DATE_PICK'){
       row[c.dataIndex] = e;
       if((c.dataIndex === "actualEndDate" || c.dataIndex === "actualStartDate") && (row.actualEndDate != '' && row.actualStartDate != '' )){
