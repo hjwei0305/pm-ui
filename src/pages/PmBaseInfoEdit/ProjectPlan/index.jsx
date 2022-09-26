@@ -693,7 +693,7 @@ class ProjectPlan extends Component {
       payload: {
         sortOrders: [
           {
-            property: 'schedureNo'
+            property: 'orderNo'
           }
         ],
         filters: [
@@ -719,7 +719,7 @@ class ProjectPlan extends Component {
       this.setState({
         obj : rows
       })
-      message.success('处理成功')
+      // message.success('处理成功')
     })
   };
 
@@ -738,7 +738,7 @@ class ProjectPlan extends Component {
       payload: {
         sortOrders: [
           {
-            property: 'schedureNo'
+            property: 'orderNo'
           }
         ],
         filters: [
