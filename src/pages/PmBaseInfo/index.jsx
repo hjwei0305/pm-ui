@@ -271,6 +271,9 @@ class PmBaseInfo extends Component {
                 pageCheckDocId: record.pageCheckDocId,
                 acceptOrderDocId: record.acceptOrderDocId,
                 accpetReprotDocId: record.accpetReprotDocId,
+                startDate: record.startDate,
+                planFinishDate: record.planFinishDate,
+                finalFinishDate: record.finalFinishDate,
               }
             }}>
               查看详情
@@ -550,6 +553,9 @@ class PmBaseInfo extends Component {
                 pageCheckDocId: '',
                 acceptOrderDocId: '',
                 accpetReprotDocId: '',
+                startDate: null,
+                planFinishDate: null,
+                finalFinishDate: null,
               }
             }}>
               新建

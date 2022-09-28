@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select, message } from 'antd';
+import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select, message, DatePicker   } from 'antd';
 import { ExtIcon, ExtTable, ComboList, ProLayout, Attachment } from 'suid';
 import ToDoEditModal from './ToDoEditModal';
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import { constants } from '@/utils';
 import ProjectPlan from './ProjectPlan'
 import ProjectSchedule from './ProjectSchedule'
 import PmLog from './PmLog';
+import moment from 'moment';
 
 const { Option } = Select;
 const { PROJECT_PATH, SERVER_PATH } = constants;
@@ -89,6 +90,9 @@ class PmBaseInfoEdit extends Component {
             pageCheckDocId: this.props.location.state.pageCheckDocId,
             acceptOrderDocId: this.props.location.state.acceptOrderDocId,
             accpetReprotDocId: this.props.location.state.accpetReprotDocId,
+            startDate: this.props.location.state.startDate,
+            planFinishDate: this.props.location.state.planFinishDate,
+            finalFinishDate: this.props.location.state.finalFinishDate,
           }
       }
     }
@@ -192,6 +196,9 @@ class PmBaseInfoEdit extends Component {
         pageCheckDocId: '',
         acceptOrderDocId: '',
         accpetReprotDocId: '',
+        startDate: null,
+        planFinishDate: null,
+        finalFinishDate: null,
       }
   };
 
@@ -634,6 +641,9 @@ class PmBaseInfoEdit extends Component {
               pageCheckDocId: '',
               acceptOrderDocId: '',
               accpetReprotDocId: '',
+              startDate: null,
+              planFinishDate: null,
+              finalFinishDate: null,
             }
           },
           () => this.refresh(),
@@ -751,6 +761,7 @@ class PmBaseInfoEdit extends Component {
   }
 
   render() {
+    console.log(this.state.dataList)
     const { pmBaseInfoEdit } = this.props;
     const { modalVisibleToDo } = pmBaseInfoEdit;
 
@@ -780,6 +791,29 @@ class PmBaseInfoEdit extends Component {
                 </div>
                 <div className={styles['basicInfo']}>
                   {this.state.dataList.name}
+                  <div>
+                    <span>项目开始日期：</span>
+                    <DatePicker 
+                      onChange={(_,dateString) => this.state.dataList.startDate = dateString} 
+                      placeholder="请选择日期" 
+                      defaultValue={this.state.dataList.startDate === null ? null : moment(this.state.dataList.startDate, 'YYYY-MM-DD')}
+                    />
+                  </div>
+                  <div>
+                    <span>计划结案日期：</span>
+                    <DatePicker 
+                      onChange={(_,dateString) => this.state.dataList.planFinishDate = dateString} 
+                      placeholder="请选择日期" 
+                      defaultValue={this.state.dataList.planFinishDate === null ? null : moment(this.state.dataList.planFinishDate, 'YYYY-MM-DD')}/>
+                  </div>
+                  <div>
+                    <span>实际结案日期：</span>
+                    <DatePicker 
+                      onChange={(_,dateString) => this.state.dataList.finalFinishDate = dateString} 
+                      placeholder="请选择日期" 
+                      defaultValue={this.state.dataList.finalFinishDate === null ? null : moment(this.state.dataList.finalFinishDate, 'YYYY-MM-DD')}/>
+                  </div>
+                    
                 </div>
                 <div className={styles['procedure']}>
                   <div className="procedureTitle">流程配置</div>
