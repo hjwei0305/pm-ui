@@ -16,6 +16,7 @@ const contextBaseInfoPath = '/pmBaseinfo';
 const contextPath = '/pmBaseInfoEdit';
 const contextToDoPath = '/todoList';
 const ProjPlanPath = '/projectPlan';
+const pmOrganizePath = '/pmOrganize';
 
 export async function getProOpt() {
   const url = `${SERVER_PATH}/dms/dataDict/getCanUseDataDictValues?dictCode=ProcedureOption`;
@@ -146,5 +147,14 @@ export async function downLoadTemplate(data) {
     url,
     method: 'GET',
     responseType: 'blob',
+  });
+}
+
+/** 组织节点 */
+export async function getChildrenNodes() {
+  const url = `${PROJECT_PATH}${pmOrganizePath}/getChildrenNodes?nodeId=1963AF41-194E-11ED-81B0-005056C00001&includeSelf=false`;
+  return request({
+    url,
+    method: 'GET',
   });
 }
