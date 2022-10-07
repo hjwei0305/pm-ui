@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select, message } from 'antd';
+import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select, message, DatePicker   } from 'antd';
 import { ExtIcon, ExtTable, ComboList, ProLayout, Attachment } from 'suid';
 import ToDoEditModal from './ToDoEditModal';
 import { Link } from "react-router-dom";
@@ -10,6 +10,7 @@ import { constants } from '@/utils';
 import ProjectPlan from './ProjectPlan'
 import ProjectSchedule from './ProjectSchedule'
 import PmLog from './PmLog';
+import moment from 'moment';
 
 const { Option } = Select;
 const { PROJECT_PATH, SERVER_PATH } = constants;
@@ -51,6 +52,7 @@ class PmBaseInfoEdit extends Component {
         ScheduleArys: [],
         employee: [],
         proOptList: [],
+        orgnameList: [],
         disable: this.props.location.state.disable,
         dataList:
           {
@@ -89,10 +91,29 @@ class PmBaseInfoEdit extends Component {
             pageCheckDocId: this.props.location.state.pageCheckDocId,
             acceptOrderDocId: this.props.location.state.acceptOrderDocId,
             accpetReprotDocId: this.props.location.state.accpetReprotDocId,
+            startDate: this.props.location.state.startDate,
+            planFinishDate: this.props.location.state.planFinishDate,
+            finalFinishDate: this.props.location.state.finalFinishDate,
+            sysName: this.props.location.state.sysName,
+            orgname: this.props.location.state.orgname,
+            extorgname: this.props.location.state.extorgname,
+            orgcode: this.props.location.state.orgcode,
           }
       }
     }
     const { dispatch } = props;
+    dispatch({
+      type: 'pmBaseInfoEdit/getChildrenNodes',
+      payload:{}
+    }).then(res => {
+      const { data } = res;
+      for(let item of data){
+        if(item.nodeLevel === 2){
+          this.state.orgnameList.push({code:item.code,name:item.name,extorgname:item.extorgname})
+        }
+      }
+    })
+
     dispatch({
       type: 'pmBaseInfoEdit/getProOpt',
       payload:{}
@@ -127,6 +148,7 @@ class PmBaseInfoEdit extends Component {
     ondutyNameFilter: null,
     employee: [],
     proOptList: [],
+    orgnameList: [],
     projTypeList: [
       {
         name: 'KPI项目',
@@ -192,6 +214,13 @@ class PmBaseInfoEdit extends Component {
         pageCheckDocId: '',
         acceptOrderDocId: '',
         accpetReprotDocId: '',
+        startDate: null,
+        planFinishDate: null,
+        finalFinishDate: null,
+        sysName: '',
+        orgname: '',
+        orgcode: '',
+        extorgname: '',
       }
   };
 
@@ -260,13 +289,18 @@ class PmBaseInfoEdit extends Component {
       }
     }
     if(dataReplace.leader.length > 0 || dataReplace.developer.length > 0 || dataReplace.implementer.length > 0 || dataReplace.designer.length > 0){
+      let arr = dataReplace.leader.concat(dataReplace.developer)
+      arr = arr.concat(dataReplace.implementer)
+      arr = arr.concat(dataReplace.designer)
+      let newArr = new Set(arr)
       let count = 0;
-      var str = [dataReplace.leader,dataReplace.developer,dataReplace.implementer,dataReplace.designer]
-      for(let memb of str){
-        if(memb.length > 0){
-          count = count + memb.length;
-        }
-      }
+      count = newArr.size
+      // var str = [dataReplace.leader,dataReplace.developer,dataReplace.implementer,dataReplace.designer]
+      // for(let memb of str){
+      //   if(memb.length > 0){
+      //     count = count + memb.length;
+      //   }
+      // }
       data.attendanceMemberrCount = count
       dataReplace.attendanceMemberrCount = count
     }
@@ -275,7 +309,7 @@ class PmBaseInfoEdit extends Component {
     dataReplace.implementer = dataReplace.implementer.join(",")
     dataReplace.designer = dataReplace.designer.join(",")
     dataReplace.proOpt = dataReplace.proOpt.join(",")
-   
+
     if(dataReplace.code != '' && dataReplace.code != null){
       this.dispatchAction({
         type: 'pmBaseInfoEdit/save',
@@ -634,6 +668,13 @@ class PmBaseInfoEdit extends Component {
               pageCheckDocId: '',
               acceptOrderDocId: '',
               accpetReprotDocId: '',
+              startDate: null,
+              planFinishDate: null,
+              finalFinishDate: null,
+              sysName: '',
+              orgname: '',
+              orgcode: '',
+              extorgname: '',
             }
           },
           () => this.refresh(),
@@ -669,8 +710,8 @@ class PmBaseInfoEdit extends Component {
     }
   }
 
-  
-  
+
+
   handlerGetFile = (files) => {
     const { dispatch } = this.props;
     const docIdList = [];
@@ -750,7 +791,20 @@ class PmBaseInfoEdit extends Component {
     }
   }
 
+  orgSelect = (item) => {
+    this.state.dataList.orgname = item.name
+    this.state.dataList.orgcode = item.code
+    this.state.dataList.extorgname = item.extorgname
+  }
+
+  orgClear = () => {
+    this.state.dataList.orgname = ''
+    this.state.dataList.orgcode = ''
+    this.state.dataList.extorgname = ''
+  }
+
   render() {
+    console.log(this.state.dataList)
     const { pmBaseInfoEdit } = this.props;
     const { modalVisibleToDo } = pmBaseInfoEdit;
 
@@ -763,7 +817,6 @@ class PmBaseInfoEdit extends Component {
       onDeleteFile: this.handlerGetFile,
       allowUpload: false,
       style: {height: "620px"},
-      
     };
 
     return (
@@ -779,7 +832,30 @@ class PmBaseInfoEdit extends Component {
                   </Link>
                 </div>
                 <div className={styles['basicInfo']}>
-                  {this.state.dataList.name}
+                  <div style={{overflow : "hidden",whiteSpace:"nowrap",textOverflow:"ellipsis"}}>{this.state.dataList.name}</div>
+                  <div>
+                    <span>项目开始日期：</span>
+                    <DatePicker
+                      onChange={(_,dateString) => this.state.dataList.startDate = dateString}
+                      placeholder="请选择日期"
+                      defaultValue={this.state.dataList.startDate === null ? null : moment(this.state.dataList.startDate, 'YYYY-MM-DD')}
+                    />
+                  </div>
+                  <div>
+                    <span>计划结案日期：</span>
+                    <DatePicker
+                      onChange={(_,dateString) => this.state.dataList.planFinishDate = dateString}
+                      placeholder="请选择日期"
+                      defaultValue={this.state.dataList.planFinishDate === null ? null : moment(this.state.dataList.planFinishDate, 'YYYY-MM-DD')}/>
+                  </div>
+                  <div>
+                    <span>实际结案日期：</span>
+                    <DatePicker
+                      onChange={(_,dateString) => this.state.dataList.finalFinishDate = dateString}
+                      placeholder="请选择日期"
+                      defaultValue={this.state.dataList.finalFinishDate === null ? null : moment(this.state.dataList.finalFinishDate, 'YYYY-MM-DD')}/>
+                  </div>
+
                 </div>
                 <div className={styles['procedure']}>
                   <div className="procedureTitle">流程配置</div>
@@ -837,8 +913,8 @@ class PmBaseInfoEdit extends Component {
                           {/* <Input defaultValue={this.state.dataList.projectTypes}></Input> */}
                         </Col>
                         <Col span={8}>
-                          <span >项目名称：</span>
-                          <Input value={this.state.dataList.name} disabled></Input>
+                          <span >系统名称：</span>
+                          <Input value={this.state.dataList.sysName} disabled></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
@@ -854,6 +930,10 @@ class PmBaseInfoEdit extends Component {
                           <span>主导人：</span>
                           <Input value={this.state.dataList.leader} disabled></Input>
                         </Col>
+                        <Col span={8}>
+                          <span >项目名称：</span>
+                          <Input value={this.state.dataList.name} disabled></Input>
+                        </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={8}>
@@ -863,6 +943,25 @@ class PmBaseInfoEdit extends Component {
                         <Col span={8}>
                           <span >提案日期：</span>
                           <Input value={this.state.dataList.submissionDate} disabled></Input>
+                        </Col>
+                        <Col span={8}>
+                          <span >科室名称：</span>
+                          <ComboList
+                            allowClear
+                            defaultValue={this.state.dataList.orgname}
+                            dataSource={this.state.orgnameList}
+                            showSearch={false}
+                            pagination={false}
+                            name="name"
+                            field={['name']}
+                            afterClear={() => this.orgClear()}
+                            afterSelect={item => this.orgSelect(item)}
+                            reader={{
+                              name: 'name',
+                              field: ['name'],
+                            }}
+                            style={{width:200}}
+                          ></ComboList>
                         </Col>
                         {/* <Col span={8}>
                           <span >规划审批：</span>

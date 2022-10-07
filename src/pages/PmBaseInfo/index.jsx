@@ -271,6 +271,13 @@ class PmBaseInfo extends Component {
                 pageCheckDocId: record.pageCheckDocId,
                 acceptOrderDocId: record.acceptOrderDocId,
                 accpetReprotDocId: record.accpetReprotDocId,
+                startDate: record.startDate,
+                planFinishDate: record.planFinishDate,
+                finalFinishDate: record.finalFinishDate,
+                sysName: record.sysName,
+                orgname: record.orgname,
+                orgcode: record.orgcode,
+                extorgname: record.extorgname,
               }
             }}>
               查看详情
@@ -299,8 +306,20 @@ class PmBaseInfo extends Component {
         required: true,
       },
       {
-        title: '项目名称',
+        title: '系统名称',
+        dataIndex: 'sysName',
+        width: 200,
+        required: true,
+      },
+      {
+        title: '提案名称',
         dataIndex: 'name',
+        width: 200,
+        required: true,
+      },
+      {
+        title: '科室名称',
+        dataIndex: 'orgname',
         width: 200,
         required: true,
       },
@@ -550,6 +569,13 @@ class PmBaseInfo extends Component {
                 pageCheckDocId: '',
                 acceptOrderDocId: '',
                 accpetReprotDocId: '',
+                startDate: null,
+                planFinishDate: null,
+                finalFinishDate: null,
+                sysName: '',
+                orgname: '',
+                orgcode: '',
+                extorgname: '',
               }
             }}>
               新建

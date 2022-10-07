@@ -9,7 +9,7 @@ import { utils } from 'suid';
 import { downFile } from '@/utils';
 import { del, save, saveToDo, delToDo, findEmp,getProOpt, syncProjectInfo
   , projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch
-  ,findByIdForSchedule,saveUpload,saveUploadList,uploadMasterPlan, downLoadTemplate } from './service';
+  ,findByIdForSchedule,saveUpload,saveUploadList,uploadMasterPlan, downLoadTemplate, getChildrenNodes } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -229,6 +229,19 @@ export default modelExtend(model, {
       if (ds.success) {
         downFile(ds.data, payload.type + '模板');
       }
+    },
+
+    // orgList
+    *getChildrenNodes({ payload }, { call }) {
+      const result = yield call(getChildrenNodes, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+      //  message.success(msg);
+      } else {
+        message.error(msg);
+      }
+      return result;
     },
   },
 });

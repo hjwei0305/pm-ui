@@ -12,7 +12,7 @@ export default {
     pathRewrite: { '^/api-gateway/pm-api': '' },
   },
   '/api-gateway': {
-    target: 'http://10.233.0.170/api-gateway',
+    target: 'https://sei.donlim.com/api-gateway',
     changeOrigin: true,
     secure: false,
     pathRewrite: { '^/api-gateway': '' },
