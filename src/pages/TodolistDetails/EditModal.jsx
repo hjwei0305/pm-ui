@@ -5,8 +5,6 @@ import moment from 'moment';
 import { getCurrentUser } from '@/utils/user';
 
 const now = moment();
-
-const FormItem = Form.Item;
 // const formItemLayout = {
 //   labelCol: {
 //     span: 6,
@@ -54,7 +52,9 @@ class FormModal extends PureComponent {
         onOk={this.handleSave}
       >
         <Form>
-        <FormItem>起草阶段</FormItem>
+        <div>
+          <span style={{fontWeight:'bold',fontSize:"16px"}}>起草阶段</span>
+        </div>
          <Row gutter={24}  style={{ margin: "10px 0" }}>
             <Col span={10}>
               <span >提出日期：</span>
@@ -103,7 +103,9 @@ class FormModal extends PureComponent {
             })(<Input disabled={!!editData || saving} />)}
           </Col>
         </Row>
-       <FormItem>确认阶段</FormItem>
+       <div>
+          <span style={{fontWeight:'bold',fontSize:"16px"}}>确认阶段</span>
+        </div>
         <Row gutter={24}  style={{ margin: "10px 0" }}>
           <Col span={10}>
             <span>确认人:</span>
@@ -120,7 +122,9 @@ class FormModal extends PureComponent {
             {getFieldDecorator('completion', { initialValue: editData && editData.completion,})(<Input disabled={!!editData || saving} />)}
           </Col>
         </Row>
-      <FormItem>验证阶段</FormItem>
+        <div>
+          <span style={{fontWeight:'bold',fontSize:"16px"}}>验证阶段</span>
+        </div>
         <Row gutter={24}  style={{ margin: "10px 0" }}>
           <Col span={10}>
             <span>确认人:</span>
