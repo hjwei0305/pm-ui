@@ -3,10 +3,12 @@ import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button, Popconfirm } from 'antd';
 import { ExtTable, ExtIcon, Space,ComboList } from 'suid';
+import ExtAction from '@/components/ExtAction';
 import EditModal from './EditModal';
 import {constants} from "@/utils";
+import { getCurrentUser } from '@/utils/user';
 
-const {PROJECT_PATH} = constants
+const {PROJECT_PATH,SERVER_PATH} = constants
 @withRouter
 @connect(({ todolistDetails, loading }) => ({ todolistDetails, loading }))
 class TodolistDetails extends Component {
@@ -175,6 +177,75 @@ class TodolistDetails extends Component {
     return <ExtIcon status="error" tooltip={{ title: '删除' }} type="delete" antd />;
   };
 
+  filterMenusData = item => {
+    const useThis = this;
+    const menusData = [
+      // {
+      //   title: '修改',
+      //   key: 'edit',
+      //   canClick: item.flowStatus === 'INIT' || item.flowStatus === null,
+      // },
+      {
+        title: '修改/查看',
+        key: 'view',
+        icon: 'file-search',
+        canClick: true,
+      },
+      {
+        title: '审核历史',
+        key: 'flowHistory',
+        canClick: item.flowStatus !== 'INIT' && item.flowStatus != null,
+        props: {
+          businessId: item.id,
+          store: {
+            baseUrl: SERVER_PATH,
+          },
+        },
+      },
+      {
+        title: '删除',
+        key: 'del',
+        // canClick: item.creatorId === getCurrentUser().userId && false,
+        canClick: true
+      },
+
+
+      // {
+      //   title: '提交审批',
+      //   key: 'flow',
+      //   canClick: item.creatorId === getCurrentUser().userId && item.flowStatus === 'INIT',
+      //   props: {
+      //     businessKey: item.id,
+      //     startComplete: () => useThis.reloadData(),
+      //     businessModelCode: 'com.donlim.ess.entity.EssGoodsDelivery',
+      //     store: {
+      //       baseUrl: SERVER_PATH,
+      //     },
+      //   },
+      // },
+    ];
+    return menusData.filter(a => a.canClick);
+  };
+
+  handlerAction = (key, recordItem) => {
+    switch (key) {
+      // case 'edit':
+      //   console.log('edit')
+      //   this.handleEvent('edit',recordItem)
+      //   // this.pageJump(recordItem);
+      //   break;
+      case 'view':
+        console.log('view')
+        this.handleEvent('edit',recordItem)
+        // this.pageJumpNext(recordItem);
+        break;
+      case 'del':
+        break;
+      default:
+        break;
+    }
+  };
+
   getExtableProps = () => {
     const columns = [
       {
@@ -185,26 +256,35 @@ class TodolistDetails extends Component {
         dataIndex: 'id',
         className: 'action',
         required: true,
-        render: (_, record) => (
+        render: (id, record) => (
           <Space>
-            <ExtIcon
-              key="edit"
-              className="edit"
-              onClick={() => this.handleEvent('edit', record)}
-              type="edit"
-              status="success"
-              tooltip={{ title: '编辑' }}
-              antd
+            <ExtAction
+              key={id}
+              onAction={this.handlerAction}
+              menusData={this.filterMenusData(record)}
+              recordItem={record}
             />
-            <Popconfirm
-              key="del"
-              placement="topLeft"
-              title="确定要删除吗？"
-              onConfirm={() => this.handleEvent('del', record)}
-            >
-              {this.renderDelBtn(record)}
-            </Popconfirm>
           </Space>
+          // <Space>
+          //   <ExtIcon
+          //     hidden={!(record.flowStatus === null)}
+          //     key="edit"
+          //     className="edit"
+          //     onClick={() => this.handleEvent('edit', record)}
+          //     type="edit"
+          //     status="success"
+          //     tooltip={{ title: '编辑' }}
+          //     antd
+          //   />
+          //   <Popconfirm
+          //     key="del"
+          //     placement="topLeft"
+          //     title="确定要删除吗？"
+          //     onConfirm={() => this.handleEvent('del', record)}
+          //   >
+          //     {this.renderDelBtn(record)}
+          //   </Popconfirm>
+          // </Space>
         ),
       },
       {

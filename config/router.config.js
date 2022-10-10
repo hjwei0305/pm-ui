@@ -63,6 +63,12 @@ export default [
             title: '数据报表',
           },
           {
+            path: '/pm/TodolistApprove',
+            component: './TodolistDetails/approve/ApproveDetail',
+            title: '审批页面',
+          },
+
+          {
             path: '/pm/TodolistDetails',
             component: './TodolistDetails',
             title: '待办列表清单',

@@ -70,6 +70,11 @@ const menuData = [
     name: '待办列表清单',
     path: '/pm/TodolistDetails',
   },
+  {
+    id: '502',
+    name: '审批页面',
+    path: '/pm/TodolistApprove',
+  },
 ];
 
 const getIcon = icon => {
