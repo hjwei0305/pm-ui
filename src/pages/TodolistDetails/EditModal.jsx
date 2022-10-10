@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Form,DatePicker, Input } from 'antd';
-import { ExtModal,ComboList } from 'suid';
+import { ExtModal } from 'suid';
 import moment from 'moment';
 import { getCurrentUser } from '@/utils/user';
 
@@ -53,15 +53,15 @@ class FormModal extends PureComponent {
         title={title}
         onOk={this.handleSave}
       >
-        <Form {...formItemLayout} layout="horizontal">
+        <Form {...formItemLayout}>
         <FormItem>起草阶段</FormItem>
         <FormItem label="提出日期">
-            {getFieldDecorator('submit_date', {
+            {getFieldDecorator('submitDate', {
               initialValue: now,
             })(<DatePicker/>)}
           </FormItem>
           <FormItem label="起草人">
-            {getFieldDecorator('submit_name', {
+            {getFieldDecorator('submitName', {
               initialValue: getCurrentUser().userName,
             })(<Input disabled value={name} />)}
           </FormItem>
@@ -105,8 +105,8 @@ class FormModal extends PureComponent {
             })(<Input disabled={!!editData || saving} />)}
           </FormItem>
           <FormItem label="建议状态">
-            {getFieldDecorator('proposal_status', {
-              initialValue: editData && editData.proposal_status,
+            {getFieldDecorator('proposalStatus', {
+              initialValue: editData && editData.proposalStatus,
             })(<Input disabled={!!editData || saving} />)}
           </FormItem>
           <FormItem label="完成情况">
@@ -121,14 +121,15 @@ class FormModal extends PureComponent {
             })(<Input disabled={!!editData || saving} />)}
           </FormItem>
           <FormItem label="确认时间">
-            {getFieldDecorator('confirmation_time', {
-              initialValue: editData && editData.confirmation_time,
+            {getFieldDecorator('confirmationTime', {
+              initialValue: editData && editData.confirmationTime,
             })(<DatePicker />)}
           </FormItem>
           <FormItem label="结案状态">
-            {getFieldDecorator('closing_status', {
-              initialValue: editData && editData.closing_status,
-            })(<ComboList disabled={!!editData || saving} />)}
+            {getFieldDecorator('closingStatus', {
+              searchPlaceHolder: '请根据责任人查询',
+              initialValue: editData && editData.closingStatus,
+            })(<Input disabled={!!editData || saving} />)}
           </FormItem>
           <FormItem label="备注">
             {getFieldDecorator('remark', {

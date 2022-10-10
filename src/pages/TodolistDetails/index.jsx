@@ -12,21 +12,19 @@ const {PROJECT_PATH} = constants
 class TodolistDetails extends Component {
   state = {
     delId: null,
-    usableFilter: null,
-    billTypeFilter:null,
-    usable: [
+    closingStatusFilter: null,
+    documentStatusFilter:null,
+    closingStatusList: [
       {
         id: 1,
-        code: 'true',
         name: '合格',
       },
       {
         id: 2,
-        code: 'false',
         name: '不合格',
       },
     ],
-    billTypeList: [
+    documentStatusList: [
       {
         id: 1,
         name: '起草',
@@ -110,30 +108,32 @@ class TodolistDetails extends Component {
   // };
 
   getTableFilters = () => {
-      const { codeFilter, billTypeFilter, usableFilter } = this.state;
+      const {  documentStatusFilter, closingStatusFilter } = this.state;
       const filters = [];
-      if (codeFilter) {
-        filters.push({
-          fieldName: 'code',
-          operator: 'EQ',
-          fieldType: 'string',
-          value: codeFilter,
-        });
-      }
-    if (billTypeFilter) {
+      console.log(this.state)
+
+      // if (codeFilter) {
+      //   filters.push({
+      //     fieldName: 'submitName',
+      //     operator: 'EQ',
+      //     fieldType: 'string',
+      //     value: codeFilter,
+      //   });
+      // }
+    if (documentStatusFilter) {
       filters.push({
-        fieldName: 'document_status',
+        fieldName: 'documentStatus',
         operator: 'EQ',
         fieldType: 'string',
-        value: billTypeFilter,
+        value: documentStatusFilter,
       });
     }
-    if (usableFilter) {
+    if (closingStatusFilter) {
       filters.push({
-        fieldName: 'document_status',
+        fieldName: 'closingStatus',
         operator: 'EQ',
         fieldType: 'string',
-        value: usableFilter,
+        value: closingStatusFilter,
       });
     }
       return filters;
@@ -209,31 +209,31 @@ class TodolistDetails extends Component {
       },
       {
         title: '提出日期',
-        dataIndex: 'submit_date',
+        dataIndex: 'submitDate',
         width: 120,
         required: true,
       },
       {
         title: '起草人',
-        dataIndex: 'submit_name',
+        dataIndex: 'submitName',
         width: 220,
         required: true,
       },
       {
         title: '待办事项',
-        dataIndex: 'todo_list',
+        dataIndex: 'todoList',
         width: 220,
         required: true,
       },
       {
         title: '责任人',
-        dataIndex: 'onduty_name',
+        dataIndex: 'ondutyName',
         width: 220,
         required: true,
       },
       {
         title: '要求完成日期',
-        dataIndex: 'completion_date',
+        dataIndex: 'completionDate',
         width: 220,
         required: true,
       },
@@ -245,7 +245,7 @@ class TodolistDetails extends Component {
       },
       {
         title: '建议状态',
-        dataIndex: 'proposal_status',
+        dataIndex: 'proposalStatus',
         width: 220,
         required: true,
       },
@@ -263,19 +263,19 @@ class TodolistDetails extends Component {
       },
       {
         title: '确认时间',
-        dataIndex: 'confirmation_time',
+        dataIndex: 'confirmationTime',
         width: 220,
         required: true,
       },
       {
         title: '结案状态',
-        dataIndex: 'closing_status',
+        dataIndex: 'closingStatus',
         width: 220,
         required: true,
       },
       {
         title: '单据状态',
-        dataIndex: 'document_status',
+        dataIndex: 'documentStatus',
         width: 220,
         required: true,
       },
@@ -302,14 +302,17 @@ class TodolistDetails extends Component {
             showSearch={false}
             pagination={false}
             allowClear
-            dataSource={this.state.usable}
+            dataSource={this.state.closingStatusList}
             name="name"
-            field={['code']}
-            afterClear={() => this.setState({ usableFilter: null })}
-            afterSelect={item => this.setState({ usableFilter: item.code })}
+            field={['name']}
+            afterClear={() => this.setState({ closingStatusFilter: null })}
+            afterSelect={item =>
+              // console.log(item)
+              this.setState({ closingStatusFilter: item.name })
+            }
             reader={{
               name: 'name',
-              field: ['code'],
+              field: ['name'],
             }}
           />
           单据状态:{' '}
@@ -318,11 +321,11 @@ class TodolistDetails extends Component {
             showSearch={false}
             pagination={false}
             allowClear
-            dataSource={this.state.billTypeList}
+            dataSource={this.state.documentStatusList}
             name="name"
             field={['name']}
-            afterClear={() => this.setState({ billTypeFilter: null })}
-            afterSelect={item => this.setState({ billTypeFilter: item.name })}
+            afterClear={() => this.setState({ documentStatusFilter: null })}
+            afterSelect={item => this.setState({ documentStatusFilter: item.name })}
             reader={{
               name: 'name',
               field: ['name'],
@@ -349,17 +352,21 @@ class TodolistDetails extends Component {
         </Space>
       ),
     };
+    const filters = this.getTableFilters();
     return {
       columns,
       bordered: false,
       toolBar: toolBarProps,
       remotePaging: true,
-      searchProperties: ['onduty_name'],
+      searchProperties: ['ondutyName'],
       searchPlaceHolder: '请根据责任人查询',
+      cascadeParams: {
+        filters,
+      },
       store: {
         type: 'POST',
         url:
-        `${PROJECT_PATH}/todoList/findByPage`,
+        `${PROJECT_PATH}/todoList/projFindByPage2`,
       },
     };
   };
