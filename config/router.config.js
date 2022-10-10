@@ -62,7 +62,11 @@ export default [
             component: './Report',
             title: '数据报表',
           },
-
+          {
+            path: '/pm/TodolistDetails',
+            component: './TodolistDetails',
+            title: '待办列表清单',
+          },
         ],
       },
       {

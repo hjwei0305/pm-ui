@@ -65,6 +65,11 @@ const menuData = [
     name: '数据报表',
     path: '/pm/Report',
   },
+  {
+    id: '601',
+    name: '待办列表清单',
+    path: '/pm/TodolistDetails',
+  },
 ];
 
 const getIcon = icon => {
