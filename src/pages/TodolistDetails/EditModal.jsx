@@ -45,21 +45,20 @@ class FormModal extends PureComponent {
         pathname: '/pm/TodolistDetails',
       });
     };
-
   render() {
-    const { form, editData, onClose, saving, visible,name } = this.props;
+    const { form, editData, onClose, saving, visible, dispatch } = this.props;
     const { getFieldDecorator } = form;
     let title = editData ? '编辑待办' : '新增待办';
     const isDisabled = editData && (editData.flowStatus != 'INIT') && (editData.flowStatus != null) ? true : false ;
     if(editData && isDisabled){
       title = '查看待办'
     }
+    const sp = title == '新增待办' ? true : false
     const startFlowProps = {
       businessKey: editData && editData.id,
       businessModelCode: 'com.donlim.pm.entity.TodoList',
       startComplete: () => this.BackBill,
       needStartConfirm: true,
-      beforeStart: this.handleSave,
     };
 
     return (
@@ -82,7 +81,7 @@ class FormModal extends PureComponent {
           </Button>,
           <StartFlow {...startFlowProps}>
             {sLoading => (
-              <Button type="primary" disabled={sLoading} loading={sLoading} style={{marginLeft:"5px"}}  hidden={isDisabled}>
+              <Button type="primary" disabled={sLoading} loading={sLoading} style={{marginLeft:"5px"}}  hidden={isDisabled || sp}>
                 提交审批
               </Button>
             )}
@@ -101,7 +100,7 @@ class FormModal extends PureComponent {
             </Col>
             <Col span={10}>
               <span >起草人：</span>
-              {getFieldDecorator('submitName', {initialValue: getCurrentUser().userName,})(<Input disabled value={name} />)}
+              {getFieldDecorator('submitName', {initialValue: editData ? editData.submitName : getCurrentUser().userName,})(<Input disabled />)}
             </Col>
         </Row>
         <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
