@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, Popconfirm } from 'antd';
+import { Button } from 'antd';
 import { ExtTable, ExtIcon, Space,ComboList } from 'suid';
 import ExtAction from '@/components/ExtAction';
 import EditModal from './EditModal';
 import {constants} from "@/utils";
-import { getCurrentUser } from '@/utils/user';
 
 const {PROJECT_PATH,SERVER_PATH} = constants
 @withRouter
@@ -97,17 +96,6 @@ class TodolistDetails extends Component {
         break;
     }
   };
-    // 导出
-  // export = () => {
-  //     const tableFilters = this.getTableFilters();
-  //     exportHandle(
-  //       '/todoList/exportDept',
-  //       {
-  //         filters: tableFilters,
-  //       },
-  //       '待办列表清单',
-  //     );
-  // };
 
   getTableFilters = () => {
       const {  documentStatusFilter, closingStatusFilter } = this.state;
@@ -178,7 +166,7 @@ class TodolistDetails extends Component {
   };
 
   filterMenusData = item => {
-    const useThis = this;
+    // const useThis = this;
     const menusData = [
       // {
       //   title: '修改',
@@ -421,14 +409,7 @@ class TodolistDetails extends Component {
           >
             新增
           </Button>
-          {/* <Button
-            type="primary"
-            htmlType="submit"
-            style={{ marginRight: '12px' }}
-            onClick={this.export}
-          >
-            导出
-          </Button> */}
+          <Button onClick={() => this.tableRef.extTool.exportData()}>导出</Button>
         </Space>
       ),
     };
@@ -438,8 +419,10 @@ class TodolistDetails extends Component {
       bordered: false,
       toolBar: toolBarProps,
       remotePaging: true,
+      exportData: true,
       searchProperties: ['ondutyName'],
       searchPlaceHolder: '请根据责任人查询',
+      onTableRef: inst => (this.tableRef = inst),
       cascadeParams: {
         filters,
       },

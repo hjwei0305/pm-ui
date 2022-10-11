@@ -18,6 +18,7 @@ const now = moment();
 @Form.create()
 class FormModal extends PureComponent {
   state = {
+    // eslint-disable-next-line react/no-unused-state
     isDisabled: true
   }
 
@@ -46,11 +47,22 @@ class FormModal extends PureComponent {
       });
     };
 
+    // upload = (type,typeName) => {
+    //   this.dispatchAction({
+    //     type: 'pmBaseInfoEdit/updateState',
+    //     payload: {
+    //       modalVisibleSche: true,
+    //       fileType: type,
+    //       attId: typeName,
+    //     },
+    //   });
+    // };
+
   render() {
     const { form, editData, onClose, saving, visible,name } = this.props;
     const { getFieldDecorator } = form;
     let title = editData ? '编辑待办' : '新增待办';
-    const isDisabled = editData && (editData.flowStatus != 'INIT') && (editData.flowStatus != null) ? true : false ;
+    const isDisabled = editData && (editData.flowStatus !== 'INIT') && (editData.flowStatus != null) ;
     if(editData && isDisabled){
       title = '查看待办'
     }
@@ -72,7 +84,7 @@ class FormModal extends PureComponent {
         maskClosable={false}
         title={title}
         onOk={this.handleSave}
-        okText={"保存"}
+        okText="保存"
         footer={[
           <Button key="back" onClick={onClose} hidden={isDisabled}>
             关闭
@@ -159,6 +171,7 @@ class FormModal extends PureComponent {
           <Col>
             <span>完成情况</span>
             {getFieldDecorator('completion', { initialValue: editData && editData.completion,})(<Input disabled={isDisabled || saving} />)}
+            <Button onClick={() => this.upload}>上传PNG/PPT/Word/EXCEL文件</Button>
           </Col>
         </Row>
         <div>
