@@ -29,3 +29,8 @@ export async function del(params) {
   const url = `${serverPath}${contextPath}/delete/${params.id}`;
   return request.delete(url);
 }
+
+export async function findOne(data) {
+  const url = `${PROJECT_PATH}/todoList/findOne?id=${data.id}`;
+  return request.get(url);
+}
