@@ -25,6 +25,26 @@ const formItemLayout = {
 @Form.create()
 @connect(({ todolistDetails, loading }) => ({ todolistDetails, loading }))
 class ApproveDetail extends PureComponent {
+  constructor(props){
+    super(props)
+    const { dispatch } = props;
+    const { location } = this.props;
+    const { id } = location.query;
+    dispatch({
+      type: 'todolistDetails/findOne',
+      payload:{
+        id: id
+      }
+    }).then(res => {
+      const { data } = res;
+      this.setState({
+        editData : data,
+      })
+      
+    })
+  }
+
+
   /** 提交执行完成后的回调函数 */
   submitComplete = res => {
     if (res.success) {
@@ -51,40 +71,46 @@ class ApproveDetail extends PureComponent {
     });
   };
 
-  handleClose = () => {
-    this.dispatchAction({
-      type: 'todolistDetails/updateState',
-      payload: {
-        modalVisible: false,
-        editData: null,
-      },
-    });
-  };
+  // handleClose = () => {
+  //   this.dispatchAction({
+  //     type: 'todolistDetails/updateState',
+  //     payload: {
+  //       modalVisible: false,
+  //       this.state.editData: null,
+  //     },
+  //   });
+  // };
 
-  getEditModalProps = () => {
-    const { loading, todolistDetails } = this.props;
-    const { editData } = todolistDetails;
+  // getEditModalProps = () => {
+  //   const { loading, todolistDetails } = this.props;
+  //   const { this.state.editData } = todolistDetails;
 
-    return {
-      onSave: this.handleSave,
-      editData,
-      visible: true,
-      onClose: this.handleClose,
-      saving: loading.effects['todolistDetails/save'],
-    };
-  };
+  //   return {
+  //     onSave: this.handleSave,
+  //     this.state.editData,
+  //     visible: true,
+  //     onClose: this.handleClose,
+  //     saving: loading.effects['todolistDetails/save'],
+  //   };
+  // };
 
   render() {
-    const { form, editData } = this.props;
+    const { form, dispatch } = this.props;
     const { getFieldDecorator } = form;
     const { location } = this.props;
     const { id, taskId, instanceId } = location.query;
+    // const notStart = this.state.editData.flowStatus == 0 ? true : false;
+    // const confirm = this.state.editData.flowStatus == 1 && this.state.editData.proposalStatus ? true : false;
+    // const verify = this.state.editData.flowStatus == 1 &&  ? true : false ;
     const approveProps = {
       businessId: id,
       taskId,
       instanceId,
+      beforeSubmit: this.handleSave,
       submitComplete: this.submitComplete,
     };
+    
+
     return (
       <AuthUrl>
         <Approve {...approveProps}>
@@ -97,7 +123,7 @@ class ApproveDetail extends PureComponent {
               <Col span={10}>
                 <FormItem label="待办事项">
                   {getFieldDecorator('todoList', {
-                    initialValue: editData && editData.todoList,
+                    initialValue: this.state.editData && this.state.editData.todoList,
                     rules: [
                       {
                         required: true,
@@ -111,7 +137,7 @@ class ApproveDetail extends PureComponent {
             <Row gutter={24}>
                 <Col span={10}>
                   <FormItem label="提出日期">
-                    {getFieldDecorator('submitDate', {initialValue: editData ? editData.submitDate && moment.utc(editData.submitDate) : now,})
+                    {getFieldDecorator('submitDate', {initialValue: this.state.editData ? this.state.editData.submitDate && moment.utc(this.state.editData.submitDate) : now,})
                     (<DatePicker disabled/>)}
                   </FormItem>
                 </Col>
@@ -125,7 +151,7 @@ class ApproveDetail extends PureComponent {
             <Row gutter={24}>
               <Col span={10}>
                 <FormItem label="要求完成日期">
-                  {getFieldDecorator('completionDate', {initialValue: editData && editData.completionDate && moment.utc(editData.completionDate),
+                  {getFieldDecorator('completionDate', {initialValue: this.state.editData && this.state.editData.completionDate && moment.utc(this.state.editData.completionDate),
                     rules: [
                       {
                         required: true,
@@ -137,7 +163,7 @@ class ApproveDetail extends PureComponent {
               </Col>
               <Col span={10}>
                 <FormItem label="责任人">
-                  {getFieldDecorator('ondutyName', {initialValue: editData && editData.ondutyName,
+                  {getFieldDecorator('ondutyName', {initialValue: this.state.editData && this.state.editData.ondutyName,
                     rules: [
                       {
                         required: true,
@@ -152,19 +178,19 @@ class ApproveDetail extends PureComponent {
             <Row gutter={24}>
               <Col span={10}>
                 <FormItem label="确认人">
-                  {getFieldDecorator('confirmedby1', {initialValue: editData && editData.confirmedby1, })(<Input disabled />)}
+                  {getFieldDecorator('confirmedby1', {initialValue: this.state.editData && this.state.editData.confirmedby1, })(<Input disabled />)}
                 </FormItem>
               </Col>
               <Col span={10}>
                 <FormItem label="建议状态">
-                  {getFieldDecorator('proposalStatus', {initialValue: editData && editData.proposalStatus, })(<Input placeholder='请输入结案/不结案' disabled />)}
+                  {getFieldDecorator('proposalStatus', {initialValue: this.state.editData && this.state.editData.proposalStatus, })(<Input placeholder='请输入结案/不结案' disabled />)}
                 </FormItem>
               </Col>
             </Row>
             <Row gutter={24}>
               <Col span={10}>
                 <FormItem label="完成情况">
-                  {getFieldDecorator('completion', { initialValue: editData && editData.completion,})(<Input disabled />)}
+                  {getFieldDecorator('completion', { initialValue: this.state.editData && this.state.editData.completion,})(<Input disabled />)}
                 </FormItem>
               </Col>
             </Row>
@@ -172,12 +198,12 @@ class ApproveDetail extends PureComponent {
             <Row gutter={24}>
               <Col span={10}>
                 <FormItem label="确认人">
-                  {getFieldDecorator('confirmedby2', {initialValue: editData && editData.confirmedby2,})(<Input disabled />)}
+                  {getFieldDecorator('confirmedby2', {initialValue: this.state.editData && this.state.editData.confirmedby2,})(<Input disabled />)}
                 </FormItem>
               </Col>
               <Col span={10}>
                 <FormItem label="确认时间">
-                  {getFieldDecorator('confirmationTime', {initialValue: editData && editData.confirmationTime && moment.utc(editData.confirmationTime),})
+                  {getFieldDecorator('confirmationTime', {initialValue: this.state.editData && this.state.editData.confirmationTime && moment.utc(this.state.editData.confirmationTime),})
                   (<DatePicker disabled/>)}
                 </FormItem>
               </Col>
@@ -185,12 +211,12 @@ class ApproveDetail extends PureComponent {
             <Row gutter={24}>
               <Col span={10}>
                 <FormItem label="结案状态">
-                  {getFieldDecorator('closingStatus', {initialValue: editData && editData.closingStatus,})(<Input placeholder='请输入合格/不合格' disabled />)}
+                  {getFieldDecorator('closingStatus', {initialValue: this.state.editData && this.state.editData.closingStatus,})(<Input placeholder='请输入合格/不合格' disabled />)}
                 </FormItem>
               </Col>
               <Col span={10}>
                 <FormItem label="备注">
-                  {getFieldDecorator('remark', {initialValue: editData && editData.remark,})(<Input disabled />)}
+                  {getFieldDecorator('remark', {initialValue: this.state.editData && this.state.editData.remark,})(<Input disabled />)}
                 </FormItem>
               </Col>
             </Row>
