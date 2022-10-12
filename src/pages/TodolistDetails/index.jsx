@@ -151,7 +151,8 @@ class TodolistDetails extends Component {
       return filters;
     };
 
-  findCode = (data) => {
+  handleSave = data => {
+    let saveData = data;
     this.dispatchAction({
       type: 'todolistDetails/getUserInfo',
       payload: {
@@ -160,33 +161,40 @@ class TodolistDetails extends Component {
     }).then(res => {
       const { data } = res
       if(res.success){
-        console.log(data)
-        console.log(data.id)
-        return data.id
+        saveData.confirmedby1 = data.id
+        this.dispatchAction({
+          type: 'todolistDetails/save',
+          payload: saveData,
+        }).then(res => {
+          if (res.success) {
+            this.dispatchAction({
+              type: 'todolistDetails/updateState',
+              payload: {
+                modalVisible: false,
+              },
+            });
+            this.refresh();
+          }
+        });
       }
     })
-  }
 
-  handleSave = data => {
-    const confirmid = this.findCode(data)
-    console.log(confirmid)
-    let saveData = data;
-    saveData.confirmedby1 = confirmid
-    console.log(saveData)
-    this.dispatchAction({
-      type: 'todolistDetails/save',
-      payload: saveData,
-    }).then(res => {
-      if (res.success) {
-        this.dispatchAction({
-          type: 'todolistDetails/updateState',
-          payload: {
-            modalVisible: false,
-          },
-        });
-        this.refresh();
-      }
-    });
+      // this.dispatchAction({
+      //   type: 'todolistDetails/save',
+      //   payload: saveData,
+      // }).then(res => {
+      //   if (res.success) {
+      //     this.dispatchAction({
+      //       type: 'todolistDetails/updateState',
+      //       payload: {
+      //         modalVisible: false,
+      //       },
+      //     });
+      //     this.refresh();
+      //   }
+      // });
+
+    
   };
 
   handleClose = () => {
