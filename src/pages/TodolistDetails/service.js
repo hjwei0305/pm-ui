@@ -31,6 +31,10 @@ export async function del(params) {
 }
 
 export async function findOne(data) {
-  const url = `${PROJECT_PATH}/todoList/findOne?id=${data.id}`;
-  return request.get(url);
+  const url = `${PROJECT_PATH}${contextPath}/findOne?id=${data.id}`;
+  return request({
+    url,
+    method: 'GET',
+  });
+  // return request.get(url);
 }
