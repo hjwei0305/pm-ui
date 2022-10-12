@@ -53,3 +53,12 @@ export async function getUserInfo(param) {
   const url = `${SERVER_PATH}/sei-basic/employee/findByCode?code=${param.code}`;
   return request.get(url);
 }
+
+export async function saveUserId(data) {
+   const url = `${PROJECT_PATH}${contextPath}/saveUserId`;
+   return request({
+    url,
+    method: 'POST',
+    data,
+   });
+  }
