@@ -59,24 +59,20 @@ class ApproveDetail extends PureComponent {
     }
   };
 
+  beforeSubmit = () => {
+    this.handleSave()
+    return new Promise(resolve => {
+      resolve(res);
+    });
+  };
+
   handleSave = () => {
     const { dispatch } = this.props;
     this.editData.projectCode = 'test'
     dispatch({
       type: 'todolistDetails/save',
       payload: this.editData,
-    }).then(res => {
-      if (res.success) {
-        console.log('AAAA')
-        // this.dispatchAction({
-        //   type: 'todolistDetails/updateState',
-        //   payload: {
-        //     modalVisible: false,
-        //   },
-        // });
-        // this.refresh();
-      }
-    });
+    })
   };
 
   // handleClose = () => {
@@ -114,7 +110,7 @@ class ApproveDetail extends PureComponent {
       businessId: id,
       taskId,
       instanceId,
-      beforeSubmit: this.handleSave,
+      beforeSubmit: this.beforeSubmit,
       submitComplete: this.submitComplete,
       onApproveRef: this.aa,
     };
