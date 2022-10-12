@@ -5,6 +5,7 @@ import { WorkFlow, utils, AuthUrl, ComboList } from 'suid';
 import { Form, Row, Col, Input, DatePicker } from 'antd';
 import moment from 'moment';
 import { getCurrentUser } from '@/utils/user';
+import { authAction } from 'suid/lib/utils';
 // import { TodoDetail  } from '@/pages/TodolistDetails/TodoDetail'
 
 const now = moment();
@@ -31,21 +32,23 @@ class ApproveDetail extends PureComponent {
     const { location } = this.props;
     const { id } = location.query;
     this.editData = {};
-    setTimeout(() => {
-      dispatch({
-        type: 'todolistDetails/findOne',
-        payload:{
-          id: id
-        }
-      }).then(res => {
-        const { data } = res;
-        this.editData = data;
-        // form.setFieldsValue(this.editData);
-        this.forceUpdate();
-      })
-    },2000) 
-  }
 
+  };
+
+  aa = () => {
+    const { form,dispatch } = props;
+    dispatch({
+      type: 'todolistDetails/findOne',
+      payload:{
+        id: id
+      }
+    }).then(res => {
+      const { data } = res;
+      this.editData = data;
+      // form.setFieldsValue(this.editData);
+      this.forceUpdate();
+    })
+  };
 
   /** 提交执行完成后的回调函数 */
   submitComplete = res => {
@@ -110,6 +113,7 @@ class ApproveDetail extends PureComponent {
       instanceId,
       beforeSubmit: this.handleSave,
       submitComplete: this.submitComplete,
+      onApproveRef: this.aa,
     };
     
 
