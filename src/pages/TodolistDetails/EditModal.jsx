@@ -72,7 +72,7 @@ class FormModal extends PureComponent {
       businessModelCode: 'com.donlim.pm.entity.TodoList',
       startComplete: () => this.BackBill,
       needStartConfirm: true,
-      beforeStart: this.handleSave(editData),
+      beforeStart: () =>  this.handleSave(editData),
     };
     // const dataReplace = Object.assign({},editData)
     // dataReplace.id = attId
