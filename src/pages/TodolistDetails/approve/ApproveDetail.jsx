@@ -32,13 +32,11 @@ class ApproveDetail extends PureComponent {
     const { location } = this.props;
     const { id } = location.query;
     this.editData = {};
-    console.log("BBBAAA")
   };
 
   aa = () => {
     const { dispatch, location } = this.props;
     const { id } = location.query;
-    console.log("testAAABBB")
     dispatch({
       type: 'todolistDetails/findOne',
       payload:{
@@ -62,7 +60,9 @@ class ApproveDetail extends PureComponent {
   };
 
   handleSave = data => {
-    this.dispatchAction({
+    const { dispatch } = this.props;
+    data.projectCode = 'test'
+    dispatch({
       type: 'todolistDetails/save',
       payload: data,
     }).then(res => {
@@ -113,7 +113,7 @@ class ApproveDetail extends PureComponent {
       businessId: id,
       taskId,
       instanceId,
-      beforeSubmit: this.handleSave,
+      beforeSubmit: (editData) => this.handleSave(editData),
       submitComplete: this.submitComplete,
       onApproveRef: this.aa,
     };
