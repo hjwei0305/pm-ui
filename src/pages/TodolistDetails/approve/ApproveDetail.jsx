@@ -59,10 +59,10 @@ class ApproveDetail extends PureComponent {
     }
   };
 
-  beforeSubmit = res => {
+  beforeSubmit = () => {
     this.handleSave()
     return new Promise(resolve => {
-      resolve(res);
+      resolve();
     });
   };
 
