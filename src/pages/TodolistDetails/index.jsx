@@ -176,8 +176,8 @@ class TodolistDetails extends Component {
           console.log(result)
           if(result.success){
             saveData.confirmedby1 = result.data.id
-            saveData.completionDate = moment(saveData.completionDate).format('YYYY-MM-DD');
-            saveData.submitDate = moment(saveData.submitDate).format('YYYY-MM-DD');
+            saveData.completionDate = moment(saveData.completionDate).toDate;
+            saveData.submitDate = moment(saveData.submitDate).toDate;
             this.dispatchAction({
               type: 'todolistDetails/save',
               payload: saveData,
