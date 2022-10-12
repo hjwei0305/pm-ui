@@ -60,19 +60,26 @@ class ApproveDetail extends PureComponent {
   };
 
   beforeSubmit = () => {
-    this.handleSave()
     return new Promise(resolve => {
-      resolve();
+      this.handleSave(resolve)
     });
   };
 
-  handleSave = () => {
+  handleSave = (flowCallBack = this.defaultCallBack) => {
     const { dispatch } = this.props;
     this.editData.projectCode = 'test'
     dispatch({
       type: 'todolistDetails/save',
       payload: this.editData,
-    })
+    }).then(res => {
+      flowCallBack(res);
+    });
+  };
+
+  defaultCallBack = res => {
+    if (!res.success) {
+      message.warning(res.message);
+    }
   };
 
   // handleClose = () => {
