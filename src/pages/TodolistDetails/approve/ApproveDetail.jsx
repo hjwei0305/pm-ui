@@ -36,7 +36,8 @@ class ApproveDetail extends PureComponent {
   };
 
   aa = () => {
-    const { form,dispatch } = props;
+    const { dispatch, location } = this.props;
+    const { id } = location.query;
     console.log("testAAABBB")
     dispatch({
       type: 'todolistDetails/findOne',
