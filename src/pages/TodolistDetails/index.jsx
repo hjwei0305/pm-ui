@@ -154,30 +154,38 @@ class TodolistDetails extends Component {
   handleSave = data => {
     let saveData = data;
     this.dispatchAction({
-      type: 'todolistDetails/getUserInfo',
-      payload: {
-        code: data.ondutyCode
-      },
+      type: 'todolistDetails/save',
+      payload: saveData,
     }).then(res => {
-      const { data } = res
-      if(res.success){
-        saveData.confirmedby1 = data.id
+      if (res.success) {
+        let { data } = res
         this.dispatchAction({
-          type: 'todolistDetails/save',
-          payload: saveData,
-        }).then(res => {
-          if (res.success) {
-            this.dispatchAction({
-              type: 'todolistDetails/updateState',
-              payload: {
-                modalVisible: false,
-              },
-            });
-            this.refresh();
-          }
+          type: 'todolistDetails/updateState',
+          payload: {
+            modalVisible: false,
+          },
         });
+        this.dispatchAction({
+          type: 'todolistDetails/getUserInfo',
+          payload: {
+            code: res.data.ondutyCode
+          },
+        }).then(res1 => {
+          console.log(res1)
+          if(res1.success){
+            data.confirmedby1 = res1.data.id
+            this.dispatchAction({
+              type: 'todolistDetails/save',
+              payload: data,
+            })
+            console.log(data)
+          }
+        })
+        this.refresh();
       }
-    })
+    });
+    //   }
+    // })
 
       // this.dispatchAction({
       //   type: 'todolistDetails/save',
