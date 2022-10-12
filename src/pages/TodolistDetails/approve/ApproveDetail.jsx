@@ -59,12 +59,12 @@ class ApproveDetail extends PureComponent {
     }
   };
 
-  handleSave = data => {
+  handleSave = () => {
     const { dispatch } = this.props;
-    data.projectCode = 'test'
+    this.editData.projectCode = 'test'
     dispatch({
       type: 'todolistDetails/save',
-      payload: data,
+      payload: this.editData,
     }).then(res => {
       if (res.success) {
         console.log('AAAA')
@@ -114,7 +114,7 @@ class ApproveDetail extends PureComponent {
       businessId: id,
       taskId,
       instanceId,
-      // beforeSubmit: this.handleSave(this.editData),
+      beforeSubmit: this.handleSave,
       submitComplete: this.submitComplete,
       onApproveRef: this.aa,
     };
