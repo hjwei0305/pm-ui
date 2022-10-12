@@ -31,18 +31,19 @@ class ApproveDetail extends PureComponent {
     const { location } = this.props;
     const { id } = location.query;
     this.editData = {};
-    dispatch({
-      type: 'todolistDetails/findOne',
-      payload:{
-        id: id
-      }
-    }).then(res => {
-      const { data } = res;
-      this.editData = data;
-      // form.setFieldsValue(this.editData);
-      this.forceUpdate();
-    })
-    
+    setTimeout(() => {
+      dispatch({
+        type: 'todolistDetails/findOne',
+        payload:{
+          id: id
+        }
+      }).then(res => {
+        const { data } = res;
+        this.editData = data;
+        // form.setFieldsValue(this.editData);
+        this.forceUpdate();
+      })
+    },2000) 
   }
 
 
