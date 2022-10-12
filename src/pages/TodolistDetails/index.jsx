@@ -164,7 +164,7 @@ class TodolistDetails extends Component {
         saveData.confirmedby1 = data.id 
       }
     })
-    
+    console.log(saveData)
     this.dispatchAction({
       type: 'todolistDetails/save',
       payload: saveData,
