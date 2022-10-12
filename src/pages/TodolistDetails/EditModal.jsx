@@ -56,7 +56,7 @@ class FormModal extends PureComponent {
     renderOptions = () => {
       const { employee } = this.props;
       return <Select style={{width: 120}} allowClear showSearch>{employee}</Select>
-    } 
+    }
 
 
   render() {
@@ -72,7 +72,7 @@ class FormModal extends PureComponent {
       businessModelCode: 'com.donlim.pm.entity.TodoList',
       startComplete: () => this.BackBill,
       needStartConfirm: true,
-      beforeStart: this.handleSave,
+      // beforeStart: this.handleSave,
     };
     // const dataReplace = Object.assign({},editData)
     // dataReplace.id = attId
@@ -85,9 +85,9 @@ class FormModal extends PureComponent {
     //   maxUploadNum: 1,
     // };
 
-    
+
     return (
-      
+
       <ExtModal
         destroyOnClose
         onCancel={onClose}
@@ -132,7 +132,7 @@ class FormModal extends PureComponent {
         <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
           <Col span={10}>
           <span>要求完成日期：</span>
-          {getFieldDecorator('completionDate', 
+          {getFieldDecorator('completionDate',
             {initialValue: editData && editData.completionDate && moment.utc(editData.completionDate),
             })(<DatePicker disabled={isDisabled || saving} />)}
           </Col>
@@ -168,7 +168,7 @@ class FormModal extends PureComponent {
           <Col>
             <span>完成情况</span>
             {getFieldDecorator('completion', { initialValue: editData && editData.completion,})(<Input disabled={isDisabled || saving} />)}
-            
+
           </Col>
         </Row>
         <div>
