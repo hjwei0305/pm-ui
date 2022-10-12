@@ -152,13 +152,14 @@ class TodolistDetails extends Component {
     };
 
   handleSave = data => {
-    let saveData = data;
+    debugger
+    let saveData = []
     this.dispatchAction({
       type: 'todolistDetails/save',
-      payload: saveData,
+      payload: data,
     }).then(res => {
       if (res.success) {
-        let { data } = res
+        saveData = res.data
         this.dispatchAction({
           type: 'todolistDetails/updateState',
           payload: {
@@ -167,42 +168,21 @@ class TodolistDetails extends Component {
         });
         this.dispatchAction({
           type: 'todolistDetails/getUserInfo',
-          payload: {
-            code: res.data.ondutyCode
-          },
-        }).then(res1 => {
-          console.log(res1)
-          if(res1.success){
-            data.confirmedby1 = res1.data.id
+          payload: saveData,
+        }).then(result => {
+          console.log(result)
+          if(result.success){
+            saveData.confirmedby1 = result.data.id
             this.dispatchAction({
               type: 'todolistDetails/save',
-              payload: data,
+              payload: saveData,
             })
-            console.log(data)
           }
         })
+
         this.refresh();
       }
     });
-    //   }
-    // })
-
-      // this.dispatchAction({
-      //   type: 'todolistDetails/save',
-      //   payload: saveData,
-      // }).then(res => {
-      //   if (res.success) {
-      //     this.dispatchAction({
-      //       type: 'todolistDetails/updateState',
-      //       payload: {
-      //         modalVisible: false,
-      //       },
-      //     });
-      //     this.refresh();
-      //   }
-      // });
-
-    
   };
 
   handleClose = () => {
