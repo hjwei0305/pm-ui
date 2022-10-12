@@ -6,6 +6,7 @@ import { ExtTable, ExtIcon, Space,ComboList } from 'suid';
 import ExtAction from '@/components/ExtAction';
 import EditModal from './EditModal';
 import {constants} from "@/utils";
+import moment from 'moment';
 
 const { Option } = Select;
 const {PROJECT_PATH,SERVER_PATH} = constants
@@ -175,8 +176,8 @@ class TodolistDetails extends Component {
           console.log(result)
           if(result.success){
             saveData.confirmedby1 = result.data.id
-            saveData.completionDate = saveData.completionDate.format('YYYY-MM-DD');
-            saveData.submitDate = saveData.submitDate.format('YYYY-MM-DD');
+            saveData.completionDate = moment(saveData.completionDate).format('YYYY-MM-DD');
+            saveData.submitDate = moment(saveData.submitDate).format('YYYY-MM-DD');
             this.dispatchAction({
               type: 'todolistDetails/save',
               payload: saveData,
