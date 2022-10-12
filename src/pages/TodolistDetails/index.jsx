@@ -152,7 +152,6 @@ class TodolistDetails extends Component {
     };
 
   findCode = (data) => {
-    let saveData = data
     this.dispatchAction({
       type: 'todolistDetails/getUserInfo',
       payload: {
@@ -161,14 +160,16 @@ class TodolistDetails extends Component {
     }).then(res => {
       const { data } = res
       if(res.success){
-        saveData.confirmedby1 = data.id 
-        return saveData
+        return data.id
       }
     })
   }
 
   handleSave = data => {
-    const saveData = this.findCode(data)
+    const confirmid = this.findCode(data)
+    console.log(confirmid)
+    let saveData = data;
+    saveData.confirmedby1 = confirmid
     console.log(saveData)
     this.dispatchAction({
       type: 'todolistDetails/save',
