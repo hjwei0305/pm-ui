@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import withRouter from 'umi/withRouter';
 import { connect } from 'dva';
 import { WorkFlow, utils, AuthUrl, ComboList } from 'suid';
-import { Form, Row, Col, Input, DatePicker } from 'antd';
+import { Form, Row, Col, Input, DatePicker, message } from 'antd';
 import moment from 'moment';
 import { getCurrentUser } from '@/utils/user';
 import { authAction } from 'suid/lib/utils';

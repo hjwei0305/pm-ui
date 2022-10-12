@@ -12,7 +12,7 @@ const { request } = utils;
 // const MockServerPath =
 //   'http://rddgit.changhong.com:7300/mock/5e02d29836608e42d52b1d81/template-service';
 // const contextPath = '/simple-master';
-const {PROJECT_PATH} = constants;
+const {PROJECT_PATH, SERVER_PATH} = constants;
 const serverPath = '{PROJECT_PATH}';
 const contextPath = '/todoList';
 /** 保存 */
@@ -37,4 +37,19 @@ export async function findOne(data) {
     method: 'GET',
   });
   // return request.get(url);
+}
+
+export async function findEmp(data) {
+    const url = `${PROJECT_PATH}/pmEmployee/findEmp`;
+    return request({
+      url,
+      method: 'POST',
+      data,
+    });
+  }
+
+  /** 查询指定人员信息 */
+export async function getUserInfo(param) {
+  const url = `${SERVER_PATH}/sei-basic/employee/findByCode?code=${param.code}`;
+  return request.get(url);
 }
