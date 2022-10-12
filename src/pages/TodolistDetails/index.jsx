@@ -153,19 +153,19 @@ class TodolistDetails extends Component {
 
   handleSave = data => {
     debugger
-    let saveData = []
     this.dispatchAction({
       type: 'todolistDetails/save',
       payload: data,
     }).then(res => {
       if (res.success) {
-        saveData = res.data
+        let saveData = res.data
         this.dispatchAction({
           type: 'todolistDetails/updateState',
           payload: {
             modalVisible: false,
           },
         });
+        console.log(saveData)
         this.dispatchAction({
           type: 'todolistDetails/getUserInfo',
           payload: saveData.ondutyCode,
