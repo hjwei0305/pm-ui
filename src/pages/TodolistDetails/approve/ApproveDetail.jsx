@@ -67,13 +67,14 @@ class ApproveDetail extends PureComponent {
       payload: data,
     }).then(res => {
       if (res.success) {
-        this.dispatchAction({
-          type: 'todolistDetails/updateState',
-          payload: {
-            modalVisible: false,
-          },
-        });
-        this.refresh();
+        console.log('AAAA')
+        // this.dispatchAction({
+        //   type: 'todolistDetails/updateState',
+        //   payload: {
+        //     modalVisible: false,
+        //   },
+        // });
+        // this.refresh();
       }
     });
   };
