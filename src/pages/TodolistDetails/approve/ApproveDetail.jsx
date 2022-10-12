@@ -114,7 +114,7 @@ class ApproveDetail extends PureComponent {
       businessId: id,
       taskId,
       instanceId,
-      beforeSubmit: this.handleSave(this.editData),
+      // beforeSubmit: this.handleSave(this.editData),
       submitComplete: this.submitComplete,
       onApproveRef: this.aa,
     };
