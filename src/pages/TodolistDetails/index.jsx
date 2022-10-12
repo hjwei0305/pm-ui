@@ -160,6 +160,8 @@ class TodolistDetails extends Component {
     }).then(res => {
       const { data } = res
       if(res.success){
+        console.log(data)
+        console.log(data.id)
         return data.id
       }
     })
