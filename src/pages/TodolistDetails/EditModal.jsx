@@ -22,6 +22,9 @@ class FormModal extends PureComponent {
       if (err) {
         return;
       }
+      formData.organizationId = '00459FE3-1C44-11ED-B27F-005056C00001'
+      formData.organizationCode = '00000293'
+      formData.organizationName = '新宝股份-营运管理中心-信息化管理中心'
       if(editData == null){
         // eslint-disable-next-line no-param-reassign
         formData.type = '待办清单'

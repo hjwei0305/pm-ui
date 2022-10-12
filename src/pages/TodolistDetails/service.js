@@ -29,3 +29,12 @@ export async function del(params) {
   const url = `${serverPath}${contextPath}/delete/${params.id}`;
   return request.delete(url);
 }
+
+export async function findOne(data) {
+  const url = `${PROJECT_PATH}${contextPath}/findOne?id=${data.id}`;
+  return request({
+    url,
+    method: 'GET',
+  });
+  // return request.get(url);
+}
