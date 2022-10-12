@@ -151,7 +151,7 @@ class TodolistDetails extends Component {
       return filters;
     };
 
-  handleSave = data => {
+  findCode = (data) => {
     let saveData = data
     this.dispatchAction({
       type: 'todolistDetails/getUserInfo',
@@ -162,14 +162,18 @@ class TodolistDetails extends Component {
       const { data } = res
       if(res.success){
         saveData.confirmedby1 = data.id 
+        return saveData
       }
     })
+  }
+
+  handleSave = data => {
+    const saveData = this.findCode(data)
     console.log(saveData)
     this.dispatchAction({
       type: 'todolistDetails/save',
       payload: saveData,
     }).then(res => {
-      console.log(saveData)
       if (res.success) {
         this.dispatchAction({
           type: 'todolistDetails/updateState',
