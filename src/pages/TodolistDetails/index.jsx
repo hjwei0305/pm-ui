@@ -168,7 +168,7 @@ class TodolistDetails extends Component {
         });
         this.dispatchAction({
           type: 'todolistDetails/getUserInfo',
-          payload: saveData,
+          payload: saveData.id,
         }).then(result => {
           console.log(result)
           if(result.success){
