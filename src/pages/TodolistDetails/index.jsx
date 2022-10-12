@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button } from 'antd';
+import { Button,Select } from 'antd';
 import { ExtTable, ExtIcon, Space,ComboList } from 'suid';
 import ExtAction from '@/components/ExtAction';
 import EditModal from './EditModal';
 import {constants} from "@/utils";
 
+const { Option } = Select;
 const {PROJECT_PATH,SERVER_PATH} = constants
 @withRouter
 @connect(({ todolistDetails, loading }) => ({ todolistDetails, loading }))
 class TodolistDetails extends Component {
+  // eslint-disable-next-line react/sort-comp
   state = {
     delId: null,
     closingStatusFilter: null,
     documentStatusFilter:null,
+    employee: [],
     closingStatusList: [
       {
         id: 1,
@@ -40,6 +43,25 @@ class TodolistDetails extends Component {
       },
     ],
   };
+
+  constructor(props) {
+    super(props);
+    const { dispatch } = props;
+    dispatch({
+      type: 'todolistDetails/findEmp',
+      payload: {
+        filters: [
+
+        ],
+      },
+    }).then(res => {
+      const { data } = res;
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < data.length; i++) {
+        this.state.employee.push(<Option key={data[i].employeeName}>{data[i].employeeName}</Option>);
+      }
+    });
+  }
 
   dispatchAction = ({ type, payload }) => {
     const { dispatch } = this.props;
@@ -190,12 +212,12 @@ class TodolistDetails extends Component {
           },
         },
       },
-      {
-        title: '删除',
-        key: 'del',
-        // canClick: item.creatorId === getCurrentUser().userId && false,
-        canClick: true
-      },
+      // {
+      //   title: '删除',
+      //   key: 'del',
+      //   // canClick: item.creatorId === getCurrentUser().userId && false,
+      //   canClick: true
+      // },
 
 
       // {
@@ -383,7 +405,7 @@ class TodolistDetails extends Component {
               field: ['name'],
             }}
           />
-          单据状态:{' '}
+          {/* 单据状态:{' '}
           <ComboList
             style={{ width: '150px', marginRight: '12px' }}
             showSearch={false}
@@ -398,7 +420,7 @@ class TodolistDetails extends Component {
               name: 'name',
               field: ['name'],
             }}
-          />
+          /> */}
           <Button
             key="add"
             type="primary"
@@ -434,13 +456,26 @@ class TodolistDetails extends Component {
     };
   };
 
+  upload = () => {
+    console.log("123")
+    this.dispatchAction({
+      type: 'todolistDetails/updateState',
+      payload: {
+
+        modalVisibleSche: true
+      },
+    });
+  };
+
   getEditModalProps = () => {
     const { loading, todolistDetails } = this.props;
     const { modalVisible, editData } = todolistDetails;
+    const { employee } = this.state
 
     return {
       onSave: this.handleSave,
       editData,
+      employee,
       visible: modalVisible,
       onClose: this.handleClose,
       saving: loading.effects['todolistDetails/save'],

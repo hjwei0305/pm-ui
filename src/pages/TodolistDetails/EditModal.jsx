@@ -1,19 +1,13 @@
 import React, { PureComponent } from 'react';
-import { Form,DatePicker, Input, Button, Row, Col } from 'antd';
+import { Form,DatePicker, Input, Button, Row, Col,Select,message } from 'antd';
 import { ExtModal } from 'suid';
 import moment from 'moment';
 import StartFlow from 'suid/es/work-flow/StartFlow';
 import { getCurrentUser } from '@/utils/user';
 
+
+
 const now = moment();
-// const formItemLayout = {
-//   labelCol: {
-//     span: 6,
-//   },
-//   wrapperCol: {
-//     span: 18,
-//   },
-// };
 
 @Form.create()
 class FormModal extends PureComponent {
@@ -33,6 +27,15 @@ class FormModal extends PureComponent {
         formData.type = '待办清单'
       }
       const params = {};
+      if(formData.completionDate===null){
+        return message.error('请选择要求完成日期');
+      }
+      if(formData.todoList===null){
+        return message.error('请输入待办事项');
+      }
+      if(formData.ondutyName===null){
+        return message.error('请选择负责人');
+      }
       Object.assign(params, editData, formData);
       if (onSave) {
         onSave(params);
@@ -47,16 +50,11 @@ class FormModal extends PureComponent {
       });
     };
 
-    // upload = (type,typeName) => {
-    //   this.dispatchAction({
-    //     type: 'pmBaseInfoEdit/updateState',
-    //     payload: {
-    //       modalVisibleSche: true,
-    //       fileType: type,
-    //       attId: typeName,
-    //     },
-    //   });
-    // };
+    renderOptions = () => {
+      const { employee } = this.props;
+      return <Select style={{width: 120}} allowClear showSearch>{employee}</Select>
+    } 
+
 
   render() {
     const { form, editData, onClose, saving, visible,name } = this.props;
@@ -73,8 +71,20 @@ class FormModal extends PureComponent {
       needStartConfirm: true,
       beforeStart: this.handleSave,
     };
+    // const dataReplace = Object.assign({},editData)
+    // dataReplace.id = attId
+    // const attachmentProps = {
+    //   serviceHost: `${SERVER_PATH}/edm-service`,
+    //   multiple: true,
+    //   customBatchDownloadFileName: true,
+    //   onAttachmentRef: ref => (this.attachmentRef = ref),
+    //   entityId: get(dataReplace, 'id'),
+    //   maxUploadNum: 1,
+    // };
 
+    
     return (
+      
       <ExtModal
         destroyOnClose
         onCancel={onClose}
@@ -89,7 +99,7 @@ class FormModal extends PureComponent {
           <Button key="back" onClick={onClose} hidden={isDisabled}>
             关闭
           </Button>,
-          <Button key="back" onClick={this.handleSave}  hidden={isDisabled}>
+          <Button key="save" onClick={this.handleSave}  hidden={isDisabled}>
             保存
           </Button>,
           <StartFlow {...startFlowProps}>
@@ -119,25 +129,15 @@ class FormModal extends PureComponent {
         <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
           <Col span={10}>
           <span>要求完成日期：</span>
-          {getFieldDecorator('completionDate', {initialValue: editData && editData.completionDate && moment.utc(editData.completionDate),
-              rules: [
-                {
-                  required: true,
-                  message: '要求完成日期不能为空',
-                },
-              ],
+          {getFieldDecorator('completionDate', 
+            {initialValue: editData && editData.completionDate && moment.utc(editData.completionDate),
             })(<DatePicker disabled={isDisabled || saving} />)}
           </Col>
           <Col span={10}>
             <span>责任人：</span>
-            {getFieldDecorator('ondutyName', {initialValue: editData && editData.ondutyName,
-              rules: [
-                {
-                  required: true,
-                  message: '责任人不能为空',
-                },
-              ],
-            })(<Input disabled={isDisabled || saving} />)}
+            {getFieldDecorator('ondutyName', {
+              initialValue: editData && editData.ondutyName,
+            })(this.renderOptions())}
           </Col>
         </Row>
         <Row gutter={24}  style={{ margin: "10px 0" }}>
@@ -145,16 +145,10 @@ class FormModal extends PureComponent {
           <span>待办事项：</span>
           {getFieldDecorator('todoList', {
               initialValue: editData && editData.todoList,
-              rules: [
-                {
-                  required: true,
-                  message: '待办事项不能为空',
-                },
-              ],
-            })(<Input disabled={isDisabled || saving} />)}
+            })(<Input  disabled={isDisabled || saving} />)}
           </Col>
         </Row>
-       <div>
+       {/* <div>
           <span style={{fontWeight:'bold',fontSize:"16px"}}>确认阶段</span>
         </div>
         <Row gutter={24}  style={{ margin: "10px 0" }}>
@@ -171,7 +165,7 @@ class FormModal extends PureComponent {
           <Col>
             <span>完成情况</span>
             {getFieldDecorator('completion', { initialValue: editData && editData.completion,})(<Input disabled={isDisabled || saving} />)}
-            <Button onClick={() => this.upload}>上传PNG/PPT/Word/EXCEL文件</Button>
+            
           </Col>
         </Row>
         <div>
@@ -199,7 +193,7 @@ class FormModal extends PureComponent {
             <span>备注:</span>
             {getFieldDecorator('remark', {initialValue: editData && editData.remark,})(<Input disabled={isDisabled || saving} />)}
           </Col>
-        </Row>
+        </Row> */}
     </Form>
 
       </ExtModal>
