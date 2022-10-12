@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, Popconfirm } from 'antd';
+import { Button,Select } from 'antd';
 import { ExtTable, ExtIcon, Space,ComboList } from 'suid';
 import ExtAction from '@/components/ExtAction';
 import EditModal from './EditModal';
 import {constants} from "@/utils";
-import { getCurrentUser } from '@/utils/user';
 
+const { Option } = Select;
 const {PROJECT_PATH,SERVER_PATH} = constants
 @withRouter
 @connect(({ todolistDetails, loading }) => ({ todolistDetails, loading }))
 class TodolistDetails extends Component {
+  // eslint-disable-next-line react/sort-comp
   state = {
     delId: null,
     closingStatusFilter: null,
     documentStatusFilter:null,
+    employee: [],
     closingStatusList: [
       {
         id: 1,
@@ -41,6 +43,25 @@ class TodolistDetails extends Component {
       },
     ],
   };
+
+  constructor(props) {
+    super(props);
+    const { dispatch } = props;
+    dispatch({
+      type: 'todolistDetails/findEmp',
+      payload: {
+        filters: [
+
+        ],
+      },
+    }).then(res => {
+      const { data } = res;
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < data.length; i++) {
+        this.state.employee.push(<Option key={data[i].employeeName}>{data[i].employeeName}</Option>);
+      }
+    });
+  }
 
   dispatchAction = ({ type, payload }) => {
     const { dispatch } = this.props;
@@ -97,17 +118,6 @@ class TodolistDetails extends Component {
         break;
     }
   };
-    // 导出
-  // export = () => {
-  //     const tableFilters = this.getTableFilters();
-  //     exportHandle(
-  //       '/todoList/exportDept',
-  //       {
-  //         filters: tableFilters,
-  //       },
-  //       '待办列表清单',
-  //     );
-  // };
 
   getTableFilters = () => {
       const {  documentStatusFilter, closingStatusFilter } = this.state;
@@ -178,7 +188,7 @@ class TodolistDetails extends Component {
   };
 
   filterMenusData = item => {
-    const useThis = this;
+    // const useThis = this;
     const menusData = [
       // {
       //   title: '修改',
@@ -202,12 +212,12 @@ class TodolistDetails extends Component {
           },
         },
       },
-      {
-        title: '删除',
-        key: 'del',
-        // canClick: item.creatorId === getCurrentUser().userId && false,
-        canClick: true
-      },
+      // {
+      //   title: '删除',
+      //   key: 'del',
+      //   // canClick: item.creatorId === getCurrentUser().userId && false,
+      //   canClick: true
+      // },
 
 
       // {
@@ -395,7 +405,7 @@ class TodolistDetails extends Component {
               field: ['name'],
             }}
           />
-          单据状态:{' '}
+          {/* 单据状态:{' '}
           <ComboList
             style={{ width: '150px', marginRight: '12px' }}
             showSearch={false}
@@ -410,7 +420,7 @@ class TodolistDetails extends Component {
               name: 'name',
               field: ['name'],
             }}
-          />
+          /> */}
           <Button
             key="add"
             type="primary"
@@ -421,14 +431,7 @@ class TodolistDetails extends Component {
           >
             新增
           </Button>
-          {/* <Button
-            type="primary"
-            htmlType="submit"
-            style={{ marginRight: '12px' }}
-            onClick={this.export}
-          >
-            导出
-          </Button> */}
+          <Button onClick={() => this.tableRef.extTool.exportData()}>导出</Button>
         </Space>
       ),
     };
@@ -438,8 +441,10 @@ class TodolistDetails extends Component {
       bordered: false,
       toolBar: toolBarProps,
       remotePaging: true,
+      exportData: true,
       searchProperties: ['ondutyName'],
       searchPlaceHolder: '请根据责任人查询',
+      onTableRef: inst => (this.tableRef = inst),
       cascadeParams: {
         filters,
       },
@@ -451,13 +456,26 @@ class TodolistDetails extends Component {
     };
   };
 
+  upload = () => {
+    console.log("123")
+    this.dispatchAction({
+      type: 'todolistDetails/updateState',
+      payload: {
+
+        modalVisibleSche: true
+      },
+    });
+  };
+
   getEditModalProps = () => {
     const { loading, todolistDetails } = this.props;
     const { modalVisible, editData } = todolistDetails;
+    const { employee } = this.state
 
     return {
       onSave: this.handleSave,
       editData,
+      employee,
       visible: modalVisible,
       onClose: this.handleClose,
       saving: loading.effects['todolistDetails/save'],
