@@ -32,7 +32,7 @@ class ApproveDetail extends PureComponent {
     const { location } = this.props;
     const { id } = location.query;
     this.editData = {};
-
+    console.log("BBBAAA")
   };
 
   aa = () => {
