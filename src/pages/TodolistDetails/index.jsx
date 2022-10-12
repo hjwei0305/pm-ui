@@ -166,7 +166,6 @@ class TodolistDetails extends Component {
             modalVisible: false,
           },
         });
-        console.log(saveData)
         this.dispatchAction({
           type: 'todolistDetails/getUserInfo',
           payload: {
