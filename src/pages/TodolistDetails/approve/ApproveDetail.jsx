@@ -86,11 +86,11 @@ class ApproveDetail extends PureComponent {
       Object.assign(params, this.editData, formData);
       if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
          || formData.proposalStatus == null || formData.completion == undefined || formData.completion == '')){
-        return message.error('请输入建议状态及完成情况');
+        return defaultCallBack('请输入建议状态及完成情况');
       } else if(params.confirm1Status == 'true' && 
         (formData.closingStatus == undefined || formData.closingStatus == null || formData.closingStatus == ''
            || formData.remark == undefined || formData.remark == null || formData.remark == '')){
-        return message.error('请输入结案状态及备注');
+        return defaultCallBack('请输入结案状态及备注');
       }
       dispatch({
         type: 'todolistDetails/save',
