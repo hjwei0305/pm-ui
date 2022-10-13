@@ -160,12 +160,12 @@ class TodolistDetails extends Component {
     }).then(res => {
       if (res) {
         let saveData = res.data
-        this.dispatchAction({
-          type: 'todolistDetails/updateState',
-          payload: {
-            modalVisible: false,
-          },
-        });
+        // this.dispatchAction({
+        //   type: 'todolistDetails/updateState',
+        //   payload: {
+        //     modalVisible: false,
+        //   },
+        // });
         this.dispatchAction({
           type: 'todolistDetails/getUserInfo',
           payload: {
