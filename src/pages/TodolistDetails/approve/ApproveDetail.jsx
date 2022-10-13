@@ -80,11 +80,9 @@ class ApproveDetail extends PureComponent {
   handleSave = (flowCallBack = this.defaultCallBack) => {
     const { dispatch, form } = this.props;
     // this.editData.projectCode = 'test'
-    
     form.validateFields((err, formData) => {
       const params = {};
       Object.assign(params, this.editData, formData);
-      debugger
       if(formData.confirm1Status != true && (formData.proposalStatus == undefined
          || formData.proposalStatus == null || formData.completion == undefined)){
         message.error('请输入建议状态及完成情况')
@@ -148,7 +146,7 @@ class ApproveDetail extends PureComponent {
       businessId: id,
       taskId,
       instanceId,
-      // beforeSubmit: this.beforeSubmit,
+      beforeSubmit: this.beforeSubmit,
       submitComplete: this.submitComplete,
       onApproveRef: this.aa,
     };
