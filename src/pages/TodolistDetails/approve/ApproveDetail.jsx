@@ -41,7 +41,7 @@ class ApproveDetail extends PureComponent {
         code: 1,
         name: '未结案',
       }
-    ],
+    ];
     this.okList = [
       {
         code: 0,
