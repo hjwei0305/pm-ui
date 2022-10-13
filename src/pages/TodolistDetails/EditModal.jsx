@@ -126,7 +126,7 @@ class FormModal extends PureComponent {
             </Col>
             <Col span={10}>
               <span >起草人：</span>
-              {getFieldDecorator('submitName', {initialValue: editData && editData.submitName == undefined ? getCurrentUser().userName : editData.submitName ,})(<Input disabled/>)}
+              {getFieldDecorator('submitName', {initialValue: editData && title == '查看待办' ? editData.submitName : getCurrentUser().userName ,})(<Input disabled/>)}
             </Col>
         </Row>
         <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
