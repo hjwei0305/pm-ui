@@ -54,8 +54,9 @@ class FormModal extends PureComponent {
     };
 
     renderOptions = () => {
-      const { employee } = this.props;
-      return <Select style={{width: 120}} allowClear showSearch>{employee}</Select>
+      const { employee, editData } = this.props;
+      const isDisabled = editData && (editData.flowStatus !== 'INIT') && (editData.flowStatus != null) ;
+      return <Select style={{width: 120}} allowClear showSearch disabled={isDisabled}>{employee}</Select>
     }
 
 

@@ -50,7 +50,7 @@ class ApproveDetail extends PureComponent {
     dispatch({
       type: 'todolistDetails/findOne',
       payload:{
-        id: "446AD5DD-4910-11ED-AB4A-04ED3350E967"
+        id: id
       }
     }).then(res => {
       const { data } = res;
@@ -149,9 +149,6 @@ class ApproveDetail extends PureComponent {
       submitComplete: this.submitComplete,
       onApproveRef: this.aa,
     };
-    // console.log(editData)
-    // const confirm = editData && editData.flowStatus == 1 && editData.proposalStatus != undefined && editData.completion != undefined ? true : false;
-    // const verify = editData && editData.flowStatus == 1 &&  editData.proposalStatus == '结案' ? false : true ;
     const comboListProps = {
       style: { width: '200px' },
       placeholder: '请选择结案/未结案',
