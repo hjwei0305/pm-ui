@@ -86,13 +86,11 @@ class ApproveDetail extends PureComponent {
       Object.assign(params, this.editData, formData);
       if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
          || formData.proposalStatus == null || formData.completion == undefined || formData.completion == '')){
-        message.error('请输入建议状态及完成情况')
-        return;
+        return message.error('请输入建议状态及完成情况');
       } else if(params.confirm1Status == 'true' && 
         (formData.closingStatus == undefined || formData.closingStatus == null || formData.closingStatus == ''
            || formData.remark == undefined || formData.remark == null || formData.remark == '')){
-        message.error('请输入结案状态及备注')
-        return;
+        return message.error('请输入结案状态及备注');
       }
       dispatch({
         type: 'todolistDetails/save',
@@ -100,43 +98,8 @@ class ApproveDetail extends PureComponent {
       }).then(res => {
         flowCallBack(res);
       });
-    })
-    
-    
+    })  
   };
-
-  // handleSave = (flowCallBack = this.defaultCallBack) => {
-  //   const { dispatch, form } = this.props;
-  //   // this.editData.projectCode = 'test'
-  //   form.validateFields((err, formData) => {
-  //     const params = {};
-  //     Object.assign(params, this.editData, formData);
-  //     if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
-  //        || formData.proposalStatus == null || formData.completion == undefined || formData.completion == '')){
-  //       message.error('请输入建议状态及完成情况')
-  //       return;
-  //     } else if(params.confirm1Status == 'true' && 
-  //       (formData.closingStatus == undefined || formData.closingStatus == null || formData.closingStatus == ''
-  //          || formData.remark == undefined || formData.remark == null || formData.remark == '')){
-  //       message.error('请输入结案状态及备注')
-  //       return;
-  //     }
-  //     if (err) {
-  //       return;
-  //     }
-      
-  //     dispatch({
-  //       type: 'todolistDetails/save',
-  //       payload: params,
-  //     }).then(res => {
-  //       flowCallBack(res);
-  //     // if (onSave) {
-  //     //   onSave(params);
-  //     // }
-  //     });
-  //   });
-    
-  // };
 
   defaultCallBack = res => {
     if (!res.success) {
