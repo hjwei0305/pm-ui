@@ -94,14 +94,15 @@ class ApproveDetail extends PureComponent {
         message.error('请输入结案状态及备注')
         return;
       }
+      dispatch({
+        type: 'todolistDetails/save',
+        payload: params,
+      }).then(res => {
+        flowCallBack(res);
+      });
     })
     
-    dispatch({
-      type: 'todolistDetails/save',
-      payload: this.editData,
-    }).then(res => {
-      flowCallBack(res);
-    });
+    
   };
 
   // handleSave = (flowCallBack = this.defaultCallBack) => {
