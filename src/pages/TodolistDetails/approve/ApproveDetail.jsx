@@ -92,7 +92,7 @@ class ApproveDetail extends PureComponent {
           result.message = '请输入建议状态及完成情况';
         return flowCallBack(result);
       } else if(params.confirm1Status == 'true' && 
-        (formData.closingStatus == undefined || formData.closingStatus == null || formData.closingStatus == ''
+        (formData.closingStatus == undefined || formData.closingStatus == null 
            || formData.remark == undefined || formData.remark == null || formData.remark == '')){
           result.message = '请输入结案状态及备注';
         return flowCallBack(result);
@@ -162,6 +162,27 @@ class ApproveDetail extends PureComponent {
       afterSelect: item =>
         form.setFieldsValue({
           proposalStatus: item.name,
+        }),
+      reader: {
+        name: 'name',
+        field: ['name'],
+      },
+    };
+
+    const completeProps = {
+      style: { width: '200px' },
+      placeholder: '请选择结案/未结案',
+      form,
+      name: 'name',
+      field: ['name'],
+      dataSource: this.compeleteList,
+      searchProperties: ['name'],
+      allowClear: true,
+      showSearch: false,
+      afterClear: () => form.setFieldsValue({ closingStatus: null }),
+      afterSelect: item =>
+        form.setFieldsValue({
+          closingStatus: item.name,
         }),
       reader: {
         name: 'name',
@@ -284,7 +305,10 @@ class ApproveDetail extends PureComponent {
             <Row gutter={24}>
               <Col span={10}>
                 <FormItem label="结案状态">
-                  {getFieldDecorator('closingStatus', {initialValue: this.editData && this.editData.closingStatus,})(<Input placeholder='请输入合格/不合格' disabled={!this.confirm} />)}
+                  {getFieldDecorator('closingStatus', {initialValue: this.editData && this.editData.closingStatus,})
+                  // (<Input placeholder='请输入合格/不合格' disabled={!this.confirm} />)
+                  (<ComboList {...completeProps} disabled={!this.confirm}/>)
+                  }
                 </FormItem>
               </Col>
               <Col span={10}>
