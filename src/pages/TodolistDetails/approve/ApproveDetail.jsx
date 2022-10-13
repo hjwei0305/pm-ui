@@ -41,6 +41,16 @@ class ApproveDetail extends PureComponent {
         code: 1,
         name: '未结案',
       }
+    ],
+    this.okList = [
+      {
+        code: 0,
+        name: '合格',
+      },
+      {
+        code: 1,
+        name: '不合格',
+      }
     ]
   };
 
@@ -171,11 +181,11 @@ class ApproveDetail extends PureComponent {
 
     const completeProps = {
       style: { width: '200px' },
-      placeholder: '请选择结案/未结案',
+      placeholder: '请选择合格/不合格',
       form,
       name: 'name',
       field: ['name'],
-      dataSource: this.compeleteList,
+      dataSource: this.okList,
       searchProperties: ['name'],
       allowClear: true,
       showSearch: false,
