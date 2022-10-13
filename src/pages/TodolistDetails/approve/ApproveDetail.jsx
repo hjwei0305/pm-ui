@@ -55,7 +55,6 @@ class ApproveDetail extends PureComponent {
     }).then(res => {
       const { data } = res;
       this.editData = data;
-      debugger
       this.confirm = data && data.flowStatus == 'INPROCESS' && data.confirm1Status == 'true' ? true : false;
       // form.setFieldsValue(this.editData);
       this.forceUpdate();
@@ -83,13 +82,13 @@ class ApproveDetail extends PureComponent {
     form.validateFields((err, formData) => {
       const params = {};
       Object.assign(params, this.editData, formData);
-      if(formData.confirm1Status != true && (formData.proposalStatus == undefined
-         || formData.proposalStatus == null || formData.completion == undefined)){
+      if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
+         || formData.proposalStatus == null || formData.completion == undefined || formData.completion == '')){
         message.error('请输入建议状态及完成情况')
         return false
-      } else if(params.confirm1Status == true && 
-        (formData.closingStatus == undefined || formData.closingStatus == null
-           || formData.remark == undefined || formData.remark == null)){
+      } else if(params.confirm1Status == 'true' && 
+        (formData.closingStatus == undefined || formData.closingStatus == null || formData.closingStatus == ''
+           || formData.remark == undefined || formData.remark == null || formData.remark == '')){
         message.error('请输入结案状态及备注')
         return false
       }
@@ -214,7 +213,7 @@ class ApproveDetail extends PureComponent {
                 </Col>
                 <Col span={10}>
                   <FormItem label="起草人">
-                    {getFieldDecorator('submitName', {initialValue: getCurrentUser().userName,})
+                    {getFieldDecorator('submitName', {initialValue: this.editData && this.editData.submitName,})
                     (<Input disabled />)}
                   </FormItem>
                 </Col>
