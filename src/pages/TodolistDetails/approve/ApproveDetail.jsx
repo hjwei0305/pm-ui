@@ -77,7 +77,25 @@ class ApproveDetail extends PureComponent {
   };
 
   handleSave = (flowCallBack = this.defaultCallBack) => {
-    const { dispatch } = this.props;
+    const { dispatch, form } = this.props;
+    form.validateFields((err, formData) => {
+      if (err) {
+        return;
+      }
+      const params = {};
+      Object.assign(params, this.editData, formData);
+      if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
+         || formData.proposalStatus == null || formData.completion == undefined || formData.completion == '')){
+        message.error('请输入建议状态及完成情况')
+        return;
+      } else if(params.confirm1Status == 'true' && 
+        (formData.closingStatus == undefined || formData.closingStatus == null || formData.closingStatus == ''
+           || formData.remark == undefined || formData.remark == null || formData.remark == '')){
+        message.error('请输入结案状态及备注')
+        return;
+      }
+    })
+    
     dispatch({
       type: 'todolistDetails/save',
       payload: this.editData,
