@@ -84,16 +84,17 @@ class ApproveDetail extends PureComponent {
       }
       const params = {};
       Object.assign(params, this.editData, formData);
-      const result = '';
+      const result = {
+        message:'',
+      };
       if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
          || formData.proposalStatus == null || formData.completion == undefined || formData.completion == '')){
-
           result.message = '请输入建议状态及完成情况';
         return flowCallBack(result);
       } else if(params.confirm1Status == 'true' && 
         (formData.closingStatus == undefined || formData.closingStatus == null || formData.closingStatus == ''
            || formData.remark == undefined || formData.remark == null || formData.remark == '')){
-            result.message = '请输入结案状态及备注';
+          result.message = '请输入结案状态及备注';
         return flowCallBack(result);
       }
       dispatch({
