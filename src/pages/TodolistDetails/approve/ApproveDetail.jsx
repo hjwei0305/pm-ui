@@ -87,7 +87,8 @@ class ApproveDetail extends PureComponent {
         message.error('请输入建议状态及完成情况')
         return false
       } else if(formData.closingStatus == undefined || formData.remark == undefined){
-        formData.closingStatus
+        message.error('请输入建议状态及备注')
+        return false
       }
       if (err) {
         return;
