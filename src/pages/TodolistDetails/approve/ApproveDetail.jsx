@@ -50,7 +50,7 @@ class ApproveDetail extends PureComponent {
     dispatch({
       type: 'todolistDetails/findOne',
       payload:{
-        id: id
+        id: "446AD5DD-4910-11ED-AB4A-04ED3350E967"
       }
     }).then(res => {
       const { data } = res;
@@ -79,23 +79,26 @@ class ApproveDetail extends PureComponent {
 
   handleSave = (flowCallBack = this.defaultCallBack) => {
     const { dispatch, form } = this.props;
-    this.editData.projectCode = 'test'
+    // this.editData.projectCode = 'test'
     
     form.validateFields((err, formData) => {
+      const params = {};
+      Object.assign(params, this.editData, formData);
       debugger
-      if(formData.proposalStatus == undefined || formData.proposalStatus == null || formData.completion == undefined){
+      if(formData.confirm1Status != true && (formData.proposalStatus == undefined
+         || formData.proposalStatus == null || formData.completion == undefined)){
         message.error('请输入建议状态及完成情况')
         return false
-      } else if(formData.closingStatus == undefined || formData.remark == undefined){
-        message.error('请输入建议状态及备注')
+      } else if(params.confirm1Status == true && 
+        (formData.closingStatus == undefined || formData.closingStatus == null
+           || formData.remark == undefined || formData.remark == null)){
+        message.error('请输入结案状态及备注')
         return false
       }
       if (err) {
         return;
       }
-      const params = {};
-      Object.assign(params, this.editData, formData);
-      console.log(params)
+      
       dispatch({
         type: 'todolistDetails/save',
         payload: params,
