@@ -50,7 +50,7 @@ class ApproveDetail extends PureComponent {
     dispatch({
       type: 'todolistDetails/findOne',
       payload:{
-        id: "446AD5DD-4910-11ED-AB4A-04ED3350E967"
+        id: id
       }
     }).then(res => {
       const { data } = res;
