@@ -99,7 +99,8 @@ class ApproveDetail extends PureComponent {
       dispatch({
         type: 'todolistDetails/save',
         payload: params,
-      })
+      })}).then(res => {
+        flowCallBack(res);
       // if (onSave) {
       //   onSave(params);
       // }
