@@ -101,11 +101,7 @@ class FormModal extends PureComponent {
         onOk={this.handleSave}
         okText="保存"
         footer={[
-          // <Button key="back" onClick={onClose} hidden={isDisabled}>
-          //   关闭
-          // </Button>,
-         
-      ]}
+        ]}
       >
     <Form>
         <div>
@@ -145,17 +141,19 @@ class FormModal extends PureComponent {
           </Col>
         </Row>
         <Row>
-          <Button key="save" onClick={this.handleSave}  hidden={isDisabled}>
-            保存
-          </Button>
-          {(editData && <StartFlow {...startFlowProps}>
-            {sLoading => (
-              <Button type="primary" disabled={sLoading} loading={sLoading} style={{marginLeft:"5px"}}  hidden={isDisabled}>
-                提交审批
-              </Button>
+          <div style={{float:"right",margin:"10px"}}>
+            <Button key="save" onClick={this.handleSave}  hidden={isDisabled}>
+              保存
+            </Button>
+            {(editData && <StartFlow {...startFlowProps}>
+              {sLoading => (
+                <Button type="primary" disabled={sLoading} loading={sLoading} style={{marginLeft:"5px"}}  hidden={isDisabled}>
+                  提交审批
+                </Button>
+              )}
+            </StartFlow>
             )}
-          </StartFlow>
-          )}
+          </div>
         </Row>
        {/* <div>
           <span style={{fontWeight:'bold',fontSize:"16px"}}>确认阶段</span>

@@ -80,7 +80,6 @@ class ApproveDetail extends PureComponent {
   };
 
   beforeSubmit = (params) => {
-    console.log(params)
     if(params.actionType == 'turn'){
       return new Promise(resolve => {
         resolve({success: true, message: '处理中,请稍后再试' });
@@ -197,7 +196,7 @@ class ApproveDetail extends PureComponent {
       entityId: id,
       onDeleteFile: this.handlerGetFile,
       allowUpload: true,
-      style: {height: "220px",width: "400px"},
+      style: {height: "250px",marginLeft:"20px"},
     };
     const approveProps = {
       businessId: id,
@@ -335,8 +334,6 @@ class ApproveDetail extends PureComponent {
                   }
                 </FormItem>
               </Col>
-            </Row>
-            <Row gutter={24}>
               <Col span={10}>
                 <FormItem label="完成情况">
                   {getFieldDecorator('completion', { initialValue: this.editData && this.editData.completion,})
@@ -345,9 +342,7 @@ class ApproveDetail extends PureComponent {
               </Col>
             </Row>
             <Row gutter={24}>
-              <Col span={10}>
-                <Attachment {...attachmentProps} />
-              </Col>
+              <Attachment {...attachmentProps} />
             </Row>
             <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold"}}>验证阶段</div>
             <Row gutter={24}>
