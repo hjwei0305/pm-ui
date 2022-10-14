@@ -84,7 +84,7 @@ class ApproveDetail extends PureComponent {
     console.log(params)
     if(params.actionType == 'turn'){
       return new Promise(resolve => {
-        resolve();
+        resolve({success: true, message: '处理中,请稍后再试' });
       });
     }else{
       return new Promise(resolve => {
