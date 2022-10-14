@@ -1,13 +1,12 @@
 import React, { PureComponent } from 'react';
 import withRouter from 'umi/withRouter';
 import { connect } from 'dva';
-import { WorkFlow, utils, AuthUrl, ComboList } from 'suid';
+import { WorkFlow, utils, AuthUrl, ComboList, Attachment} from 'suid';
 import { Form, Row, Col, Input, DatePicker, message, Button } from 'antd';
 import moment from 'moment';
-import { getCurrentUser } from '@/utils/user';
-import { authAction } from 'suid/lib/utils';
-// import { TodoDetail  } from '@/pages/TodolistDetails/TodoDetail'
+import { constants } from '@/utils';
 
+const { SERVER_PATH } = constants;
 const now = moment();
 const { Approve } = WorkFlow;
 const { eventBus } = utils;
@@ -54,13 +53,13 @@ class ApproveDetail extends PureComponent {
     ]
   };
 
-  aa = () => {
+  findInfo = () => {
     const { dispatch, location } = this.props;
     const { id } = location.query;
     dispatch({
       type: 'todolistDetails/findOne',
       payload:{
-        id: id
+        id: "446AD5DD-4910-11ED-AB4A-04ED3350E967"
       }
     }).then(res => {
       const { data } = res;
@@ -90,7 +89,7 @@ class ApproveDetail extends PureComponent {
       return new Promise(resolve => {
         this.handleSave(resolve)
       });
-    }    
+    }
   };
 
   handleSave = (flowCallBack = this.defaultCallBack) => {
@@ -108,8 +107,8 @@ class ApproveDetail extends PureComponent {
          || formData.proposalStatus == null || formData.completion == undefined || formData.completion == '')){
           result.message = '请输入建议状态及完成情况';
         return flowCallBack(result);
-      } else if(params.confirm1Status == 'true' && 
-        (formData.closingStatus == undefined || formData.closingStatus == null 
+      } else if(params.confirm1Status == 'true' &&
+        (formData.closingStatus == undefined || formData.closingStatus == null
            || formData.remark == undefined || formData.remark == null || formData.remark == '')){
           result.message = '请输入结案状态及备注';
         return flowCallBack(result);
@@ -120,7 +119,7 @@ class ApproveDetail extends PureComponent {
       }).then(res => {
         flowCallBack(res);
       });
-    })  
+    })
   };
 
   defaultCallBack = res => {
@@ -151,19 +150,62 @@ class ApproveDetail extends PureComponent {
   //     saving: loading.effects['todolistDetails/save'],
   //   };
   // };
+  handlerGetFile = (files) => {
+    const { id } = this.props.location.query;
+    const { dispatch } = this.props;
+    const docIdList = [];
+    if (this.attachmentRef) {
+      const status = this.attachmentRef.getAttachmentStatus();
+      const { fileList, ready } = status;
+      if (!ready) {
+        message.warning('附件正在上传中，请等待上传完成后操作，否则会导致附件丢失');
+        return;
+      }
+      if (fileList && fileList.length > 0) {
+        fileList.forEach(item => {
+          if (item.id && !docIdList.includes(item.id)) {
+            docIdList.push(item.id);
+          }
+        });
+      }
+      // // 维护state
+      // this.maintainDocIdState(docIdList)
+      dispatch({
+        type: 'todolistDetails/bindFile',
+        payload: {
+          id: id,
+          attachmentIdList: docIdList,
+        },
+      }).then(res => {
+        if(res.success === false){
+          message.warning(res.message);
+        }
+      });
+    };
+  }
 
   render() {
     const { form, editData } = this.props;
     const { getFieldDecorator } = form;
     const { location } = this.props;
     const { id, taskId, instanceId } = location.query;
+    const attachmentProps = {
+      serviceHost: `${SERVER_PATH}/edm-service`,
+      multiple: true,
+      customBatchDownloadFileName: true,
+      onAttachmentRef: ref => (this.attachmentRef = ref),
+      entityId: id,
+      onDeleteFile: this.handlerGetFile,
+      allowUpload: true,
+      style: {height: "220px",width: "400px"},
+    };
     const approveProps = {
       businessId: id,
       taskId,
       instanceId,
       beforeSubmit: (params) => this.beforeSubmit(params),
       submitComplete: this.submitComplete,
-      onApproveRef: this.aa,
+      onApproveRef: this.findInfo,
     };
     const comboListProps = {
       style: { width: '200px' },
@@ -207,9 +249,6 @@ class ApproveDetail extends PureComponent {
       },
     };
 
-
-    
-
     return (
       <AuthUrl>
         <Approve {...approveProps}>
@@ -225,7 +264,7 @@ class ApproveDetail extends PureComponent {
                 </Button>
               </Col>
             </Row>
-            
+
             <Row gutter={24}>
               <Col span={10}>
                 <FormItem label="待办事项">
@@ -305,6 +344,11 @@ class ApproveDetail extends PureComponent {
                 </FormItem>
               </Col>
             </Row>
+            <Row gutter={24}>
+              <Col span={10}>
+                <Attachment {...attachmentProps} />
+              </Col>
+            </Row>
             <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold"}}>验证阶段</div>
             <Row gutter={24}>
               {/* <Col span={10}>
@@ -334,7 +378,7 @@ class ApproveDetail extends PureComponent {
                 </FormItem>
               </Col>
             </Row>
-            
+
           </Form>
         </Approve>
       </AuthUrl>

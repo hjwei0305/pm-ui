@@ -40,12 +40,12 @@ export async function findOne(data) {
 }
 
 export async function findEmp(data) {
-    const url = `${PROJECT_PATH}/pmEmployee/findEmp`;
-    return request({
-      url,
-      method: 'POST',
-      data,
-    });
+  const url = `${PROJECT_PATH}/pmEmployee/findEmp`;
+  return request({
+   url,
+   method: 'POST',
+  data,
+  });
   }
 
   /** 查询指定人员信息 */
@@ -62,3 +62,12 @@ export async function saveUserId(data) {
     data,
    });
   }
+
+  export async function bindFile(data) {
+    const url = `${PROJECT_PATH}${contextPath}/bindFile`;
+    return request({
+     url,
+     method: 'POST',
+     data,
+    });
+   }
