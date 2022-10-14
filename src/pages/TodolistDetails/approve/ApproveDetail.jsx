@@ -157,7 +157,7 @@ class ApproveDetail extends PureComponent {
       const status = this.attachmentRef.getAttachmentStatus();
       const { fileList, ready } = status;
       if (!ready) {
-        message.warning('附件正在上传中，请等待上传完成后操作，否则会导致附件丢失');
+        // message.warning('附件正在上传中，请等待上传完成后操作，否则会导致附件丢失');
         return;
       }
       if (fileList && fileList.length > 0) {
