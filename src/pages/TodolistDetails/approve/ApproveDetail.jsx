@@ -195,6 +195,7 @@ class ApproveDetail extends PureComponent {
       onAttachmentRef: ref => (this.attachmentRef = ref),
       entityId: id,
       onDeleteFile: this.handlerGetFile,
+      onChange: this.handlerGetFile,
       allowUpload: true,
       style: {height: "250px",marginLeft:"20px"},
     };
