@@ -81,6 +81,7 @@ class ApproveDetail extends PureComponent {
   };
 
   beforeSubmit = (params) => {
+    console.log(params)
     if(params.actionType == 'turn'){
       return new Promise(resolve => {
         resolve();
