@@ -123,7 +123,6 @@ class TodolistDetails extends Component {
   getTableFilters = () => {
       const {  documentStatusFilter, closingStatusFilter } = this.state;
       const filters = [];
-      console.log(this.state)
 
       // if (codeFilter) {
       //   filters.push({
@@ -153,7 +152,6 @@ class TodolistDetails extends Component {
     };
 
   handleSave = data => {
-    debugger
     this.dispatchAction({
       type: 'todolistDetails/save',
       payload: data,
@@ -177,10 +175,12 @@ class TodolistDetails extends Component {
             this.dispatchAction({
               type: 'todolistDetails/saveUserId',
               payload: saveData,
+            }).then(result1 => {
+              this.handleEvent('edit',result1.data)
             })
+            
           }
         })
-
         this.refresh();
       }
     });
@@ -263,7 +263,6 @@ class TodolistDetails extends Component {
       //   // this.pageJump(recordItem);
       //   break;
       case 'view':
-        console.log('view')
         this.handleEvent('edit',recordItem)
         // this.pageJumpNext(recordItem);
         break;
@@ -415,7 +414,6 @@ class TodolistDetails extends Component {
             field={['name']}
             afterClear={() => this.setState({ closingStatusFilter: null })}
             afterSelect={item =>
-              // console.log(item)
               this.setState({ closingStatusFilter: item.name })
             }
             reader={{
@@ -475,7 +473,6 @@ class TodolistDetails extends Component {
   };
 
   upload = () => {
-    console.log("123")
     this.dispatchAction({
       type: 'todolistDetails/updateState',
       payload: {

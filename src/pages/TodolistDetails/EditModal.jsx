@@ -42,6 +42,7 @@ class FormModal extends PureComponent {
       Object.assign(params, editData, formData);
       if (onSave) {
         onSave(params);
+        this.forceUpdate()
       }
     });
   };
@@ -72,8 +73,8 @@ class FormModal extends PureComponent {
       businessKey: editData && editData.id,
       businessModelCode: 'com.donlim.pm.entity.TodoList',
       startComplete: () => this.BackBill,
-      needStartConfirm: true,
-      // beforeStart: () =>  this.handleSave(editData),
+      needStartConfirm: false,
+      beforeStart: () =>  this.handleSave(editData),
     };
     // const dataReplace = Object.assign({},editData)
     // dataReplace.id = attId
@@ -100,20 +101,11 @@ class FormModal extends PureComponent {
         onOk={this.handleSave}
         okText="保存"
         footer={[
-          <Button key="back" onClick={onClose} hidden={isDisabled}>
-            关闭
-          </Button>,
-          <Button key="save" onClick={this.handleSave}  hidden={isDisabled}>
-            保存
-          </Button>,
-          <StartFlow {...startFlowProps}>
-            {sLoading => (
-              <Button type="primary" disabled={sLoading} loading={sLoading} style={{marginLeft:"5px"}}  hidden={isDisabled}>
-                提交审批
-              </Button>
-            )}
-          </StartFlow>
-        ]}
+          // <Button key="back" onClick={onClose} hidden={isDisabled}>
+          //   关闭
+          // </Button>,
+         
+      ]}
       >
     <Form>
         <div>
@@ -151,6 +143,19 @@ class FormModal extends PureComponent {
               initialValue: editData && editData.todoList,
             })(<Input  disabled={isDisabled || saving} />)}
           </Col>
+        </Row>
+        <Row>
+          <Button key="save" onClick={this.handleSave}  hidden={isDisabled}>
+            保存
+          </Button>
+          {(editData && <StartFlow {...startFlowProps}>
+            {sLoading => (
+              <Button type="primary" disabled={sLoading} loading={sLoading} style={{marginLeft:"5px"}}  hidden={isDisabled}>
+                提交审批
+              </Button>
+            )}
+          </StartFlow>
+          )}
         </Row>
        {/* <div>
           <span style={{fontWeight:'bold',fontSize:"16px"}}>确认阶段</span>

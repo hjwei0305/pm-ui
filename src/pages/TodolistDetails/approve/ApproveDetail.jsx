@@ -80,10 +80,16 @@ class ApproveDetail extends PureComponent {
     }
   };
 
-  beforeSubmit = () => {
-    return new Promise(resolve => {
-      this.handleSave(resolve)
-    });
+  beforeSubmit = (params) => {
+    if(params.actionType == 'turn'){
+      return new Promise(resolve => {
+        resolve();
+      });
+    }else{
+      return new Promise(resolve => {
+        this.handleSave(resolve)
+      });
+    }    
   };
 
   handleSave = (flowCallBack = this.defaultCallBack) => {
@@ -154,7 +160,7 @@ class ApproveDetail extends PureComponent {
       businessId: id,
       taskId,
       instanceId,
-      beforeSubmit: this.beforeSubmit,
+      beforeSubmit: (params) => this.beforeSubmit(params),
       submitComplete: this.submitComplete,
       onApproveRef: this.aa,
     };
