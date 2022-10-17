@@ -80,7 +80,8 @@ class ApproveDetail extends PureComponent {
   };
 
   beforeSubmit = (params) => {
-    if(params.actionType === 'turn' || params.actionType === 'end'){
+    console.log(params)
+    if(params.actionType === 'turn' || params.actionType === 'end' || params.approved === 'false'){
       return new Promise(resolve => {
         resolve({success: true, message: '处理中,请稍后再试' });
       });
