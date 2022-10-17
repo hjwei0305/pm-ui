@@ -16,8 +16,58 @@ class FormModal extends PureComponent {
     isDisabled: true
   }
 
-  handleSave = () => {
-    const { form, onSave, editData } = this.props;
+  beforeStart = () => {
+    return new Promise(resolve => {
+      this.handleSubmit(resolve)
+    });
+    
+  };
+
+  handleSubmit = (flowCallBack = this.defaultCallBack) => {
+    const { dispatch, form, editData } = this.props;
+    form.validateFields((err, formData) => {
+      if (err) {
+        return;
+      }
+      const params = {};
+      Object.assign(params, editData, formData);
+      debugger
+      dispatch({
+        type: 'todolistDetails/save',
+        payload: params,
+      }).then(res => {
+          if (res) {
+            let saveData = res.data
+            // dispatch({
+            //   type: 'todolistDetails/updateState',
+            //   payload: {
+            //     modalVisible: false,
+            //   },
+            // });
+            dispatch({
+              type: 'todolistDetails/getUserInfo',
+              payload: {
+                code: saveData.ondutyCode,
+              }
+            }).then(result => {
+              if(result){
+                saveData.confirmedby1 = result.data.id
+                dispatch({
+                  type: 'todolistDetails/saveUserId',
+                  payload: saveData,
+                }).then(result1 => {
+                  flowCallBack(result1)
+                })
+              }
+            })
+          }
+        })
+      });
+  };
+
+
+  handleSave = (key) => {
+    const { form, onSave, onSubmit, editData, dispatch } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
         return;
@@ -40,15 +90,22 @@ class FormModal extends PureComponent {
         return message.error('请选择负责人');
       }
       Object.assign(params, editData, formData);
-      if (onSave) {
+      if (key === 'save') {
         onSave(params);
-        this.forceUpdate()
+        // this.forceUpdate()
       }
     });
   };
 
+  defaultCallBack = res => {
+    if (!res.success) {
+      message.warning(res.message);
+    }
+  };
+
     // 返回待办列表页面
     BackBill = () => {
+      debugger
       this.props.history.push({
         pathname: '/pm/TodolistDetails',
       });
@@ -74,7 +131,7 @@ class FormModal extends PureComponent {
       businessModelCode: 'com.donlim.pm.entity.TodoList',
       startComplete: () => this.BackBill,
       needStartConfirm: false,
-      beforeStart: () =>  this.handleSave(editData),
+      beforeStart: () =>  this.beforeStart,
     };
     // const dataReplace = Object.assign({},editData)
     // dataReplace.id = attId
@@ -142,13 +199,13 @@ class FormModal extends PureComponent {
         </Row>
         <Row>
           <div style={{float:"right",margin:"10px"}}>
-            <Button key="save" onClick={this.handleSave}  hidden={isDisabled}>
+            <Button key="save" onClick={() => this.handleSave('save')}  hidden={isDisabled}>
               保存
             </Button>
             {(editData && <StartFlow {...startFlowProps}>
               {sLoading => (
                 <Button type="primary" disabled={sLoading} loading={sLoading} style={{marginLeft:"5px"}}  hidden={isDisabled}>
-                  提交审批
+                  提交
                 </Button>
               )}
             </StartFlow>

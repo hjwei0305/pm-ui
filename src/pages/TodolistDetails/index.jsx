@@ -151,7 +151,7 @@ class TodolistDetails extends Component {
       return filters;
     };
 
-  handleSave = data => {
+  handleSave = (data) => {
     this.dispatchAction({
       type: 'todolistDetails/save',
       payload: data,
@@ -176,14 +176,51 @@ class TodolistDetails extends Component {
               type: 'todolistDetails/saveUserId',
               payload: saveData,
             }).then(result1 => {
-              this.handleEvent('edit',result1.data)
+              if(data.id === undefined){
+                this.handleEvent('edit',result1.data)
+              }
             })
-            
           }
         })
-        this.refresh();
       }
-    });
+    })
+    this.refresh();
+  };
+
+  handleSubmit = (data,key) => {
+    this.dispatchAction({
+      type: 'todolistDetails/save',
+      payload: data,
+    }).then(res => {
+      if (res) {
+        let saveData = res.data
+        this.dispatchAction({
+          type: 'todolistDetails/updateState',
+          payload: {
+            modalVisible: false,
+          },
+        });
+        this.dispatchAction({
+          type: 'todolistDetails/getUserInfo',
+          payload: {
+            code: saveData.ondutyCode,
+          }
+        }).then(result => {
+          if(result){
+            saveData.confirmedby1 = result.data.id
+            this.dispatchAction({
+              type: 'todolistDetails/saveUserId',
+              payload: saveData,
+            }).then(result1 => {
+              if(data.id === null){
+                this.handleEvent('edit',result1.data)
+              }
+            })
+          }
+        })
+      }
+    })
+    // this.refresh();
   };
 
   handleClose = () => {
@@ -489,6 +526,8 @@ class TodolistDetails extends Component {
 
     return {
       onSave: this.handleSave,
+      onSubmit: this.handleSubmit,
+      dispatch: this.props.dispatch,
       editData,
       employee,
       visible: modalVisible,
