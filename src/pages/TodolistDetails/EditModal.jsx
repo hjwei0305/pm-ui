@@ -115,7 +115,7 @@ class FormModal extends PureComponent {
     renderOptions = () => {
       const { employee, editData } = this.props;
       const isDisabled = editData && (editData.flowStatus !== 'INIT') && (editData.flowStatus != null) ;
-      return <Select style={{width: 120}} allowClear showSearch disabled={isDisabled}>{employee}</Select>
+      return <Select style={{width: "120",fontSize:"17px"}} allowClear showSearch disabled={isDisabled}>{employee}</Select>
     }
 
 
@@ -144,7 +144,7 @@ class FormModal extends PureComponent {
     //   entityId: get(dataReplace, 'id'),
     //   maxUploadNum: 1,
     // };
-
+    
 
     return (
 
@@ -163,30 +163,30 @@ class FormModal extends PureComponent {
         ]}
       >
     <Form
-      labelCol={{span: 8}}
-      wrapperCol={{span: 16}} 
-      
+      labelCol={{span: 10}}
+      wrapperCol={{span: 14}} 
     >
         <div>
-          <span style={{fontWeight:'bold',fontSize:"18px"}}>起草阶段</span>
+          <span style={{fontWeight:'bold',fontSize:"20px"}}>起草阶段</span>
         </div>
          <Row gutter={24}  style={{ margin: "10px 0" }}>
             <Col span={10}>
-              <FormItem label="提出日期">
+              <FormItem style={{fontSize:'40px'}} label={<span style={{fontSize:"17px"}}>提出日期</span>}>
+               
               {getFieldDecorator('submitDate', {initialValue: editData ? editData.submitDate && moment.utc(editData.submitDate) : now,})
               (<DatePicker disabled={isDisabled || saving}/>)}
               </FormItem>
             </Col>
             <Col span={10}>
-              <FormItem label="起草人">
+              <FormItem label={<span style={{fontSize:"17px"}}>起草人</span>}>
                 {getFieldDecorator('submitName', {initialValue: editData && title == '查看待办' ? editData.submitName : getCurrentUser().userName ,})
-                (<Input disabled/>)}
+                (<Input style={{fontSize:"17px"}} disabled/>)}
               </FormItem>
             </Col>
         </Row>
         <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
           <Col span={10}>
-          <FormItem label="要求完成日期">
+          <FormItem label={<span style={{fontSize:"17px"}}>要求完成日期</span>}>
           {/* <span>要求完成日期：</span> */}
           {getFieldDecorator('completionDate',
             {initialValue: editData && editData.completionDate && moment.utc(editData.completionDate),
@@ -194,7 +194,7 @@ class FormModal extends PureComponent {
           </FormItem>
           </Col>
           <Col span={10}>
-          <FormItem label="责任人">
+          <FormItem label={<span style={{fontSize:"17px"}}>责任人</span>}>
             {/* <span>责任人：</span> */}
             {getFieldDecorator('ondutyName', {
               initialValue: editData && editData.ondutyName,
@@ -204,15 +204,15 @@ class FormModal extends PureComponent {
         </Row>
         <Row gutter={24}  style={{ margin: "10px 0" }}>
           <Col span={24}>
-          <span>待办事项：</span>
+          <span style={{fontSize:"17px"}}>待办事项：</span>
           {getFieldDecorator('todoList', {
               initialValue: editData && editData.todoList,
-            })(<TextArea style={{width:"600px",height:"70px"}} disabled={isDisabled || saving} />)}
+            })(<TextArea style={{width:"600px",height:"70px",fontSize:"17px"}} disabled={isDisabled || saving} />)}
           </Col>
         </Row>
         <Row>
           <div style={{float:"right",margin:"10px"}}>
-            <Button key="save" onClick={() => this.handleSave('save')}  hidden={isDisabled}>
+            <Button  key="save" onClick={() => this.handleSave('save')}  hidden={isDisabled}>
               保存
             </Button>
             {(editData && <StartFlow {...startFlowProps}>
