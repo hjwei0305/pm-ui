@@ -4,9 +4,10 @@ import { ExtModal } from 'suid';
 import moment from 'moment';
 import StartFlow from 'suid/es/work-flow/StartFlow';
 import { getCurrentUser } from '@/utils/user';
+import TextArea from 'antd/lib/input/TextArea';
 
 
-
+const FormItem = Form.Item;
 const now = moment();
 
 @Form.create()
@@ -157,36 +158,48 @@ class FormModal extends PureComponent {
         title={title}
         onOk={this.handleSave}
         okText="保存"
+        width={800}
         footer={[
         ]}
       >
-    <Form>
+    <Form
+      labelCol={{span: 8}}
+      wrapperCol={{span: 16}} 
+      
+    >
         <div>
-          <span style={{fontWeight:'bold',fontSize:"16px"}}>起草阶段</span>
+          <span style={{fontWeight:'bold',fontSize:"18px"}}>起草阶段</span>
         </div>
          <Row gutter={24}  style={{ margin: "10px 0" }}>
             <Col span={10}>
-              <span >提出日期：</span>
+              <FormItem label="提出日期">
               {getFieldDecorator('submitDate', {initialValue: editData ? editData.submitDate && moment.utc(editData.submitDate) : now,})
               (<DatePicker disabled={isDisabled || saving}/>)}
+              </FormItem>
             </Col>
             <Col span={10}>
-              <span >起草人：</span>
-              {getFieldDecorator('submitName', {initialValue: editData && title == '查看待办' ? editData.submitName : getCurrentUser().userName ,})(<Input disabled/>)}
+              <FormItem label="起草人">
+                {getFieldDecorator('submitName', {initialValue: editData && title == '查看待办' ? editData.submitName : getCurrentUser().userName ,})
+                (<Input disabled/>)}
+              </FormItem>
             </Col>
         </Row>
         <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
           <Col span={10}>
-          <span>要求完成日期：</span>
+          <FormItem label="要求完成日期">
+          {/* <span>要求完成日期：</span> */}
           {getFieldDecorator('completionDate',
             {initialValue: editData && editData.completionDate && moment.utc(editData.completionDate),
             })(<DatePicker disabled={isDisabled || saving} />)}
+          </FormItem>
           </Col>
           <Col span={10}>
-            <span>责任人：</span>
+          <FormItem label="责任人">
+            {/* <span>责任人：</span> */}
             {getFieldDecorator('ondutyName', {
               initialValue: editData && editData.ondutyName,
             })(this.renderOptions())}
+            </FormItem>
           </Col>
         </Row>
         <Row gutter={24}  style={{ margin: "10px 0" }}>
@@ -194,7 +207,7 @@ class FormModal extends PureComponent {
           <span>待办事项：</span>
           {getFieldDecorator('todoList', {
               initialValue: editData && editData.todoList,
-            })(<Input  disabled={isDisabled || saving} />)}
+            })(<TextArea style={{width:"600px",height:"70px"}} disabled={isDisabled || saving} />)}
           </Col>
         </Row>
         <Row>
