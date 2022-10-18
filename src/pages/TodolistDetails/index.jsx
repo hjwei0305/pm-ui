@@ -267,6 +267,11 @@ class TodolistDetails extends Component {
           },
         },
       },
+      {
+        title: '查看表单',
+        key: 'checkBill',
+        canClick:  item.flowStatus !== 'INIT' && item.flowStatus != null,
+      },
       // {
       //   title: '删除',
       //   key: 'del',
@@ -292,6 +297,26 @@ class TodolistDetails extends Component {
     return menusData.filter(a => a.canClick);
   };
 
+  toBill = recordItem => {
+    // const { dispatch } = this.props;
+    // dispatch({
+    //   type: 'todolistDetails/getTaskId',
+    //   payload: {
+    //     id: recordItem.id,
+    //   },
+    // })
+    // .then(res => {
+    //   if(res.success){
+        this.props.history.push({
+          pathname: '/pm/ApproveEdit',
+          query: {
+            id: recordItem.id,
+          },
+        });
+    //   }
+    // });
+  };
+
   handlerAction = (key, recordItem) => {
     switch (key) {
       // case 'edit':
@@ -303,6 +328,9 @@ class TodolistDetails extends Component {
         this.handleEvent('edit',recordItem)
         // this.pageJumpNext(recordItem);
         break;
+      case 'checkBill':
+        this.toBill(recordItem)
+          break;
       case 'del':
         break;
       default:

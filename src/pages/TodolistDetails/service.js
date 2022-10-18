@@ -71,3 +71,8 @@ export async function saveUserId(data) {
      data,
     });
    }
+
+export async function getTaskId(param) {
+  const url = `${SERVER_PATH}/flow-service/flowInstance/getProcessTrackVO?businessId=${param.id}`;
+  return request.post(url);
+}

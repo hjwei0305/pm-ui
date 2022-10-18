@@ -73,6 +73,11 @@ export default [
             component: './TodolistDetails',
             title: '待办列表清单',
           },
+          {
+            path: '/pm/ApproveEdit',
+            component: './TodolistDetails/approve/ApproveEdit',
+            title: '待办查看页面',
+          },
         ],
       },
       {
