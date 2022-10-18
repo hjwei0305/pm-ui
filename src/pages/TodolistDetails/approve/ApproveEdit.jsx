@@ -52,6 +52,7 @@ class ApproveDetail extends PureComponent {
         name: '不合格',
       }
     ]
+    this.findInfo()
   };
 
   findInfo = () => {
@@ -262,7 +263,7 @@ class ApproveDetail extends PureComponent {
 
     return (
       <AuthUrl>
-        <Approve {...approveProps}>
+        {/* <Approve {...approveProps}> */}
         <ProLayout>
           <Content>
           <Form
@@ -391,7 +392,7 @@ class ApproveDetail extends PureComponent {
           </Form>
           </Content>
         </ProLayout>
-        </Approve>
+        {/* </Approve> */}
       </AuthUrl>
     );
   }
