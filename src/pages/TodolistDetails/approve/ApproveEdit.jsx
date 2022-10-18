@@ -271,10 +271,12 @@ class ApproveDetail extends PureComponent {
           >
             <Row gutter={24}>
               <Col>
-                <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold",float:"left"}}>起草阶段</div>
-                <Button onClick={this.backBill} type="primary" style={{float:"right",margin:"20px 100px"}}>
-                  返回
+                <Button onClick={this.backBill} type="primary" style={{margin:"20px 0 0 20px"}}>
+                  返回待办列表
                 </Button>
+              </Col>
+              <Col>
+                <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold",float:"left"}}>起草阶段</div>
               </Col>
             </Row>
             <Row gutter={24}>
