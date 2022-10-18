@@ -100,6 +100,8 @@ class ApproveDetail extends PureComponent {
       }
       const params = {};
       Object.assign(params, this.editData, formData);
+      params.submitDate = formData.submitDate.format('YYYY-MM-DD')
+      params.completionDate = formData.completionDate.format('YYYY-MM-DD')
       const result = {
         message:'',
       };
@@ -260,9 +262,9 @@ class ApproveDetail extends PureComponent {
             <Row gutter={24}>
               <Col>
                 <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold",float:"left"}}>起草阶段</div>
-                <Button key="save" onClick={this.handleSave} type="primary" style={{float:"right",margin:"20px 100px"}}>
+                {/* <Button key="save" onClick={this.handleSave} type="primary" style={{float:"right",margin:"20px 100px"}}>
                   保存
-                </Button>
+                </Button> */}
               </Col>
             </Row>
 
