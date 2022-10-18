@@ -156,7 +156,7 @@ class TodolistDetails extends Component {
       type: 'todolistDetails/save',
       payload: data,
     }).then(res => {
-      if (res) {
+      if (res.success) {
         let saveData = res.data
         this.dispatchAction({
           type: 'todolistDetails/updateState',
@@ -170,7 +170,7 @@ class TodolistDetails extends Component {
             code: saveData.ondutyCode,
           }
         }).then(result => {
-          if(result){
+          if(result.success){
             saveData.confirmedby1 = result.data.id
             this.dispatchAction({
               type: 'todolistDetails/saveUserId',
