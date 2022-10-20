@@ -106,8 +106,9 @@ class ApproveDetail extends PureComponent {
         message:'',
       };
       if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
-         || formData.proposalStatus == null || formData.completion == undefined || formData.completion == '')){
-          result.message = '请输入建议状态及完成情况';
+         || formData.proposalStatus == null || formData.completion == undefined || formData.completion == ''
+         || params.isUpload != 1)){
+          result.message = '请输入建议状态、完成情况及上传附件';
         return flowCallBack(result);
       } else if(params.confirm1Status == 'true' &&
         (formData.closingStatus == undefined || formData.closingStatus == null
@@ -181,6 +182,13 @@ class ApproveDetail extends PureComponent {
       }).then(res => {
         if(res.success === false){
           message.warning(res.message);
+        }else{
+          // 上传成功，维护isUpload
+          if(fileList && fileList.length > 0){
+            this.editData.isUpload = 1;
+          }else{
+            this.editData.isUpload = 0;
+          }
         }
       });
     };
@@ -262,7 +270,7 @@ class ApproveDetail extends PureComponent {
             <Row gutter={24}>
               <Col>
                 <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold",float:"left"}}>起草阶段</div>
-                {/* <Button key="save" onClick={this.handleSave} type="primary" style={{float:"right",margin:"20px 100px"}}>
+                {/* <Button key="save" onClick={() => this.handleSave()} type="primary" style={{float:"right",margin:"20px 100px"}}>
                   保存
                 </Button> */}
               </Col>
