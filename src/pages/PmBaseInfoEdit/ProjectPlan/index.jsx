@@ -4,6 +4,9 @@ import { connect } from 'dva';
 import { Button, InputNumber, Input, DatePicker, Radio, Form, Select, message  } from 'antd';
 import { ExtTable, ExtIcon, Space, ComboList,ProLayout, DataImport } from 'suid';
 import moment from 'moment';
+// import { constants } from '@/utils';
+//
+// const { PROJECT_PATH } = constants;
 
 const { Header ,Content } = ProLayout;
 
@@ -244,6 +247,10 @@ class ProjectPlan extends Component {
     }
   };
 
+  // handleExport = () => {
+  //   this.tableRef.extTool.exportData();
+  // };
+
   init = () => {
     const tempColumn = this.state.columns1;
     for (const item of tempColumn) {
@@ -379,7 +386,7 @@ class ProjectPlan extends Component {
         if(item.schedureStatus === '' || item.workOnduty.length === 0){
           requiredFlag = false
           if(flag)
-          message.error('序号[' + item.schedureNo + '] 计划状态或负责人不能为空') 
+          message.error('序号[' + item.schedureNo + '] 计划状态或负责人不能为空')
         }
       }
     );
@@ -525,6 +532,8 @@ class ProjectPlan extends Component {
             </Button>
           <Button onClick={this.refresh}>刷新</Button>
           <Button onClick={() => this.downLoadTemplate('项目计划导入')}>模板</Button>
+          {/* <Button onClick={() => this.tableRef.extTool.exportData()}>导出</Button> */}
+          {/* <Button onClick={this.handleExport}>导出</Button> */}
           <DataImport
             tableProps={{ excelColumns, showSearch: false }}
             validateFunc={this.validateItem}
@@ -648,6 +657,16 @@ class ProjectPlan extends Component {
       checkbox: false,
       dataSource: this.state.obj,
       rowKey: 'key',
+      // exportData: true,
+      // onTableRef: inst => (this.tableRef = inst),
+      // exportData: queryParams => {
+      //   return {
+      //     url: `${PROJECT_PATH}/projectPlan/export`,
+      //     data: queryParams,
+      //     method: 'POST',
+      //     responseType: 'blob',
+      //   };
+      // },
     };
   };
 
@@ -663,7 +682,7 @@ class ProjectPlan extends Component {
         row[c.dataIndex] = '';
       }else{
         row[c.dataIndex] = e.name;
-      }    
+      }
     }else if(c.elem === 'DATE_PICK'){
       row[c.dataIndex] = e;
       if((c.dataIndex === "actualEndDate" || c.dataIndex === "actualStartDate") && (row.actualEndDate != '' && row.actualStartDate != '' )){
