@@ -254,7 +254,7 @@ class TodolistDetails extends Component {
         title: '修改/查看',
         key: 'view',
         icon: 'file-search',
-        canClick: true,
+        canClick: item.flowStatus === 'INIT' || item.flowStatus == null,
       },
       {
         title: '审核历史',

@@ -205,7 +205,7 @@ class ApproveDetail extends PureComponent {
       customBatchDownloadFileName: true,
       onAttachmentRef: ref => (this.attachmentRef = ref),
       entityId: id,
-      onDeleteFile: this.handlerGetFile,
+      // onDeleteFile: this.handlerGetFile,
       onChange: this.handlerGetFile,
       allowUpload: true,
       style: {height: "250px",marginLeft:"20px"},
