@@ -346,14 +346,14 @@ class ApproveDetail extends PureComponent {
                 <FormItem label="建议状态">
                   {getFieldDecorator('proposalStatus', {initialValue: this.editData && this.editData.proposalStatus, })
                   // (<Input placeholder='请输入结案/不结案' disabled={confirm} />)
-                  (<ComboList {...comboListProps} disabled={this.confirm}/>)
+                  (<ComboList {...comboListProps} disabled/>)
                   }
                 </FormItem>
               </Col>
               <Col span={10}>
                 <FormItem label="完成情况">
                   {getFieldDecorator('completion', { initialValue: this.editData && this.editData.completion,})
-                  (<Input disabled={this.confirm} />)}
+                  (<Input disabled />)}
                 </FormItem>
               </Col>
             </Row>
@@ -379,13 +379,13 @@ class ApproveDetail extends PureComponent {
                 <FormItem label="结案状态">
                   {getFieldDecorator('closingStatus', {initialValue: this.editData && this.editData.closingStatus,})
                   // (<Input placeholder='请输入合格/不合格' disabled={!this.confirm} />)
-                  (<ComboList {...completeProps} disabled={!this.confirm}/>)
+                  (<ComboList {...completeProps} disabled/>)
                   }
                 </FormItem>
               </Col>
               <Col span={10}>
                 <FormItem label="备注">
-                  {getFieldDecorator('remark', {initialValue: this.editData && this.editData.remark,})(<Input disabled={!this.confirm} />)}
+                  {getFieldDecorator('remark', {initialValue: this.editData && this.editData.remark,})(<Input disabled />)}
                 </FormItem>
               </Col>
             </Row>
