@@ -387,7 +387,7 @@ class ProjectSchedule extends Component {
             <div className={cls(styles['step_font'])}>测试用例</div>
             <ul className={cls(styles['step_btns'])}>
               <li><Button className={this.btnCls('5.1', 'template')} disabled={this.btnState('5.1')} onClick={() => this.downLoadTemplate('测试用例')}>模板</Button></li>
-              <li><Button className={this.btnCls('5.1', 'upload')} disabled={this.btnState('5.1')}  onClick={() => this.upload('TestExampleDoc')}>上传/查看</Button></li>
+              <li><Button className={this.btnCls('5.1', 'upload')} disabled={this.btnState('5.1')}  onClick={() => this.upload('TestExampleDoc',editData.testExampleDocId)}>上传/查看</Button></li>
               {/* <li><Button className={this.btnCls('5.1', 'check')} disabled={this.btnState('5.1')}>查看</Button></li> */}
             </ul>
             <div className={cls(styles['step_font'])}>测试报告</div>
