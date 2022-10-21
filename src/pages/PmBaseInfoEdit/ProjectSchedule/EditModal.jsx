@@ -53,7 +53,6 @@ class FormModal extends PureComponent {
     // if (isValid) {
       const docIdList = [];
       if (this.attachmentRef) {
-        console.log(this.attachmentRef)
         const status = this.attachmentRef.getAttachmentStatus();
         const { fileList, ready } = status;
         if (!ready) {
@@ -169,6 +168,7 @@ class FormModal extends PureComponent {
     const title = '附件上传查看';
     const dataReplace = Object.assign({},editData)
     dataReplace.id = attId
+    console.log(attId)
 
     const attachmentProps = {
       serviceHost: `${SERVER_PATH}/edm-service`,
