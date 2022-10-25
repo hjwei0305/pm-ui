@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button,Select } from 'antd';
+import { Button,Select, Tag } from 'antd';
 import { ExtTable, ExtIcon, Space,ComboList } from 'suid';
 import ExtAction from '@/components/ExtAction';
 import EditModal from './EditModal';
@@ -447,6 +447,17 @@ class TodolistDetails extends Component {
         dataIndex: 'documentStatus',
         width: 100,
         required: true,
+        render: (_, row) => {
+          debugger
+          if (row.flowStatus === "INIT" || row.flowStatus === null) {
+            return <Tag color="blue">起草</Tag>;
+          }else if(row.flowStatus === "INPROCESS"){
+            return <Tag color="red">流程中</Tag>;
+          }else if(row.flowStatus === "COMPLETED"){
+            return <Tag color="green">已完成</Tag>;
+          }
+          
+        },
       },
       // {
       //   title: '来源',
