@@ -109,6 +109,7 @@ class ApproveDetail extends PureComponent {
       };
       params.confirmedby2 = getCurrentUser().username
       params.confirmationTime = moment().format('YYYY-MM-DD')
+      console.log(getCurrentUser())
       console.log(params)
       dispatch({
           type: 'todolistDetails/save',
@@ -143,6 +144,7 @@ class ApproveDetail extends PureComponent {
           result.message = '请输入结案状态及备注';
         return flowCallBack(result);
       }
+      console.log(getCurrentUser())
       params.confirmedby2 = getCurrentUser().username
       params.confirmationTime = moment().format('YYYY-MM-DD')
       console.log(params)
