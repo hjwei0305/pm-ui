@@ -109,6 +109,7 @@ class ApproveDetail extends PureComponent {
       };
       params.confirmedby2 = getCurrentUser().username
       params.confirmationTime = moment().format('YYYY-MM-DD')
+      console.log(params)
       if(result.success){
         dispatch({
             type: 'todolistDetails/save',
@@ -146,6 +147,7 @@ class ApproveDetail extends PureComponent {
       }
       params.confirmedby2 = getCurrentUser().username
       params.confirmationTime = moment().format('YYYY-MM-DD')
+      console.log(params)
       if(result.success){
         dispatch({
             type: 'todolistDetails/save',
