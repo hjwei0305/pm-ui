@@ -5,6 +5,7 @@ import { WorkFlow, utils, AuthUrl, ComboList, Attachment} from 'suid';
 import { Form, Row, Col, Input, DatePicker, message, Button } from 'antd';
 import moment from 'moment';
 import { constants } from '@/utils';
+import { getCurrentUser } from '@/utils/user';
 
 const { SERVER_PATH } = constants;
 const now = moment();
@@ -83,7 +84,7 @@ class ApproveDetail extends PureComponent {
     console.log(params)
     if(params.actionType === 'turn' || params.actionType === 'end' || params.approved === false){
       return new Promise(resolve => {
-        this.handleSave(resolve)
+        this.handleTurnSave(resolve)
         // resolve({success: true, message: '处理中,请稍后再试' });
       });
     }else{
@@ -93,7 +94,7 @@ class ApproveDetail extends PureComponent {
     }
   };
 
-  handleSaveConfirm = (flowCallBack = this.defaultCallBack) => {
+  handleTurnSave = (flowCallBack = this.defaultCallBack) => {
     const { dispatch, form } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
@@ -106,31 +107,21 @@ class ApproveDetail extends PureComponent {
       const result = {
         message:'',
       };
-      if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
-         || formData.proposalStatus == null || formData.completion == undefined || formData.completion == ''
-         || params.isUpload != 1)){
-          result.message = '请输入建议状态、完成情况及上传附件';
-        return flowCallBack(result);
-      } else if(params.confirm1Status == 'true' &&
-        (formData.closingStatus == undefined || formData.closingStatus == null
-           || formData.remark == undefined || formData.remark == null || formData.remark == '')){
-          result.message = '请输入结案状态及备注';
-        return flowCallBack(result);
+      params.confirmedby2 = getCurrentUser().username
+      params.confirmationTime = moment().format('YYYY-MM-DD')
+      if(result.success){
+        dispatch({
+            type: 'todolistDetails/save',
+            payload: params,
+        }).then(res => {
+          flowCallBack(res);
+        });
       }
-      dispatch({
-        type: 'todolistDetails/saveConfirm',
-        payload: params,
-      }).then(res => {
-        flowCallBack(res);
-      });
     })
   };
 
-
-
   handleSave = (flowCallBack = this.defaultCallBack) => {
     const { dispatch, form } = this.props;
-    const { id } = this.props.location.query;
     form.validateFields((err, formData) => {
       if (err) {
         return;
@@ -153,22 +144,16 @@ class ApproveDetail extends PureComponent {
           result.message = '请输入结案状态及备注';
         return flowCallBack(result);
       }
-      dispatch({
-        type: 'todolistDetails/getTaskId',
-        payload: {
-          id: id
-        },
-      }).then(result =>{
-        console.log(result)
-        if(result.success){
-          dispatch({
+      params.confirmedby2 = getCurrentUser().username
+      params.confirmationTime = moment().format('YYYY-MM-DD')
+      if(result.success){
+        dispatch({
             type: 'todolistDetails/save',
             payload: params,
-          }).then(res => {
-            flowCallBack(res);
-          });
-        }
-      })
+        }).then(res => {
+          flowCallBack(res);
+        });
+      }
     })
   };
 
