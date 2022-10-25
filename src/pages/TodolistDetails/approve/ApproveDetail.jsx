@@ -89,7 +89,7 @@ class ApproveDetail extends PureComponent {
       });
     }else{
       return new Promise(resolve => {
-        this.handleSave(resolve)
+        this.handleSave(resolve,params)
       });
     }
   };
@@ -107,10 +107,8 @@ class ApproveDetail extends PureComponent {
       const result = {
         message:'',
       };
-      params.confirmedby2 = getCurrentUser().username
+      params.confirmedby2 = getCurrentUser().userName
       params.confirmationTime = moment().format('YYYY-MM-DD')
-      console.log(getCurrentUser())
-      console.log(params)
       dispatch({
           type: 'todolistDetails/save',
           payload: params,
@@ -120,7 +118,7 @@ class ApproveDetail extends PureComponent {
     })
   };
 
-  handleSave = (flowCallBack = this.defaultCallBack) => {
+  handleSave = (flowCallBack = this.defaultCallBack, opinion) => {
     const { dispatch, form } = this.props;
     form.validateFields((err, formData) => {
       if (err) {
@@ -144,10 +142,10 @@ class ApproveDetail extends PureComponent {
           result.message = '请输入结案状态及备注';
         return flowCallBack(result);
       }
-      console.log(getCurrentUser())
-      params.confirmedby2 = getCurrentUser().username
-      params.confirmationTime = moment().format('YYYY-MM-DD')
-      console.log(params)
+      if(opinion.approved === true){
+        params.confirmedby2 = getCurrentUser().userName
+        params.confirmationTime = moment().format('YYYY-MM-DD')
+      }
       dispatch({
           type: 'todolistDetails/save',
           payload: params,
