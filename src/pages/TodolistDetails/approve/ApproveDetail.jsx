@@ -130,7 +130,7 @@ class ApproveDetail extends PureComponent {
 
   handleSave = (flowCallBack = this.defaultCallBack) => {
     const { dispatch, form } = this.props;
-    const { id } = location.query;
+    const { id } = this.props.location.query;
     form.validateFields((err, formData) => {
       if (err) {
         return;
