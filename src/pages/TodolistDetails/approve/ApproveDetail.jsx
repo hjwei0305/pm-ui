@@ -6,6 +6,7 @@ import { Form, Row, Col, Input, DatePicker, message, Button } from 'antd';
 import moment from 'moment';
 import { constants } from '@/utils';
 import { getCurrentUser } from '@/utils/user';
+import TextArea from 'antd/lib/input/TextArea';
 
 const { SERVER_PATH } = constants;
 const now = moment();
@@ -104,6 +105,7 @@ class ApproveDetail extends PureComponent {
       Object.assign(params, this.editData, formData);
       params.submitDate = formData.submitDate.format('YYYY-MM-DD')
       params.completionDate = formData.completionDate.format('YYYY-MM-DD')
+      params.confir1Time = formData.confir1Time != null ? formData.confir1Time.format('YYYY-MM-DD') : null
       const result = {
         message:'',
       };
@@ -128,29 +130,42 @@ class ApproveDetail extends PureComponent {
       Object.assign(params, this.editData, formData);
       params.submitDate = formData.submitDate.format('YYYY-MM-DD')
       params.completionDate = formData.completionDate.format('YYYY-MM-DD')
+      params.confir1Time = formData.confir1Time != null ? formData.confir1Time.format('YYYY-MM-DD') : null
       const result = {
         message:'',
       };
-      if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
-         || formData.proposalStatus == null || formData.completion == undefined || formData.completion == ''
-         || params.isUpload != 1)){
-          result.message = '请输入建议状态、完成情况及上传附件';
-        return flowCallBack(result);
-      } else if(params.confirm1Status == 'true' &&
-        (formData.closingStatus == undefined || formData.closingStatus == null
-           || formData.remark == undefined || formData.remark == null || formData.remark == '')){
-          result.message = '请输入结案状态及备注';
-        return flowCallBack(result);
-      }
-      if(opinion.approved === true){
-        params.confirmedby2 = getCurrentUser().userName
-        params.confirmationTime = moment().format('YYYY-MM-DD')
+      if(opinion === 'save'){
+        if(params.newestProgress == '' || params.newestProgress == null){
+          return message.warning('请输入最新进度说明');
+        }
+        params.confir1Time = moment().format('YYYY-MM-DD')
+      }else{
+        if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
+          || formData.proposalStatus == null || formData.completion == undefined || formData.completion == ''
+          || params.isUpload != 1)){
+           result.message = '请输入建议状态、完成情况及上传附件';
+         return flowCallBack(result);
+       } else if(params.confirm1Status == 'true' &&
+         (formData.closingStatus == undefined || formData.closingStatus == null
+            || formData.remark == undefined || formData.remark == null || formData.remark == '')){
+           result.message = '请输入结案状态及备注';
+         return flowCallBack(result);
+       }
+       if(opinion.approved === 'default'){
+        params.confir1Time = moment().format('YYYY-MM-DD')
+       }
+       if(opinion.approved === true || opinion.approved === false){
+         params.confirmedby2 = getCurrentUser().userName
+         params.confirmationTime = moment().format('YYYY-MM-DD')
+       }
       }
       dispatch({
           type: 'todolistDetails/save',
           payload: params,
       }).then(res => {
-        flowCallBack(res);
+        if(opinion != 'save'){
+          flowCallBack(res);
+        }
       });
     })
   };
@@ -300,9 +315,9 @@ class ApproveDetail extends PureComponent {
             <Row gutter={24}>
               <Col>
                 <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold",float:"left"}}>起草阶段</div>
-                {/* <Button key="save" onClick={() => this.handleSave()} type="primary" style={{float:"right",margin:"20px 100px"}}>
+                <Button key="save" onClick={() => this.handleSave('','save')} type="primary" style={{float:"right",margin:"20px 100px"}}>
                   保存
-                </Button> */}
+                </Button>
               </Col>
             </Row>
 
@@ -380,6 +395,22 @@ class ApproveDetail extends PureComponent {
                 <FormItem label="完成情况">
                   {getFieldDecorator('completion', { initialValue: this.editData && this.editData.completion,})
                   (<Input disabled={this.confirm} />)}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col span={10}>
+                <FormItem label="最新进度说明">
+                  {getFieldDecorator('newestProgress', {initialValue: this.editData && this.editData.newestProgress})
+                  (<TextArea disabled={this.confirm}/>)
+                  }
+                </FormItem>
+              </Col>
+              <Col span={10}>
+                <FormItem label="确认时间">
+                  {getFieldDecorator('confir1Time', {initialValue: this.editData && this.editData.confir1Time && moment.utc(this.editData.confir1Time) })
+                  (<DatePicker disabled/>)
+                  }
                 </FormItem>
               </Col>
             </Row>

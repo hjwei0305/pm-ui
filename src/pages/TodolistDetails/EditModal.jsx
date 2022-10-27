@@ -109,16 +109,28 @@ class FormModal extends PureComponent {
 
     // 返回待办列表页面
     BackBill = () => {
-      debugger
       this.props.history.push({
         pathname: '/pm/TodolistDetails',
       });
     };
 
+    changeSelect = (value,option) => {
+      const { form } = this.props
+      if(value && option){
+        if(value === '石风婷'){
+          form.setFieldsValue({ orgname: '运营策略科' })
+        }else{
+          form.setFieldsValue({ orgname: option.props.orgname })
+        }
+      }else{
+        form.setFieldsValue({ orgname: null })
+      }
+    }
+
     renderOptions = () => {
       const { employee, editData } = this.props;
       const isDisabled = editData && (editData.flowStatus !== 'INIT') && (editData.flowStatus != null) ;
-      return <Select style={{width: "120",fontSize:"17px"}} allowClear showSearch disabled={isDisabled}>{employee}</Select>
+      return <Select onChange={(value,option) => this.changeSelect(value,option)} style={{width: "120",fontSize:"17px"}} allowClear showSearch disabled={isDisabled}>{employee}</Select>
     }
 
 
@@ -197,11 +209,21 @@ class FormModal extends PureComponent {
           </FormItem>
           </Col>
           <Col span={10}>
-          <FormItem label={<span style={{fontSize:"17px"}}>责任人</span>}>
+            <FormItem label={<span style={{fontSize:"17px"}}>责任人</span>}>
             {/* <span>责任人：</span> */}
-            {getFieldDecorator('ondutyName', {
-              initialValue: editData && editData.ondutyName,
-            })(this.renderOptions())}
+              {getFieldDecorator('ondutyName', {
+                initialValue: editData && editData.ondutyName,
+              })(this.renderOptions())}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={24}  style={{ margin: "10px 0" }}>
+          <Col span={10}>
+            <FormItem label={<span style={{fontSize:"17px"}}>科室名称</span>}>
+            {/* <span>责任人：</span> */}
+              {getFieldDecorator('orgname', {
+                initialValue: editData && editData.orgname,
+              })(<Input style={{fontSize:"17px"}} disabled></Input>)}
             </FormItem>
           </Col>
         </Row>

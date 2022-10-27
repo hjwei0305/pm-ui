@@ -6,6 +6,7 @@ import { Form, Row, Col, Input, DatePicker, message, Button } from 'antd';
 import moment from 'moment';
 import { constants } from '@/utils';
 import Content from 'suid/lib/pro-layout/Content';
+import TextArea from 'antd/lib/input/TextArea';
 
 const { SERVER_PATH } = constants;
 const now = moment();
@@ -354,6 +355,22 @@ class ApproveDetail extends PureComponent {
                 <FormItem label="完成情况">
                   {getFieldDecorator('completion', { initialValue: this.editData && this.editData.completion,})
                   (<Input disabled />)}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col span={10}>
+                <FormItem label="最新进度说明">
+                  {getFieldDecorator('newestProgress', {initialValue: this.editData && this.editData.newestProgress})
+                  (<TextArea disabled/>)
+                  }
+                </FormItem>
+              </Col>
+              <Col span={10}>
+                <FormItem label="确认时间">
+                  {getFieldDecorator('confir1Time', {initialValue: this.editData && this.editData.confir1Time && moment.utc(this.editData.confir1Time) })
+                  (<DatePicker disabled/>)
+                  }
                 </FormItem>
               </Col>
             </Row>

@@ -15,6 +15,7 @@ const { request } = utils;
 const {PROJECT_PATH, SERVER_PATH} = constants;
 const serverPath = '{PROJECT_PATH}';
 const contextPath = '/todoList';
+const orgPath = '/pmOrganize';
 /** 保存 */
 export async function save(data) {
   const url = `${PROJECT_PATH}/todoList/save`;
@@ -76,3 +77,9 @@ export async function getTaskId(param) {
   const url = `${SERVER_PATH}/flow-service/flowInstance/getProcessTrackVO?businessId=${param.id}`;
   return request.post(url);
 }
+
+  /** 查询指定人员信息 */
+  export async function getOrgname() {
+    const url = `${PROJECT_PATH}${orgPath}/findClass`;
+    return request.post(url);
+  }

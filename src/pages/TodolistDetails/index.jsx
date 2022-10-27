@@ -17,8 +17,10 @@ class TodolistDetails extends Component {
   state = {
     delId: null,
     closingStatusFilter: null,
+    orgnameFilter: null,
     documentStatusFilter:null,
     employee: [],
+    orgnameList: [],
     closingStatusList: [
       {
         id: 1,
@@ -48,6 +50,17 @@ class TodolistDetails extends Component {
   constructor(props) {
     super(props);
     const { dispatch } = props;
+    // 科室名称
+    dispatch({
+      type: 'todolistDetails/getOrgname',
+    }).then(res => {
+      if(res.success){
+        this.setState({
+          orgnameList : res.data
+        })
+      }
+    })
+    // 人员名单
     dispatch({
       type: 'todolistDetails/findEmp',
       payload: {
@@ -59,7 +72,13 @@ class TodolistDetails extends Component {
       const { data } = res;
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < data.length; i++) {
-        this.state.employee.push(<Option key={data[i].employeeName}>{data[i].employeeName}</Option>);
+        this.state.employee.push(
+        <Option 
+          key={data[i].employeeName} 
+          orgname={data[i].orgname.substr(data[i].orgname.lastIndexOf('-') + 1)}
+        >
+          {data[i].employeeName}
+        </Option>);
       }
     });
   }
@@ -121,7 +140,7 @@ class TodolistDetails extends Component {
   };
 
   getTableFilters = () => {
-      const {  documentStatusFilter, closingStatusFilter } = this.state;
+      const {  documentStatusFilter, closingStatusFilter, orgnameFilter } = this.state;
       const filters = [];
 
       // if (codeFilter) {
@@ -146,6 +165,14 @@ class TodolistDetails extends Component {
         operator: 'EQ',
         fieldType: 'string',
         value: closingStatusFilter,
+      });
+    }
+    if (orgnameFilter) {
+      filters.push({
+        fieldName: 'orgname',
+        operator: 'EQ',
+        fieldType: 'string',
+        value: orgnameFilter,
       });
     }
       return filters;
@@ -403,6 +430,12 @@ class TodolistDetails extends Component {
         required: true,
       },
       {
+        title: '科室',
+        dataIndex: 'orgname',
+        width: 100,
+        required: true,
+      },
+      {
         title: '要求完成日期',
         dataIndex: 'completionDate',
         required: true,
@@ -411,6 +444,18 @@ class TodolistDetails extends Component {
         title: '确认人',
         dataIndex: 'ondutyName',
         width: 100,
+        required: true,
+      },
+      {
+        title: '最新确认时间',
+        dataIndex: 'confir1Time',
+        width: 100,
+        required: true,
+      },
+      {
+        title: '最新进度说明',
+        dataIndex: 'newestProgress',
+        width: 150,
         required: true,
       },
       {
@@ -448,7 +493,6 @@ class TodolistDetails extends Component {
         width: 100,
         required: true,
         render: (_, row) => {
-          debugger
           if (row.flowStatus === "INIT" || row.flowStatus === null) {
             return <Tag color="blue">起草</Tag>;
           }else if(row.flowStatus === "INPROCESS"){
@@ -488,6 +532,24 @@ class TodolistDetails extends Component {
             afterClear={() => this.setState({ closingStatusFilter: null })}
             afterSelect={item =>
               this.setState({ closingStatusFilter: item.name })
+            }
+            reader={{
+              name: 'name',
+              field: ['name'],
+            }}
+          />
+          科室名称:{' '}
+          <ComboList
+            style={{ width: '150px', marginRight: '12px' }}
+            showSearch={false}
+            pagination={false}
+            allowClear
+            dataSource={this.state.orgnameList}
+            name="name"
+            field={['name']}
+            afterClear={() => this.setState({ orgnameFilter: null })}
+            afterSelect={item =>
+              this.setState({ orgnameFilter: item.name })
             }
             reader={{
               name: 'name',
