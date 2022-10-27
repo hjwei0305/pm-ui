@@ -142,8 +142,8 @@ class ApproveDetail extends PureComponent {
       }else{
         if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
           || formData.proposalStatus == null || formData.completion == undefined || formData.completion == ''
-          || params.isUpload != 1)){
-           result.message = '请输入建议状态、完成情况及上传附件';
+          || params.isUpload != 1 || params.newestProgress == '' || params.newestProgress == null)){
+           result.message = '请输入建议状态、完成情况、最新进度说明及上传附件';
          return flowCallBack(result);
        } else if(params.confirm1Status == 'true' &&
          (formData.closingStatus == undefined || formData.closingStatus == null
