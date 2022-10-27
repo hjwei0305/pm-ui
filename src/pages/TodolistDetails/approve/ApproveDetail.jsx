@@ -151,7 +151,7 @@ class ApproveDetail extends PureComponent {
            result.message = '请输入结案状态及备注';
          return flowCallBack(result);
        }
-       if(opinion.undefined === 'default'){
+       if(opinion.actionType === 'default'){
         params.confir1Time = moment().format('YYYY-MM-DD')
        }
        if(opinion.approved === true || opinion.approved === false){
