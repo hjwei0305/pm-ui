@@ -78,6 +78,11 @@ export default [
             component: './TodolistDetails/approve/ApproveEdit',
             title: '待办查看页面',
           },
+          {
+            path: '/pm/eipTodo',
+            component: './EipTodo',
+            title: 'eip待办处理页面',
+          }
         ],
       },
       {
