@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button,Select, Tag } from 'antd';
-import { ExtTable, ExtIcon, Space,ComboList } from 'suid';
+import { ExtTable, ExtIcon, Space,ComboList, utils } from 'suid';
+import { message } from 'antd';
 import ExtAction from '@/components/ExtAction';
 import EditModal from './EditModal';
-import {constants} from "@/utils";
-import moment from 'moment';
+import { constants, exportXlsx } from "@/utils";
 
+const { request } = utils;
 const { Option } = Select;
 const {PROJECT_PATH,SERVER_PATH} = constants
 @withRouter
@@ -489,7 +490,7 @@ class TodolistDetails extends Component {
       },
       {
         title: '单据状态',
-        dataIndex: 'documentStatus',
+        dataIndex: 'flowStatus',
         width: 100,
         required: true,
         render: (_, row) => {
@@ -582,7 +583,8 @@ class TodolistDetails extends Component {
           >
             新增
           </Button>
-          <Button onClick={() => this.tableRef.extTool.exportData()}>导出</Button>
+          <Button onClick={this.handlerExport}>导出</Button>
+          {/* <Button onClick={() => this.tableRef.extTool.exportData()}>导出</Button> */}
         </Space>
       ),
     };
@@ -605,6 +607,39 @@ class TodolistDetails extends Component {
         `${PROJECT_PATH}/todoList/projFindByPage2`,
       },
     };
+  };
+
+  handlerExport = () => {
+    const tableFilters = this.getTableFilters();
+    request.post(`${PROJECT_PATH}/todoList/export`, { filters: tableFilters }).then(res => {
+      const { success, data } = res;
+      if (success && data.length > 0) {
+        exportXlsx(
+          '待办清单明细',
+          [
+            '提出日期',
+            '起草人',
+            '待办事项',
+            '责任人',
+            '科室',
+            '要求完成日期',
+            '确认人',
+            '最新确认时间',
+            '最新进度说明',
+            '建议状态',
+            '当前完成比率（%）',
+            '验证人',
+            '验证时间',
+            '结案状态',
+            '单据状态',
+            '备注',
+          ],
+          data,
+        );
+      } else {
+        message.error('没找到数据');
+      }
+    });
   };
 
   upload = () => {
