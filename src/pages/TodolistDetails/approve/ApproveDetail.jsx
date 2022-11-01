@@ -134,30 +134,35 @@ class ApproveDetail extends PureComponent {
       const result = {
         message:'',
       };
+      // 保存
       if(opinion === 'save'){
         if(params.newestProgress == '' || params.newestProgress == null){
           return message.warning('请输入最新进度说明');
         }
         params.confir1Time = moment().format('YYYY-MM-DD')
       }else{
-        if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
+        // 审批
+        if(params.confirm1Status != 'true' && params.proposalStatus != '结案'){
+          result.message = '状态为未结案单据不能提交';
+          return flowCallBack(result);
+        }else if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
           || formData.proposalStatus == null || formData.completion == undefined || formData.completion == ''
           || params.isUpload != 1 || params.newestProgress == '' || params.newestProgress == null)){
-           result.message = '请输入建议状态、完成情况、最新进度说明及上传附件';
-         return flowCallBack(result);
-       } else if(params.confirm1Status == 'true' &&
-         (formData.closingStatus == undefined || formData.closingStatus == null
-            || formData.remark == undefined || formData.remark == null || formData.remark == '')){
-           result.message = '请输入结案状态及备注';
-         return flowCallBack(result);
-       }
-       if(opinion.actionType === 'default'){
-        params.confir1Time = moment().format('YYYY-MM-DD')
-       }
-       if(opinion.approved === true || opinion.approved === false){
-         params.confirmedby2 = getCurrentUser().userName
-         params.confirmationTime = moment().format('YYYY-MM-DD')
-       }
+          result.message = '请输入建议状态、当前完成比率、最新进度说明及上传附件';
+          return flowCallBack(result);
+        } else if(params.confirm1Status == 'true' &&
+          (formData.closingStatus == undefined || formData.closingStatus == null
+              || formData.remark == undefined || formData.remark == null || formData.remark == '')){
+            result.message = '请输入结案状态及备注';
+          return flowCallBack(result);
+        }
+        if(opinion.actionType === 'default'){
+          params.confir1Time = moment().format('YYYY-MM-DD')
+        }
+        if(opinion.approved === true || opinion.approved === false){
+          params.confirmedby2 = getCurrentUser().userName
+          params.confirmationTime = moment().format('YYYY-MM-DD')
+        }
       }
       dispatch({
           type: 'todolistDetails/save',
@@ -392,9 +397,9 @@ class ApproveDetail extends PureComponent {
                 </FormItem>
               </Col>
               <Col span={10}>
-                <FormItem label="完成情况">
+                <FormItem label="当前完成比率(%)">
                   {getFieldDecorator('completion', { initialValue: this.editData && this.editData.completion,})
-                  (<Input disabled={this.confirm} />)}
+                  (<Input disabled={this.confirm}/>)}
                 </FormItem>
               </Col>
             </Row>

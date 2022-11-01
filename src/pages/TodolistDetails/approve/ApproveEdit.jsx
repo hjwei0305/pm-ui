@@ -110,7 +110,7 @@ class ApproveDetail extends PureComponent {
       };
       if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
          || formData.proposalStatus == null || formData.completion == undefined || formData.completion == '')){
-          result.message = '请输入建议状态及完成情况';
+          result.message = '请输入建议状态及当前完成比率';
         return flowCallBack(result);
       } else if(params.confirm1Status == 'true' &&
         (formData.closingStatus == undefined || formData.closingStatus == null
@@ -352,7 +352,7 @@ class ApproveDetail extends PureComponent {
                 </FormItem>
               </Col>
               <Col span={10}>
-                <FormItem label="完成情况">
+                <FormItem label="当前完成比率">
                   {getFieldDecorator('completion', { initialValue: this.editData && this.editData.completion,})
                   (<Input disabled />)}
                 </FormItem>

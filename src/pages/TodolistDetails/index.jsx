@@ -465,7 +465,7 @@ class TodolistDetails extends Component {
         required: true,
       },
       {
-        title: '完成情况',
+        title: '当前完成比率（%）',
         dataIndex: 'completion',
         width: 100,
         required: true,
