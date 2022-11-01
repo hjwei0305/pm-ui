@@ -320,9 +320,6 @@ class ApproveDetail extends PureComponent {
             <Row gutter={24}>
               <Col>
                 <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold",float:"left"}}>起草阶段</div>
-                <Button key="save" onClick={() => this.handleSave('','save')} type="primary" style={{float:"right",margin:"20px 100px"}}>
-                  保存
-                </Button>
               </Col>
             </Row>
 
@@ -381,7 +378,14 @@ class ApproveDetail extends PureComponent {
                 </FormItem>
               </Col>
             </Row>
-            <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold"}}>确认阶段</div>
+            <Row gutter={24}>
+              <Col>
+                <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold",float:"left"}}>确认阶段</div>
+                <Button key="save" onClick={() => this.handleSave('','save')} type="primary" style={{float:"right",margin:"20px 100px"}}>
+                    保存
+                </Button>
+              </Col>
+            </Row>
             <Row gutter={24}>
               {/* <Col span={10}>
                 <FormItem label="确认人">
