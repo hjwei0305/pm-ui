@@ -75,6 +75,11 @@ const menuData = [
     name: '审批页面',
     path: '/pm/TodolistApprove',
   },
+  {
+    id: '701',
+    name: 'eip待办处理页面',
+    path: '/pm/eipTodo',
+  }
 ];
 
 const getIcon = icon => {
