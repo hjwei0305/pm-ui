@@ -222,6 +222,10 @@ class ProjectPlan extends Component {
 
   };
 
+  /**
+   * 删除功能
+   * @param {*} record 
+   */
   handleDel = record => {
     const new_obj = [];
     this.state.obj.forEach(item => item != record && new_obj.push(item));
@@ -237,6 +241,9 @@ class ProjectPlan extends Component {
     }
   };
 
+  /**
+   * 初始化计划表
+   */
   init = () => {
     const tempColumn = this.state.columns;
     for (const item of tempColumn) {
@@ -251,7 +258,6 @@ class ProjectPlan extends Component {
 
   dispatchAction = ({ type, payload }) => {
     const { dispatch } = this.props;
-
     return dispatch({
       type,
       payload,
@@ -316,6 +322,10 @@ class ProjectPlan extends Component {
     });
   };
 
+  /**
+   * 批量保存多行计划
+   * @param {*} data 
+   */
   handleSaveBatch = data => {
     this.dispatchAction({
       type: 'projectPlan/saveBatch',
@@ -346,6 +356,9 @@ class ProjectPlan extends Component {
     return <ExtIcon status="error" tooltip={{ title: '删除' }} type="delete" antd />;
   };
 
+  /**
+   * 添加行
+   */
   handleAddGood = () => {
     let add_obj = [];
     const key = Math.max.apply(
@@ -362,6 +375,9 @@ class ProjectPlan extends Component {
     this.forceUpdate();
   };
 
+  /**
+   * 保存
+   */
   save = () => {
     const { id } = this.props;
     const save_obj = [];

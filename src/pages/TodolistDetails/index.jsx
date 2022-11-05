@@ -22,7 +22,7 @@ class TodolistDetails extends Component {
     documentStatusFilter:null,
     employee: [],
     orgnameList: [],
-    closingStatusList: [
+    closingStatusList: [ // 结案状态
       {
         id: 1,
         name: '合格',
@@ -32,7 +32,7 @@ class TodolistDetails extends Component {
         name: '不合格',
       },
     ],
-    documentStatusList: [
+    documentStatusList: [ // 单据状态
       {
         id: 1,
         name: '起草',
@@ -140,6 +140,10 @@ class TodolistDetails extends Component {
     }
   };
 
+  /**
+   * 获取过滤条件返回后端
+   * @returns 
+   */
   getTableFilters = () => {
       const {  documentStatusFilter, closingStatusFilter, orgnameFilter } = this.state;
       const filters = [];
@@ -408,6 +412,12 @@ class TodolistDetails extends Component {
         ),
       },
       {
+        title: '提出人',
+        dataIndex: 'advisor',
+        width: 100,
+        required: true,
+      },
+      {
         title: '提出日期',
         dataIndex: 'submitDate',
         required: true,
@@ -617,6 +627,7 @@ class TodolistDetails extends Component {
         exportXlsx(
           '待办清单明细',
           [
+            '提出人',
             '提出日期',
             '起草人',
             '待办事项',

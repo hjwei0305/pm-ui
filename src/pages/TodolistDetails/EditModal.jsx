@@ -78,7 +78,9 @@ class FormModal extends PureComponent {
       formData.organizationCode = '00000293'
       formData.organizationName = '新宝股份-营运管理中心-信息化管理中心'
       formData.submitDate = formData.submitDate.format('YYYY-MM-DD')
-      formData.completionDate = formData.completionDate.format('YYYY-MM-DD')
+      if(formData.completionDate != null){
+        formData.completionDate = formData.completionDate.format('YYYY-MM-DD')
+      }
       if(editData == null){
         // eslint-disable-next-line no-param-reassign
         formData.type = '待办清单'
@@ -92,6 +94,9 @@ class FormModal extends PureComponent {
       }
       if(formData.ondutyName===null){
         return message.error('请选择负责人');
+      }
+      if(formData.advisor===null){
+        return message.error('请选择提出人');
       }
       Object.assign(params, editData, formData);
       if (key === 'save') {
@@ -131,6 +136,12 @@ class FormModal extends PureComponent {
       const { employee, editData } = this.props;
       const isDisabled = editData && (editData.flowStatus !== 'INIT') && (editData.flowStatus != null) ;
       return <Select onChange={(value,option) => this.changeSelect(value,option)} style={{width: "120",fontSize:"17px"}} allowClear showSearch disabled={isDisabled}>{employee}</Select>
+    }
+
+    renderAdvisorOptions = () => {
+      const { employee, editData } = this.props;
+      const isDisabled = editData && (editData.flowStatus !== 'INIT') && (editData.flowStatus != null) ;
+      return <Select style={{width: "120",fontSize:"17px"}} allowClear showSearch disabled={isDisabled}>{employee}</Select>
     }
 
 
@@ -201,6 +212,13 @@ class FormModal extends PureComponent {
         </Row>
         <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
           <Col span={10}>
+            <FormItem label={<span style={{fontSize:"17px"}}>提出人</span>}>
+            {getFieldDecorator('advisor',
+              {initialValue: editData && editData.advisor,
+              })(this.renderAdvisorOptions())}
+            </FormItem>
+          </Col>
+          <Col span={10}>
           <FormItem label={<span style={{fontSize:"17px"}}>要求完成日期</span>}>
           {/* <span>要求完成日期：</span> */}
           {getFieldDecorator('completionDate',
@@ -208,6 +226,8 @@ class FormModal extends PureComponent {
             })(<DatePicker disabled={isDisabled || saving} />)}
           </FormItem>
           </Col>
+        </Row>
+        <Row gutter={24}  style={{ margin: "10px 0" }}>
           <Col span={10}>
             <FormItem label={<span style={{fontSize:"17px"}}>责任人</span>}>
             {/* <span>责任人：</span> */}
@@ -216,8 +236,6 @@ class FormModal extends PureComponent {
               })(this.renderOptions())}
             </FormItem>
           </Col>
-        </Row>
-        <Row gutter={24}  style={{ margin: "10px 0" }}>
           <Col span={10}>
             <FormItem label={<span style={{fontSize:"17px"}}>科室名称</span>}>
             {/* <span>责任人：</span> */}

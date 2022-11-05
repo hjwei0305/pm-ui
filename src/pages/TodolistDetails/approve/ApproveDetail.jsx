@@ -337,6 +337,13 @@ class ApproveDetail extends PureComponent {
                   })(<Input disabled />)}
                 </FormItem>
               </Col>
+              <Col span={10}>
+                <FormItem label="提出人">
+                  {getFieldDecorator('advisor', {
+                    initialValue: this.editData && this.editData.advisor,
+                  })(<Input disabled />)}
+                </FormItem>
+              </Col>
             </Row>
             <Row gutter={24}>
                 <Col span={10}>
