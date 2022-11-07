@@ -204,7 +204,7 @@ class FormModal extends PureComponent {
               </FormItem>
             </Col>
             <Col span={10}>
-              <FormItem label={<span style={{fontSize:"17px"}}>起草人</span>}>
+              <FormItem style={{fontSize:'40px'}} label={<span style={{fontSize:"17px"}}>起草人</span>}>
                 {getFieldDecorator('submitName', {initialValue: editData && title == '查看待办' ? editData.submitName : getCurrentUser().userName ,})
                 (<Input style={{fontSize:"17px"}} disabled/>)}
               </FormItem>
