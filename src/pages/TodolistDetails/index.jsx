@@ -447,6 +447,18 @@ class TodolistDetails extends Component {
         required: true,
       },
       {
+        title: '协助人',
+        dataIndex: 'assistName',
+        width: 100,
+        required: true,
+      },
+      {
+        title: '协助人科室',
+        dataIndex: 'assistOrgname',
+        width: 100,
+        required: true,
+      },
+      {
         title: '要求完成日期',
         dataIndex: 'completionDate',
         required: true,

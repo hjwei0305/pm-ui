@@ -343,6 +343,20 @@ class ApproveDetail extends PureComponent {
                 </FormItem>
               </Col>
             </Row>
+            <Row gutter={24}>
+              <Col span={10}>
+                <FormItem label="科室">
+                  {getFieldDecorator('orgname', {initialValue: this.editData && this.editData.orgname,
+                  })(<Input disabled />)}
+                </FormItem>
+              </Col>
+              <Col span={10}>
+                <FormItem label="协助人">
+                  {getFieldDecorator('assistName', {initialValue: this.editData && this.editData.assistName,
+                  })(<Input disabled />)}
+                </FormItem>
+              </Col>
+            </Row>
             <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold"}}>确认阶段</div>
             <Row gutter={24}>
               {/* <Col span={10}>

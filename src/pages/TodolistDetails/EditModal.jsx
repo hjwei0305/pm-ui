@@ -132,10 +132,29 @@ class FormModal extends PureComponent {
       }
     }
 
+    changeAssistSelect = (value,option) => {
+      const { form } = this.props
+      if(value && option){
+        if(value === '石风婷'){
+          form.setFieldsValue({ assistOrgname: '运营策略科' })
+        }else{
+          form.setFieldsValue({ assistOrgname: option.props.orgname })
+        }
+      }else{
+        form.setFieldsValue({ assistOrgname: null })
+      }
+    }
+
     renderOptions = () => {
       const { employee, editData } = this.props;
       const isDisabled = editData && (editData.flowStatus !== 'INIT') && (editData.flowStatus != null) ;
       return <Select onChange={(value,option) => this.changeSelect(value,option)} style={{width: "120",fontSize:"17px"}} allowClear showSearch disabled={isDisabled}>{employee}</Select>
+    }
+
+    renderAssistOptions = () => {
+      const { employee, editData } = this.props;
+      const isDisabled = editData && (editData.flowStatus !== 'INIT') && (editData.flowStatus != null) ;
+      return <Select onChange={(value,option) => this.changeAssistSelect(value,option)} style={{width: "120",fontSize:"17px"}} allowClear showSearch disabled={isDisabled}>{employee}</Select>
     }
 
     renderAdvisorOptions = () => {
@@ -230,7 +249,6 @@ class FormModal extends PureComponent {
         <Row gutter={24}  style={{ margin: "10px 0" }}>
           <Col span={10}>
             <FormItem label={<span style={{fontSize:"17px"}}>责任人</span>}>
-            {/* <span>责任人：</span> */}
               {getFieldDecorator('ondutyName', {
                 initialValue: editData && editData.ondutyName,
               })(this.renderOptions())}
@@ -238,9 +256,24 @@ class FormModal extends PureComponent {
           </Col>
           <Col span={10}>
             <FormItem label={<span style={{fontSize:"17px"}}>科室名称</span>}>
-            {/* <span>责任人：</span> */}
               {getFieldDecorator('orgname', {
                 initialValue: editData && editData.orgname,
+              })(<Input style={{fontSize:"17px"}} disabled></Input>)}
+            </FormItem>
+          </Col>
+        </Row>
+        <Row gutter={24}  style={{ margin: "10px 0" }}>
+          <Col span={10}>
+            <FormItem label={<span style={{fontSize:"17px"}}>协助人</span>}>
+              {getFieldDecorator('assistName', {
+                initialValue: editData && editData.assistName,
+              })(this.renderAssistOptions())}
+            </FormItem>
+          </Col>
+          <Col span={10}>
+            <FormItem label={<span style={{fontSize:"17px"}}>协助人科室</span>}>
+              {getFieldDecorator('assistOrgname', {
+                initialValue: editData && editData.assistOrgname,
               })(<Input style={{fontSize:"17px"}} disabled></Input>)}
             </FormItem>
           </Col>
