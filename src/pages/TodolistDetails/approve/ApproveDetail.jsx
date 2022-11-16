@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import withRouter from 'umi/withRouter';
 import { connect } from 'dva';
 import { WorkFlow, utils, AuthUrl, ComboList, Attachment} from 'suid';
-import { Form, Row, Col, Input, DatePicker, message, Button } from 'antd';
+import { Form, Row, Col, Input, DatePicker, message, Button, Select } from 'antd';
 import moment from 'moment';
 import { constants } from '@/utils';
 import { getCurrentUser } from '@/utils/user';
@@ -13,6 +13,7 @@ const now = moment();
 const { Approve } = WorkFlow;
 const { eventBus } = utils;
 const FormItem = Form.Item;
+const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
@@ -33,6 +34,7 @@ class ApproveDetail extends PureComponent {
     const { location } = this.props;
     const { id } = location.query;
     this.editData = {};
+    this.employee = [];
     this.compeleteList = [
       {
         code: 0,
@@ -53,6 +55,27 @@ class ApproveDetail extends PureComponent {
         name: '不合格',
       }
     ]
+    // 人员名单
+    dispatch({
+      type: 'todolistDetails/findEmp',
+      payload: {
+        filters: [
+    
+        ],
+      },
+    }).then(res => {
+      const { data } = res;
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < data.length; i++) {
+        this.employee.push(
+        <Option 
+          key={data[i].employeeName} 
+          orgname={data[i].orgname.substr(data[i].orgname.lastIndexOf('-') + 1)}
+        >
+          {data[i].employeeName}
+        </Option>);
+      }
+    });
   };
 
   findInfo = () => {
@@ -244,6 +267,26 @@ class ApproveDetail extends PureComponent {
     };
   }
 
+  renderAssistOptions = () => {
+    const { editData } = this.props;
+    const { employee } = this;
+    const isDisabled = editData && (editData.flowStatus !== 'INIT') && (editData.flowStatus != null) ;
+    return <Select onChange={(value,option) => this.changeAssistSelect(value,option)} style={{width: "120"}} allowClear showSearch disabled={isDisabled}>{employee}</Select>
+  }
+
+  changeAssistSelect = (value,option) => {
+    const { form } = this.props
+    if(value && option){
+      if(value === '石风婷'){
+        form.setFieldsValue({ assistOrgname: '运营策略科' })
+      }else{
+        form.setFieldsValue({ assistOrgname: option.props.orgname })
+      }
+    }else{
+      form.setFieldsValue({ assistOrgname: null })
+    }
+  }
+
   render() {
     const { form, editData } = this.props;
     const { getFieldDecorator } = form;
@@ -369,7 +412,7 @@ class ApproveDetail extends PureComponent {
               <Col span={10}>
                 <FormItem label="协助人">
                   {getFieldDecorator('assistName', {initialValue: this.editData && this.editData.assistName,
-                  })(<Input disabled />)}
+                  })(this.renderAssistOptions())}
                 </FormItem>
               </Col>
               <Col span={10}>
