@@ -282,28 +282,6 @@ class ApproveDetail extends PureComponent {
               </Col>
             </Row>
             <Row gutter={24}>
-              <Col span={10}>
-                <FormItem label="待办事项">
-                  {getFieldDecorator('todoList', {
-                    initialValue: this.editData && this.editData.todoList,
-                    rules: [
-                      {
-                        required: true,
-                        message: '待办事项不能为空',
-                      },
-                    ],
-                  })(<Input disabled />)}
-                </FormItem>
-              </Col>
-              <Col span={10}>
-                <FormItem label="提出人">
-                  {getFieldDecorator('advisor', {
-                    initialValue: this.editData && this.editData.advisor,
-                  })(<Input disabled />)}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row gutter={24}>
                 <Col span={10}>
                   <FormItem label="提出日期">
                     {getFieldDecorator('submitDate', {initialValue: this.editData ? this.editData.submitDate && moment.utc(this.editData.submitDate) : now,})
@@ -319,41 +297,55 @@ class ApproveDetail extends PureComponent {
             </Row>
             <Row gutter={24}>
               <Col span={10}>
-                <FormItem label="要求完成日期">
-                  {getFieldDecorator('completionDate', {initialValue: this.editData && this.editData.completionDate && moment.utc(this.editData.completionDate),
-                    rules: [
-                      {
-                        required: true,
-                        message: '要求完成日期不能为空',
-                      },
-                    ],
-                  })(<DatePicker disabled/>)}
+                <FormItem label="提出人">
+                  {getFieldDecorator('advisor', {
+                    initialValue: this.editData && this.editData.advisor,
+                  })(<Input disabled />)}
                 </FormItem>
               </Col>
               <Col span={10}>
-                <FormItem label="责任人">
-                  {getFieldDecorator('ondutyName', {initialValue: this.editData && this.editData.ondutyName,
-                    rules: [
-                      {
-                        required: true,
-                        message: '责任人不能为空',
-                      },
-                    ],
-                  })(<Input disabled />)}
+                <FormItem label="要求完成日期">
+                  {getFieldDecorator('completionDate', {initialValue: this.editData && this.editData.completionDate && moment.utc(this.editData.completionDate),
+                  })(<DatePicker disabled/>)}
                 </FormItem>
               </Col>
             </Row>
             <Row gutter={24}>
+              <Col span={10}>
+                <FormItem label="责任人">
+                  {getFieldDecorator('ondutyName', {initialValue: this.editData && this.editData.ondutyName,
+                  })(<Input disabled />)}
+                </FormItem>
+              </Col>
               <Col span={10}>
                 <FormItem label="科室">
                   {getFieldDecorator('orgname', {initialValue: this.editData && this.editData.orgname,
                   })(<Input disabled />)}
                 </FormItem>
               </Col>
+            </Row>
+            <Row gutter={24}>
               <Col span={10}>
                 <FormItem label="协助人">
                   {getFieldDecorator('assistName', {initialValue: this.editData && this.editData.assistName,
                   })(<Input disabled />)}
+                </FormItem>
+              </Col>
+              <Col span={10}>
+                <FormItem label="协助人科室">
+                  {getFieldDecorator('assistOrgname', {initialValue: this.editData && this.editData.assistOrgname,
+                  })(<Input disabled />)}
+                </FormItem>
+              </Col>
+            </Row>
+            <Row gutter={24}>
+              <Col span={20}>
+                <FormItem label="待办事项" 
+                  labelCol={{span: 4}}
+                  wrapperCol={{span: 20}}>
+                  {getFieldDecorator('todoList', {
+                    initialValue: this.editData && this.editData.todoList,
+                  })(<TextArea disabled />)}
                 </FormItem>
               </Col>
             </Row>
