@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import withRouter from 'umi/withRouter';
 import { connect } from 'dva';
-import { WorkFlow, utils, AuthUrl, ComboList, Attachment, ProLayout} from 'suid';
+import { WorkFlow, utils, AuthUrl, ComboList, Attachment, ProLayout, ScrollBar} from 'suid';
 import { Form, Row, Col, Input, DatePicker, message, Button } from 'antd';
 import moment from 'moment';
 import { constants } from '@/utils';
@@ -267,159 +267,161 @@ class ApproveDetail extends PureComponent {
         {/* <Approve {...approveProps}> */}
         <ProLayout>
           <Content>
-          <Form
-            labelCol={{span: 8}}
-            wrapperCol={{span: 16}}
-          >
-            <Row gutter={24}>
-              <Col>
-                <Button onClick={this.backBill} type="primary" style={{margin:"20px 0 0 20px"}}>
-                  返回待办列表
-                </Button>
-              </Col>
-              <Col>
-                <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold",float:"left"}}>起草阶段</div>
-              </Col>
-            </Row>
-            <Row gutter={24}>
-                <Col span={10}>
-                  <FormItem label="提出日期">
-                    {getFieldDecorator('submitDate', {initialValue: this.editData ? this.editData.submitDate && moment.utc(this.editData.submitDate) : now,})
-                    (<DatePicker disabled/>)}
-                  </FormItem>
-                </Col>
-                <Col span={10}>
-                  <FormItem label="起草人">
-                    {getFieldDecorator('submitName', {initialValue: this.editData && this.editData.submitName,})
-                    (<Input disabled />)}
-                  </FormItem>
-                </Col>
-            </Row>
-            <Row gutter={24}>
-              <Col span={10}>
-                <FormItem label="提出人">
-                  {getFieldDecorator('advisor', {
-                    initialValue: this.editData && this.editData.advisor,
-                  })(<Input disabled />)}
-                </FormItem>
-              </Col>
-              <Col span={10}>
-                <FormItem label="要求完成日期">
-                  {getFieldDecorator('completionDate', {initialValue: this.editData && this.editData.completionDate && moment.utc(this.editData.completionDate),
-                  })(<DatePicker disabled/>)}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row gutter={24}>
-              <Col span={10}>
-                <FormItem label="责任人">
-                  {getFieldDecorator('ondutyName', {initialValue: this.editData && this.editData.ondutyName,
-                  })(<Input disabled />)}
-                </FormItem>
-              </Col>
-              <Col span={10}>
-                <FormItem label="科室">
-                  {getFieldDecorator('orgname', {initialValue: this.editData && this.editData.orgname,
-                  })(<Input disabled />)}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row gutter={24}>
-              <Col span={10}>
-                <FormItem label="协助人">
-                  {getFieldDecorator('assistName', {initialValue: this.editData && this.editData.assistName,
-                  })(<Input disabled />)}
-                </FormItem>
-              </Col>
-              <Col span={10}>
-                <FormItem label="协助人科室">
-                  {getFieldDecorator('assistOrgname', {initialValue: this.editData && this.editData.assistOrgname,
-                  })(<Input disabled />)}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row gutter={24}>
-              <Col span={20}>
-                <FormItem label="待办事项" 
-                  labelCol={{span: 4}}
-                  wrapperCol={{span: 20}}>
-                  {getFieldDecorator('todoList', {
-                    initialValue: this.editData && this.editData.todoList,
-                  })(<TextArea disabled />)}
-                </FormItem>
-              </Col>
-            </Row>
-            <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold"}}>确认阶段</div>
-            <Row gutter={24}>
-              {/* <Col span={10}>
-                <FormItem label="确认人">
-                  {getFieldDecorator('confirmedby1', {initialValue: this.editData && this.editData.confirmedby1, })(<Input disabled />)}
-                </FormItem>
-              </Col> */}
-              <Col span={10}>
-                <FormItem label="建议状态">
-                  {getFieldDecorator('proposalStatus', {initialValue: this.editData && this.editData.proposalStatus, })
-                  // (<Input placeholder='请输入结案/不结案' disabled={confirm} />)
-                  (<ComboList {...comboListProps} disabled/>)
-                  }
-                </FormItem>
-              </Col>
-              <Col span={10}>
-                <FormItem label="当前完成比率">
-                  {getFieldDecorator('completion', { initialValue: this.editData && this.editData.completion,})
-                  (<Input disabled />)}
-                </FormItem>
-              </Col>
-            </Row>
-            <Row gutter={24}>
-              <Col span={10}>
-                <FormItem label="最新进度说明">
-                  {getFieldDecorator('newestProgress', {initialValue: this.editData && this.editData.newestProgress})
-                  (<TextArea disabled/>)
-                  }
-                </FormItem>
-              </Col>
-              <Col span={10}>
-                <FormItem label="确认时间">
-                  {getFieldDecorator('confir1Time', {initialValue: this.editData && this.editData.confir1Time && moment.utc(this.editData.confir1Time) })
-                  (<DatePicker disabled/>)
-                  }
-                </FormItem>
-              </Col>
-            </Row>
-            <Row gutter={24}>
-              <Attachment {...attachmentProps} />
-            </Row>
-            <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold"}}>验证阶段</div>
-            <Row gutter={24}>
-              {/* <Col span={10}>
-                <FormItem label="确认人">
-                  {getFieldDecorator('confirmedby2', {initialValue: this.editData && this.editData.confirmedby2,})(<Input disabled={!confirm} />)}
-                </FormItem>
-              </Col> */}
-              {/* <Col span={10}>
-                <FormItem label="确认时间">
-                  {getFieldDecorator('confirmationTime', {initialValue: this.editData && this.editData.confirmationTime && moment.utc(this.editData.confirmationTime),})
-                  (<DatePicker disabled={!confirm}/>)}
-                </FormItem>
-              </Col> */}
-            </Row>
-            <Row gutter={24}>
-              <Col span={10}>
-                <FormItem label="结案状态">
-                  {getFieldDecorator('closingStatus', {initialValue: this.editData && this.editData.closingStatus,})
-                  // (<Input placeholder='请输入合格/不合格' disabled={!this.confirm} />)
-                  (<ComboList {...completeProps} disabled/>)
-                  }
-                </FormItem>
-              </Col>
-              <Col span={10}>
-                <FormItem label="备注">
-                  {getFieldDecorator('remark', {initialValue: this.editData && this.editData.remark,})(<Input disabled />)}
-                </FormItem>
-              </Col>
-            </Row>
-          </Form>
+            <ScrollBar>
+              <Form
+                labelCol={{span: 8}}
+                wrapperCol={{span: 16}}
+              >
+                <Row gutter={24}>
+                  <Col>
+                    <Button onClick={this.backBill} type="primary" style={{margin:"20px 0 0 20px"}}>
+                      返回待办列表
+                    </Button>
+                  </Col>
+                  <Col>
+                    <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold",float:"left"}}>起草阶段</div>
+                  </Col>
+                </Row>
+                <Row gutter={24}>
+                    <Col span={10}>
+                      <FormItem label="提出日期">
+                        {getFieldDecorator('submitDate', {initialValue: this.editData ? this.editData.submitDate && moment.utc(this.editData.submitDate) : now,})
+                        (<DatePicker disabled/>)}
+                      </FormItem>
+                    </Col>
+                    <Col span={10}>
+                      <FormItem label="起草人">
+                        {getFieldDecorator('submitName', {initialValue: this.editData && this.editData.submitName,})
+                        (<Input disabled />)}
+                      </FormItem>
+                    </Col>
+                </Row>
+                <Row gutter={24}>
+                  <Col span={10}>
+                    <FormItem label="提出人">
+                      {getFieldDecorator('advisor', {
+                        initialValue: this.editData && this.editData.advisor,
+                      })(<Input disabled />)}
+                    </FormItem>
+                  </Col>
+                  <Col span={10}>
+                    <FormItem label="要求完成日期">
+                      {getFieldDecorator('completionDate', {initialValue: this.editData && this.editData.completionDate && moment.utc(this.editData.completionDate),
+                      })(<DatePicker disabled/>)}
+                    </FormItem>
+                  </Col>
+                </Row>
+                <Row gutter={24}>
+                  <Col span={10}>
+                    <FormItem label="责任人">
+                      {getFieldDecorator('ondutyName', {initialValue: this.editData && this.editData.ondutyName,
+                      })(<Input disabled />)}
+                    </FormItem>
+                  </Col>
+                  <Col span={10}>
+                    <FormItem label="科室">
+                      {getFieldDecorator('orgname', {initialValue: this.editData && this.editData.orgname,
+                      })(<Input disabled />)}
+                    </FormItem>
+                  </Col>
+                </Row>
+                <Row gutter={24}>
+                  <Col span={10}>
+                    <FormItem label="协助人">
+                      {getFieldDecorator('assistName', {initialValue: this.editData && this.editData.assistName,
+                      })(<Input disabled />)}
+                    </FormItem>
+                  </Col>
+                  <Col span={10}>
+                    <FormItem label="协助人科室">
+                      {getFieldDecorator('assistOrgname', {initialValue: this.editData && this.editData.assistOrgname,
+                      })(<Input disabled />)}
+                    </FormItem>
+                  </Col>
+                </Row>
+                <Row gutter={24}>
+                  <Col span={20}>
+                    <FormItem label="待办事项" 
+                      labelCol={{span: 4}}
+                      wrapperCol={{span: 20}}>
+                      {getFieldDecorator('todoList', {
+                        initialValue: this.editData && this.editData.todoList,
+                      })(<TextArea disabled />)}
+                    </FormItem>
+                  </Col>
+                </Row>
+                <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold"}}>确认阶段</div>
+                <Row gutter={24}>
+                  {/* <Col span={10}>
+                    <FormItem label="确认人">
+                      {getFieldDecorator('confirmedby1', {initialValue: this.editData && this.editData.confirmedby1, })(<Input disabled />)}
+                    </FormItem>
+                  </Col> */}
+                  <Col span={10}>
+                    <FormItem label="建议状态">
+                      {getFieldDecorator('proposalStatus', {initialValue: this.editData && this.editData.proposalStatus, })
+                      // (<Input placeholder='请输入结案/不结案' disabled={confirm} />)
+                      (<ComboList {...comboListProps} disabled/>)
+                      }
+                    </FormItem>
+                  </Col>
+                  <Col span={10}>
+                    <FormItem label="当前完成比率">
+                      {getFieldDecorator('completion', { initialValue: this.editData && this.editData.completion,})
+                      (<Input disabled />)}
+                    </FormItem>
+                  </Col>
+                </Row>
+                <Row gutter={24}>
+                  <Col span={10}>
+                    <FormItem label="最新进度说明">
+                      {getFieldDecorator('newestProgress', {initialValue: this.editData && this.editData.newestProgress})
+                      (<TextArea disabled/>)
+                      }
+                    </FormItem>
+                  </Col>
+                  <Col span={10}>
+                    <FormItem label="确认时间">
+                      {getFieldDecorator('confir1Time', {initialValue: this.editData && this.editData.confir1Time && moment.utc(this.editData.confir1Time) })
+                      (<DatePicker disabled/>)
+                      }
+                    </FormItem>
+                  </Col>
+                </Row>
+                <Row gutter={24}>
+                  <Attachment {...attachmentProps} />
+                </Row>
+                <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold"}}>验证阶段</div>
+                <Row gutter={24}>
+                  {/* <Col span={10}>
+                    <FormItem label="确认人">
+                      {getFieldDecorator('confirmedby2', {initialValue: this.editData && this.editData.confirmedby2,})(<Input disabled={!confirm} />)}
+                    </FormItem>
+                  </Col> */}
+                  {/* <Col span={10}>
+                    <FormItem label="确认时间">
+                      {getFieldDecorator('confirmationTime', {initialValue: this.editData && this.editData.confirmationTime && moment.utc(this.editData.confirmationTime),})
+                      (<DatePicker disabled={!confirm}/>)}
+                    </FormItem>
+                  </Col> */}
+                </Row>
+                <Row gutter={24}>
+                  <Col span={10}>
+                    <FormItem label="结案状态">
+                      {getFieldDecorator('closingStatus', {initialValue: this.editData && this.editData.closingStatus,})
+                      // (<Input placeholder='请输入合格/不合格' disabled={!this.confirm} />)
+                      (<ComboList {...completeProps} disabled/>)
+                      }
+                    </FormItem>
+                  </Col>
+                  <Col span={10}>
+                    <FormItem label="备注">
+                      {getFieldDecorator('remark', {initialValue: this.editData && this.editData.remark,})(<Input disabled />)}
+                    </FormItem>
+                  </Col>
+                </Row>
+              </Form>
+            </ScrollBar>
           </Content>
         </ProLayout>
         {/* </Approve> */}
