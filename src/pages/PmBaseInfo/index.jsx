@@ -110,7 +110,7 @@ class PmBaseInfo extends Component {
     const filters = [];
     if (nameFilter !== null) {
       filters.push({
-        fieldName: 'name',
+        fieldName: 'sysName',
         operator: 'LK',
         fieldType: 'string',
         value: nameFilter,
@@ -501,7 +501,7 @@ class PmBaseInfo extends Component {
       layout: { leftSpan: 22, rightSpan: 2 },
       left: (
         <Space>
-          项目名称：{' '}
+          系统名称：{' '}
           <Input style={{width:"150px"}} onChange={(event) => this.setState({ nameFilter: event.target.value })} allowClear></Input>
           当前阶段：{' '}
           <ComboList
