@@ -33,6 +33,7 @@ class ApproveDetail extends PureComponent {
     const { form,dispatch } = props;
     const { location } = this.props;
     const { id } = location.query;
+    this.currentStatus = false;
     this.editData = {};
     this.employee = [];
     this.compeleteList = [
@@ -158,12 +159,13 @@ class ApproveDetail extends PureComponent {
         message:'',
       };
       // 保存
+      console.log(this.currentStatus)
       if(opinion === 'save'){
         if(params.newestProgress == '' || params.newestProgress == null){
           return message.warning('请输入最新进度说明');
         }
         params.confir1Time = moment().format('YYYY-MM-DD')
-      }else if( params.currentStatus === true){
+      }else if( this.currentStatus === true){
         result.message = '单据审核后不能修改！';
         return flowCallBack(result);
       }else{
@@ -195,7 +197,7 @@ class ApproveDetail extends PureComponent {
           payload: params,
       }).then(res => {
         if(res.success){
-          form.setFieldsValue({ currentStatus: true })
+          this.currentStatus = true
         }
         if(opinion != 'save'){
           flowCallBack(res);
