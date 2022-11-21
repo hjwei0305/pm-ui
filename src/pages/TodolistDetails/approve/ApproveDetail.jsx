@@ -163,6 +163,9 @@ class ApproveDetail extends PureComponent {
           return message.warning('请输入最新进度说明');
         }
         params.confir1Time = moment().format('YYYY-MM-DD')
+      }else if( params.currentStatus === true){
+        result.message = '单据审核后不能修改！';
+        return flowCallBack(result);
       }else{
         // 审批
         if(params.confirm1Status != 'true' && params.proposalStatus != '结案'){
@@ -191,6 +194,9 @@ class ApproveDetail extends PureComponent {
           type: 'todolistDetails/save',
           payload: params,
       }).then(res => {
+        if(res.success){
+          form.setFieldsValue({ currentStatus: true })
+        }
         if(opinion != 'save'){
           flowCallBack(res);
         }
