@@ -161,7 +161,8 @@ class ApproveDetail extends PureComponent {
       // 保存
       console.log(this.currentStatus)
       if( this.currentStatus === true){
-        return message.warning('单据审核后不能修改！');
+        result.message = '单据审核后不能修改！';
+        return flowCallBack(result);
       }
       if(opinion === 'save'){
         if(params.newestProgress == '' || params.newestProgress == null){
@@ -204,6 +205,7 @@ class ApproveDetail extends PureComponent {
   };
 
   defaultCallBack = res => {
+    console.log(res)
     if (!res.success) {
       message.warning(res.message);
     }else{
