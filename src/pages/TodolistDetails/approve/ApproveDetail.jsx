@@ -106,7 +106,6 @@ class ApproveDetail extends PureComponent {
   };
 
   beforeSubmit = (params) => {
-    console.log(params)
     if(params.actionType === 'turn' || params.actionType === 'end' || params.approved === false){
       return new Promise(resolve => {
         this.handleTurnSave(resolve)
@@ -160,11 +159,15 @@ class ApproveDetail extends PureComponent {
       };
       // 保存
       console.log(this.currentStatus)
-      if( this.currentStatus === true){
+      console.log(this.opinion)
+      if(this.currentStatus === true){
         result.message = '单据审核后不能修改！';
         return flowCallBack(result);
       }
       if(opinion === 'save'){
+        if(params.confirm1Status == 'true'){
+          return message.warning('验证阶段不能修改确认阶段内容！');
+        }
         if(params.newestProgress == '' || params.newestProgress == null){
           return message.warning('请输入最新进度说明');
         }
@@ -197,6 +200,11 @@ class ApproveDetail extends PureComponent {
           type: 'todolistDetails/save',
           payload: params,
       }).then(res => {
+        console.log(res.success)
+        console.log(opinion != 'save')
+        if(opinion != 'save' && res.success){
+          this.currentStatus = true
+        }
         if(opinion != 'save'){
           flowCallBack(res);
         }
@@ -205,11 +213,8 @@ class ApproveDetail extends PureComponent {
   };
 
   defaultCallBack = res => {
-    console.log(res)
     if (!res.success) {
       message.warning(res.message);
-    }else{
-      this.currentStatus = true
     }
   };
 
