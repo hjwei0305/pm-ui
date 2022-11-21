@@ -164,7 +164,7 @@ class ApproveDetail extends PureComponent {
         if(params.newestProgress == '' || params.newestProgress == null){
           return message.warning('请输入最新进度说明');
         }else if( this.currentStatus === true){
-          return result.message = '单据审核后不能修改！';
+          return message.warning('单据审核后不能修改！');
         }
         params.confir1Time = moment().format('YYYY-MM-DD')
       }else{
