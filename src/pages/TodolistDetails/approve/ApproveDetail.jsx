@@ -158,8 +158,6 @@ class ApproveDetail extends PureComponent {
         message:'',
       };
       // 保存
-      console.log(this.currentStatus)
-      console.log(opinion)
       if(this.currentStatus === true){
         return message.warning('单据审核后不能修改！');
       }
@@ -199,8 +197,6 @@ class ApproveDetail extends PureComponent {
           type: 'todolistDetails/save',
           payload: params,
       }).then(res => {
-        console.log(res.success)
-        console.log(opinion != 'save')
         if(opinion != 'save' && res.success){
           this.currentStatus = true
         }
