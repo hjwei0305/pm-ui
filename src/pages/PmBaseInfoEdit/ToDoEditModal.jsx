@@ -26,6 +26,8 @@ class FormModal extends PureComponent {
       }
       const params = {};
       Object.assign(params, editToDoData, formData);
+      params.submitDate = params.submitDate.format('YYYY-MM-DD');
+      params.endDate = params.endDate.format('YYYY-MM-DD');
       if (onSave) {
         onSave(params);
       }
