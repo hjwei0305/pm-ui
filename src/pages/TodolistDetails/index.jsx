@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button,Select, Tag } from 'antd';
+import { Button,Select, Tag, Input } from 'antd';
 import { ExtTable, ExtIcon, Space,ComboList, utils } from 'suid';
 import { message } from 'antd';
 import ExtAction from '@/components/ExtAction';
@@ -20,6 +20,8 @@ class TodolistDetails extends Component {
     closingStatusFilter: null,
     orgnameFilter: null,
     documentStatusFilter:null,
+    ondutyNameFilter:null,
+    flowStatusFilter:null,
     employee: [],
     orgnameList: [],
     closingStatusList: [ // 结案状态
@@ -32,7 +34,7 @@ class TodolistDetails extends Component {
         name: '不合格',
       },
     ],
-    documentStatusList: [ // 单据状态
+    documentStatusList: [ // 结案状态
       {
         id: 1,
         name: '起草',
@@ -46,6 +48,23 @@ class TodolistDetails extends Component {
         name: '已结案',
       },
     ],
+    flowStatusList: [ // 单据状态
+    {
+      id: 1,
+      name: '起草',
+      value: 'INIT',
+    },
+    {
+      id: 2,
+      name: '流程中',
+      value: 'INPROCESS',
+    },
+    {
+      id: 3,
+      name: '已完成',
+      value: 'COMPLETED'
+    },
+  ],
   };
 
   constructor(props) {
@@ -145,7 +164,7 @@ class TodolistDetails extends Component {
    * @returns 
    */
   getTableFilters = () => {
-      const {  documentStatusFilter, closingStatusFilter, orgnameFilter } = this.state;
+      const {  documentStatusFilter, closingStatusFilter, orgnameFilter, ondutyNameFilter, flowStatusFilter } = this.state;
       const filters = [];
 
       // if (codeFilter) {
@@ -178,6 +197,22 @@ class TodolistDetails extends Component {
         operator: 'EQ',
         fieldType: 'string',
         value: orgnameFilter,
+      });
+    }
+    if (ondutyNameFilter) {
+      filters.push({
+        fieldName: 'ondutyName',
+        operator: 'LK',
+        fieldType: 'string',
+        value: ondutyNameFilter,
+      });
+    }
+    if (flowStatusFilter) {
+      filters.push({
+        fieldName: 'flowStatus',
+        operator: 'IN',
+        fieldType: 'string',
+        value: flowStatusFilter,
       });
     }
       return filters;
@@ -546,9 +581,29 @@ class TodolistDetails extends Component {
       },
     ];
     const toolBarProps = {
-      layout: { leftSpan: 16, rightSpan: 8 },
+      layout: { leftSpan: 22, rightSpan: 2 },
       left: (
         <Space>
+          责任人:{' '}
+          <Input style={{width:"150px"}} onChange={(event) => this.setState({ ondutyNameFilter: event.target.value })} allowClear></Input>
+          单据状态:{' '}
+          <ComboList
+            style={{ width: '150px', marginRight: '12px' }}
+            showSearch={false}
+            pagination={false}
+            allowClear
+            dataSource={this.state.flowStatusList}
+            name="name"
+            field={['name']}
+            afterClear={() => this.setState({ flowStatusFilter: null })}
+            afterSelect={item =>
+              this.setState({ flowStatusFilter: item.value })
+            }
+            reader={{
+              name: 'name',
+              field: ['name'],
+            }}
+          />
           结案状态:{' '}
           <ComboList
             style={{ width: '150px', marginRight: '12px' }}
@@ -623,6 +678,7 @@ class TodolistDetails extends Component {
       toolBar: toolBarProps,
       remotePaging: true,
       exportData: true,
+      showSearch:false,
       searchProperties: ['ondutyName'],
       searchPlaceHolder: '请根据责任人查询',
       onTableRef: inst => (this.tableRef = inst),
