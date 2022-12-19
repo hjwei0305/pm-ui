@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Input , DatePicker, Row, Col, Button,Tag  } from 'antd';
-import { ExtTable, ExtIcon, ComboList, Space } from 'suid';
-import { constants } from '@/utils';
+import { Input , DatePicker, Row, Col, Button,Tag,message  } from 'antd';
+import { ExtTable, ExtIcon, ComboList, Space,utils } from 'suid';
+import { constants,exportXlsx } from '@/utils';
+
 import { Link } from "react-router-dom";
 import styles from './index.less'
 import logo1 from '../../../static/proj-one.png'
@@ -13,7 +14,7 @@ import logo4 from '../../../static/proj-four.png'
 import logo5 from '../../../static/proj-five.png'
 
 const { PROJECT_PATH } = constants;
-
+const { request } = utils;
 @withRouter
 @connect(({ pmBaseInfo, loading }) => ({ pmBaseInfo, loading }))
 class PmBaseInfo extends Component {
@@ -394,108 +395,7 @@ class PmBaseInfo extends Component {
         dataIndex: 'remark',
         width: 100,
         required: true,
-      },
-      // {
-      //   title: '需求评审',
-      //   dataIndex: 'requireReview',
-      //   width: 100,
-      //   render:
-      //       tag => {
-      //         let color = tag===true ? 'blue' : 'red';
-      //         let value=tag===true ? '通过' : '不通过';
-      //         return (
-      //           <span>
-      //           <Tag color={color}>
-      //             {value}
-      //           </Tag>
-      //           </span>
-      //         );
-      //       }
-      // },
-      // {
-      //   title: 'UI评审',
-      //   dataIndex: 'uiReview',
-      //   width: 100,
-      //   render:
-      //   tag => {
-      //     let color = tag===true ? 'blue' : 'red';
-      //     let value=tag===true ? '通过' : '不通过';
-      //     return (
-      //       <span>
-      //       <Tag color={color}>
-      //         {value}
-      //       </Tag>
-      //       </span>
-      //     );
-      //   }
-      // },
-      // {
-      //   title: '前端评审',
-      //   dataIndex: 'webReview',
-      //   width: 100,
-      //   render:
-      //   tag => {
-      //     let color = tag===true ? 'blue' : 'red';
-      //     let value=tag===true ? '通过' : '不通过';
-      //     return (
-      //       <span>
-      //       <Tag color={color}>
-      //         {value}
-      //       </Tag>
-      //       </span>
-      //     );
-      //   }
-      // },
-      // {
-      //   title: '后端评审',
-      //   dataIndex: 'codeReview',
-      //   width: 100,
-      //   render:
-      //   tag => {
-      //     let color = tag===true ? 'blue' : 'red';
-      //     let value=tag===true ? '通过' : '不通过';
-      //     return (
-      //       <span>
-      //       <Tag color={color}>
-      //         {value}
-      //       </Tag>
-      //       </span>
-      //     );
-      //   }
-      // },
-      //  {
-      //   title: '测试结果',
-      //   dataIndex: 'test',
-      //   width: 100,
-      //   render:
-      //   tag => {
-      //     let color = tag===true ? 'blue' : 'red';
-      //     let value=tag===true ? '通过' : '不通过';
-      //     return (
-      //       <span>
-      //       <Tag color={color}>
-      //         {value}
-      //       </Tag>
-      //       </span>
-      //     );
-      //   }
-      // },{
-      //   title: '项目验收',
-      //   dataIndex: 'status',
-      //   width: 100,
-      //   render:
-      //   tag => {
-      //     let color = tag==='1' ? 'blue' : 'red';
-      //     let value=tag==='1' ? '通过' : '不通过';
-      //     return (
-      //       <span>
-      //       <Tag color={color}>
-      //         {value}
-      //       </Tag>
-      //       </span>
-      //     );
-      //   }
-      // },
+      }
     ];
     const toolBarProps = {
       layout: { leftSpan: 22, rightSpan: 2 },
@@ -581,6 +481,7 @@ class PmBaseInfo extends Component {
               新建
             </Link>
           </Button>
+          <Button onClick={this.handlerExport}>导出</Button>
         </Space>
       ),
     };
@@ -600,7 +501,37 @@ class PmBaseInfo extends Component {
       },
     };
   };
-
+  handlerExport = () => {
+    const tableFilters = this.getTableFilters();
+    request.post(`${PROJECT_PATH}/pmBaseinfo/export`, { filters: tableFilters }).then(res => {
+      const { success, data } = res;
+      if (success && data.length > 0) {
+        exportXlsx(
+          '项目列表',
+          [
+            '项目编码',
+            '项目名称',
+            '系统名称',
+            '组织名称',
+            '当前阶段',
+            '主计划达成率',
+            '开始日期',
+            '计划结案日期',
+            '实际结案日期',
+            '项目天数',
+            '是否逾期',
+            '逾期天数',
+            '项目类型',
+            '主导人',
+            '项目成员'    
+          ],
+          data,
+        );
+      } else {
+        message.error('没找到数据');
+      }
+    });
+  };
   getEditModalProps = () => {
     const { loading, pmBaseInfo } = this.props;
     const { modalVisible } = pmBaseInfo;
