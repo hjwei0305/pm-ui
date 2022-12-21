@@ -523,7 +523,8 @@ class PmBaseInfo extends Component {
             '逾期天数',
             '项目类型',
             '主导人',
-            '项目成员'    
+            '项目成员',
+            '项目进度'    
           ],
           data,
         );
