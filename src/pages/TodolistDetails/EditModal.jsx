@@ -74,9 +74,9 @@ class FormModal extends PureComponent {
       if (err) {
         return;
       }
-      formData.organizationId = '00459FE3-1C44-11ED-B27F-005056C00001'
-      formData.organizationCode = '00000293'
-      formData.organizationName = '新宝股份-营运管理中心-信息化管理中心'
+      formData.organizationId = 'ECF54567-9025-11ED-8F9A-0242AC120011'
+      formData.organizationCode = '00018064'
+      formData.organizationName = '新宝股份-营运管理中心-数字化管理中心'
       formData.submitDate = formData.submitDate.format('YYYY-MM-DD')
       if(formData.completionDate != null){
         formData.completionDate = formData.completionDate.format('YYYY-MM-DD')
