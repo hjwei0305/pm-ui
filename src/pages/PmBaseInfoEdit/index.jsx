@@ -984,7 +984,7 @@ class PmBaseInfoEdit extends Component {
                           <DatePicker 
                             onChange={(_,dateString) => this.state.dataList.submissionDate = dateString}
                             placeholder="请选择日期"
-                            defaultValue={this.state.dataList.submissionDate === null ? null : moment(this.state.dataList.submissionDate, 'YYYY-MM-DD')}
+                            defaultValue={this.state.dataList.submissionDate === null || this.state.dataList.submissionDate === '' ? null : moment(this.state.dataList.submissionDate, 'YYYY-MM-DD')}
                           />
                           
                           {/* <Input 
