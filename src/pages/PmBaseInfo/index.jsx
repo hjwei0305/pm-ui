@@ -37,10 +37,23 @@ class PmBaseInfo extends Component {
         })
       }
     })
-  
+
+    dispatch({
+      type: 'pmBaseInfo/getChildrenNodes',
+      payload:{}
+    }).then(res => {
+      const { data } = res;
+      for(let item of data){
+        if(item.nodeLevel === 3){
+          this.state.orgnameList.push({code:item.code,name:item.name,extorgname:item.extorgname})
+        }
+      }
+    })
+
   }
 
   state = {
+    orgnameList: [],
     notStartedNum: 0,
     processingNum: 0,
     onLineNum: 0,
@@ -49,6 +62,7 @@ class PmBaseInfo extends Component {
     delId: null,
     fliterCondition: null,
     nameFilter: null,
+    orgnameFilter: null,
     currentPeriodFilter: null,
     projectMasterFilter: null,
     dateFilter:null,
@@ -107,7 +121,7 @@ class PmBaseInfo extends Component {
   };
 
   getTableFilters = () => {
-    const { nameFilter, currentPeriodFilter, projectMasterFilter, dateFilter } = this.state;
+    const { nameFilter, currentPeriodFilter, projectMasterFilter, dateFilter, orgnameFilter } = this.state;
     const filters = [];
     if (nameFilter !== null) {
       filters.push({
@@ -123,6 +137,14 @@ class PmBaseInfo extends Component {
         operator: 'LK',
         fieldType: 'string',
         value: currentPeriodFilter,
+      });
+    }
+    if (orgnameFilter) {
+      filters.push({
+        fieldName: 'orgname',
+        operator: 'LK',
+        fieldType: 'string',
+        value: orgnameFilter,
       });
     }
     if (projectMasterFilter) {
@@ -236,6 +258,7 @@ class PmBaseInfo extends Component {
             <Link to={{
               pathname:`/pm/PmBaseInfoEdit`,
               state:{
+                orgnameList: this.state.orgnameList,
                 disable: true,
                 name: record.name,
                 id: record.id,
@@ -419,6 +442,22 @@ class PmBaseInfo extends Component {
               field: ['name'],
             }}
           />
+          科室名称：{' '}
+          <ComboList
+            style={{ width: '150px' }}
+            showSearch={false}
+            pagination={false}
+            dataSource={this.state.orgnameList}
+            allowClear
+            name="name"
+            field={['name']}
+            afterClear={() => this.setState({ orgnameFilter: null })}
+            afterSelect={item => this.setState({ orgnameFilter: item.name })}
+            reader={{
+              name: 'name',
+              field: ['name'],
+            }}
+          />
           主导人：{' '}
           <Input style={{width:"150px"}} onChange={(event) => this.setState({ projectMasterFilter: event.target.value })} allowClear></Input>
           开始日期：<DatePicker onChange={item => this.onDateChange(item)} format="YYYY-MM-DD" />
@@ -433,6 +472,7 @@ class PmBaseInfo extends Component {
             <Link to={{
               pathname:`/pm/PmBaseInfoEdit`,
               state:{
+                orgnameList: this.state.orgnameList,
                 disable: false,
                 name: '',
                 id: '',
@@ -524,7 +564,7 @@ class PmBaseInfo extends Component {
             '项目类型',
             '主导人',
             '项目成员',
-            '项目进度'    
+            '项目进度'
           ],
           data,
         );

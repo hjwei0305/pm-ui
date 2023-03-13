@@ -24,7 +24,7 @@ const { SiderBar, Content } = ProLayout;
 class PmBaseInfoEdit extends Component {
   constructor(props) {
     super(props);
-    if(this.props.location.state && this.props.location.state.code != ''){
+    // if(this.props.location.state && this.props.location.state.code != ''){
       this.state = {
         projTypeList: [
           {
@@ -52,7 +52,7 @@ class PmBaseInfoEdit extends Component {
         ScheduleArys: [],
         employee: [],
         proOptList: [],
-        orgnameList: [],
+        orgnameList: this.props.location.state.orgnameList,
         disable: this.props.location.state.disable,
         dataList:
           {
@@ -100,19 +100,19 @@ class PmBaseInfoEdit extends Component {
             orgcode: this.props.location.state.orgcode,
           }
       }
-    }
+    // }
     const { dispatch } = props;
-    dispatch({
-      type: 'pmBaseInfoEdit/getChildrenNodes',
-      payload:{}
-    }).then(res => {
-      const { data } = res;
-      for(let item of data){
-        if(item.nodeLevel === 2){
-          this.state.orgnameList.push({code:item.code,name:item.name,extorgname:item.extorgname})
-        }
-      }
-    })
+    // dispatch({
+    //   type: 'pmBaseInfoEdit/getChildrenNodes',
+    //   payload:{}
+    // }).then(res => {
+    //   const { data } = res;
+    //   for(let item of data){
+    //     if(item.nodeLevel === 3){
+    //       this.state.orgnameList.push({code:item.code,name:item.name,extorgname:item.extorgname})
+    //     }
+    //   }
+    // })
 
     dispatch({
       type: 'pmBaseInfoEdit/getProOpt',
@@ -310,7 +310,9 @@ class PmBaseInfoEdit extends Component {
     dataReplace.designer = dataReplace.designer.join(",")
     dataReplace.proOpt = dataReplace.proOpt.join(",")
 
-    if(dataReplace.code != '' && dataReplace.code != null){
+    // if(dataReplace.code != '' && dataReplace.code != null){
+    let keys = Object.keys(dataReplace);
+    if(keys.length !== 0) {
       this.dispatchAction({
         type: 'pmBaseInfoEdit/save',
         payload: dataReplace,
@@ -683,8 +685,30 @@ class PmBaseInfoEdit extends Component {
     });
   }
 
-  change = (event) =>{
-    this.state.dataList.code = event.target.value
+  // change = (event) =>{
+  //   this.state.dataList.code = event.target.value
+  // }
+
+  change = (name ,event) =>{
+    if(name === 'code'){
+      this.state.dataList.code = event.target.value
+    }else if(name === 'submissionDate'){
+      this.state.dataList.submissionDate = event.target.value
+    }else if(name === 'sysName'){
+      this.state.dataList.sysName = event.target.value
+    }else if(name === 'name'){
+      this.state.dataList.name = event.target.value
+    }else if(name === 'currentDescription'){
+      this.state.dataList.currentDescription = event.target.value
+    }else if(name === 'requirementDescription'){
+      this.state.dataList.requirementDescription = event.target.value
+    }else if(name === 'improveBenefits'){
+      this.state.dataList.improveBenefits = event.target.value
+    }else if(name === 'promotionDegree'){
+      this.state.dataList.promotionDegree = event.target.value
+    }else if(name === 'hardwareRequirement'){
+      this.state.dataList.hardwareRequirement = event.target.value
+    }
   }
 
   callback = (key) => {
@@ -803,6 +827,21 @@ class PmBaseInfoEdit extends Component {
     this.state.dataList.extorgname = ''
   }
 
+  onDateChange = data => {
+    if(data){
+      const date = data.format('YYYY-MM-DD');
+      this.state.dataList.submissionDate  = date
+      // this.setState({
+      //   submissionDate: date,
+      // });
+    }else{
+      this.state.dataList.submissionDate  = null
+    //   this.setState({
+    //     submissionDate: null,
+    // });
+   }
+  };
+
   render() {
     console.log(this.state.dataList)
     const { pmBaseInfoEdit } = this.props;
@@ -891,7 +930,7 @@ class PmBaseInfoEdit extends Component {
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={8}>
                           <span >档案编码：</span>
-                          <Input onChange={this.change} placeholder='请输入提案编号' defaultValue={this.state.dataList.code} disabled={this.state.disable} onBlur={(event) => this.syncProjectInfo(event)}></Input>
+                          <Input onChange={(event) => this.change('code',event)} placeholder='请输入提案编号（选填）' defaultValue={this.state.dataList.code} disabled={this.state.disable} onBlur={(event) => this.syncProjectInfo(event)}></Input>
                         </Col>
                         <Col span={8}>
                           <span >项目类型：</span>
@@ -914,7 +953,7 @@ class PmBaseInfoEdit extends Component {
                         </Col>
                         <Col span={8}>
                           <span >系统名称：</span>
-                          <Input value={this.state.dataList.sysName} disabled></Input>
+                          <Input onChange={(event) => this.change('sysName',event)} defaultValue={this.state.dataList.sysName} ></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
@@ -932,7 +971,7 @@ class PmBaseInfoEdit extends Component {
                         </Col>
                         <Col span={8}>
                           <span >项目名称：</span>
-                          <Input value={this.state.dataList.name} disabled></Input>
+                          <Input onChange={(event) => this.change('name',event)} defaultValue={this.state.dataList.name} ></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
@@ -941,8 +980,17 @@ class PmBaseInfoEdit extends Component {
                           <Input value={this.state.dataList.attendanceMemberrCount} disabled></Input>
                         </Col>
                         <Col span={8}>
-                          <span >提案日期：</span>
-                          <Input value={this.state.dataList.submissionDate} disabled></Input>
+                        <span >提案日期：</span>
+                          <DatePicker 
+                            onChange={(_,dateString) => this.state.dataList.submissionDate = dateString}
+                            placeholder="请选择日期"
+                            defaultValue={this.state.dataList.submissionDate === null ? null : moment(this.state.dataList.submissionDate, 'YYYY-MM-DD')}
+                          />
+                          
+                          {/* <Input 
+                            onChange={(event) => this.change('submissionDate',event)} 
+                            defaultValue={this.state.dataList.submissionDate}
+                          ></Input> */}
                         </Col>
                         <Col span={8}>
                           <span >科室名称：</span>
@@ -971,31 +1019,31 @@ class PmBaseInfoEdit extends Component {
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>现状描述：</span>
-                          <TextArea className="rowStyle" value={this.state.dataList.currentDescription} disabled></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('currentDescription',event)} defaultValue={this.state.dataList.currentDescription} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>需求描述：</span>
-                          <TextArea className="rowStyle" value={this.state.dataList.requirementDescription} disabled></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('requirementDescription',event)} defaultValue={this.state.dataList.requirementDescription} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>改善效益：</span>
-                          <TextArea className="rowStyle" value={this.state.dataList.improveBenefits} disabled></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('improveBenefits',event)} defaultValue={this.state.dataList.improveBenefits} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>推广度：</span>
-                          <TextArea className="rowStyle" value={this.state.dataList.promotionDegree} disabled></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('promotionDegree',event)} defaultValue={this.state.dataList.promotionDegree} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>硬件要求：</span>
-                          <TextArea className="rowStyle" value={this.state.dataList.hardwareRequirement} disabled></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('hardwareRequirement',event)} defaultValue={this.state.dataList.hardwareRequirement} ></TextArea>
                         </Col>
                       </Row>
                     </Form>

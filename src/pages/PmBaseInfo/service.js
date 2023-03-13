@@ -15,6 +15,7 @@ const { request } = utils;
 // const contextPath = '/simple-master';
 
 const contextPath = '/pmBaseinfo';
+const pmOrganizePath = '/pmOrganize';
 
 /** 保存 */
 export async function save(data) {
@@ -33,4 +34,13 @@ export async function del(params) {
 export async function getProjectInfo(data) {
   const url = `${PROJECT_PATH}${contextPath}/getProjectInfo`;
   return request.post(url, data);
+}
+
+/** 组织节点 */
+export async function getChildrenNodes() {
+  const url = `${PROJECT_PATH}${pmOrganizePath}/getChildrenNodes?nodeId=1963AF41-194E-11ED-81B0-005056C00001&includeSelf=false`;
+  return request({
+    url,
+    method: 'GET',
+  });
 }
