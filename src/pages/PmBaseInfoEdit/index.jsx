@@ -693,25 +693,42 @@ class PmBaseInfoEdit extends Component {
   // }
 
   change = (name ,event) =>{
-    if(name === 'code'){
-      this.state.dataList.code = event.target.value
-    }else if(name === 'submissionDate'){
-      this.state.dataList.submissionDate = event.target.value
-    }else if(name === 'sysName'){
-      this.state.dataList.sysName = event.target.value
-    }else if(name === 'name'){
-      this.state.dataList.name = event.target.value
-    }else if(name === 'currentDescription'){
-      this.state.dataList.currentDescription = event.target.value
-    }else if(name === 'requirementDescription'){
-      this.state.dataList.requirementDescription = event.target.value
-    }else if(name === 'improveBenefits'){
-      this.state.dataList.improveBenefits = event.target.value
-    }else if(name === 'promotionDegree'){
-      this.state.dataList.promotionDegree = event.target.value
-    }else if(name === 'hardwareRequirement'){
-      this.state.dataList.hardwareRequirement = event.target.value
-    }
+    let target= Object.assign({}, this.state.dataList, {
+      [name]: event.target.value
+    })
+    // debugger
+    // if(name === 'code'){
+      this.setState({
+        dataList: target
+      })
+    //   // this.state.dataList.code = event.target.value
+    // }else if(name === 'submissionDate'){
+    //   this.setState({
+    //     dataList: target
+    //   })
+    //   // this.state.dataList.submissionDate = event.target.value
+    // }else if(name === 'sysName'){
+    //   this.setState({
+    //     dataList: target
+    //   })
+    //   // this.state.dataList.sysName = event.target.value
+    // }else if(name === 'name'){
+    //   this.setState({
+    //     dataList: target
+    //   })
+    //   // this.state.dataList.name = event.target.value
+    // }else if(name === 'currentDescription'){
+    //   this.state.dataList.currentDescription = event.target.value
+    // }else if(name === 'requirementDescription'){
+    //   this.state.dataList.requirementDescription = event.target.value
+    // }else if(name === 'improveBenefits'){
+    //   this.state.dataList.improveBenefits = event.target.value
+    // }else if(name === 'promotionDegree'){
+    //   this.state.dataList.promotionDegree = event.target.value
+    // }else if(name === 'hardwareRequirement'){
+    //   this.state.dataList.hardwareRequirement = event.target.value
+    // }
+    // this.refresh()
   }
 
   callback = (key) => {
@@ -933,7 +950,7 @@ class PmBaseInfoEdit extends Component {
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={8}>
                           <span >档案编码：</span>
-                          <Input onChange={(event) => this.change('code',event)} placeholder='请输入提案编号（选填）' defaultValue={this.state.dataList.code} disabled={this.state.disable} onBlur={(event) => this.syncProjectInfo(event)}></Input>
+                          <Input onChange={(event) => this.change('code',event)} placeholder='请输入提案编号（选填）' value={this.state.dataList.code} disabled={this.state.disable} onBlur={(event) => this.syncProjectInfo(event)}></Input>
                         </Col>
                         <Col span={8}>
                           <span >项目类型：</span>
@@ -956,7 +973,7 @@ class PmBaseInfoEdit extends Component {
                         </Col>
                         <Col span={8}>
                           <span >系统名称：</span>
-                          <Input onChange={(event) => this.change('sysName',event)} defaultValue={this.state.dataList.sysName} ></Input>
+                          <Input onChange={(event) => this.change('sysName',event)} value={this.state.dataList.sysName} ></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
@@ -974,7 +991,7 @@ class PmBaseInfoEdit extends Component {
                         </Col>
                         <Col span={8}>
                           <span >项目名称：</span>
-                          <Input onChange={(event) => this.change('name',event)} defaultValue={this.state.dataList.name} ></Input>
+                          <Input onChange={(event) => this.change('name',event)} value={this.state.dataList.name} ></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
@@ -1022,31 +1039,31 @@ class PmBaseInfoEdit extends Component {
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>现状描述：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('currentDescription',event)} defaultValue={this.state.dataList.currentDescription} ></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('currentDescription',event)} value={this.state.dataList.currentDescription} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>需求描述：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('requirementDescription',event)} defaultValue={this.state.dataList.requirementDescription} ></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('requirementDescription',event)} value={this.state.dataList.requirementDescription} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>改善效益：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('improveBenefits',event)} defaultValue={this.state.dataList.improveBenefits} ></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('improveBenefits',event)} value={this.state.dataList.improveBenefits} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>推广度：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('promotionDegree',event)} defaultValue={this.state.dataList.promotionDegree} ></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('promotionDegree',event)} value={this.state.dataList.promotionDegree} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>硬件要求：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('hardwareRequirement',event)} defaultValue={this.state.dataList.hardwareRequirement} ></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('hardwareRequirement',event)} value={this.state.dataList.hardwareRequirement} ></TextArea>
                         </Col>
                       </Row>
                     </Form>
