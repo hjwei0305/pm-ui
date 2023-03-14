@@ -467,7 +467,11 @@ class ApproveDetail extends PureComponent {
               <Col span={10}>
                 <FormItem label="当前完成比率(%)">
                   {getFieldDecorator('completion', { initialValue: this.editData && this.editData.completion,})
-                  (<Input disabled={this.confirm}/>)}
+                  (<Input 
+                      type="number" 
+                      min={0} 
+                      max={100} 
+                      disabled={this.confirm} />)}
                 </FormItem>
               </Col>
             </Row>

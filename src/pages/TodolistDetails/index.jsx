@@ -447,26 +447,9 @@ class TodolistDetails extends Component {
         ),
       },
       {
-        title: '提出人',
-        dataIndex: 'advisor',
-        width: 100,
-        required: true,
-      },
-      {
-        title: '提出日期',
-        dataIndex: 'submitDate',
-        required: true,
-      },
-      {
-        title: '起草人',
-        dataIndex: 'submitName',
-        width: 100,
-        required: true,
-      },
-      {
         title: '待办事项',
         dataIndex: 'todoList',
-        width: 220,
+        width: 350,
         required: true,
       },
       {
@@ -499,12 +482,6 @@ class TodolistDetails extends Component {
         required: true,
       },
       {
-        title: '确认人',
-        dataIndex: 'ondutyName',
-        width: 100,
-        required: true,
-      },
-      {
         title: '最新确认时间',
         dataIndex: 'confir1Time',
         width: 100,
@@ -523,7 +500,7 @@ class TodolistDetails extends Component {
         required: true,
       },
       {
-        title: '当前完成比率（%）',
+        title: '完成比率（%）',
         dataIndex: 'completion',
         width: 100,
         required: true,
@@ -577,6 +554,23 @@ class TodolistDetails extends Component {
         title: '备注',
         dataIndex: 'remark',
         width: 200,
+        required: true,
+      },
+      {
+        title: '提出人',
+        dataIndex: 'advisor',
+        width: 100,
+        required: true,
+      },
+      {
+        title: '提出日期',
+        dataIndex: 'submitDate',
+        required: true,
+      },
+      {
+        title: '起草人',
+        dataIndex: 'submitName',
+        width: 100,
         required: true,
       },
     ];

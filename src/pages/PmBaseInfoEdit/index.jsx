@@ -624,6 +624,9 @@ class PmBaseInfoEdit extends Component {
   };
 
   syncProjectInfo = (e) =>{
+    if(e.target.value === ''){
+      return
+    }
     this.dispatchAction({
       type: 'pmBaseInfoEdit/syncProjectInfo',
       payload: {

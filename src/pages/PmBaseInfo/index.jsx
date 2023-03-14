@@ -68,26 +68,10 @@ class PmBaseInfo extends Component {
     dateFilter:null,
     status:[{
       code: 0,
-      name: '需求分析',
+      name: '未结案',
     },
     {
       code: 1,
-      name: 'UI设计',
-    },
-    {
-      code: 2,
-      name: '系统开发',
-    },
-    {
-      code: 3,
-      name: '测试',
-    },
-    {
-      code: 4,
-      name: '上线实施',
-    },
-    {
-      code: 5,
       name: '项目结案',
     }]
   };
@@ -132,12 +116,21 @@ class PmBaseInfo extends Component {
       });
     }
     if (currentPeriodFilter) {
-      filters.push({
-        fieldName: 'currentPeriod',
-        operator: 'LK',
-        fieldType: 'string',
-        value: currentPeriodFilter,
-      });
+      if(currentPeriodFilter === '未结案'){
+        filters.push({
+          fieldName: 'currentPeriod',
+          operator: 'NE',
+          fieldType: 'string',
+          value: '项目结案',
+        });
+      }else{
+        filters.push({
+          fieldName: 'currentPeriod',
+          operator: 'LK',
+          fieldType: 'string',
+          value: currentPeriodFilter,
+        });
+      }
     }
     if (orgnameFilter) {
       filters.push({
@@ -318,18 +311,6 @@ class PmBaseInfo extends Component {
         ),
       },
       {
-        title: '项目类型',
-        dataIndex: 'projectTypes',
-        width: 100,
-        required: true,
-      },
-      {
-        title: '项目编码',
-        dataIndex: 'code',
-        width: 150,
-        required: true,
-      },
-      {
         title: '系统名称',
         dataIndex: 'sysName',
         width: 200,
@@ -338,12 +319,6 @@ class PmBaseInfo extends Component {
       {
         title: '提案名称',
         dataIndex: 'name',
-        width: 200,
-        required: true,
-      },
-      {
-        title: '科室名称',
-        dataIndex: 'orgname',
         width: 200,
         required: true,
       },
@@ -418,7 +393,25 @@ class PmBaseInfo extends Component {
         dataIndex: 'remark',
         width: 100,
         required: true,
-      }
+      },
+      {
+        title: '项目类型',
+        dataIndex: 'projectTypes',
+        width: 100,
+        required: true,
+      },
+      {
+        title: '项目编码',
+        dataIndex: 'code',
+        width: 150,
+        required: true,
+      },
+      {
+        title: '科室名称',
+        dataIndex: 'orgname',
+        width: 200,
+        required: true,
+      },
     ];
     const toolBarProps = {
       layout: { leftSpan: 22, rightSpan: 2 },
