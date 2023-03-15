@@ -32,7 +32,7 @@ class FormModal extends PureComponent {
     const { form, onClose, sync, visible, editData, disable } = this.props;
     const { getFieldDecorator } = form;
     let title = editData.name;
-    let url = `https://seiprod.donlim.com/#/pm-ui/pm/PmBaseInfoEdit?disable=` + disable+ "&id=" + editData.id;
+    let url = `https://sei.donlim.com/#/pm-ui/pm/PmBaseInfoEdit?disable=` + disable+ "&id=" + editData.id;
 
     return (
       <ExtModal
