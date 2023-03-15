@@ -136,6 +136,7 @@ class FormModal extends PureComponent {
       }
       Object.assign(dataReplace, { attachmentIdList: docIdList });
       dataReplace.leader = dataReplace.leader.join(',')
+      dataReplace.assist = dataReplace.assist.join(',')
       dataReplace.developer = dataReplace.developer.join(',')
       dataReplace.designer = dataReplace.designer.join(',')
       dataReplace.implementer = dataReplace.implementer.join(',')
