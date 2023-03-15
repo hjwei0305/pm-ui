@@ -4,8 +4,8 @@ import { connect } from 'dva';
 import { Input , DatePicker, Row, Col, Button,Tag,message  } from 'antd';
 import { ExtTable, ExtIcon, ComboList, Space,utils } from 'suid';
 import { constants,exportXlsx } from '@/utils';
+import EditModal from './EditModal';
 
-import { Link } from "react-router-dom";
 import styles from './index.less'
 import logo1 from '../../../static/proj-one.png'
 import logo2 from '../../../static/proj-two.png'
@@ -159,6 +159,17 @@ class PmBaseInfo extends Component {
     return filters;
   };
 
+  openModal = (row,disable) =>{
+    this.dispatchAction({
+      type: 'pmBaseInfo/updateState',
+      payload: {
+        modalVisible: true,
+        editData: row,
+        disable: disable,
+      },
+    });
+  }
+
   handleEvent = (type, row) => {
     switch (type) {
       case 'add':
@@ -248,7 +259,11 @@ class PmBaseInfo extends Component {
         required: true,
         render: (_, record) => (
           <Space>
-            <Link to={{
+            <div style={{color:"#0066FF",cursor:"pointer"}} onClick={() => this.openModal(record,true)}>查看详情</div>
+            {/* <div onClick={this.test}>test</div> */}
+            {/* <Link
+              // target = "_blank"
+              to={{
               pathname:`/pm/PmBaseInfoEdit`,
               state:{
                 orgnameList: this.state.orgnameList,
@@ -298,7 +313,7 @@ class PmBaseInfo extends Component {
               }
             }}>
               查看详情
-            </Link>
+            </Link> */}
             {/* <Popconfirm
               key="del"
               placement="topLeft"
@@ -458,11 +473,11 @@ class PmBaseInfo extends Component {
             key="add"
             type="primary"
             onClick={() => {
-              this.handleEvent('add', null);
+              this.openModal({id:'',name:''},false);
             }}
             ignore="true"
-          >
-            <Link to={{
+          >新建</Button>
+            {/* <Link to={{
               pathname:`/pm/PmBaseInfoEdit`,
               state:{
                 orgnameList: this.state.orgnameList,
@@ -482,6 +497,7 @@ class PmBaseInfo extends Component {
                 promotionDegree: '',
                 hardwareRequirement: '',
                 leader: [] ,
+                assist: [],
                 designer: [],
                 developer: [],
                 implementer: [],
@@ -512,8 +528,8 @@ class PmBaseInfo extends Component {
               }
             }}>
               新建
-            </Link>
-          </Button>
+            </Link> */}
+
           <Button onClick={this.handlerExport}>导出</Button>
         </Space>
       ),
@@ -568,9 +584,11 @@ class PmBaseInfo extends Component {
   };
   getEditModalProps = () => {
     const { loading, pmBaseInfo } = this.props;
-    const { modalVisible } = pmBaseInfo;
+    const { modalVisible, editData, disable } = pmBaseInfo;
 
     return {
+      disable,
+      editData,
       onSync: this.handleSync,
       visible: modalVisible,
       onClose: this.handleClose,
@@ -578,11 +596,9 @@ class PmBaseInfo extends Component {
     };
   };
 
-
   render() {
     const { pmBaseInfo } = this.props;
     const { modalVisible } = pmBaseInfo;
-
     return (
       <>
         <div className={styles['container']}>
@@ -652,6 +668,7 @@ class PmBaseInfo extends Component {
           </Row>
           {/* {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null} */}
         </div>
+        {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null}
       </>
     );
   }

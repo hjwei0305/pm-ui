@@ -9,7 +9,8 @@ import { utils } from 'suid';
 import { downFile } from '@/utils';
 import { del, save, saveToDo, delToDo, findEmp,getProOpt, syncProjectInfo
   , projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch
-  ,findByIdForSchedule,saveUpload,saveUploadList,uploadMasterPlan, downLoadTemplate, getChildrenNodes } from './service';
+  ,findByIdForSchedule,saveUpload,saveUploadList,uploadMasterPlan, downLoadTemplate, getChildrenNodes,
+  findBaseInfoById } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -28,6 +29,18 @@ export default modelExtend(model, {
     ScheduleArys: [],
   },
   effects: {
+    *findBaseInfoById({ payload }, { call }) {
+      const result = yield call(findBaseInfoById, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+        message.success(msg);
+      } else {
+        message.error(msg);
+      }
+
+      return result;
+    },
     *save({ payload }, { call }) {
       const result = yield call(save, payload);
       const { success, message: msg } = result || {};

@@ -4,7 +4,6 @@ import { connect } from 'dva';
 import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select, message, DatePicker   } from 'antd';
 import { ExtIcon, ExtTable, ComboList, ProLayout, Attachment } from 'suid';
 import ToDoEditModal from './ToDoEditModal';
-import { Link } from "react-router-dom";
 import styles from './index.less'
 import { constants } from '@/utils';
 import ProjectPlan from './ProjectPlan'
@@ -25,6 +24,7 @@ class PmBaseInfoEdit extends Component {
   constructor(props) {
     super(props);
     // if(this.props.location.state && this.props.location.state.code != ''){
+    if(this.props.location.query.id != ''){
       this.state = {
         projTypeList: [
           {
@@ -52,67 +52,97 @@ class PmBaseInfoEdit extends Component {
         ScheduleArys: [],
         employee: [],
         proOptList: [],
-        orgnameList: this.props.location.state.orgnameList,
-        disable: this.props.location.state.disable,
-        dataList:
-          {
-            code: this.props.location.state.code,
-            name: this.props.location.state.name,
-            id: this.props.location.state.id,
-            projectTypes: this.props.location.state.projectTypes,
-            currentPeriod: this.props.location.state.currentPeriod,
-            projectMaster: this.props.location.state.projectMaster,
-            attendanceMemberrCount: this.props.location.state.attendanceMemberrCount,
-            submissionDate: this.props.location.state.submissionDate,
-            planningApproval: this.props.location.state.planningApproval,
-            currentDescription: this.props.location.state.currentDescription,
-            requirementDescription: this.props.location.state.requirementDescription,
-            improveBenefits: this.props.location.state.improveBenefits,
-            promotionDegree: this.props.location.state.promotionDegree,
-            hardwareRequirement: this.props.location.state.hardwareRequirement,
-            leader: this.props.location.state.leader,
-            designer: this.props.location.state.designer,
-            developer: this.props.location.state.developer,
-            implementer: this.props.location.state.implementer,
-            proOpt: this.props.location.state.proOpt,
-            requireDocId: this.props.location.state.requireDocId,
-            acceptStandardDocId: this.props.location.state.acceptStandardDocId,
-            startReportDocId: this.props.location.state.startReportDocId,
-            userRequireDocId: this.props.location.state.userRequireDocId,
-            designerDocId: this.props.location.state.designerDocId,
-            cropDocId: this.props.location.state.cropDocId,
-            testExampleDocId: this.props.location.state.testExampleDocId,
-            testReportDocId: this.props.location.state.testReportDocId,
-            sopDocId: this.props.location.state.sopDocId,
-            questionListDocId: this.props.location.state.questionListDocId,
-            checkListDocId: this.props.location.state.checkListDocId,
-            caseCloseReportDocId: this.props.location.state.caseCloseReportDocId,
-            satisfactionSurveyDocId: this.props.location.state.satisfactionSurveyDocId,
-            pageCheckDocId: this.props.location.state.pageCheckDocId,
-            acceptOrderDocId: this.props.location.state.acceptOrderDocId,
-            accpetReprotDocId: this.props.location.state.accpetReprotDocId,
-            startDate: this.props.location.state.startDate,
-            planFinishDate: this.props.location.state.planFinishDate,
-            finalFinishDate: this.props.location.state.finalFinishDate,
-            sysName: this.props.location.state.sysName,
-            orgname: this.props.location.state.orgname,
-            extorgname: this.props.location.state.extorgname,
-            orgcode: this.props.location.state.orgcode,
-          }
+        orgnameList: [],
+        // disable: false,
+        // orgnameList: this.props.location.state.orgnameList,
+        disable: this.props.location.query.disable === 'true' ? true : false,
+        dataList: { id: this.props.location.query.id, }
+      }
+            // code: this.props.location.state.code,
+            // name: this.props.location.state.name,
+            // id: this.props.location.query.id,
+            // projectTypes: this.props.location.state.projectTypes,
+            // currentPeriod: this.props.location.state.currentPeriod,
+            // projectMaster: this.props.location.state.projectMaster,
+            // attendanceMemberrCount: this.props.location.state.attendanceMemberrCount,
+            // submissionDate: this.props.location.state.submissionDate,
+            // planningApproval: this.props.location.state.planningApproval,
+            // currentDescription: this.props.location.state.currentDescription,
+            // requirementDescription: this.props.location.state.requirementDescription,
+            // improveBenefits: this.props.location.state.improveBenefits,
+            // promotionDegree: this.props.location.state.promotionDegree,
+            // hardwareRequirement: this.props.location.state.hardwareRequirement,
+            // leader: this.props.location.state.leader,
+            // designer: this.props.location.state.designer,
+            // developer: this.props.location.state.developer,
+            // implementer: this.props.location.state.implementer,
+            // proOpt: this.props.location.state.proOpt,
+            // requireDocId: this.props.location.state.requireDocId,
+            // acceptStandardDocId: this.props.location.state.acceptStandardDocId,
+            // startReportDocId: this.props.location.state.startReportDocId,
+            // userRequireDocId: this.props.location.state.userRequireDocId,
+            // designerDocId: this.props.location.state.designerDocId,
+            // cropDocId: this.props.location.state.cropDocId,
+            // testExampleDocId: this.props.location.state.testExampleDocId,
+            // testReportDocId: this.props.location.state.testReportDocId,
+            // sopDocId: this.props.location.state.sopDocId,
+            // questionListDocId: this.props.location.state.questionListDocId,
+            // checkListDocId: this.props.location.state.checkListDocId,
+            // caseCloseReportDocId: this.props.location.state.caseCloseReportDocId,
+            // satisfactionSurveyDocId: this.props.location.state.satisfactionSurveyDocId,
+            // pageCheckDocId: this.props.location.state.pageCheckDocId,
+            // acceptOrderDocId: this.props.location.state.acceptOrderDocId,
+            // accpetReprotDocId: this.props.location.state.accpetReprotDocId,
+            // startDate: this.props.location.state.startDate,
+            // planFinishDate: this.props.location.state.planFinishDate,
+            // finalFinishDate: this.props.location.state.finalFinishDate,
+            // sysName: this.props.location.state.sysName,
+            // orgname: this.props.location.state.orgname,
+            // extorgname: this.props.location.state.extorgname,
+            // orgcode: this.props.location.state.orgcode,
+          // }
       }
     // }
     const { dispatch } = props;
-    // dispatch({
-    //   type: 'pmBaseInfoEdit/getChildrenNodes',
-    //   payload:{}
-    // }).then(res => {
-    //   const { data } = res;
-    //   for(let item of data){
-    //     if(item.nodeLevel === 3){
-    //       this.state.orgnameList.push({code:item.code,name:item.name,extorgname:item.extorgname})
-    //     }
-    //   }
-    // })
+    dispatch({
+      type: 'pmBaseInfoEdit/getChildrenNodes',
+      payload:{}
+    }).then(res => {
+      const { data } = res;
+      for(let item of data){
+        if(item.nodeLevel === 3){
+          this.state.orgnameList.push({code:item.code,name:item.name,extorgname:item.extorgname})
+        }
+      }
+    })
+
+    if(this.props.location.query.id != ''){
+      dispatch({
+        type: 'pmBaseInfoEdit/findBaseInfoById',
+        payload:{
+          filters: [
+            {
+              fieldName: 'id',
+              operator: 'EQ',
+              fieldType: 'string',
+              value: this.state.dataList.id,
+            }
+          ],
+        }
+      }).then(res => {
+        const { rows } = res.data;
+        const infoData = rows[0]
+        infoData.leader = (infoData.leader == null || infoData.leader === '') ? [] : infoData.leader.split(',')
+        infoData.assist = (infoData.assist == null || infoData.assist === '') ? [] : infoData.assist.split(',')
+        infoData.designer = (infoData.designer == null || infoData.designer === '') ? [] : infoData.designer.split(',')
+        infoData.developer = (infoData.developer == null || infoData.developer === '') ? [] : infoData.developer.split(',')
+        infoData.implementer = (infoData.implementer == null || infoData.implementer === '') ? [] : infoData.implementer.split(',')
+        infoData.proOpt = (infoData.proOpt == null || infoData.proOpt === '') ? [] : infoData.proOpt.split(',')
+        this.setState({
+          dataList: infoData
+        })
+      })
+    }
 
     dispatch({
       type: 'pmBaseInfoEdit/getProOpt',
@@ -172,10 +202,6 @@ class PmBaseInfoEdit extends Component {
         code: 0,
       },
     ],
-    // 项目信息
-    // projData: [
-    //   {id}
-    // ],
     disable: false,
     dataList:
       {
@@ -194,6 +220,7 @@ class PmBaseInfoEdit extends Component {
         promotionDegree: '',
         hardwareRequirement: '',
         leader: [],
+        assist: [],
         designer: [],
         developer: [],
         implementer: [],
@@ -288,8 +315,10 @@ class PmBaseInfoEdit extends Component {
         }
       }
     }
-    if(dataReplace.leader.length > 0 || dataReplace.developer.length > 0 || dataReplace.implementer.length > 0 || dataReplace.designer.length > 0){
+    if(dataReplace.leader.length > 0 || dataReplace.assist.length > 0 || dataReplace.developer.length > 0
+      || dataReplace.implementer.length > 0 || dataReplace.designer.length > 0){
       let arr = dataReplace.leader.concat(dataReplace.developer)
+      arr = arr.concat(dataReplace.assist)
       arr = arr.concat(dataReplace.implementer)
       arr = arr.concat(dataReplace.designer)
       let newArr = new Set(arr)
@@ -305,6 +334,7 @@ class PmBaseInfoEdit extends Component {
       dataReplace.attendanceMemberrCount = count
     }
     dataReplace.leader = dataReplace.leader.join(",")
+    dataReplace.assist = dataReplace.assist.join(",")
     dataReplace.developer = dataReplace.developer.join(",")
     dataReplace.implementer = dataReplace.implementer.join(",")
     dataReplace.designer = dataReplace.designer.join(",")
@@ -654,6 +684,7 @@ class PmBaseInfoEdit extends Component {
               hardwareRequirement: data.hardwareRequirement,
               sysName: data.sysName,
               leader: [],
+              assist: [],
               designer: [],
               developer: [],
               implementer: [],
@@ -688,47 +719,14 @@ class PmBaseInfoEdit extends Component {
     });
   }
 
-  // change = (event) =>{
-  //   this.state.dataList.code = event.target.value
-  // }
 
-  change = (name ,event) =>{
+  change = (name ,value) =>{
     let target= Object.assign({}, this.state.dataList, {
-      [name]: event.target.value
+      [name]: value
     })
-    // debugger
-    // if(name === 'code'){
-      this.setState({
-        dataList: target
-      })
-    //   // this.state.dataList.code = event.target.value
-    // }else if(name === 'submissionDate'){
-    //   this.setState({
-    //     dataList: target
-    //   })
-    //   // this.state.dataList.submissionDate = event.target.value
-    // }else if(name === 'sysName'){
-    //   this.setState({
-    //     dataList: target
-    //   })
-    //   // this.state.dataList.sysName = event.target.value
-    // }else if(name === 'name'){
-    //   this.setState({
-    //     dataList: target
-    //   })
-    //   // this.state.dataList.name = event.target.value
-    // }else if(name === 'currentDescription'){
-    //   this.state.dataList.currentDescription = event.target.value
-    // }else if(name === 'requirementDescription'){
-    //   this.state.dataList.requirementDescription = event.target.value
-    // }else if(name === 'improveBenefits'){
-    //   this.state.dataList.improveBenefits = event.target.value
-    // }else if(name === 'promotionDegree'){
-    //   this.state.dataList.promotionDegree = event.target.value
-    // }else if(name === 'hardwareRequirement'){
-    //   this.state.dataList.hardwareRequirement = event.target.value
-    // }
-    // this.refresh()
+    this.setState({
+      dataList: target
+    })
   }
 
   callback = (key) => {
@@ -863,7 +861,6 @@ class PmBaseInfoEdit extends Component {
   };
 
   render() {
-    console.log(this.state.dataList)
     const { pmBaseInfoEdit } = this.props;
     const { modalVisibleToDo } = pmBaseInfoEdit;
 
@@ -884,35 +881,35 @@ class PmBaseInfoEdit extends Component {
           <SiderBar allowCollapse width={330} gutter={[0,8]}>
             <Row>
               <Col span={24} style={{ height: "100%" }}>
-                <div className={styles['goBack']}>
+                {/* <div className={styles['goBack']}>
                   <Icon type="left" />
                   <Link to={`/pm/PmBaseInfo`}>
                     返回
                   </Link>
-                </div>
+                </div> */}
                 <div className={styles['basicInfo']}>
-                  <div style={{overflow : "hidden",whiteSpace:"nowrap",textOverflow:"ellipsis"}}>{this.state.dataList.name}</div>
+                  {/* <div style={{overflow : "hidden",whiteSpace:"nowrap",textOverflow:"ellipsis"}}>{this.state.dataList.name}</div> */}
                   <div>
                     <span>项目开始日期：</span>
                     <DatePicker
-                      onChange={(_,dateString) => this.state.dataList.startDate = dateString}
+                      onChange={(_,dateString) => this.change('startDate',dateString)}
                       placeholder="请选择日期"
-                      defaultValue={this.state.dataList.startDate === null ? null : moment(this.state.dataList.startDate, 'YYYY-MM-DD')}
+                      value={this.state.dataList.startDate === null ? null : moment(this.state.dataList.startDate, 'YYYY-MM-DD')}
                     />
                   </div>
                   <div>
                     <span>计划结案日期：</span>
                     <DatePicker
-                      onChange={(_,dateString) => this.state.dataList.planFinishDate = dateString}
+                      onChange={(_,dateString) => this.change('planFinishDate',dateString)}
                       placeholder="请选择日期"
-                      defaultValue={this.state.dataList.planFinishDate === null ? null : moment(this.state.dataList.planFinishDate, 'YYYY-MM-DD')}/>
+                      value={this.state.dataList.planFinishDate === null ? null : moment(this.state.dataList.planFinishDate, 'YYYY-MM-DD')}/>
                   </div>
                   <div>
                     <span>实际结案日期：</span>
                     <DatePicker
-                      onChange={(_,dateString) => this.state.dataList.finalFinishDate = dateString}
+                      onChange={(_,dateString) => this.change('finalFinishDate',dateString)}
                       placeholder="请选择日期"
-                      defaultValue={this.state.dataList.finalFinishDate === null ? null : moment(this.state.dataList.finalFinishDate, 'YYYY-MM-DD')}/>
+                      value={this.state.dataList.finalFinishDate === null ? null : moment(this.state.dataList.finalFinishDate, 'YYYY-MM-DD')}/>
                   </div>
 
                 </div>
@@ -924,10 +921,11 @@ class PmBaseInfoEdit extends Component {
                   <div className="memberTitle">项目组成员</div>
                   {/* <div className="memberCtr" >管理成员</div> */}
                   <div>
-                    <div>主导人：<Select defaultValue={this.state.dataList.leader} mode="tags" style={{ width: '100%' }} placeholder="选择主导人" onChange={(value,_) => this.state.dataList.leader = value}>{this.state.employee}</Select></div>
-                    <div>UI设计：<Select defaultValue={this.state.dataList.designer} mode="tags" style={{ width: '100%' }} placeholder="选择UI设计" onChange={(value,_) => this.state.dataList.designer = value}>{this.state.employee}</Select></div>
-                    <div>开发人员：<Select defaultValue={this.state.dataList.developer} mode="tags" style={{ width: '100%' }} placeholder="选择开发人员" onChange={(value,_) => this.state.dataList.developer = value}>{this.state.employee}</Select></div>
-                    <div>实施：<Select defaultValue={this.state.dataList.implementer} mode="tags" style={{ width: '100%' }} placeholder="选择实施人员" onChange={(value,_) => this.state.dataList.implementer = value}>{this.state.employee}</Select></div>
+                    <div>主导人：<Select value={this.state.dataList.leader} mode="tags" style={{ width: '100%' }} placeholder="选择主导人" onChange={(value,_) => this.change('leader',value)}>{this.state.employee}</Select></div>
+                    <div>协助人：<Select value={this.state.dataList.assist} mode="tags" style={{ width: '100%' }} placeholder="选择协助人" onChange={(value,_) => this.change('assist',value)}>{this.state.employee}</Select></div>
+                    <div>UI设计：<Select value={this.state.dataList.designer} mode="tags" style={{ width: '100%' }} placeholder="选择UI设计" onChange={(value,_) => this.change('designer',value)}>{this.state.employee}</Select></div>
+                    <div>开发人员：<Select value={this.state.dataList.developer} mode="tags" style={{ width: '100%' }} placeholder="选择开发人员" onChange={(value,_) => this.change('developer',value)}>{this.state.employee}</Select></div>
+                    <div>实施：<Select value={this.state.dataList.implementer} mode="tags" style={{ width: '100%' }} placeholder="选择实施人员" onChange={(value,_) => this.change('implementer',value)}>{this.state.employee}</Select></div>
                   </div>
                 </div>
               </Col>
@@ -950,7 +948,7 @@ class PmBaseInfoEdit extends Component {
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={8}>
                           <span >档案编码：</span>
-                          <Input onChange={(event) => this.change('code',event)} placeholder='请输入提案编号（选填）' value={this.state.dataList.code} disabled={this.state.disable} onBlur={(event) => this.syncProjectInfo(event)}></Input>
+                          <Input onChange={(event) => this.change('code',event.target.value)} placeholder='请输入提案编号（选填）' value={this.state.dataList.code} disabled={this.state.disable} onBlur={(event) => this.syncProjectInfo(event)}></Input>
                         </Col>
                         <Col span={8}>
                           <span >项目类型：</span>
@@ -973,7 +971,7 @@ class PmBaseInfoEdit extends Component {
                         </Col>
                         <Col span={8}>
                           <span >系统名称：</span>
-                          <Input onChange={(event) => this.change('sysName',event)} value={this.state.dataList.sysName} ></Input>
+                          <Input onChange={(event) => this.change('sysName',event.target.value)} value={this.state.dataList.sysName} ></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
@@ -991,7 +989,7 @@ class PmBaseInfoEdit extends Component {
                         </Col>
                         <Col span={8}>
                           <span >项目名称：</span>
-                          <Input onChange={(event) => this.change('name',event)} value={this.state.dataList.name} ></Input>
+                          <Input onChange={(event) => this.change('name',event.target.value)} value={this.state.dataList.name} ></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
@@ -1001,14 +999,14 @@ class PmBaseInfoEdit extends Component {
                         </Col>
                         <Col span={8}>
                         <span >提案日期：</span>
-                          <DatePicker 
-                            onChange={(_,dateString) => this.state.dataList.submissionDate = dateString}
+                          <DatePicker
+                            onChange={(_,dateString) => this.change('submissionDate',dateString)}
                             placeholder="请选择日期"
-                            defaultValue={this.state.dataList.submissionDate === null || this.state.dataList.submissionDate === '' ? null : moment(this.state.dataList.submissionDate, 'YYYY-MM-DD')}
+                            value={this.state.dataList.submissionDate === null || this.state.dataList.submissionDate === '' ? null : moment(this.state.dataList.submissionDate, 'YYYY-MM-DD')}
                           />
-                          
-                          {/* <Input 
-                            onChange={(event) => this.change('submissionDate',event)} 
+
+                          {/* <Input
+                            onChange={(event) => this.change('submissionDate',event)}
                             defaultValue={this.state.dataList.submissionDate}
                           ></Input> */}
                         </Col>
@@ -1039,31 +1037,31 @@ class PmBaseInfoEdit extends Component {
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>现状描述：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('currentDescription',event)} value={this.state.dataList.currentDescription} ></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('currentDescription',event.target.value)} value={this.state.dataList.currentDescription} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>需求描述：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('requirementDescription',event)} value={this.state.dataList.requirementDescription} ></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('requirementDescription',event.target.value)} value={this.state.dataList.requirementDescription} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>改善效益：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('improveBenefits',event)} value={this.state.dataList.improveBenefits} ></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('improveBenefits',event.target.value)} value={this.state.dataList.improveBenefits} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>推广度：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('promotionDegree',event)} value={this.state.dataList.promotionDegree} ></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('promotionDegree',event.target.value)} value={this.state.dataList.promotionDegree} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>硬件要求：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('hardwareRequirement',event)} value={this.state.dataList.hardwareRequirement} ></TextArea>
+                          <TextArea className="rowStyle" onChange={(event) => this.change('hardwareRequirement',event.target.value)} value={this.state.dataList.hardwareRequirement} ></TextArea>
                         </Col>
                       </Row>
                     </Form>

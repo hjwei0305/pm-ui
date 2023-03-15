@@ -29,34 +29,35 @@ class FormModal extends PureComponent {
   };
 
   render() {
-    const { form, onClose, sync, visible } = this.props;
+    const { form, onClose, sync, visible, editData, disable } = this.props;
     const { getFieldDecorator } = form;
-    const title = '新增';
+    let title = editData.name;
+    let url = `http://localhost:8001/#/pm-ui/pm/PmBaseInfoEdit?disable=` + disable+ "&id=" + editData.id;
 
     return (
       <ExtModal
+        fullScreen={true}
         destroyOnClose
         onCancel={onClose}
         visible={visible}
         centered
         confirmLoading={sync}
         maskClosable={false}
-        title={title}
+        title={
+          [<div style={{fontSize:'20px'}}>{title}</div>]
+        }
         onOk={this.handleSync}
+        footer={null}
       >
-        <Form {...formItemLayout} layout="horizontal">
-          <FormItem label="项目编码">
-            {getFieldDecorator('newProjCode', {
-              initialValue: '',
-              rules: [
-                {
-                  required: true,
-                  message: '项目编码不能为空',
-                },
-              ],
-            })(<Input disabled={sync} />)}
-          </FormItem>
-        </Form>
+        <iframe
+            editData
+            title="doc-view"
+            scrolling="auto"
+            height="100%"
+            width="100%"
+            src={url}
+            frameBorder="0"
+        />
       </ExtModal>
     );
   }

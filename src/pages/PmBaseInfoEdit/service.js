@@ -18,6 +18,12 @@ const contextToDoPath = '/todoList';
 const ProjPlanPath = '/projectPlan';
 const pmOrganizePath = '/pmOrganize';
 
+/** 按id查找项目内容 */
+export async function findBaseInfoById(data) {
+  const url = `${PROJECT_PATH}${contextBaseInfoPath}/findByPage`;
+  return request.post(url, data);
+}
+
 export async function getProOpt() {
   const url = `${SERVER_PATH}/dms/dataDict/getCanUseDataDictValues?dictCode=ProcedureOption`;
   return request({
