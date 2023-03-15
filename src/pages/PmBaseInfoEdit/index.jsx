@@ -833,16 +833,33 @@ class PmBaseInfoEdit extends Component {
     }
   }
 
+  change = (name ,value) =>{
+    let target= Object.assign({}, this.state.dataList, {
+      [name]: value
+    })
+    this.setState({
+      dataList: target
+    })
+  }
+
   orgSelect = (item) => {
     this.state.dataList.orgname = item.name
     this.state.dataList.orgcode = item.code
     this.state.dataList.extorgname = item.extorgname
+    let target= Object.assign({}, this.state.dataList)
+    this.setState({
+      dataList: target
+    })
   }
 
   orgClear = () => {
     this.state.dataList.orgname = ''
     this.state.dataList.orgcode = ''
     this.state.dataList.extorgname = ''
+    let target= Object.assign({}, this.state.dataList)
+    this.setState({
+      dataList: target
+    })
   }
 
   onDateChange = data => {
@@ -915,7 +932,7 @@ class PmBaseInfoEdit extends Component {
                 </div>
                 <div className={styles['procedure']}>
                   <div className="procedureTitle">流程配置</div>
-                  <div><Select maxTagCount={6} defaultValue={this.state.dataList.proOpt} mode="tags" style={{ width: '100%' }} placeholder="选择项目流程" onChange={(value,_) => this.state.dataList.proOpt = value}>{this.state.proOptList}</Select></div>
+                  <div><Select maxTagCount={6} value={this.state.dataList.proOpt} mode="tags" style={{ width: '100%' }} placeholder="选择项目流程" onChange={(value,_) => this.change('proOpt',value)}>{this.state.proOptList}</Select></div>
                 </div>
                 <div className={styles['member']}>
                   <div className="memberTitle">项目组成员</div>
@@ -953,14 +970,14 @@ class PmBaseInfoEdit extends Component {
                         <Col span={8}>
                           <span >项目类型：</span>
                           <ComboList
-                            defaultValue={this.state.dataList.projectTypes}
+                            value={this.state.dataList.projectTypes}
                             dataSource={this.state.projTypeList}
                             showSearch={false}
                             pagination={false}
                             name="name"
                             field={['name']}
-                            afterClear={() => this.state.dataList.projectTypes = '' }
-                            afterSelect={item => this.state.dataList.projectTypes = item.code }
+                            afterClear={() => this.change('projectTypes','')}
+                            afterSelect={(item) => this.change('projectTypes',item.name)}
                             reader={{
                               name: 'name',
                               field: ['name'],
@@ -1014,7 +1031,7 @@ class PmBaseInfoEdit extends Component {
                           <span >科室名称：</span>
                           <ComboList
                             allowClear
-                            defaultValue={this.state.dataList.orgname}
+                            value={this.state.dataList.orgname}
                             dataSource={this.state.orgnameList}
                             showSearch={false}
                             pagination={false}
