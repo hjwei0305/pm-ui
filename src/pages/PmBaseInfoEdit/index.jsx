@@ -110,7 +110,7 @@ class PmBaseInfoEdit extends Component {
     }).then(res => {
       const { data } = res;
       for(let item of data){
-        if(item.nodeLevel === 3){
+        if(item.nodeLevel === 3 || item.name === '系统运维管理部'){
           this.state.orgnameList.push({code:item.code,name:item.name,extorgname:item.extorgname})
         }
       }
