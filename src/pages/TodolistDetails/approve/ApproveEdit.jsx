@@ -273,13 +273,13 @@ class ApproveDetail extends PureComponent {
                 wrapperCol={{span: 16}}
               >
                 <Row gutter={24}>
-                  <Col>
+                  {/* <Col>
                     <Button onClick={this.backBill} type="primary" style={{margin:"20px 0 0 20px"}}>
                       返回待办列表
                     </Button>
-                  </Col>
+                  </Col> */}
                   <Col>
-                    <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold",float:"left"}}>起草阶段</div>
+                    <div style={{marginLeft:"30px",fontSize:"18px",fontWeight:"bold",float:"left"}}>起草阶段</div>
                   </Col>
                 </Row>
                 <Row gutter={24}>
@@ -350,7 +350,7 @@ class ApproveDetail extends PureComponent {
                     </FormItem>
                   </Col>
                 </Row>
-                <div style={{margin:"30px",fontSize:"18px",fontWeight:"bold"}}>确认阶段</div>
+                <div style={{marginLeft:"30px",fontSize:"18px",fontWeight:"bold"}}>确认阶段</div>
                 <Row gutter={24}>
                   {/* <Col span={10}>
                     <FormItem label="确认人">

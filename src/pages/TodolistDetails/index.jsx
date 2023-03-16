@@ -7,6 +7,7 @@ import { message } from 'antd';
 import ExtAction from '@/components/ExtAction';
 import EditModal from './EditModal';
 import { constants, exportXlsx } from "@/utils";
+import BillEditModal from './BillEditModal';
 
 const { request } = utils;
 const { Option } = Select;
@@ -300,6 +301,17 @@ class TodolistDetails extends Component {
     });
   };
 
+  handleBillClose = () => {
+    this.dispatchAction({
+      type: 'todolistDetails/updateState',
+      payload: {
+        billModalVisible: false,
+        id: null,
+        editData: null,
+      },
+    });
+  };
+
   renderDelBtn = row => {
     const { loading } = this.props;
     const { delId } = this.state;
@@ -363,7 +375,7 @@ class TodolistDetails extends Component {
     ];
     return menusData.filter(a => a.canClick);
   };
-
+  
   toBill = recordItem => {
     // const { dispatch } = this.props;
     // dispatch({
@@ -396,7 +408,7 @@ class TodolistDetails extends Component {
         // this.pageJumpNext(recordItem);
         break;
       case 'checkBill':
-        this.toBill(recordItem)
+        this.openModal(recordItem)
           break;
       case 'del':
         break;
@@ -751,14 +763,40 @@ class TodolistDetails extends Component {
     };
   };
 
+  /** 查看表单 */
+  openModal = (row) =>{
+    this.dispatchAction({
+      type: 'todolistDetails/updateState',
+      payload: {
+        billModalVisible: true,
+        id: row.id,
+        editData: row,
+      },
+    });
+  }
+
+  getBillEditModalProps = () => {
+    const { loading, todolistDetails } = this.props;
+    const { billModalVisible, id, editData } = todolistDetails;
+
+    return {
+      id,
+      editData,
+      visible: billModalVisible,
+      onClose: this.handleBillClose,
+      sync: loading.effects['todolistDetails/updateState'],
+    };
+  };
+
   render() {
     const { todolistDetails } = this.props;
-    const { modalVisible } = todolistDetails;
+    const { modalVisible, billModalVisible } = todolistDetails;
 
     return (
       <>
         <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
         {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null}
+        {billModalVisible ? <BillEditModal {...this.getBillEditModalProps()} /> : null}
       </>
     );
   }

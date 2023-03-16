@@ -17,6 +17,8 @@ export default modelExtend(model, {
   state: {
     editData: null,
     modalVisible: false,
+    id: null,
+    billModalVisible: null,
   },
   effects: {
     *updateUsable({ payload }, { put }) {
