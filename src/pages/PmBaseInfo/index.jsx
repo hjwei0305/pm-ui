@@ -75,7 +75,25 @@ class PmBaseInfo extends Component {
       name: '项目结案',
     }]
   };
-
+  handlerChange=item=>{
+     this.setState({ projectMasterFilter: item })  
+    
+     const tableFilters = this.getTableFilters();
+     debugger;
+     request.post(`${PROJECT_PATH}/pmBaseInfo/getProjectInfo`, { filters: tableFilters }).then(res => {
+      const { success, data } = res;
+      if (success && data.length > 0) {
+        this.setState({
+          notStartedNum: data.notStartedNum,
+          processingNum: data.processingNum,
+          onLineNum: data.onLineNum,
+          advanceFinishNum: data.advanceFinishNum,
+          overTimeNum: data.overTimeNum,
+        })
+      }
+    
+    });
+  };
   onDateChange = data => {
     if(data){
       const date = data.format('YYYY-MM-DD');
@@ -467,7 +485,7 @@ class PmBaseInfo extends Component {
             }}
           />
           主导人：{' '}
-          <Input style={{width:"150px"}} onChange={(event) => this.setState({ projectMasterFilter: event.target.value })} allowClear></Input>
+          <Input style={{width:"150px"}} onChange={item=>this.handlerChange(item.target.value)} allowClear></Input>
           开始日期：<DatePicker onChange={item => this.onDateChange(item)} format="YYYY-MM-DD" />
           <Button
             key="add"
@@ -548,8 +566,11 @@ class PmBaseInfo extends Component {
         type: 'POST',
         url: `${PROJECT_PATH}/pmBaseinfo/findByPage`,
       },
+      
     };
+
   };
+
   handlerExport = () => {
     const tableFilters = this.getTableFilters();
     request.post(`${PROJECT_PATH}/pmBaseinfo/export`, { filters: tableFilters }).then(res => {
