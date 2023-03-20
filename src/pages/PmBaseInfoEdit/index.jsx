@@ -183,7 +183,7 @@ class PmBaseInfoEdit extends Component {
     projTypeList: [
       {
         name: 'KPI项目',
-        code: 6,
+        code: 0,
       },
       {
         name: '年度重点项目',
@@ -317,15 +317,17 @@ class PmBaseInfoEdit extends Component {
         }
       }
     }
-    if((this.state.orginData.startDate !== dataReplace.startDate) 
-    || (this.state.orginData.planFinishDate !== dataReplace.planFinishDate) ){
-      dataReplace.dateModified = true
-      let target = Object.assign({}, this.state.dataList, {
-        dateModified: true
-      })
-      this.setState({
-        dataList: target
-      })
+    if(this.state.orginData){
+      if((this.state.orginData.startDate !== dataReplace.startDate) 
+      || (this.state.orginData.planFinishDate !== dataReplace.planFinishDate) ){
+        dataReplace.dateModified = true
+        let target = Object.assign({}, this.state.dataList, {
+          dateModified: true
+        })
+        this.setState({
+          dataList: target
+        })
+      }
     }
     if(dataReplace.leader.length > 0 || dataReplace.assist.length > 0 || dataReplace.developer.length > 0
       || dataReplace.implementer.length > 0 || dataReplace.designer.length > 0){
@@ -361,10 +363,7 @@ class PmBaseInfoEdit extends Component {
       }).then(res =>{
         if(res.success){
           this.state.dataList.id = res.data.id
-        } else{
-          this.setState({
-            dataList: this.state.orginData
-          })
+          this.state.orginData = res.data
         }
       })
     }
