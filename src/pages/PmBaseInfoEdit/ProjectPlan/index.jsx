@@ -546,7 +546,7 @@ class ProjectPlan extends Component {
             //     key: 'projectPlan',
             //   },
             // ]}
-          />,
+          />
         </Space>
       ),
     };
@@ -597,7 +597,7 @@ class ProjectPlan extends Component {
                       }
                       disabled = {
                         (c.dataIndex === 'planStartDate' || c.dataIndex === 'planEndDate')
-                      && ((editRow && editRow[c.dataIndex] != null) || (r[c.dataIndex] != null))}
+                      && (r.id !== undefined  && (r[c.dataIndex] != ""))}
                     />
                   );
                 break;
