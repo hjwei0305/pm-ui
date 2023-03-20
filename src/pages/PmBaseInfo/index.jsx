@@ -33,6 +33,7 @@ class PmBaseInfo extends Component {
           processingNum: data.processingNum,
           sumNum: data.sumNum,
           advanceFinishNum: data.advanceFinishNum,
+          preOverTimeNum:data.preOverTimeNum,
           advanceDay:data.advanceDay,
           overTimeDay:data.overTimeDay,
           overTimeNum: data.overTimeNum,
@@ -61,6 +62,7 @@ static orgnameFilter=null;
     processingNum: 0,
     sumNum: 0,
     advanceFinishNum: 0,
+    preOverTimeNum:0,
     advanceDay:0,
     overTimeDay:0,
     overTimeNum: 0,
@@ -99,6 +101,7 @@ static orgnameFilter=null;
           processingNum: data.processingNum,
           sumNum: data.sumNum,
           advanceFinishNum: data.advanceFinishNum,
+          preOverTimeNum:data.preOverTimeNum,
           advanceDay:data.advanceDay,
           overTimeDay:data.overTimeDay,
           overTimeNum: data.overTimeNum,
@@ -127,6 +130,7 @@ static orgnameFilter=null;
           processingNum: data.processingNum,
           sumNum: data.sumNum,
           advanceFinishNum: data.advanceFinishNum,
+          preOverTimeNum:data.preOverTimeNum,
           advanceDay:data.advanceDay,
           overTimeDay:data.overTimeDay,
           overTimeNum: data.overTimeNum,
@@ -628,6 +632,7 @@ static orgnameFilter=null;
           processingNum: data.processingNum,
           sumNum: data.sumNum,
           advanceFinishNum: data.advanceFinishNum,
+          preOverTimeNum:data.preOverTimeNum,
           advanceDay:data.advanceDay,
           overTimeDay:data.overTimeDay,
           overTimeNum: data.overTimeNum,
@@ -737,12 +742,23 @@ static orgnameFilter=null;
                   </div>
                 </Col>
                 <Col className="col-content">
+                  <div className="item item-color1">
+                    <div className="item-img">
+                      <img src={logo1} width={80} height={80}></img>
+                      <div style={{padding:"0 20px"}}>
+                        <div className="item-text1">{this.state.preOverTimeNum}</div>
+                        <div className="item-text2">即将逾期项目</div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col className="col-content">
                   <div className="item item-color5">
                     <div className="item-img">
                       <img src={logo5} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.overTimeNum}</div>
-                        <div className="item-text2">逾期项目</div>
+                        <div className="item-text2">已经逾期项目</div>
                       </div>
                     </div>
                   </div>
