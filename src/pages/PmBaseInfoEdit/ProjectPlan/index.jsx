@@ -583,6 +583,7 @@ class ProjectPlan extends Component {
                   );
                 break;
                 case 'DATE_PICK':
+                  debugger
                   dom.a = (
                     <DatePicker
                       ref={node => (this.input = node)}
@@ -594,6 +595,9 @@ class ProjectPlan extends Component {
                         (editRow && editRow[c.dataIndex] && moment(editRow[c.dataIndex])) ||
                         (r[c.dataIndex] && moment(r[c.dataIndex]))
                       }
+                      disabled = {
+                        (c.dataIndex === 'planStartDate' || c.dataIndex === 'planEndDate')
+                      && ((editRow && editRow[c.dataIndex] != null) || (r[c.dataIndex] != null))}
                     />
                   );
                 break;
