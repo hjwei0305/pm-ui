@@ -597,7 +597,7 @@ class ProjectPlan extends Component {
                       }
                       disabled = {
                         (c.dataIndex === 'planStartDate' || c.dataIndex === 'planEndDate')
-                      && (r.id !== undefined  && (r[c.dataIndex] != ""))}
+                      && (r.id !== undefined && (r[c.dataIndex] != "") && (r[c.dataIndex] != null))}
                     />
                   );
                 break;
