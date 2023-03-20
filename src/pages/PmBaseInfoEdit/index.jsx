@@ -139,7 +139,8 @@ class PmBaseInfoEdit extends Component {
         infoData.implementer = (infoData.implementer == null || infoData.implementer === '') ? [] : infoData.implementer.split(',')
         infoData.proOpt = (infoData.proOpt == null || infoData.proOpt === '') ? [] : infoData.proOpt.split(',')
         this.setState({
-          dataList: infoData
+          dataList: infoData,
+          orginData: infoData
         })
       })
     }
@@ -219,6 +220,7 @@ class PmBaseInfoEdit extends Component {
         improveBenefits: '',
         promotionDegree: '',
         hardwareRequirement: '',
+        dateModified: false,
         leader: [],
         assist: [],
         designer: [],
@@ -315,6 +317,16 @@ class PmBaseInfoEdit extends Component {
         }
       }
     }
+    if((this.state.orginData.startDate !== dataReplace.startDate) 
+    || (this.state.orginData.planFinishDate !== dataReplace.planFinishDate) ){
+      dataReplace.dateModified = true
+      let target = Object.assign({}, this.state.dataList, {
+        dateModified: true
+      })
+      this.setState({
+        dataList: target
+      })
+    }
     if(dataReplace.leader.length > 0 || dataReplace.assist.length > 0 || dataReplace.developer.length > 0
       || dataReplace.implementer.length > 0 || dataReplace.designer.length > 0){
       let arr = dataReplace.leader.concat(dataReplace.developer)
@@ -349,6 +361,10 @@ class PmBaseInfoEdit extends Component {
       }).then(res =>{
         if(res.success){
           this.state.dataList.id = res.data.id
+        } else{
+          this.setState({
+            dataList: this.state.orginData
+          })
         }
       })
     }
@@ -719,16 +735,6 @@ class PmBaseInfoEdit extends Component {
     });
   }
 
-
-  change = (name ,value) =>{
-    let target= Object.assign({}, this.state.dataList, {
-      [name]: value
-    })
-    this.setState({
-      dataList: target
-    })
-  }
-
   callback = (key) => {
     if(key == 2){
       if(this.state.dataList.id != undefined){
@@ -834,9 +840,16 @@ class PmBaseInfoEdit extends Component {
   }
 
   change = (name ,value) =>{
-    let target= Object.assign({}, this.state.dataList, {
-      [name]: value
-    })
+    let target = [];
+    // 开始时间，计划完成时间只能修改一次
+    if(this.state.dataList.dateModified === true){
+      message.warning('亲，已修改1次，余额不足哦!')
+      return
+    } else{
+      target = Object.assign({}, this.state.dataList, {
+        [name]: value
+      })
+    }
     this.setState({
       dataList: target
     })
@@ -919,7 +932,7 @@ class PmBaseInfoEdit extends Component {
                     <DatePicker
                       onChange={(_,dateString) => this.change('planFinishDate',dateString)}
                       placeholder="请选择日期"
-                      value={this.state.dataList.planFinishDate === null ? null : moment(this.state.dataList.planFinishDate, 'YYYY-MM-DD')}/>
+                      value={this.state.dataList.planFinishDate === null ? null : moment(this.state.dataList.planFinishDate, 'YYYY-MM-DD')}/> 
                   </div>
                   <div>
                     <span>实际结案日期：</span>
