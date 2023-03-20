@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Input , DatePicker, Row, Col, Button,Tag,message  } from 'antd';
-import { ExtTable, ExtIcon, ComboList, Space,utils, SuidLocaleProvider } from 'suid';
+import { ExtTable, ExtIcon, ComboList, Space,utils } from 'suid';
 import { constants,exportXlsx } from '@/utils';
 import EditModal from './EditModal';
 
