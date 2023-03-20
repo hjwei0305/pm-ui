@@ -842,7 +842,7 @@ class PmBaseInfoEdit extends Component {
   change = (name ,value) =>{
     let target = [];
     // 开始时间，计划完成时间只能修改一次
-    if(this.state.dataList.dateModified === true){
+    if(this.state.dataList.dateModified === true && (name ==='startDate' || name === 'planFinishDate')){
       message.warning('亲，已修改1次，余额不足哦!')
       return
     } else{
