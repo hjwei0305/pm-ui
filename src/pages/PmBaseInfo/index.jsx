@@ -31,8 +31,10 @@ class PmBaseInfo extends Component {
         this.setState({
           notStartedNum: data.notStartedNum,
           processingNum: data.processingNum,
-          onLineNum: data.onLineNum,
+          sumNum: data.sumNum,
           advanceFinishNum: data.advanceFinishNum,
+          advanceDay:data.advanceDay,
+          overTimeDay:data.overTimeDay,
           overTimeNum: data.overTimeNum,
         })
       }
@@ -57,8 +59,10 @@ static orgnameFilter=null;
     orgnameList: [],
     notStartedNum: 0,
     processingNum: 0,
-    onLineNum: 0,
+    sumNum: 0,
     advanceFinishNum: 0,
+    advanceDay:0,
+    overTimeDay:0,
     overTimeNum: 0,
     delId: null,
     fliterCondition: null,
@@ -90,12 +94,13 @@ static orgnameFilter=null;
     }).then(res => {
       const { data } = res
       if(res.success){
-        debugger;
         this.setState({
           notStartedNum: data.notStartedNum,
           processingNum: data.processingNum,
-          onLineNum: data.onLineNum,
+          sumNum: data.sumNum,
           advanceFinishNum: data.advanceFinishNum,
+          advanceDay:data.advanceDay,
+          overTimeDay:data.overTimeDay,
           overTimeNum: data.overTimeNum,
         })
       }
@@ -120,8 +125,10 @@ static orgnameFilter=null;
         this.setState({
           notStartedNum: data.notStartedNum,
           processingNum: data.processingNum,
-          onLineNum: data.onLineNum,
+          sumNum: data.sumNum,
           advanceFinishNum: data.advanceFinishNum,
+          advanceDay:data.advanceDay,
+          overTimeDay:data.overTimeDay,
           overTimeNum: data.overTimeNum,
         })
       }
@@ -401,12 +408,12 @@ static orgnameFilter=null;
         width: 100,
         required: true,
       },
-      {
-        title: '当前进度%',
-        dataIndex: 'masterScheduleRate',
-        width: 100,
-        required: true,
-      },
+      // {
+      //   title: '当前进度%',
+      //   dataIndex: 'masterScheduleRate',
+      //   width: 100,
+      //   required: true,
+      // },
       {
         title: '开始日期',
         dataIndex: 'startDate',
@@ -619,8 +626,10 @@ static orgnameFilter=null;
         this.setState({
           notStartedNum: data.notStartedNum,
           processingNum: data.processingNum,
-          onLineNum: data.onLineNum,
+          sumNum: data.sumNum,
           advanceFinishNum: data.advanceFinishNum,
+          advanceDay:data.advanceDay,
+          overTimeDay:data.overTimeDay,
           overTimeNum: data.overTimeNum,
         })
       }
@@ -682,6 +691,17 @@ static orgnameFilter=null;
           <Row style={{height:"180px"}} className="row-content">
             <div style={{margin:"9px 12px",background:"white",height:"152px",borderRadius:"4px"}}>
               <div>
+              <Col className="col-content">
+                  <div className="item item-color3">
+                    <div className="item-img">
+                      <img src={logo3} width={80} height={80}></img>
+                      <div style={{padding:"0 20px"}}>
+                        <div className="item-text1">{this.state.sumNum}</div>
+                        <div className="item-text2">本年度项目数</div>
+                      </div>
+                    </div>
+                  </div>
+                  </Col>
                 <Col className="col-content">
                   <div className="item item-color1">
                     <div className="item-img">
@@ -704,24 +724,14 @@ static orgnameFilter=null;
                     </div>
                   </div>
                 </Col>
-                <Col className="col-content">
-                  <div className="item item-color3">
-                    <div className="item-img">
-                      <img src={logo3} width={80} height={80}></img>
-                      <div style={{padding:"0 20px"}}>
-                        <div className="item-text1">{this.state.onLineNum}</div>
-                        <div className="item-text2">本年度已上线项目</div>
-                      </div>
-                    </div>
-                  </div>
-                  </Col>
+                
                 <Col className="col-content">
                   <div className="item item-color4">
                     <div className="item-img">
                       <img src={logo4} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.advanceFinishNum}</div>
-                        <div className="item-text2">本年度提前完成项目</div>
+                        <div className="item-text2">提前完成项目</div>
                       </div>
                     </div>
                   </div>
@@ -732,7 +742,29 @@ static orgnameFilter=null;
                       <img src={logo5} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.overTimeNum}</div>
-                        <div className="item-text2">本年度逾期项目（含未完成）</div>
+                        <div className="item-text2">逾期项目</div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col className="col-content">
+                  <div className="item item-color5">
+                    <div className="item-img">
+                      <img src={logo5} width={80} height={80}></img>
+                      <div style={{padding:"0 20px"}}>
+                        <div className="item-text1">{this.state.advanceDay}</div>
+                        <div className="item-text2">项目提前天数</div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col className="col-content">
+                  <div className="item item-color5">
+                    <div className="item-img">
+                      <img src={logo5} width={80} height={80}></img>
+                      <div style={{padding:"0 20px"}}>
+                        <div className="item-text1">{this.state.overTimeDay}</div>
+                        <div className="item-text2">项目延后天数</div>
                       </div>
                     </div>
                   </div>
