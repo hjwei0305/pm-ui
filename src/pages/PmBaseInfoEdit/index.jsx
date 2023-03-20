@@ -317,15 +317,17 @@ class PmBaseInfoEdit extends Component {
         }
       }
     }
-    if((this.state.orginData.startDate !== dataReplace.startDate) 
-    || (this.state.orginData.planFinishDate !== dataReplace.planFinishDate) ){
-      dataReplace.dateModified = true
-      let target = Object.assign({}, this.state.dataList, {
-        dateModified: true
-      })
-      this.setState({
-        dataList: target
-      })
+    if(this.state.orginData){
+      if((this.state.orginData.startDate !== dataReplace.startDate) 
+      || (this.state.orginData.planFinishDate !== dataReplace.planFinishDate) ){
+        dataReplace.dateModified = true
+        let target = Object.assign({}, this.state.dataList, {
+          dateModified: true
+        })
+        this.setState({
+          dataList: target
+        })
+      }
     }
     if(dataReplace.leader.length > 0 || dataReplace.assist.length > 0 || dataReplace.developer.length > 0
       || dataReplace.implementer.length > 0 || dataReplace.designer.length > 0){
@@ -361,10 +363,13 @@ class PmBaseInfoEdit extends Component {
       }).then(res =>{
         if(res.success){
           this.state.dataList.id = res.data.id
+          this.state.orginData = res.data
         } else{
-          this.setState({
-            dataList: this.state.orginData
-          })
+          if(this.state.orginData){
+            this.setState({
+              dataList: this.state.orginData
+            })
+          }          
         }
       })
     }
