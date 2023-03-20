@@ -183,7 +183,7 @@ class PmBaseInfoEdit extends Component {
     projTypeList: [
       {
         name: 'KPI项目',
-        code: 6,
+        code: 0,
       },
       {
         name: '年度重点项目',
@@ -364,12 +364,6 @@ class PmBaseInfoEdit extends Component {
         if(res.success){
           this.state.dataList.id = res.data.id
           this.state.orginData = res.data
-        } else{
-          if(this.state.orginData){
-            this.setState({
-              dataList: this.state.orginData
-            })
-          }          
         }
       })
     }
