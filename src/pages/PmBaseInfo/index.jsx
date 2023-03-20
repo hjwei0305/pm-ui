@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Input , DatePicker, Row, Col, Button,Tag,message  } from 'antd';
-import { ExtTable, ExtIcon, ComboList, Space,utils } from 'suid';
+import { ExtTable, ExtIcon, ComboList, Space,utils, SuidLocaleProvider } from 'suid';
 import { constants,exportXlsx } from '@/utils';
 import EditModal from './EditModal';
 
@@ -51,7 +51,8 @@ class PmBaseInfo extends Component {
     })
 
   }
-
+static  projectMasterFilter=null;
+static orgnameFilter=null;
   state = {
     orgnameList: [],
     notStartedNum: 0,
@@ -62,9 +63,9 @@ class PmBaseInfo extends Component {
     delId: null,
     fliterCondition: null,
     nameFilter: null,
-    orgnameFilter: null,
+   // orgnameFilter: null,
     currentPeriodFilter: null,
-    projectMasterFilter: null,
+   // projectMasterFilter: null,
     dateFilter:null,
     status:[{
       code: 0,
@@ -75,14 +76,21 @@ class PmBaseInfo extends Component {
       name: '项目结案',
     }]
   };
-  handlerChange=item=>{
-     this.setState({ projectMasterFilter: item })  
-    
-     const tableFilters = this.getTableFilters();
-     debugger;
-     request.post(`${PROJECT_PATH}/pmBaseInfo/getProjectInfo`, { filters: tableFilters }).then(res => {
-      const { success, data } = res;
-      if (success && data.length > 0) {
+  //组织变更
+    orgChange=item=>{
+    this.orgnameFilter=item;
+    const tableFilters = this.getTableFilters();
+    const { dispatch } = this.props;
+    debugger;
+    dispatch({
+      type: 'pmBaseInfo/getProjectInfo',
+      payload:{
+        filters: tableFilters
+      }
+    }).then(res => {
+      const { data } = res
+      if(res.success){
+        debugger;
         this.setState({
           notStartedNum: data.notStartedNum,
           processingNum: data.processingNum,
@@ -91,8 +99,33 @@ class PmBaseInfo extends Component {
           overTimeNum: data.overTimeNum,
         })
       }
-    
-    });
+    })
+  };
+  //主导人变更
+  leaderChange=item=>{
+    debugger;
+   // this.setState({ projectMasterFilter: item })  ;
+   this.projectMasterFilter=item;
+    const tableFilters = this.getTableFilters();
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'pmBaseInfo/getProjectInfo',
+      payload:{
+        filters: tableFilters
+      }
+    }).then(res => {
+      const { data } = res
+      if(res.success){
+        debugger;
+        this.setState({
+          notStartedNum: data.notStartedNum,
+          processingNum: data.processingNum,
+          onLineNum: data.onLineNum,
+          advanceFinishNum: data.advanceFinishNum,
+          overTimeNum: data.overTimeNum,
+        })
+      }
+    })
   };
   onDateChange = data => {
     if(data){
@@ -123,7 +156,8 @@ class PmBaseInfo extends Component {
   };
 
   getTableFilters = () => {
-    const { nameFilter, currentPeriodFilter, projectMasterFilter, dateFilter, orgnameFilter } = this.state;
+    const { nameFilter, currentPeriodFilter, dateFilter } = this.state;
+   // const{projectMasterFilter}=this.projectMasterFilter;
     const filters = [];
     if (nameFilter !== null) {
       filters.push({
@@ -150,20 +184,20 @@ class PmBaseInfo extends Component {
         });
       }
     }
-    if (orgnameFilter) {
+    if (this.orgnameFilter) {
       filters.push({
         fieldName: 'orgname',
         operator: 'LK',
         fieldType: 'string',
-        value: orgnameFilter,
+        value: this.orgnameFilter,
       });
     }
-    if (projectMasterFilter) {
+    if (this.projectMasterFilter) {
       filters.push({
         fieldName: 'leader',
         operator: 'LK',
         fieldType: 'string',
-        value: projectMasterFilter,
+        value: this.projectMasterFilter,
       });
     }
     if (dateFilter) {
@@ -477,16 +511,17 @@ class PmBaseInfo extends Component {
             allowClear
             name="name"
             field={['name']}
-            afterClear={() => this.setState({ orgnameFilter: null })}
-            afterSelect={item => this.setState({ orgnameFilter: item.name })}
+            afterClear={item => this.orgChange(item.name)}
+            afterSelect={item => this.orgChange(item.name)}
             reader={{
               name: 'name',
               field: ['name'],
             }}
           />
           主导人：{' '}
-          <Input style={{width:"150px"}} onChange={item=>this.handlerChange(item.target.value)} allowClear></Input>
+          <Input style={{width:"150px"}} onPressEnter={item=>this.leaderChange(item.target.value)} allowClear></Input>
           开始日期：<DatePicker onChange={item => this.onDateChange(item)} format="YYYY-MM-DD" />
+          <Button onClick={this.handlerSearch}>搜索</Button>
           <Button
             key="add"
             type="primary"
@@ -570,7 +605,28 @@ class PmBaseInfo extends Component {
     };
 
   };
+  handlerSearch = () => {
+    const tableFilters = this.getTableFilters();
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'pmBaseInfo/getProjectInfo',
+      payload:{
+        filters: tableFilters
+      }
+    }).then(res => {
+      const { data } = res
+      if(res.success){
+        this.setState({
+          notStartedNum: data.notStartedNum,
+          processingNum: data.processingNum,
+          onLineNum: data.onLineNum,
+          advanceFinishNum: data.advanceFinishNum,
+          overTimeNum: data.overTimeNum,
+        })
+      }
+    })
 
+  }
   handlerExport = () => {
     const tableFilters = this.getTableFilters();
     request.post(`${PROJECT_PATH}/pmBaseinfo/export`, { filters: tableFilters }).then(res => {
