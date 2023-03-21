@@ -33,6 +33,7 @@ class PmBaseInfo extends Component {
           processingNum: data.processingNum,
           sumNum: data.sumNum,
           advanceFinishNum: data.advanceFinishNum,
+          preOverTimeNum:data.preOverTimeNum,
           advanceDay:data.advanceDay,
           overTimeDay:data.overTimeDay,
           overTimeNum: data.overTimeNum,
@@ -61,6 +62,7 @@ static orgnameFilter=null;
     processingNum: 0,
     sumNum: 0,
     advanceFinishNum: 0,
+    preOverTimeNum:0,
     advanceDay:0,
     overTimeDay:0,
     overTimeNum: 0,
@@ -81,59 +83,60 @@ static orgnameFilter=null;
     }]
   };
   //组织变更
-    orgChange=item=>{
-    this.orgnameFilter=item;
-    const tableFilters = this.getTableFilters();
-    const { dispatch } = this.props;
-    debugger;
-    dispatch({
-      type: 'pmBaseInfo/getProjectInfo',
-      payload:{
-        filters: tableFilters
-      }
-    }).then(res => {
-      const { data } = res
-      if(res.success){
-        this.setState({
-          notStartedNum: data.notStartedNum,
-          processingNum: data.processingNum,
-          sumNum: data.sumNum,
-          advanceFinishNum: data.advanceFinishNum,
-          advanceDay:data.advanceDay,
-          overTimeDay:data.overTimeDay,
-          overTimeNum: data.overTimeNum,
-        })
-      }
-    })
-  };
+    //orgChange=item=>{
+   // this.orgnameFilter=item;
+    // const tableFilters = this.getTableFilters();
+    // const { dispatch } = this.props;
+    // debugger;
+    // dispatch({
+    //   type: 'pmBaseInfo/getProjectInfo',
+    //   payload:{
+    //     filters: tableFilters
+    //   }
+    // }).then(res => {
+    //   const { data } = res
+    //   if(res.success){
+    //     this.setState({
+    //       notStartedNum: data.notStartedNum,
+    //       processingNum: data.processingNum,
+    //       sumNum: data.sumNum,
+    //       advanceFinishNum: data.advanceFinishNum,
+    //       preOverTimeNum:data.preOverTimeNum,
+    //       advanceDay:data.advanceDay,
+    //       overTimeDay:data.overTimeDay,
+    //       overTimeNum: data.overTimeNum,
+    //     })
+    //   }
+    // })
+ // };
   //主导人变更
-  leaderChange=item=>{
-    debugger;
+  //leaderChange=item=>{
    // this.setState({ projectMasterFilter: item })  ;
-   this.projectMasterFilter=item;
-    const tableFilters = this.getTableFilters();
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'pmBaseInfo/getProjectInfo',
-      payload:{
-        filters: tableFilters
-      }
-    }).then(res => {
-      const { data } = res
-      if(res.success){
-        debugger;
-        this.setState({
-          notStartedNum: data.notStartedNum,
-          processingNum: data.processingNum,
-          sumNum: data.sumNum,
-          advanceFinishNum: data.advanceFinishNum,
-          advanceDay:data.advanceDay,
-          overTimeDay:data.overTimeDay,
-          overTimeNum: data.overTimeNum,
-        })
-      }
-    })
-  };
+  // this.projectMasterFilter=item;
+    // const tableFilters = this.getTableFilters();
+    // const { dispatch } = this.props;
+    // dispatch({
+    //   type: 'pmBaseInfo/getProjectInfo',
+    //   payload:{
+    //     filters: tableFilters
+    //   }
+    // }).then(res => {
+    //   const { data } = res
+    //   if(res.success){
+    //     debugger;
+    //     this.setState({
+    //       notStartedNum: data.notStartedNum,
+    //       processingNum: data.processingNum,
+    //       sumNum: data.sumNum,
+    //       advanceFinishNum: data.advanceFinishNum,
+    //       preOverTimeNum:data.preOverTimeNum,
+    //       advanceDay:data.advanceDay,
+    //       overTimeDay:data.overTimeDay,
+    //       overTimeNum: data.overTimeNum,
+    //     })
+    //   }
+    // })
+ // };
   onDateChange = data => {
     if(data){
       const date = data.format('YYYY-MM-DD');
@@ -518,15 +521,15 @@ static orgnameFilter=null;
             allowClear
             name="name"
             field={['name']}
-            afterClear={item => this.orgChange(item.name)}
-            afterSelect={item => this.orgChange(item.name)}
+            afterClear={item => this.orgnameFilter=null}
+            afterSelect={item => this.orgnameFilter=item.name}
             reader={{
               name: 'name',
               field: ['name'],
             }}
           />
           主导人：{' '}
-          <Input style={{width:"150px"}} onPressEnter={item=>this.leaderChange(item.target.value)} allowClear></Input>
+          <Input style={{width:"150px"}} onChange={item=>this.projectMasterFilter=item.target.value} allowClear></Input>
           开始日期：<DatePicker onChange={item => this.onDateChange(item)} format="YYYY-MM-DD" />
           <Button onClick={this.handlerSearch}>搜索</Button>
           <Button
@@ -628,6 +631,7 @@ static orgnameFilter=null;
           processingNum: data.processingNum,
           sumNum: data.sumNum,
           advanceFinishNum: data.advanceFinishNum,
+          preOverTimeNum:data.preOverTimeNum,
           advanceDay:data.advanceDay,
           overTimeDay:data.overTimeDay,
           overTimeNum: data.overTimeNum,
@@ -737,12 +741,23 @@ static orgnameFilter=null;
                   </div>
                 </Col>
                 <Col className="col-content">
+                  <div className="item item-color1">
+                    <div className="item-img">
+                      <img src={logo1} width={80} height={80}></img>
+                      <div style={{padding:"0 20px"}}>
+                        <div className="item-text1">{this.state.preOverTimeNum}</div>
+                        <div className="item-text2">即将逾期项目</div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col className="col-content">
                   <div className="item item-color5">
                     <div className="item-img">
                       <img src={logo5} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.overTimeNum}</div>
-                        <div className="item-text2">逾期项目</div>
+                        <div className="item-text2">已经逾期项目</div>
                       </div>
                     </div>
                   </div>
