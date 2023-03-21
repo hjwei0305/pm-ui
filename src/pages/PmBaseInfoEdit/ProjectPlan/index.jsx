@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button, InputNumber, Input, DatePicker, Radio, Form, Select, message  } from 'antd';
-import { ExtTable, ExtIcon, Space, ComboList,ProLayout, DataImport } from 'suid';
+import { ExtTable, ExtIcon, Space, ComboList,ProLayout, DataImport, utils } from 'suid';
 import moment from 'moment';
-// import { constants } from '@/utils';
-//
-// const { PROJECT_PATH } = constants;
+import { constants,exportXlsx } from '@/utils';
 
+const { PROJECT_PATH } = constants;
+const { request } = utils;
 const { Header ,Content } = ProLayout;
 
 @Form.create()
@@ -247,10 +247,6 @@ class ProjectPlan extends Component {
     }
   };
 
-  // handleExport = () => {
-  //   this.tableRef.extTool.exportData();
-  // };
-
   init = () => {
     const tempColumn = this.state.columns1;
     for (const item of tempColumn) {
@@ -419,6 +415,38 @@ class ProjectPlan extends Component {
           statusCode: 'failed',
           message: '序号不能为空',
         };
+      } else if ( d.schedureStatus === undefined ) {
+        return {
+          ...d,
+          validate: false,
+          status: '验证未通过',
+          statusCode: 'failed',
+          message: '状态不能为空',
+        };
+      }else if (d.schedureStatus !== ('未开始' || '完成' || '进行中') ) {
+        return {
+          ...d,
+          validate: false,
+          status: '验证未通过',
+          statusCode: 'failed',
+          message: '状态需等于未开始/完成/进行中',
+        };
+      } else if ( d.workOnduty === undefined) {
+        return {
+          ...d,
+          validate: false,
+          status: '验证未通过',
+          statusCode: 'failed',
+          message: '责任人不能为空',
+        };
+      }else if ( d.schedureDays === undefined) {
+        return {
+          ...d,
+          validate: false,
+          status: '验证未通过',
+          statusCode: 'failed',
+          message: '实际天数不能为空',
+        };
       }
       return {
         ...d,
@@ -457,6 +485,61 @@ class ProjectPlan extends Component {
       }
     });
   }
+
+  handleExport = () => {
+    const { id } = this.props;
+    const filters = [
+      {
+        fieldName: 'planType',
+        operator: 'EQ',
+        fieldType: 'string',
+        value: this.state.planType,
+      },{
+        fieldName: 'projectId',
+        operator: 'EQ',
+        fieldType: 'string',
+        value: id,
+      }
+    ];
+    let title = '主计划'
+    switch(this.state.planType){
+      case "0": title = '主计划'
+      break
+      case "1": title = '后端开发计划'
+      break
+      case "2": title = '前端开发计划'
+      break
+      case "3": title = '实施计划'
+      break
+    }
+    request.post(`${PROJECT_PATH}/projectPlan/export`, { filters }).then(res => {
+      const { success, data } = res;
+      if (success && data.length > 0) {
+        exportXlsx(
+          title,
+          [
+            '序号',
+            '任务类型',
+            '主要任务/关键步骤',
+            '计划开始日期',
+            '计划结束日期',
+            '实际开始日期',
+            '实际结束日期',
+            '计划结案日期',
+            '实际结案日期',
+            '实际天数',
+            '开发状态',
+            '负责人',
+            '协助人',
+            '备注',
+          ],
+          data,
+        );
+      } else {
+        message.error('没找到数据');
+      }
+    });
+  };
 
   getExtableProps = () => {
     const excelColumns = [
@@ -532,8 +615,7 @@ class ProjectPlan extends Component {
             </Button>
           <Button onClick={this.refresh}>刷新</Button>
           <Button onClick={() => this.downLoadTemplate('项目计划导入')}>模板</Button>
-          {/* <Button onClick={() => this.tableRef.extTool.exportData()}>导出</Button> */}
-          {/* <Button onClick={this.handleExport}>导出</Button> */}
+          <Button type="primary" onClick={this.handleExport}>导出</Button>
           <DataImport
             tableProps={{ excelColumns, showSearch: false }}
             validateFunc={this.validateItem}
