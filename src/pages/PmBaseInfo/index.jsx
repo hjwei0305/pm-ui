@@ -490,6 +490,30 @@ static orgnameFilter=null;
         required: true,
       },
       {
+        title: '是否提前',
+        dataIndex: 'isAdvance',
+        width: 100,
+        required: true,
+        render:
+            tag => {
+              let color = tag===true ? 'blue' : 'red';
+              let value=tag===true ? '是' : '否';
+              return (
+                <span>
+                <Tag color={color}>
+                  {value}
+                </Tag>
+                </span>
+              );
+            }
+      },
+      {
+        title: '提前天数',
+        dataIndex: 'advanceDays',
+        width: 100,
+        required: true,
+      },
+      {
         title: '备注',
         dataIndex: 'remark',
         width: 100,
@@ -635,7 +659,7 @@ static orgnameFilter=null;
         type: 'POST',
         url: `${PROJECT_PATH}/pmBaseinfo/findByPage`,
       },
-      
+
     };
 
   };
@@ -752,7 +776,7 @@ static orgnameFilter=null;
                     </div>
                   </div>
                 </Col>
-                
+
                 <Col className="col-content">
                   <div className="item item-color4">
                     <div className="item-img">
