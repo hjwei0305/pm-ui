@@ -749,7 +749,7 @@ static orgnameFilter=null;
                       <img src={logo3} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.sumNum}</div>
-                        <div className="item-text2">本年度项目数</div>
+                        <div className="item-text2">项目总数</div>
                       </div>
                     </div>
                   </div>
@@ -760,7 +760,7 @@ static orgnameFilter=null;
                       <img src={logo1} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.notStartedNum}</div>
-                        <div className="item-text2">未开始项目</div>
+                        <div className="item-text2">未开始</div>
                       </div>
                     </div>
                   </div>
@@ -771,7 +771,7 @@ static orgnameFilter=null;
                       <img src={logo2} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.processingNum}</div>
-                        <div className="item-text2">进行中项目</div>
+                        <div className="item-text2">进行中</div>
                       </div>
                     </div>
                   </div>
@@ -783,7 +783,7 @@ static orgnameFilter=null;
                       <img src={logo4} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.advanceFinishNum}</div>
-                        <div className="item-text2">提前完成项目</div>
+                        <div className="item-text2">已完成</div>
                       </div>
                     </div>
                   </div>
@@ -794,7 +794,7 @@ static orgnameFilter=null;
                       <img src={logo1} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.preOverTimeNum}</div>
-                        <div className="item-text2">即将逾期项目</div>
+                        <div className="item-text2">预逾期</div>
                       </div>
                     </div>
                   </div>
@@ -805,7 +805,7 @@ static orgnameFilter=null;
                       <img src={logo5} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.overTimeNum}</div>
-                        <div className="item-text2">已经逾期项目</div>
+                        <div className="item-text2">已逾期</div>
                       </div>
                     </div>
                   </div>
@@ -816,7 +816,7 @@ static orgnameFilter=null;
                       <img src={logo5} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.advanceDay}</div>
-                        <div className="item-text2">项目提前天数</div>
+                        <div className="item-text2">提前天数</div>
                       </div>
                     </div>
                   </div>
@@ -827,7 +827,7 @@ static orgnameFilter=null;
                       <img src={logo5} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.overTimeDay}</div>
-                        <div className="item-text2">项目延后天数</div>
+                        <div className="item-text2">延后天数</div>
                       </div>
                     </div>
                   </div>
