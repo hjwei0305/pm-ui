@@ -423,7 +423,7 @@ class ProjectPlan extends Component {
           statusCode: 'failed',
           message: '状态不能为空',
         };
-      }else if (d.schedureStatus !== ('未开始' || '完成' || '进行中') ) {
+      }else if (d.schedureStatus !== '未开始' && d.schedureStatus !== '完成' && d.schedureStatus !== '进行中')  {
         return {
           ...d,
           validate: false,

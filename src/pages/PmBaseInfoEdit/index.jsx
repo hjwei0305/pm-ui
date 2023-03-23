@@ -10,6 +10,7 @@ import ProjectPlan from './ProjectPlan'
 import ProjectSchedule from './ProjectSchedule'
 import PmLog from './PmLog';
 import moment from 'moment';
+import DoubleWeekPlan from './DoubleWeekPlan'
 
 const { Option } = Select;
 const { PROJECT_PATH, SERVER_PATH } = constants;
@@ -250,6 +251,9 @@ class PmBaseInfoEdit extends Component {
         orgname: '',
         orgcode: '',
         extorgname: '',
+        weekPlan: null,
+        nextWeekPlan: null,
+        workRisk: null,
       }
   };
 
@@ -308,7 +312,13 @@ class PmBaseInfoEdit extends Component {
     }
   };
 
-  handleSave = data => {
+  handleSave = (data, option) => {
+    if(option === 'week'){
+      data.weekPlanUpdate = moment(new Date()).format('YYYY-MM-DD')
+      this.setState({
+        dataList: Object.assign({},data)
+      })
+    }
     var dataReplace = Object.assign({},data)
     if(typeof(dataReplace.projectTypes) == "string"){
       for(let item of this.state.projTypeList){
@@ -1110,6 +1120,16 @@ class PmBaseInfoEdit extends Component {
                   </TabPane>
                   <TabPane tab="操作日志" key="6">
                     <PmLog id={this.state.dataList.id}></PmLog>
+                  </TabPane>
+                  <TabPane tab="双周计划" key="7">
+                    <DoubleWeekPlan 
+                      dataList={this.state.dataList}
+                      id={this.state.dataList.id} 
+                      weekPlan={this.state.dataList.weekPlan}
+                      nextWeekPlan={this.state.dataList.nextWeekPlan}
+                      workRisk={this.state.dataList.workRisk}
+                      onSave={this.handleSave}
+                    ></DoubleWeekPlan>
                   </TabPane>
                 </Tabs>
               </div>
