@@ -426,19 +426,43 @@ static orgnameFilter=null;
       {
         title: '计划结案日期',
         dataIndex: 'planFinishDate',
-        width: 100,
+        width: 120,
         required: true,
       },
       {
         title: '实际结案日期',
         dataIndex: 'finalFinishDate',
-        width: 100,
+        width: 120,
         required: true,
       },
       {
         title: '项目天数',
         dataIndex: 'projectDays',
         width: 100,
+        required: true,
+      },
+      {
+        title: '本周计划',
+        dataIndex: 'weekPlan',
+        width: 250,
+        required: true,
+      },
+      {
+        title: '下周计划',
+        dataIndex: 'nextWeekPlan',
+        width: 250,
+        required: true,
+      },
+      {
+        title: '项目风险',
+        dataIndex: 'workRisk',
+        width: 100,
+        required: true,
+      },
+      {
+        title: '周计划更新时间',
+        dataIndex: 'weekPlanUpdate',
+        width: 120,
         required: true,
       },
       {
