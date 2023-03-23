@@ -313,6 +313,7 @@ class PmBaseInfoEdit extends Component {
   };
 
   handleSave = (data, option) => {
+    data.remark = null
     if(option === 'week'){
       data.weekPlanUpdate = moment(new Date()).format('YYYY-MM-DD')
       this.setState({
