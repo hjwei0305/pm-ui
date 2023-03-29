@@ -511,6 +511,8 @@ class ProjectPlan extends Component {
       break
       case "3": title = '实施计划'
       break
+      case "4": title = 'UI计划'
+      break
     }
     request.post(`${PROJECT_PATH}/projectPlan/export`, { filters }).then(res => {
       const { success, data } = res;
@@ -881,6 +883,7 @@ class ProjectPlan extends Component {
                 <Radio.Button value="1">后端开发计划</Radio.Button>
                 <Radio.Button value="2">前端开发计划</Radio.Button>
                 <Radio.Button value="3">实施计划</Radio.Button>
+                <Radio.Button value="4">UI计划</Radio.Button>
               </Radio.Group>
             </div>
           </Header>
