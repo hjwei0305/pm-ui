@@ -461,7 +461,7 @@ class TodolistDetails extends Component {
       {
         title: '待办事项',
         dataIndex: 'todoList',
-        width: 350,
+        width: 550,
         required: true,
       },
       {
@@ -477,20 +477,14 @@ class TodolistDetails extends Component {
         required: true,
       },
       {
-        title: '协助人',
-        dataIndex: 'assistName',
-        width: 100,
-        required: true,
-      },
-      {
-        title: '协助人科室',
-        dataIndex: 'assistOrgname',
-        width: 100,
-        required: true,
-      },
-      {
         title: '要求完成日期',
         dataIndex: 'completionDate',
+        required: true,
+      },
+      {
+        title: '结案状态',
+        dataIndex: 'closingStatus',
+        width: 100,
         required: true,
       },
       {
@@ -502,7 +496,7 @@ class TodolistDetails extends Component {
       {
         title: '最新进度说明',
         dataIndex: 'newestProgress',
-        width: 150,
+        width: 550,
         required: true,
       },
       {
@@ -512,7 +506,7 @@ class TodolistDetails extends Component {
         required: true,
       },
       {
-        title: '完成比率（%）',
+        title: '完成比率',
         dataIndex: 'completion',
         width: 100,
         required: true,
@@ -526,12 +520,6 @@ class TodolistDetails extends Component {
       {
         title: '验证时间',
         dataIndex: 'confirmationTime',
-        required: true,
-      },
-      {
-        title: '结案状态',
-        dataIndex: 'closingStatus',
-        width: 100,
         required: true,
       },
       {
@@ -582,6 +570,18 @@ class TodolistDetails extends Component {
       {
         title: '起草人',
         dataIndex: 'submitName',
+        width: 100,
+        required: true,
+      },
+      {
+        title: '协助人',
+        dataIndex: 'assistName',
+        width: 100,
+        required: true,
+      },
+      {
+        title: '协助人科室',
+        dataIndex: 'assistOrgname',
         width: 100,
         required: true,
       },
@@ -707,26 +707,25 @@ class TodolistDetails extends Component {
         exportXlsx(
           '待办清单明细',
           [
-            '提出人',
-            '提出日期',
-            '起草人',
             '待办事项',
             '责任人',
             '科室',
-            '协助人',
-            '协助人科室',
             '要求完成日期',
-            '确认人',
+            '结案状态',
             '最新确认时间',
             '最新进度说明',
             '建议状态',
-            '当前完成比率（%）',
+            '完成比率',
             '验证人',
             '验证时间',
-            '结案状态',
             '逾期天数',
             '单据状态',
             '备注',
+            '提出人',
+            '提出日期',
+            '起草人',
+            '协助人',
+            '协助人科室',
           ],
           data,
         );

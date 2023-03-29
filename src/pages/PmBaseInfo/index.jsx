@@ -56,6 +56,7 @@ class PmBaseInfo extends Component {
   }
 static  projectMasterFilter=null;
 static orgnameFilter=null;
+static projTypeFilter = null;
   state = {
     orgnameList: [],
     notStartedNum: 0,
@@ -73,6 +74,19 @@ static orgnameFilter=null;
     currentPeriodFilter: null,
    // projectMasterFilter: null,
     dateFilter:null,
+    projTypeList: [
+      {
+        name: 'KPI项目',
+        code: 0,
+      },
+      {
+        name: '年度重点项目',
+        code: 1,
+      },{
+        name: '其他项目',
+        code: 2,
+      },
+    ],
     status:[{
       code: 0,
       name: '未结案',
@@ -200,6 +214,14 @@ static orgnameFilter=null;
         operator: 'LK',
         fieldType: 'string',
         value: this.orgnameFilter,
+      });
+    }
+    if (this.projTypeFilter != null) {
+      filters.push({
+        fieldName: 'projectTypes',
+        operator: 'EQ',
+        fieldType: 'string',
+        value: this.projTypeFilter,
       });
     }
     if (this.projectMasterFilter) {
@@ -400,12 +422,6 @@ static orgnameFilter=null;
         required: true,
       },
       {
-        title: '当前阶段',
-        dataIndex: 'currentPeriod',
-        width: 100,
-        required: true,
-      },
-      {
         title: '主导人',
         dataIndex: 'leader',
         width: 100,
@@ -430,27 +446,15 @@ static orgnameFilter=null;
         required: true,
       },
       {
-        title: '实际结案日期',
-        dataIndex: 'finalFinishDate',
-        width: 120,
-        required: true,
-      },
-      {
-        title: '项目天数',
-        dataIndex: 'projectDays',
-        width: 100,
-        required: true,
-      },
-      {
         title: '本周计划',
         dataIndex: 'weekPlan',
-        width: 250,
+        width: 400,
         required: true,
       },
       {
         title: '下周计划',
         dataIndex: 'nextWeekPlan',
-        width: 250,
+        width: 400,
         required: true,
       },
       {
@@ -537,6 +541,24 @@ static orgnameFilter=null;
         width: 200,
         required: true,
       },
+      {
+        title: '当前阶段',
+        dataIndex: 'currentPeriod',
+        width: 100,
+        required: true,
+      },
+      {
+        title: '实际结案日期',
+        dataIndex: 'finalFinishDate',
+        width: 120,
+        required: true,
+      },
+      {
+        title: '项目天数',
+        dataIndex: 'projectDays',
+        width: 100,
+        required: true,
+      },
     ];
     const toolBarProps = {
       layout: { leftSpan: 22, rightSpan: 2 },
@@ -571,6 +593,22 @@ static orgnameFilter=null;
             field={['name']}
             afterClear={item => this.orgnameFilter=null}
             afterSelect={item => this.orgnameFilter=item.name}
+            reader={{
+              name: 'name',
+              field: ['name'],
+            }}
+          />
+          项目类型：{' '}
+          <ComboList
+            style={{ width: '150px' }}
+            showSearch={false}
+            pagination={false}
+            dataSource={this.state.projTypeList}
+            allowClear
+            name="name"
+            field={['name']}
+            afterClear={item => this.projTypeFilter=null}
+            afterSelect={item => this.projTypeFilter=item.code}
             reader={{
               name: 'name',
               field: ['name'],
@@ -696,22 +734,26 @@ static orgnameFilter=null;
         exportXlsx(
           '项目列表',
           [
-            '项目编码',
-            '项目名称',
             '系统名称',
-            '组织名称',
-            '当前阶段',
-            '主计划达成率',
+            '提案名称',
+            '主导人',
             '开始日期',
             '计划结案日期',
-            '实际结案日期',
-            '项目天数',
+            '本周计划',
+            '下周计划',
+            '项目风险',
+            '周计划更新时间',
             '是否逾期',
             '逾期天数',
+            '是否提前',
+            '提前天数',
+            '备注',
             '项目类型',
-            '主导人',
-            '项目成员',
-            '项目进度'
+            '项目编码',
+            '科室名称',
+            '当前阶段',
+            '实际结案日期',
+            '项目天数'
           ],
           data,
         );

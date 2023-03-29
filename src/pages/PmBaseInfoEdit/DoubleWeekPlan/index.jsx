@@ -7,6 +7,7 @@ import { ProLayout } from 'suid';
 
 const { TextArea } = Input
 const { Content } = ProLayout;
+const myStyle = {textAlign:'center',fontSize:'20px',margin:"20px 0"}
 
 @Form.create()
 @withRouter
@@ -17,9 +18,6 @@ class DoubleWeekPlan extends Component {
     const { id, dataList } = props;
     if(id != ''){
       this.state = {
-        // weekPlan : weekPlan,
-        // nextWeekPlan: nextWeekPlan,
-        // workRisk: workRisk,
         dataList: dataList,
       }
     }
@@ -44,9 +42,6 @@ class DoubleWeekPlan extends Component {
     return (
       <>
         <ProLayout>
-          {/* <Header>
-            
-          </Header> */}
           <Content>
             <Form>
               <Row gutter={24} justify="space-around" style={{margin:"0 10px"}}>
@@ -62,7 +57,7 @@ class DoubleWeekPlan extends Component {
               </Row>
               <Row gutter={24} justify="space-around" style={{margin:"0 10px 0 40px"}}>
                 <Col span={8}>
-                  <div style={{textAlign:'center',fontSize:'20px',margin:"20px 0"}}>本周计划</div>
+                  <div style={myStyle}>本周计划</div>
                   <TextArea 
                     onChange={(event) => this.change('weekPlan',event.target.value)}
                     value={this.state.dataList.weekPlan}
@@ -71,7 +66,7 @@ class DoubleWeekPlan extends Component {
                   ></TextArea>
                 </Col>
                 <Col span={8}>
-                  <div style={{textAlign:'center',fontSize:'20px',margin:"20px 0"}}>下周计划</div>
+                  <div style={myStyle}>下周计划</div>
                   <TextArea 
                     onChange={(event) => this.change('nextWeekPlan',event.target.value)}
                     value={this.state.dataList.nextWeekPlan}
@@ -80,7 +75,7 @@ class DoubleWeekPlan extends Component {
                   ></TextArea>
                 </Col>
                 <Col span={6}>
-                  <div style={{textAlign:'center',fontSize:'20px',margin:"20px 0"}}>当前工作风险点</div>
+                  <div style={myStyle}>当前工作风险点</div>
                   <TextArea
                     onChange={(event) => this.change('workRisk',event.target.value)}
                     value={this.state.dataList.workRisk}

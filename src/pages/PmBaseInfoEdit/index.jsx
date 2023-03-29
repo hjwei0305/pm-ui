@@ -1126,9 +1126,6 @@ class PmBaseInfoEdit extends Component {
                     <DoubleWeekPlan 
                       dataList={this.state.dataList}
                       id={this.state.dataList.id} 
-                      weekPlan={this.state.dataList.weekPlan}
-                      nextWeekPlan={this.state.dataList.nextWeekPlan}
-                      workRisk={this.state.dataList.workRisk}
                       onSave={this.handleSave}
                     ></DoubleWeekPlan>
                   </TabPane>
