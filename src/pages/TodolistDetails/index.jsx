@@ -465,6 +465,12 @@ class TodolistDetails extends Component {
         required: true,
       },
       {
+        title: '最新进度说明',
+        dataIndex: 'newestProgress',
+        width: 550,
+        required: true,
+      },
+      {
         title: '责任人',
         dataIndex: 'ondutyName',
         width: 100,
@@ -491,12 +497,6 @@ class TodolistDetails extends Component {
         title: '最新确认时间',
         dataIndex: 'confir1Time',
         width: 100,
-        required: true,
-      },
-      {
-        title: '最新进度说明',
-        dataIndex: 'newestProgress',
-        width: 550,
         required: true,
       },
       {
