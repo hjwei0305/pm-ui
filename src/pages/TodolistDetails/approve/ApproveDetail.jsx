@@ -171,10 +171,6 @@ class ApproveDetail extends PureComponent {
         params.confir1Time = moment().format('YYYY-MM-DD')
       }else{
         // 审批
-        console.log(params.confirm1Status == 'true')
-        console.log(formData.closingStatus)
-        console.log(params.closingStatus)
-        console.log(formData.closingStatus == '不合格')
         if(params.confirm1Status != 'true' && params.proposalStatus != '结案'){
           result.message = '状态为未结案单据不能提交';
           return flowCallBack(result);
@@ -190,6 +186,7 @@ class ApproveDetail extends PureComponent {
           return flowCallBack(result);
         }else if(params.confirm1Status == 'true' && formData.closingStatus == '不合格'){
           result.message = '结案状态为不合格，不能结束单据';
+          return flowCallBack(result);
         }
         if(opinion.actionType === 'default'){
           params.confir1Time = moment().format('YYYY-MM-DD')
