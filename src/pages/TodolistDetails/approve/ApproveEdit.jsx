@@ -108,8 +108,6 @@ class ApproveDetail extends PureComponent {
       const result = {
         message:'',
       };
-      console.log(params.closingStatus)
-      console.log(params.closingStatus == '不合格')
       if(params.confirm1Status != 'true' && (formData.proposalStatus == undefined
          || formData.proposalStatus == null || formData.completion == undefined || formData.completion == '')){
           result.message = '请输入建议状态及当前完成比率';
@@ -119,8 +117,6 @@ class ApproveDetail extends PureComponent {
            || formData.remark == undefined || formData.remark == null || formData.remark == '')){
           result.message = '请输入结案状态及备注';
         return flowCallBack(result);
-      }else if(params.confirm1Status == 'true' && params.closingStatus == '不合格'){
-        result.message = '结案状态为不合格，不能结束单据';
       }
       dispatch({
         type: 'todolistDetails/save',
