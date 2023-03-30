@@ -50,13 +50,23 @@ class PmBaseInfoEdit extends Component {
             code: 0,
           },
         ],
+        isPauseList: [
+          {
+            name: '是',
+            code: 1,
+          },
+          {
+            name: '否',
+            code: 0,
+          },
+        ],
         ScheduleArys: [],
         employee: [],
         proOptList: [],
         orgnameList: [],
         // disable: false,
         // orgnameList: this.props.location.state.orgnameList,
-        disable: this.props.location.query.disable === 'true' ? true : false,
+        // disable: ,
         dataList: { id: this.props.location.query.id, }
       }
             // code: this.props.location.state.code,
@@ -139,9 +149,11 @@ class PmBaseInfoEdit extends Component {
         infoData.developer = (infoData.developer == null || infoData.developer === '') ? [] : infoData.developer.split(',')
         infoData.implementer = (infoData.implementer == null || infoData.implementer === '') ? [] : infoData.implementer.split(',')
         infoData.proOpt = (infoData.proOpt == null || infoData.proOpt === '') ? [] : infoData.proOpt.split(',')
+        infoData.isPause = (infoData.isPause === true ? '是' : '否')
         this.setState({
           dataList: infoData,
-          orginData: infoData
+          orginData: infoData,
+          disable: infoData.code === '' ? false : true 
         })
       })
     }
@@ -204,12 +216,23 @@ class PmBaseInfoEdit extends Component {
         code: 0,
       },
     ],
+    isPauseList: [
+      {
+        name: '是',
+        code: 1,
+      },
+      {
+        name: '否',
+        code: 0,
+      },
+    ],
     disable: false,
     dataList:
       {
         id: '',
         code: '',
         projectTypes: '',
+        isPause: '',
         name: '',
         currentPeriod: '',
         projectMaster: '',
@@ -325,6 +348,13 @@ class PmBaseInfoEdit extends Component {
       for(let item of this.state.projTypeList){
         if(item.name == dataReplace.projectTypes){
           dataReplace.projectTypes = item.code
+        }
+      }
+    }
+    if(typeof(dataReplace.isPause) == "string"){
+      for(let item of this.state.isPauseList){
+        if(item.name == dataReplace.isPause){
+          dataReplace.isPause = item.code
         }
       }
     }
@@ -741,6 +771,8 @@ class PmBaseInfoEdit extends Component {
           },
           () => this.refresh(),
         );
+      }else{
+        this.change('code','')
       }
     });
   }
@@ -951,7 +983,24 @@ class PmBaseInfoEdit extends Component {
                       placeholder="请选择日期"
                       value={this.state.dataList.finalFinishDate === null ? null : moment(this.state.dataList.finalFinishDate, 'YYYY-MM-DD')}/>
                   </div>
-
+                </div>
+                <div className={styles['pause']}>
+                  <div className="pauseTitle">项目暂停：</div>
+                  <ComboList
+                            value={this.state.dataList.isPause}
+                            dataSource={this.state.isPauseList}
+                            showSearch={false}
+                            pagination={false}
+                            name="name"
+                            field={['name']}
+                            afterClear={() => this.change('isPause','')}
+                            afterSelect={(item) => this.change('isPause',item.name)}
+                            reader={{
+                              name: 'name',
+                              field: ['name'],
+                            }}
+                            style={{width:200}}
+                          ></ComboList>
                 </div>
                 <div className={styles['procedure']}>
                   <div className="procedureTitle">流程配置</div>

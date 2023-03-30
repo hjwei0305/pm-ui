@@ -117,6 +117,8 @@ class ApproveDetail extends PureComponent {
            || formData.remark == undefined || formData.remark == null || formData.remark == '')){
           result.message = '请输入结案状态及备注';
         return flowCallBack(result);
+      }else if(params.closingStatus === '不合格'){
+        result.message = '结案状态为不合格，不能结束单据';
       }
       dispatch({
         type: 'todolistDetails/save',

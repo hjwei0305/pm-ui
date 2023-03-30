@@ -29,10 +29,10 @@ class FormModal extends PureComponent {
   };
 
   render() {
-    const { form, onClose, sync, visible, editData, disable } = this.props;
+    const { form, onClose, sync, visible, editData } = this.props;
     const { getFieldDecorator } = form;
     let title = editData.name;
-    let url = `/pm-ui/#/pm-ui/pm/PmBaseInfoEdit?disable=` + disable+ "&id=" + editData.id;
+    let url = `/pm-ui/#/pm-ui/pm/PmBaseInfoEdit?id=` + editData.id;
 
     return (
       <ExtModal

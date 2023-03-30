@@ -18,7 +18,7 @@ export default modelExtend(model, {
     editData: null,
     modalVisible: false,
     newProjCode: null,
-    disable: false,
+    // disable: false,
   },
   effects: {
     *save({ payload }, { call }) {

@@ -249,7 +249,7 @@ static projTypeFilter = null;
       payload: {
         modalVisible: true,
         editData: row,
-        disable: disable,
+        // disable: disable,
       },
     });
   }
@@ -428,11 +428,29 @@ static projTypeFilter = null;
         required: true,
       },
       // {
-      //   title: '当前进度%',
-      //   dataIndex: 'masterScheduleRate',
+      //   title: '是否暂停',
+      //   dataIndex: 'isPause',
       //   width: 100,
       //   required: true,
+      //   render:
+      //       tag => {
+      //         let color = tag===true ? 'blue' : 'red';
+      //         let value=tag===true ? '是' : '否';
+      //         return (
+      //           <span>
+      //           <Tag color={color}>
+      //             {value}
+      //           </Tag>
+      //           </span>
+      //         );
+      //       }
       // },
+      {
+        title: '当前进度%',
+        dataIndex: 'masterScheduleRate',
+        width: 100,
+        required: true,
+      },
       {
         title: '开始日期',
         dataIndex: 'startDate',
@@ -764,10 +782,9 @@ static projTypeFilter = null;
   };
   getEditModalProps = () => {
     const { loading, pmBaseInfo } = this.props;
-    const { modalVisible, editData, disable } = pmBaseInfo;
+    const { modalVisible, editData } = pmBaseInfo;
 
     return {
-      disable,
       editData,
       onSync: this.handleSync,
       visible: modalVisible,
