@@ -153,7 +153,7 @@ class PmBaseInfoEdit extends Component {
         this.setState({
           dataList: infoData,
           orginData: infoData,
-          disable: infoData.code === '' ? false : true 
+          disable: infoData.code === '' ? false : true
         })
       })
     }
@@ -178,7 +178,7 @@ class PmBaseInfoEdit extends Component {
     }).then(res => {
       const { data } = res;
       for (let i = 0; i < data.length; i++) {
-        this.state.employee.push(<Option key={data[i].employeeName}>{data[i].employeeName}</Option>);
+        this.state.employee.push(<Option key={data[i].employeeName} orgname={data[i].orgname}>{data[i].employeeName}</Option>);
       }
     });
   }
@@ -359,7 +359,7 @@ class PmBaseInfoEdit extends Component {
       }
     }
     if(this.state.orginData){
-      if((this.state.orginData.startDate !== dataReplace.startDate) 
+      if((this.state.orginData.startDate !== dataReplace.startDate)
       || (this.state.orginData.planFinishDate !== dataReplace.planFinishDate) ){
         dataReplace.dateModified = true
         let target = Object.assign({}, this.state.dataList, {
@@ -721,56 +721,21 @@ class PmBaseInfoEdit extends Component {
     }).then(res => {
       if (res.success) {
         const { data } = res
-        this.setState(
-          {
-            dataList: {
-              id: data.id,
-              code: data.code,
-              projectTypes: data.projectTypes,
-              name: data.name,
-              currentPeriod: data.currentPeriod,
-              projectMaster: data.projectMaster,
-              attendanceMemberrCount: data.attendanceMemberrCount,
-              submissionDate: data.submissionDate,
-              planningApproval: data.planningApproval,
-              currentDescription: data.currentDescription,
-              requirementDescription: data.requirementDescription,
-              improveBenefits: data.improveBenefits,
-              promotionDegree: data.promotionDegree,
-              hardwareRequirement: data.hardwareRequirement,
-              sysName: data.sysName,
-              leader: [],
-              assist: [],
-              designer: [],
-              developer: [],
-              implementer: [],
-              proOpt: [],
-              requireDocId: '',
-              acceptStandardDocId: '',
-              startReportDocId: '',
-              userRequireDocId: '',
-              designerDocId: '',
-              cropDocId: '',
-              testExampleDocId: '',
-              testReportDocId: '',
-              sopDocId: '',
-              questionListDocId: '',
-              checkListDocId: '',
-              caseCloseReportDocId: '',
-              satisfactionSurveyDocId: '',
-              pageCheckDocId: '',
-              acceptOrderDocId: '',
-              accpetReprotDocId: '',
-              startDate: null,
-              planFinishDate: null,
-              finalFinishDate: null,
-              orgname: '',
-              orgcode: '',
-              extorgname: '',
-            }
-          },
-          () => this.refresh(),
-        );
+        let target = [];
+        target = Object.assign({}, this.state.dataList, {
+          name: data.name,
+          submissionDate : data.submissionDate,
+          sysName : data.sysName,
+          currentDescription : data.currentDescription,
+          requirementDescription : data.requirementDescription,
+          improveBenefits : data.improveBenefits,
+          promotionDegree : data.promotionDegree,
+          hardwareRequirement : data.hardwareRequirement
+
+        })
+        this.setState({
+          dataList: target
+        })
       }else{
         this.change('code','')
       }
@@ -891,6 +856,14 @@ class PmBaseInfoEdit extends Component {
       target = Object.assign({}, this.state.dataList, {
         [name]: value
       })
+      // 主导人直接对接科室
+      // if(name === 'leader'){
+      //   debugger
+      //   console.log(value)
+      //   if(value.length === 0){
+      //     target.orgname = ''
+      //   }
+      // }
     }
     this.setState({
       dataList: target
@@ -947,6 +920,8 @@ class PmBaseInfoEdit extends Component {
       style: {height: "620px"},
     };
 
+    var ifCode = this.state.dataList.code === '' ? false : true
+
     return (
       <>
       <ProLayout style={{background: "#F4F8FC",padding:"8px 12px"}}>
@@ -974,14 +949,16 @@ class PmBaseInfoEdit extends Component {
                     <DatePicker
                       onChange={(_,dateString) => this.change('planFinishDate',dateString)}
                       placeholder="请选择日期"
-                      value={this.state.dataList.planFinishDate === null ? null : moment(this.state.dataList.planFinishDate, 'YYYY-MM-DD')}/> 
+                      value={this.state.dataList.planFinishDate === null ? null : moment(this.state.dataList.planFinishDate, 'YYYY-MM-DD')}/>
                   </div>
                   <div>
                     <span>实际结案日期：</span>
                     <DatePicker
                       onChange={(_,dateString) => this.change('finalFinishDate',dateString)}
                       placeholder="请选择日期"
-                      value={this.state.dataList.finalFinishDate === null ? null : moment(this.state.dataList.finalFinishDate, 'YYYY-MM-DD')}/>
+                      value={this.state.dataList.finalFinishDate === null ? null : moment(this.state.dataList.finalFinishDate, 'YYYY-MM-DD')}
+                      disabled
+                    />
                   </div>
                 </div>
                 <div className={styles['pause']}>
@@ -1060,7 +1037,7 @@ class PmBaseInfoEdit extends Component {
                         </Col>
                         <Col span={8}>
                           <span >系统名称：</span>
-                          <Input onChange={(event) => this.change('sysName',event.target.value)} value={this.state.dataList.sysName} ></Input>
+                          <Input onChange={(event) => this.change('sysName',event.target.value)} value={this.state.dataList.sysName} disabled={ifCode}></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
@@ -1078,7 +1055,7 @@ class PmBaseInfoEdit extends Component {
                         </Col>
                         <Col span={8}>
                           <span >项目名称：</span>
-                          <Input onChange={(event) => this.change('name',event.target.value)} value={this.state.dataList.name} ></Input>
+                          <Input onChange={(event) => this.change('name',event.target.value)} value={this.state.dataList.name} disabled={ifCode}></Input>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
@@ -1092,6 +1069,7 @@ class PmBaseInfoEdit extends Component {
                             onChange={(_,dateString) => this.change('submissionDate',dateString)}
                             placeholder="请选择日期"
                             value={this.state.dataList.submissionDate === null || this.state.dataList.submissionDate === '' ? null : moment(this.state.dataList.submissionDate, 'YYYY-MM-DD')}
+                            disabled={ifCode}
                           />
 
                           {/* <Input
@@ -1126,31 +1104,31 @@ class PmBaseInfoEdit extends Component {
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>现状描述：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('currentDescription',event.target.value)} value={this.state.dataList.currentDescription} ></TextArea>
+                          <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('currentDescription',event.target.value)} value={this.state.dataList.currentDescription} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>需求描述：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('requirementDescription',event.target.value)} value={this.state.dataList.requirementDescription} ></TextArea>
+                          <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('requirementDescription',event.target.value)} value={this.state.dataList.requirementDescription} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>改善效益：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('improveBenefits',event.target.value)} value={this.state.dataList.improveBenefits} ></TextArea>
+                          <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('improveBenefits',event.target.value)} value={this.state.dataList.improveBenefits} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>推广度：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('promotionDegree',event.target.value)} value={this.state.dataList.promotionDegree} ></TextArea>
+                          <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('promotionDegree',event.target.value)} value={this.state.dataList.promotionDegree} ></TextArea>
                         </Col>
                       </Row>
                       <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
                         <Col span={24}>
                           <span>硬件要求：</span>
-                          <TextArea className="rowStyle" onChange={(event) => this.change('hardwareRequirement',event.target.value)} value={this.state.dataList.hardwareRequirement} ></TextArea>
+                          <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('hardwareRequirement',event.target.value)} value={this.state.dataList.hardwareRequirement} ></TextArea>
                         </Col>
                       </Row>
                     </Form>
@@ -1172,9 +1150,9 @@ class PmBaseInfoEdit extends Component {
                     <PmLog id={this.state.dataList.id}></PmLog>
                   </TabPane>
                   <TabPane tab="双周计划" key="7">
-                    <DoubleWeekPlan 
+                    <DoubleWeekPlan
                       dataList={this.state.dataList}
-                      id={this.state.dataList.id} 
+                      id={this.state.dataList.id}
                       onSave={this.handleSave}
                     ></DoubleWeekPlan>
                   </TabPane>

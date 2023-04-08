@@ -79,6 +79,11 @@ const menuData = [
     id: '701',
     name: 'eip待办处理页面',
     path: '/pm/eipTodo',
+  },
+  {
+    id: '702',
+    name: '流程配置',
+    path: '/pm/ProjectOption',
   }
 ];
 

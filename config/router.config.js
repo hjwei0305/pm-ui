@@ -82,6 +82,11 @@ export default [
             path: '/pm/eipTodo',
             component: './EipTodo',
             title: 'eip待办处理页面',
+          },
+          {
+            path: '/pm/ProjectOption',
+            component: './ProjectOption',
+            title: '流程配置',
           }
         ],
       },
