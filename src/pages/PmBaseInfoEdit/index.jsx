@@ -63,10 +63,8 @@ class PmBaseInfoEdit extends Component {
         ScheduleArys: [],
         employee: [],
         proOptList: [],
+        newProOptList: [],
         orgnameList: [],
-        // disable: false,
-        // orgnameList: this.props.location.state.orgnameList,
-        // disable: ,
         dataList: { id: this.props.location.query.id, }
       }
             // code: this.props.location.state.code,
@@ -148,12 +146,13 @@ class PmBaseInfoEdit extends Component {
         infoData.designer = (infoData.designer == null || infoData.designer === '') ? [] : infoData.designer.split(',')
         infoData.developer = (infoData.developer == null || infoData.developer === '') ? [] : infoData.developer.split(',')
         infoData.implementer = (infoData.implementer == null || infoData.implementer === '') ? [] : infoData.implementer.split(',')
-        infoData.proOpt = (infoData.proOpt == null || infoData.proOpt === '') ? [] : infoData.proOpt.split(',')
+        infoData.proOpt = (infoData.pmProjectOptionProOpt == null || infoData.pmProjectOptionProOpt === '') ? infoData.proOpt == null || infoData.proOpt === '' ? [] : infoData.proOpt.split(',') : infoData.pmProjectOptionProOpt.split(',')
         infoData.isPause = (infoData.isPause === true ? '是' : '否')
         this.setState({
           dataList: infoData,
           orginData: infoData,
-          disable: infoData.code === '' ? false : true
+          disable: infoData.code === '' ? false : true,
+          pmProjectOptionProName: infoData.pmProjectOptionProName
         })
       })
     }
@@ -165,6 +164,29 @@ class PmBaseInfoEdit extends Component {
       const { data } = res;
       for (let i = 0; i < data.length; i++) {
         this.state.proOptList.push(<Option key={data[i].dataValue}>{data[i].dataName}</Option>);
+      }
+    })
+
+    dispatch({
+      type: 'pmBaseInfoEdit/getNewProOpt',
+      payload:{
+        filters: [
+          {
+            fieldName: 'usable',
+            operator: 'EQ',
+            fieldType: 'boolean',
+            value: true,
+          }
+        ],
+      }
+    }).then(res => {
+      const { rows } = res.data;
+      for (let i = 0; i < rows.length; i++) {
+        this.state.newProOptList.push({
+          name: rows[i].proName,
+          code: rows[i].id,
+          proStrArray: rows[i].proOpt,
+        });
       }
     })
 
@@ -192,6 +214,7 @@ class PmBaseInfoEdit extends Component {
     ondutyNameFilter: null,
     employee: [],
     proOptList: [],
+    newProOptList: [],
     orgnameList: [],
     projTypeList: [
       {
@@ -250,6 +273,7 @@ class PmBaseInfoEdit extends Component {
         designer: [],
         developer: [],
         implementer: [],
+        proOptId: null,
         proOpt: [],
         requireDocId: '',
         acceptStandardDocId: '',
@@ -846,6 +870,26 @@ class PmBaseInfoEdit extends Component {
     }
   }
 
+  clearProOptComboList = () => {
+    let target = Object.assign({}, this.state.dataList)
+    // target.proOpt = []
+    target.proOptId = null
+    this.setState({
+      dataList: target
+    })
+  }
+
+  changeProOptComboList = (item) => {
+    debugger
+    let target = Object.assign({}, this.state.dataList)
+    target.proOpt = item.proStrArray.split(',')
+    target.proOptId = item.code
+    this.setState({
+      pmProjectOptionProName: item.name,
+      dataList: target
+    })
+  }
+
   change = (name ,value) =>{
     let target = [];
     // 开始时间，计划完成时间只能修改一次
@@ -978,6 +1022,26 @@ class PmBaseInfoEdit extends Component {
                             }}
                             style={{width:200}}
                           ></ComboList>
+                </div>
+                <div className={styles['pause']}>
+                  <div className="pauseTitle">流程配置：</div>
+                  <ComboList
+                    allowClear
+                    placeholder='请选择'
+                    value={this.state.pmProjectOptionProName}
+                    dataSource={this.state.newProOptList}
+                    showSearch={false}
+                    pagination={false}
+                    name="name"
+                    field={['name']}
+                    afterClear={this.clearProOptComboList}
+                    afterSelect={(item) => this.changeProOptComboList(item)}
+                    reader={{
+                      name: 'name',
+                      field: ['name'],
+                    }}
+                    style={{width:200}}
+                  ></ComboList>
                 </div>
                 <div className={styles['procedure']}>
                   <div className="procedureTitle">流程配置</div>

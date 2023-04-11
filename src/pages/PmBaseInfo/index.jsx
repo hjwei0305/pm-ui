@@ -320,6 +320,7 @@ static projTypeFilter = null;
         newProjCode: null,
       },
     });
+    this.reloadData()
   };
 
   renderDelBtn = row => {
@@ -791,6 +792,12 @@ static projTypeFilter = null;
       onClose: this.handleClose,
       sync: loading.effects['pmBaseInfo/syncProjectInfo'],
     };
+  };
+
+  reloadData = () => {
+    if (this.tableRef) {
+      this.tableRef.remoteDataRefresh();
+    }
   };
 
   render() {

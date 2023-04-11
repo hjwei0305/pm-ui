@@ -7,7 +7,7 @@
 import { message } from 'antd';
 import { utils } from 'suid';
 import { downFile } from '@/utils';
-import { del, save, saveToDo, delToDo, findEmp,getProOpt, syncProjectInfo
+import { del, save, saveToDo, delToDo, findEmp,getProOpt, getNewProOpt, syncProjectInfo
   , projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch
   ,findByIdForSchedule,saveUpload,saveUploadList,uploadMasterPlan, downLoadTemplate, getChildrenNodes,
   findBaseInfoById } from './service';
@@ -116,8 +116,24 @@ export default modelExtend(model, {
 
       return result;
     },
+
+    // 获取项目流程字典
     *getProOpt({ payload }, { call }) {
       const result = yield call(getProOpt, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+        // message.success(msg);
+      } else {
+        message.error(msg);
+      }
+
+      return result;
+    },
+
+    // 获取项目流程配置
+    *getNewProOpt({ payload }, { call }) {
+      const result = yield call(getNewProOpt, payload);
       const { success, message: msg } = result || {};
       message.destroy();
       if (success) {

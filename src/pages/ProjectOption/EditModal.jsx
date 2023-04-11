@@ -41,7 +41,7 @@ class FormModal extends PureComponent {
     }else{
       params.proOpt = value.join(',')
     }
-    
+
     dispatch({
       type: 'projectOption/updateState',
       payload: {
@@ -95,10 +95,6 @@ class FormModal extends PureComponent {
                   required: true,
                   message: '配置名称不能为空',
                 },
-                {
-                  max: 10,
-                  message: '配置名称不能超过5个字符',
-                },
               ],
             })(<Input />)}
           </FormItem>
@@ -107,17 +103,15 @@ class FormModal extends PureComponent {
               initialValue: (editData && editData.proOpt === '') ? [] : editData.proOpt,
             })
             ( */}
-            <Select 
-              value={editData && editData.proOpt === '' ? [] : editData.proOpt.split(',')}
-              maxTagCount={6} 
-              mode="tags" 
-              style={{ width: '100%' }} 
-              placeholder="选择项目流程" 
+            <Select
+              value={editData && editData.proOpt ? editData.proOpt === '' ? [] : editData.proOpt.split(',') : []}
+              maxTagCount={6}
+              mode="tags"
+              style={{ width: '100%' }}
+              placeholder="选择项目流程"
               onChange={(value,_) => this.change(value)}>
                 {proOptList}
             </Select>
-            {/* // ) */}
-            {/* } */}
           </FormItem>
           <FormItem label="是否启用">
             {getFieldDecorator('usable', {

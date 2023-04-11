@@ -462,10 +462,18 @@ class ProjectPlan extends Component {
     for(let item of data){
       item.planType = this.state.planType
       item.projectId = this.props.id
-      item.planEndDate -= 25569
-      item.planStartDate -= 25569
-      item.actualStartDate -= 25569
-      item.actualEndDate -= 25569
+      if(typeof(item.planEndDate) === 'number'){
+        item.planEndDate -= 25569
+        item.planStartDate -= 25569
+        item.actualStartDate -= 25569
+        item.actualEndDate -= 25569
+      }
+      if(typeof(item.planEndDate) === 'string' && item.planStartDate.indexOf('/') > 0){
+        item.planEndDate = item.planEndDate.replaceAll('/','-')
+        item.planStartDate = item.planStartDate.replaceAll('/','-')
+        item.actualStartDate = item.actualStartDate.replaceAll('/','-')
+        item.actualEndDate = item.actualEndDate.replaceAll('/','-')
+      }
     }
     this.dispatchAction({
       type: 'pmBaseInfoEdit/uploadMasterPlan',

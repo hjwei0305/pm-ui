@@ -32,6 +32,15 @@ export async function getProOpt() {
   });
 }
 
+export async function getNewProOpt(data) {
+  const url = `${PROJECT_PATH}/pmProjectOption/findByPage`;
+  return request({
+    url,
+    method: 'POST',
+    data,
+  });
+}
+
 export async function findEmp(data) {
   const url = `${PROJECT_PATH}/pmEmployee/findEmp`;
   return request({
