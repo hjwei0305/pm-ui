@@ -55,6 +55,7 @@ class PmBaseInfo extends Component {
 
   }
 static  projectMasterFilter=null;
+static memberFilter = null;
 static orgnameFilter=null;
 static projTypeFilter = null;
   state = {
@@ -232,6 +233,14 @@ static projTypeFilter = null;
         value: this.projectMasterFilter,
       });
     }
+    if(this.memberFilter){
+      filters.push({
+        fieldName: 'member',
+        operator: 'LK',
+        fieldType: 'string',
+        value: this.memberFilter,
+      });
+    }
     if (dateFilter) {
       filters.push({
         fieldName: 'startDate',
@@ -345,68 +354,6 @@ static projTypeFilter = null;
         render: (_, record) => (
           <Space>
             <div style={{color:"#0066FF",cursor:"pointer"}} onClick={() => this.openModal(record,true)}>查看详情</div>
-            {/* <div onClick={this.test}>test</div> */}
-            {/* <Link
-              // target = "_blank"
-              to={{
-              pathname:`/pm/PmBaseInfoEdit`,
-              state:{
-                orgnameList: this.state.orgnameList,
-                disable: true,
-                name: record.name,
-                id: record.id,
-                code: record.code,
-                projectTypes: record.projectTypes,
-                currentPeriod: record.currentPeriod,
-                projectMaster: record.projectMaster,
-                attendanceMemberrCount: record.attendanceMemberrCount,
-                submissionDate: record.submissionDate,
-                planningApproval: record.planningApproval,
-                currentDescription: record.currentDescription,
-                requirementDescription: record.requirementDescription,
-                improveBenefits: record.improveBenefits,
-                promotionDegree: record.promotionDegree,
-                hardwareRequirement: record.hardwareRequirement,
-                leader: record.leader == null || record.leader === '' ? [] : record.leader.split(',')  ,
-                designer: record.designer == null || record.designer === '' ? [] : record.designer.split(','),
-                developer: record.developer == null || record.developer === '' ? [] : record.developer.split(','),
-                implementer: record.implementer == null || record.implementer === '' ? [] : record.implementer.split(','),
-                proOpt: record.proOpt == null || record.proOpt === '' ? [] : record.proOpt.split(','),
-                requireDocId: record.requireDocId,
-                acceptStandardDocId: record.acceptStandardDocId,
-                startReportDocId: record.startReportDocId,
-                userRequireDocId: record.userRequireDocId,
-                designerDocId: record.designerDocId,
-                cropDocId: record.cropDocId,
-                testExampleDocId: record.testExampleDocId,
-                testReportDocId: record.testReportDocId,
-                sopDocId: record.sopDocId,
-                questionListDocId: record.questionListDocId,
-                checkListDocId: record.checkListDocId,
-                caseCloseReportDocId: record.caseCloseReportDocId,
-                satisfactionSurveyDocId: record.satisfactionSurveyDocId,
-                pageCheckDocId: record.pageCheckDocId,
-                acceptOrderDocId: record.acceptOrderDocId,
-                accpetReprotDocId: record.accpetReprotDocId,
-                startDate: record.startDate,
-                planFinishDate: record.planFinishDate,
-                finalFinishDate: record.finalFinishDate,
-                sysName: record.sysName,
-                orgname: record.orgname,
-                orgcode: record.orgcode,
-                extorgname: record.extorgname,
-              }
-            }}>
-              查看详情
-            </Link> */}
-            {/* <Popconfirm
-              key="del"
-              placement="topLeft"
-              title="确定要删除吗？"
-              onConfirm={() => this.handleEvent('del', record)}
-            >
-              {this.renderDelBtn(record)}
-            </Popconfirm> */}
           </Space>
         ),
       },
@@ -469,6 +416,12 @@ static projTypeFilter = null;
         dataIndex: 'weekPlan',
         width: 400,
         required: true,
+      },
+      {
+        title: '人天',
+        dataIndex: 'personDay',
+        width: 50,
+        required: false,
       },
       {
         title: '下周计划',
@@ -580,7 +533,7 @@ static projTypeFilter = null;
       },
     ];
     const toolBarProps = {
-      layout: { leftSpan: 22, rightSpan: 2 },
+      layout: { leftSpan: 23, rightSpan: 1 },
       left: (
         <Space>
           系统名称：{' '}
@@ -635,6 +588,8 @@ static projTypeFilter = null;
           />
           主导人：{' '}
           <Input style={{width:"150px"}} onChange={item=>this.projectMasterFilter=item.target.value} allowClear></Input>
+          汇报人：{' '}
+          <Input style={{width:"150px"}} onChange={item=>this.memberFilter=item.target.value} allowClear></Input>
           开始日期：<DatePicker onChange={item => this.onDateChange(item)} format="YYYY-MM-DD" />
           <Button onClick={this.handlerSearch}>搜索</Button>
           <Button
@@ -645,65 +600,13 @@ static projTypeFilter = null;
             }}
             ignore="true"
           >新建</Button>
-            {/* <Link to={{
-              pathname:`/pm/PmBaseInfoEdit`,
-              state:{
-                orgnameList: this.state.orgnameList,
-                disable: false,
-                name: '',
-                id: '',
-                code: '',
-                projectTypes: '',
-                currentPeriod: '',
-                projectMaster: '',
-                attendanceMemberrCount: '',
-                submissionDate: '',
-                planningApproval: '',
-                currentDescription: '',
-                requirementDescription: '',
-                improveBenefits: '',
-                promotionDegree: '',
-                hardwareRequirement: '',
-                leader: [] ,
-                assist: [],
-                designer: [],
-                developer: [],
-                implementer: [],
-                proOpt: [],
-                requireDocId: '',
-                acceptStandardDocId: '',
-                startReportDocId: '',
-                userRequireDocId: '',
-                designerDocId: '',
-                cropDocId: '',
-                testExampleDocId: '',
-                testReportDocId: '',
-                sopDocId: '',
-                questionListDocId: '',
-                checkListDocId: '',
-                caseCloseReportDocId: '',
-                satisfactionSurveyDocId: '',
-                pageCheckDocId: '',
-                acceptOrderDocId: '',
-                accpetReprotDocId: '',
-                startDate: null,
-                planFinishDate: null,
-                finalFinishDate: null,
-                sysName: '',
-                orgname: '',
-                orgcode: '',
-                extorgname: '',
-              }
-            }}>
-              新建
-            </Link> */}
-
           <Button onClick={this.handlerExport}>导出</Button>
         </Space>
       ),
     };
     const filters = this.getTableFilters();
     return {
+      refreshButton: 'empty',
       showSearch:false,
       columns,
       bordered: true,
