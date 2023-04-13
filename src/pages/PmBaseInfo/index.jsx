@@ -412,16 +412,16 @@ static projTypeFilter = null;
         required: true,
       },
       {
-        title: '本周计划',
-        dataIndex: 'weekPlan',
-        width: 400,
-        required: true,
-      },
-      {
         title: '人天',
         dataIndex: 'personDay',
         width: 50,
         required: false,
+      },
+      {
+        title: '本周计划',
+        dataIndex: 'weekPlan',
+        width: 400,
+        required: true,
       },
       {
         title: '下周计划',
@@ -530,6 +530,24 @@ static projTypeFilter = null;
         dataIndex: 'projectDays',
         width: 100,
         required: true,
+      },
+      {
+        title: '是否暂停',
+        dataIndex: 'isPause',
+        width: 100,
+        required: true,
+        render:
+            tag => {
+              let color = tag===true ? 'blue' : 'red';
+              let value=tag===true ? '是' : '否';
+              return (
+                <span>
+                <Tag color={color}>
+                  {value}
+                </Tag>
+                </span>
+              );
+            }
       },
     ];
     const toolBarProps = {
@@ -661,6 +679,7 @@ static projTypeFilter = null;
             '主导人',
             '开始日期',
             '计划结案日期',
+            '人天',
             '本周计划',
             '下周计划',
             '项目风险',
@@ -675,7 +694,8 @@ static projTypeFilter = null;
             '科室名称',
             '当前阶段',
             '实际结案日期',
-            '项目天数'
+            '项目天数',
+            '是否暂停'
           ],
           data,
         );
