@@ -31,6 +31,16 @@ class FormModal extends PureComponent {
         code: 2,
       },
     ],
+    isPauseList: [
+      {
+        name: '是',
+        code: 1,
+      },
+      {
+        name: '否',
+        code: 0,
+      },
+    ],
   }
 
 
@@ -145,6 +155,13 @@ class FormModal extends PureComponent {
         for(let item of this.state.projTypeList){
           if(item.name == dataReplace.projectTypes){
             dataReplace.projectTypes = item.code
+          }
+        }
+      }
+      if(typeof(dataReplace.isPause) == "string"){
+        for(let item of this.state.isPauseList){
+          if(item.name == dataReplace.isPause){
+            dataReplace.isPause = item.code
           }
         }
       }
