@@ -628,7 +628,7 @@ static projTypeFilter = null;
       showSearch:false,
       columns,
       bordered: true,
-      toolBar: toolBarProps,
+      // toolBar: toolBarProps,
       cascadeParams: {
         filters,
       },
@@ -664,7 +664,7 @@ static projTypeFilter = null;
         })
       }
     })
-
+    this.reloadData()
   }
   handlerExport = () => {
     const tableFilters = this.getTableFilters();
@@ -729,7 +729,7 @@ static projTypeFilter = null;
     return (
       <>
         <div className={styles['container']}>
-          <Row style={{height:"180px"}} className="row-content">
+          <Row style={{height:"170px"}} className="row-content">
             <div style={{margin:"9px 12px",background:"white",height:"152px",borderRadius:"4px"}}>
               <div>
               <Col className="col-content">
@@ -824,10 +824,83 @@ static projTypeFilter = null;
               </div>
             </div>
           </Row>
-          <Row style={{height:"calc(100% - 192px)",padding:"0 12px"}}>
+          <Row style={{height:"50px",margin:"0 12px",padding:"10px 12px 0 12px",backgroundColor:"white"}} className="choose-content">
+            <Space>
+              <div className='div-text'>系统名称：</div>
+              <Input style={{width:"150px"}} onChange={(event) => this.setState({ nameFilter: event.target.value })} allowClear></Input>
+              <div className='div-text'>当前阶段：</div>
+              <ComboList
+                style={{ width: '150px' }}
+                showSearch={false}
+                pagination={false}
+                dataSource={this.state.status}
+                allowClear
+                name="name"
+                field={['name']}
+                afterClear={() => this.setState({ currentPeriodFilter: null })}
+                afterSelect={item => this.setState({ currentPeriodFilter: item.name })}
+                reader={{
+                  name: 'name',
+                  field: ['name'],
+                }}
+              />
+              <div className='div-text'>科室名称：</div>
+              <ComboList
+                style={{ width: '150px' }}
+                showSearch={false}
+                pagination={false}
+                dataSource={this.state.orgnameList}
+                allowClear
+                name="name"
+                field={['name']}
+                afterClear={item => this.orgnameFilter=null}
+                afterSelect={item => this.orgnameFilter=item.name}
+                reader={{
+                  name: 'name',
+                  field: ['name'],
+                }}
+              />
+              <div className='div-text'>项目类型：</div>
+              <ComboList
+                style={{ width: '150px' }}
+                showSearch={false}
+                pagination={false}
+                dataSource={this.state.projTypeList}
+                allowClear
+                name="name"
+                field={['name']}
+                afterClear={item => this.projTypeFilter=null}
+                afterSelect={item => this.projTypeFilter=item.code}
+                reader={{
+                  name: 'name',
+                  field: ['name'],
+                }}
+              />
+              <div className='div-text'>开始日期：</div>
+              <DatePicker onChange={item => this.onDateChange(item)} format="YYYY-MM-DD" />
+              <Button onClick={this.handlerSearch}>搜索</Button>
+              <Button
+                key="add"
+                type="primary"
+                onClick={() => {
+                  this.openModal({id:'',name:''},false);
+                }}
+                ignore="true"
+              >新建</Button>
+              <Button onClick={this.handlerExport}>导出</Button>
+            </Space>
+          </Row>
+          <Row style={{height:"40px",margin:"0 12px",padding:"0 12px",backgroundColor:"white"}} className="choose-content">
+            <Space>
+              <div className='div-text'>主导人：</div>
+              <Input style={{width:"150px"}} onChange={item=>this.projectMasterFilter=item.target.value} allowClear></Input>
+              <div className='div-text'>汇报人：</div>
+              <Input style={{width:"150px"}} onChange={item=>this.memberFilter=item.target.value} allowClear></Input>
+            </Space>
+          </Row>
+          <Row style={{height:"calc(100% - 272px)",padding:"0 12px"}}>
               <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
           </Row>
-          {/* {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null} */}
         </div>
         {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null}
       </>

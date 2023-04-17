@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select, message, DatePicker   } from 'antd';
-import { ExtIcon, ExtTable, ComboList, ProLayout, Attachment } from 'suid';
+import { ExtIcon, ExtTable, ComboList, ProLayout, Attachment, ScrollBar } from 'suid';
 import ToDoEditModal from './ToDoEditModal';
 import styles from './index.less'
 import { constants } from '@/utils';
@@ -926,259 +926,263 @@ class PmBaseInfoEdit extends Component {
       <>
       <ProLayout style={{background: "#F4F8FC",padding:"8px 12px"}}>
           <SiderBar allowCollapse width={330} gutter={[0,8]}>
-            <Row>
-              <Col span={24} style={{ height: "100%" }}>
-                {/* <div className={styles['goBack']}>
-                  <Icon type="left" />
-                  <Link to={`/pm/PmBaseInfo`}>
-                    返回
-                  </Link>
-                </div> */}
-                <div className={styles['basicInfo']}>
-                  {/* <div style={{overflow : "hidden",whiteSpace:"nowrap",textOverflow:"ellipsis"}}>{this.state.dataList.name}</div> */}
-                  <div>
-                    <span>项目开始日期：</span>
-                    <DatePicker
-                      onChange={(_,dateString) => this.change('startDate',dateString)}
-                      placeholder="请选择日期"
-                      value={this.state.dataList.startDate === null ? null : moment(this.state.dataList.startDate, 'YYYY-MM-DD')}
-                    />
+            <ScrollBar>
+              <Row>
+                <Col span={24} style={{ height: "100%" }}>
+                  {/* <div className={styles['goBack']}>
+                    <Icon type="left" />
+                    <Link to={`/pm/PmBaseInfo`}>
+                      返回
+                    </Link>
+                  </div> */}
+                  <div className={styles['basicInfo']}>
+                    {/* <div style={{overflow : "hidden",whiteSpace:"nowrap",textOverflow:"ellipsis"}}>{this.state.dataList.name}</div> */}
+                    <div>
+                      <span>项目开始日期：</span>
+                      <DatePicker
+                        onChange={(_,dateString) => this.change('startDate',dateString)}
+                        placeholder="请选择日期"
+                        value={this.state.dataList.startDate === null ? null : moment(this.state.dataList.startDate, 'YYYY-MM-DD')}
+                      />
+                    </div>
+                    <div>
+                      <span>计划结案日期：</span>
+                      <DatePicker
+                        onChange={(_,dateString) => this.change('planFinishDate',dateString)}
+                        placeholder="请选择日期"
+                        value={this.state.dataList.planFinishDate === null ? null : moment(this.state.dataList.planFinishDate, 'YYYY-MM-DD')}/>
+                    </div>
+                    <div>
+                      <span>实际结案日期：</span>
+                      <DatePicker
+                        onChange={(_,dateString) => this.change('finalFinishDate',dateString)}
+                        placeholder="请选择日期"
+                        value={this.state.dataList.finalFinishDate === null ? null : moment(this.state.dataList.finalFinishDate, 'YYYY-MM-DD')}
+                        disabled
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <span>计划结案日期：</span>
-                    <DatePicker
-                      onChange={(_,dateString) => this.change('planFinishDate',dateString)}
-                      placeholder="请选择日期"
-                      value={this.state.dataList.planFinishDate === null ? null : moment(this.state.dataList.planFinishDate, 'YYYY-MM-DD')}/>
+                  <div className={styles['pause']}>
+                    <div className="pauseTitle">项目暂停：</div>
+                    <ComboList
+                              value={this.state.dataList.isPause}
+                              dataSource={this.state.isPauseList}
+                              showSearch={false}
+                              pagination={false}
+                              name="name"
+                              field={['name']}
+                              afterClear={() => this.change('isPause','')}
+                              afterSelect={(item) => this.change('isPause',item.name)}
+                              reader={{
+                                name: 'name',
+                                field: ['name'],
+                              }}
+                              style={{width:200}}
+                            ></ComboList>
                   </div>
-                  <div>
-                    <span>实际结案日期：</span>
-                    <DatePicker
-                      onChange={(_,dateString) => this.change('finalFinishDate',dateString)}
-                      placeholder="请选择日期"
-                      value={this.state.dataList.finalFinishDate === null ? null : moment(this.state.dataList.finalFinishDate, 'YYYY-MM-DD')}
-                      disabled
-                    />
+                  <div className={styles['pause']}>
+                    <div className="pauseTitle">流程配置：</div>
+                    <ComboList
+                      allowClear
+                      placeholder='请选择'
+                      value={this.state.pmProjectOptionProName}
+                      dataSource={this.state.newProOptList}
+                      showSearch={false}
+                      pagination={false}
+                      name="name"
+                      field={['name']}
+                      afterClear={this.clearProOptComboList}
+                      afterSelect={(item) => this.changeProOptComboList(item)}
+                      reader={{
+                        name: 'name',
+                        field: ['name'],
+                      }}
+                      style={{width:200}}
+                    ></ComboList>
                   </div>
-                </div>
-                <div className={styles['pause']}>
-                  <div className="pauseTitle">项目暂停：</div>
-                  <ComboList
-                            value={this.state.dataList.isPause}
-                            dataSource={this.state.isPauseList}
-                            showSearch={false}
-                            pagination={false}
-                            name="name"
-                            field={['name']}
-                            afterClear={() => this.change('isPause','')}
-                            afterSelect={(item) => this.change('isPause',item.name)}
-                            reader={{
-                              name: 'name',
-                              field: ['name'],
-                            }}
-                            style={{width:200}}
-                          ></ComboList>
-                </div>
-                <div className={styles['pause']}>
-                  <div className="pauseTitle">流程配置：</div>
-                  <ComboList
-                    allowClear
-                    placeholder='请选择'
-                    value={this.state.pmProjectOptionProName}
-                    dataSource={this.state.newProOptList}
-                    showSearch={false}
-                    pagination={false}
-                    name="name"
-                    field={['name']}
-                    afterClear={this.clearProOptComboList}
-                    afterSelect={(item) => this.changeProOptComboList(item)}
-                    reader={{
-                      name: 'name',
-                      field: ['name'],
-                    }}
-                    style={{width:200}}
-                  ></ComboList>
-                </div>
-                <div className={styles['procedure']}>
-                  <div className="procedureTitle">流程配置</div>
-                  <div><Select maxTagCount={6} value={this.state.dataList.proOpt} mode="tags" style={{ width: '100%' }} placeholder="选择项目流程" onChange={(value,_) => this.change('proOpt',value)}>{this.state.proOptList}</Select></div>
-                </div>
-                <div className={styles['member']}>
-                  <div className="memberTitle">项目组成员</div>
-                  {/* <div className="memberCtr" >管理成员</div> */}
-                  <div>
-                    <div>主导人：<Select value={this.state.dataList.leader} mode="tags" style={{ width: '100%' }} placeholder="选择主导人" onChange={(value,_) => this.change('leader',value)}>{this.state.employee}</Select></div>
-                    <div>协助人：<Select value={this.state.dataList.assist} mode="tags" style={{ width: '100%' }} placeholder="选择协助人" onChange={(value,_) => this.change('assist',value)}>{this.state.employee}</Select></div>
-                    <div>UI设计：<Select value={this.state.dataList.designer} mode="tags" style={{ width: '100%' }} placeholder="选择UI设计" onChange={(value,_) => this.change('designer',value)}>{this.state.employee}</Select></div>
-                    <div>开发人员：<Select value={this.state.dataList.developer} mode="tags" style={{ width: '100%' }} placeholder="选择开发人员" onChange={(value,_) => this.change('developer',value)}>{this.state.employee}</Select></div>
-                    <div>实施：<Select value={this.state.dataList.implementer} mode="tags" style={{ width: '100%' }} placeholder="选择实施人员" onChange={(value,_) => this.change('implementer',value)}>{this.state.employee}</Select></div>
+                  <div className={styles['procedure']}>
+                    <div className="procedureTitle">流程配置</div>
+                    <div><Select maxTagCount={6} value={this.state.dataList.proOpt} mode="tags" style={{ width: '100%' }} placeholder="选择项目流程" onChange={(value,_) => this.change('proOpt',value)}>{this.state.proOptList}</Select></div>
                   </div>
-                </div>
-              </Col>
-            </Row>
+                  <div className={styles['member']}>
+                    <div className="memberTitle">项目组成员</div>
+                    {/* <div className="memberCtr" >管理成员</div> */}
+                    <div>
+                      <div>主导人：<Select value={this.state.dataList.leader} mode="tags" style={{ width: '100%' }} placeholder="选择主导人" onChange={(value,_) => this.change('leader',value)}>{this.state.employee}</Select></div>
+                      <div>协助人：<Select value={this.state.dataList.assist} mode="tags" style={{ width: '100%' }} placeholder="选择协助人" onChange={(value,_) => this.change('assist',value)}>{this.state.employee}</Select></div>
+                      <div>UI设计：<Select value={this.state.dataList.designer} mode="tags" style={{ width: '100%' }} placeholder="选择UI设计" onChange={(value,_) => this.change('designer',value)}>{this.state.employee}</Select></div>
+                      <div>开发人员：<Select value={this.state.dataList.developer} mode="tags" style={{ width: '100%' }} placeholder="选择开发人员" onChange={(value,_) => this.change('developer',value)}>{this.state.employee}</Select></div>
+                      <div>实施：<Select value={this.state.dataList.implementer} mode="tags" style={{ width: '100%' }} placeholder="选择实施人员" onChange={(value,_) => this.change('implementer',value)}>{this.state.employee}</Select></div>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+            </ScrollBar>
           </SiderBar>
           <Content>
-            <Col style={{ height: "100%" }}>
-              <div style={{ marginLeft: "12px", background: "white", height: "100%" }}>
-                <Tabs defaultActiveKey="1" onChange={this.callback}>
-                  <TabPane tab="基础信息" key="1">
-                    <Form className={styles['basic']}>
-                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
-                        <Button
-                          type="primary"
-                          style={{ marginRight: '16px' }}
-                          ghost
-                          onClick={() => this.handleSave(this.state.dataList)}
-                          >保存</Button>
-                      </Row>
-                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
-                        <Col span={8}>
-                          <span >档案编码：</span>
-                          <Input onChange={(event) => this.change('code',event.target.value)} placeholder='请输入提案编号（选填）' value={this.state.dataList.code} disabled={this.state.disable} onBlur={(event) => this.syncProjectInfo(event)}></Input>
-                        </Col>
-                        <Col span={8}>
-                          <span >项目类型：</span>
-                          <ComboList
-                            value={this.state.dataList.projectTypes}
-                            dataSource={this.state.projTypeList}
-                            showSearch={false}
-                            pagination={false}
-                            name="name"
-                            field={['name']}
-                            afterClear={() => this.change('projectTypes','')}
-                            afterSelect={(item) => this.change('projectTypes',item.name)}
-                            reader={{
-                              name: 'name',
-                              field: ['name'],
-                            }}
-                            style={{width:200}}
-                          ></ComboList>
-                          {/* <Input defaultValue={this.state.dataList.projectTypes}></Input> */}
-                        </Col>
-                        <Col span={8}>
-                          <span >系统名称：</span>
-                          <Input onChange={(event) => this.change('sysName',event.target.value)} value={this.state.dataList.sysName} disabled={ifCode}></Input>
-                        </Col>
-                      </Row>
-                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
-                        <Col span={8}>
-                          <span >项目阶段：</span>
-                          <Input value={this.state.dataList.currentPeriod} disabled></Input>
-                        </Col>
-                        {/* <Col span={8}>
-                          <span >项目类型：</span>
-                          <Input value={this.state.projectTypes} disabled></Input>
-                        </Col> */}
-                        <Col span={8}>
-                          <span>主导人：</span>
-                          <Input value={this.state.dataList.leader} disabled></Input>
-                        </Col>
-                        <Col span={8}>
-                          <span >项目名称：</span>
-                          <Input onChange={(event) => this.change('name',event.target.value)} value={this.state.dataList.name} disabled={ifCode}></Input>
-                        </Col>
-                      </Row>
-                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
-                        <Col span={8}>
-                          <span>参与人数：</span>
-                          <Input value={this.state.dataList.attendanceMemberrCount} disabled></Input>
-                        </Col>
-                        <Col span={8}>
-                        <span >提案日期：</span>
-                          <DatePicker
-                            onChange={(_,dateString) => this.change('submissionDate',dateString)}
-                            placeholder="请选择日期"
-                            value={this.state.dataList.submissionDate === null || this.state.dataList.submissionDate === '' ? null : moment(this.state.dataList.submissionDate, 'YYYY-MM-DD')}
-                            disabled={ifCode}
-                          />
+            <ScrollBar>
+              <Col style={{ height: "100%" }}>
+                <div style={{ marginLeft: "12px", background: "white", height: "100%" }}>
+                  <Tabs defaultActiveKey="1" onChange={this.callback}>
+                    <TabPane tab="基础信息" key="1">
+                      <Form className={styles['basic']}>
+                        <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                          <Button
+                            type="primary"
+                            style={{ marginRight: '16px' }}
+                            ghost
+                            onClick={() => this.handleSave(this.state.dataList)}
+                            >保存</Button>
+                        </Row>
+                        <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                          <Col span={8}>
+                            <span >档案编码：</span>
+                            <Input onChange={(event) => this.change('code',event.target.value)} placeholder='请输入提案编号（选填）' value={this.state.dataList.code} disabled={this.state.disable} onBlur={(event) => this.syncProjectInfo(event)}></Input>
+                          </Col>
+                          <Col span={8}>
+                            <span >项目类型：</span>
+                            <ComboList
+                              value={this.state.dataList.projectTypes}
+                              dataSource={this.state.projTypeList}
+                              showSearch={false}
+                              pagination={false}
+                              name="name"
+                              field={['name']}
+                              afterClear={() => this.change('projectTypes','')}
+                              afterSelect={(item) => this.change('projectTypes',item.name)}
+                              reader={{
+                                name: 'name',
+                                field: ['name'],
+                              }}
+                              style={{width:200}}
+                            ></ComboList>
+                            {/* <Input defaultValue={this.state.dataList.projectTypes}></Input> */}
+                          </Col>
+                          <Col span={8}>
+                            <span >系统名称：</span>
+                            <Input onChange={(event) => this.change('sysName',event.target.value)} value={this.state.dataList.sysName} disabled={ifCode}></Input>
+                          </Col>
+                        </Row>
+                        <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                          <Col span={8}>
+                            <span >项目阶段：</span>
+                            <Input value={this.state.dataList.currentPeriod} disabled></Input>
+                          </Col>
+                          {/* <Col span={8}>
+                            <span >项目类型：</span>
+                            <Input value={this.state.projectTypes} disabled></Input>
+                          </Col> */}
+                          <Col span={8}>
+                            <span>主导人：</span>
+                            <Input value={this.state.dataList.leader} disabled></Input>
+                          </Col>
+                          <Col span={8}>
+                            <span >项目名称：</span>
+                            <Input onChange={(event) => this.change('name',event.target.value)} value={this.state.dataList.name} disabled={ifCode}></Input>
+                          </Col>
+                        </Row>
+                        <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                          <Col span={8}>
+                            <span>参与人数：</span>
+                            <Input value={this.state.dataList.attendanceMemberrCount} disabled></Input>
+                          </Col>
+                          <Col span={8}>
+                          <span >提案日期：</span>
+                            <DatePicker
+                              onChange={(_,dateString) => this.change('submissionDate',dateString)}
+                              placeholder="请选择日期"
+                              value={this.state.dataList.submissionDate === null || this.state.dataList.submissionDate === '' ? null : moment(this.state.dataList.submissionDate, 'YYYY-MM-DD')}
+                              disabled={ifCode}
+                            />
 
-                          {/* <Input
-                            onChange={(event) => this.change('submissionDate',event)}
-                            defaultValue={this.state.dataList.submissionDate}
-                          ></Input> */}
-                        </Col>
-                        <Col span={8}>
-                          <span >科室名称：</span>
-                          <ComboList
-                            allowClear
-                            value={this.state.dataList.orgname}
-                            dataSource={this.state.orgnameList}
-                            showSearch={false}
-                            pagination={false}
-                            name="name"
-                            field={['name']}
-                            afterClear={() => this.orgClear()}
-                            afterSelect={item => this.orgSelect(item)}
-                            reader={{
-                              name: 'name',
-                              field: ['name'],
-                            }}
-                            style={{width:200}}
-                          ></ComboList>
-                        </Col>
-                        {/* <Col span={8}>
-                          <span >规划审批：</span>
-                          <Input value={this.state.dataList.planningApproval} disabled></Input>
-                        </Col> */}
-                      </Row>
-                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
-                        <Col span={24}>
-                          <span>现状描述：</span>
-                          <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('currentDescription',event.target.value)} value={this.state.dataList.currentDescription} ></TextArea>
-                        </Col>
-                      </Row>
-                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
-                        <Col span={24}>
-                          <span>需求描述：</span>
-                          <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('requirementDescription',event.target.value)} value={this.state.dataList.requirementDescription} ></TextArea>
-                        </Col>
-                      </Row>
-                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
-                        <Col span={24}>
-                          <span>改善效益：</span>
-                          <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('improveBenefits',event.target.value)} value={this.state.dataList.improveBenefits} ></TextArea>
-                        </Col>
-                      </Row>
-                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
-                        <Col span={24}>
-                          <span>推广度：</span>
-                          <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('promotionDegree',event.target.value)} value={this.state.dataList.promotionDegree} ></TextArea>
-                        </Col>
-                      </Row>
-                      <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
-                        <Col span={24}>
-                          <span>硬件要求：</span>
-                          <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('hardwareRequirement',event.target.value)} value={this.state.dataList.hardwareRequirement} ></TextArea>
-                        </Col>
-                      </Row>
-                    </Form>
-                  </TabPane>
-                  <TabPane tab="进度跟进" key="2">
-                    <ProjectSchedule id={this.state.dataList.id} editData={this.state.dataList}></ProjectSchedule>
-                  </TabPane>
-                  <TabPane tab="附件信息" key="3">
-                    <Attachment {...attachmentProps} />
-                  </TabPane>
-                  <TabPane tab="计划表" key="4">
-                    <ProjectPlan style={{height: "620px"}} id={this.state.dataList.id} employee={this.state.employee}></ProjectPlan>
-                  </TabPane>
-                  <TabPane tab="待办事项" key="5">
-                    <ExtTable style={{ height: "620px" }} onTableRef={inst => (this.tableRef = inst)} {...this.getTodoListExtableProps()} />
-                    {modalVisibleToDo ? <ToDoEditModal {...this.getToDoEditModalProps()} /> : null}
-                  </TabPane>
-                  <TabPane tab="操作日志" key="6">
-                    <PmLog id={this.state.dataList.id}></PmLog>
-                  </TabPane>
-                  <TabPane tab="双周计划" key="7">
-                    <DoubleWeekPlan
-                      dataList={this.state.dataList}
-                      id={this.state.dataList.id}
-                      onSave={this.handleSave}
-                    ></DoubleWeekPlan>
-                  </TabPane>
-                </Tabs>
-              </div>
-            </Col>
+                            {/* <Input
+                              onChange={(event) => this.change('submissionDate',event)}
+                              defaultValue={this.state.dataList.submissionDate}
+                            ></Input> */}
+                          </Col>
+                          <Col span={8}>
+                            <span >科室名称：</span>
+                            <ComboList
+                              allowClear
+                              value={this.state.dataList.orgname}
+                              dataSource={this.state.orgnameList}
+                              showSearch={false}
+                              pagination={false}
+                              name="name"
+                              field={['name']}
+                              afterClear={() => this.orgClear()}
+                              afterSelect={item => this.orgSelect(item)}
+                              reader={{
+                                name: 'name',
+                                field: ['name'],
+                              }}
+                              style={{width:200}}
+                            ></ComboList>
+                          </Col>
+                          {/* <Col span={8}>
+                            <span >规划审批：</span>
+                            <Input value={this.state.dataList.planningApproval} disabled></Input>
+                          </Col> */}
+                        </Row>
+                        <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                          <Col span={24}>
+                            <span>现状描述：</span>
+                            <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('currentDescription',event.target.value)} value={this.state.dataList.currentDescription} ></TextArea>
+                          </Col>
+                        </Row>
+                        <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                          <Col span={24}>
+                            <span>需求描述：</span>
+                            <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('requirementDescription',event.target.value)} value={this.state.dataList.requirementDescription} ></TextArea>
+                          </Col>
+                        </Row>
+                        <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                          <Col span={24}>
+                            <span>改善效益：</span>
+                            <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('improveBenefits',event.target.value)} value={this.state.dataList.improveBenefits} ></TextArea>
+                          </Col>
+                        </Row>
+                        <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                          <Col span={24}>
+                            <span>推广度：</span>
+                            <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('promotionDegree',event.target.value)} value={this.state.dataList.promotionDegree} ></TextArea>
+                          </Col>
+                        </Row>
+                        <Row gutter={24} justify="space-around" style={{ margin: "10px 0" }}>
+                          <Col span={24}>
+                            <span>硬件要求：</span>
+                            <TextArea disabled={ifCode} className="rowStyle" onChange={(event) => this.change('hardwareRequirement',event.target.value)} value={this.state.dataList.hardwareRequirement} ></TextArea>
+                          </Col>
+                        </Row>
+                      </Form>
+                    </TabPane>
+                    <TabPane tab="进度跟进" key="2">
+                      <ProjectSchedule id={this.state.dataList.id} editData={this.state.dataList}></ProjectSchedule>
+                    </TabPane>
+                    <TabPane tab="附件信息" key="3">
+                      <Attachment {...attachmentProps} />
+                    </TabPane>
+                    <TabPane tab="计划表" key="4">
+                      <ProjectPlan style={{height: "620px"}} id={this.state.dataList.id} employee={this.state.employee}></ProjectPlan>
+                    </TabPane>
+                    <TabPane tab="待办事项" key="5">
+                      <ExtTable style={{ height: "620px" }} onTableRef={inst => (this.tableRef = inst)} {...this.getTodoListExtableProps()} />
+                      {modalVisibleToDo ? <ToDoEditModal {...this.getToDoEditModalProps()} /> : null}
+                    </TabPane>
+                    <TabPane tab="操作日志" key="6">
+                      <PmLog id={this.state.dataList.id}></PmLog>
+                    </TabPane>
+                    <TabPane tab="双周计划" key="7">
+                      <DoubleWeekPlan
+                        dataList={this.state.dataList}
+                        id={this.state.dataList.id}
+                        onSave={this.handleSave}
+                      ></DoubleWeekPlan>
+                    </TabPane>
+                  </Tabs>
+                </div>
+              </Col>
+            </ScrollBar>
           </Content>
 
         {/* </div> */}
