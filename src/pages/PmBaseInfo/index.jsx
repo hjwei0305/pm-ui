@@ -5,6 +5,7 @@ import { Input , DatePicker, Row, Col, Button,Tag,message  } from 'antd';
 import { ExtTable, ExtIcon, ComboList, Space,utils } from 'suid';
 import { constants,exportXlsx } from '@/utils';
 import EditModal from './EditModal';
+import ReportEditModal from './ReportEditModal';
 
 import styles from './index.less'
 import logo1 from '../../../static/proj-one.png'
@@ -252,6 +253,7 @@ static projTypeFilter = null;
     return filters;
   };
 
+  /** 新建项目 */
   openModal = (row,disable) =>{
     this.dispatchAction({
       type: 'pmBaseInfo/updateState',
@@ -259,6 +261,16 @@ static projTypeFilter = null;
         modalVisible: true,
         editData: row,
         // disable: disable,
+      },
+    });
+  }
+
+  /** 打开项目进度汇报 */
+  openReportModal = () =>{
+    this.dispatchAction({
+      type: 'pmBaseInfo/updateState',
+      payload: {
+        reportModalVisible: true,
       },
     });
   }
@@ -330,6 +342,15 @@ static projTypeFilter = null;
       },
     });
     this.reloadData()
+  };
+
+  handleModalClose = () => {
+    this.dispatchAction({
+      type: 'pmBaseInfo/updateState',
+      payload: {
+        reportModalVisible: false,
+      },
+    });
   };
 
   renderDelBtn = row => {
@@ -623,6 +644,7 @@ static projTypeFilter = null;
       ),
     };
     const filters = this.getTableFilters();
+    console.log(filters)
     return {
       refreshButton: 'empty',
       showSearch:false,
@@ -717,6 +739,20 @@ static projTypeFilter = null;
     };
   };
 
+  getRportEditModalProps = () => {
+    const { loading, pmBaseInfo } = this.props;
+    const { orgnameList } = this.state
+    const { reportModalVisible } = pmBaseInfo;
+
+    return {
+      orgnameList,
+      onSync: this.handleSync,
+      visible: reportModalVisible,
+      onClose: this.handleModalClose,
+      sync: loading.effects['pmBaseInfo/syncProjectInfo'],
+    };
+  };
+
   reloadData = () => {
     if (this.tableRef) {
       this.tableRef.remoteDataRefresh();
@@ -725,7 +761,7 @@ static projTypeFilter = null;
 
   render() {
     const { pmBaseInfo } = this.props;
-    const { modalVisible } = pmBaseInfo;
+    const { modalVisible, reportModalVisible } = pmBaseInfo;
     return (
       <>
         <div className={styles['container']}>
@@ -888,6 +924,14 @@ static projTypeFilter = null;
                 ignore="true"
               >新建</Button>
               <Button onClick={this.handlerExport}>导出</Button>
+              {/*<Button*/}
+              {/*  key="add"*/}
+              {/*  type="primary"*/}
+              {/*  onClick={() => {*/}
+              {/*    this.openReportModal();*/}
+              {/*  }}*/}
+              {/*  ignore="true"*/}
+              {/*>汇报</Button>*/}
             </Space>
           </Row>
           <Row style={{height:"40px",margin:"0 12px",padding:"0 12px",backgroundColor:"white"}} className="choose-content">
@@ -903,6 +947,7 @@ static projTypeFilter = null;
           </Row>
         </div>
         {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null}
+        {reportModalVisible ? <ReportEditModal {...this.getRportEditModalProps()} /> : null}
       </>
     );
   }

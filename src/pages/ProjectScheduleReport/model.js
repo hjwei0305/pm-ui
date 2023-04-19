@@ -6,20 +6,17 @@
  */
 import { message } from 'antd';
 import { utils } from 'suid';
-import { del, save, getProjectInfo, getChildrenNodes } from './service';
+import { del, save, getOrgnameList, getDataList } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
 
 export default modelExtend(model, {
-  namespace: 'pmBaseInfo',
+  namespace: 'projectScheduleReport',
 
   state: {
     editData: null,
     modalVisible: false,
-    reportModalVisible: false,
-    newProjCode: null,
-    // disable: false,
   },
   effects: {
     *save({ payload }, { call }) {
@@ -48,21 +45,22 @@ export default modelExtend(model, {
 
       return result;
     },
-    *getProjectInfo({ payload }, { call }) {
-      const result = yield call(getProjectInfo, payload);
-      const { success, message: msg } = result || {};
 
+    // orgnameList
+    *getOrgnameList({ payload }, { call }) {
+      const result = yield call(getOrgnameList, payload);
+      const { success, message: msg } = result || {};
       message.destroy();
       if (success) {
-        // message.success(msg);
+      //  message.success(msg);
       } else {
         message.error(msg);
       }
       return result;
     },
-    // orgList
-    *getChildrenNodes({ payload }, { call }) {
-      const result = yield call(getChildrenNodes, payload);
+
+    *getDataList({ payload }, { call }) {
+      const result = yield call(getDataList, payload);
       const { success, message: msg } = result || {};
       message.destroy();
       if (success) {

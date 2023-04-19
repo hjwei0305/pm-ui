@@ -84,6 +84,11 @@ const menuData = [
     id: '702',
     name: '流程配置',
     path: '/pm/ProjectOption',
+  },
+  {
+    id: '703',
+    name: '项目进度报表',
+    path: '/pm/ProjectScheduleReport',
   }
 ];
 

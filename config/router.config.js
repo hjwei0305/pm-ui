@@ -87,6 +87,11 @@ export default [
             path: '/pm/ProjectOption',
             component: './ProjectOption',
             title: '流程配置',
+          },
+          {
+            path: '/pm/ProjectScheduleReport',
+            component: './ProjectScheduleReport',
+            title: '项目进度报表',
           }
         ],
       },
