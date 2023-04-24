@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button, Col, Popconfirm, Row, Tabs, Form, Input, Icon, Tag, Select, message, DatePicker   } from 'antd';
-import { ExtIcon, ExtTable, ComboList, ProLayout, Attachment, ScrollBar } from 'suid';
+import { ExtIcon, ExtTable, ComboList, ProLayout, Attachment, ScrollBar, YearPicker } from 'suid';
 import ToDoEditModal from './ToDoEditModal';
 import styles from './index.less'
 import { constants } from '@/utils';
@@ -961,6 +961,14 @@ class PmBaseInfoEdit extends Component {
                         disabled
                       />
                     </div>
+                  </div>
+                  <div className={styles['year']}>
+                    <div className="yearTitle">项目年份：</div>
+                    <YearPicker 
+                      onChange={(yearValue) => this.change('year',yearValue)} 
+                      allowClear 
+                      value={this.state.dataList.year} 
+                      format="YYYY" />
                   </div>
                   <div className={styles['pause']}>
                     <div className="pauseTitle">项目暂停：</div>

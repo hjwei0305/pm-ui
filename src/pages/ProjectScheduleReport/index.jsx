@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Input, Button, DatePicker } from 'antd';
-import { ExtTable, Space, ComboList } from 'suid';
+import { ExtTable, Space, ComboList, YearPicker } from 'suid';
 import {constants} from "@/utils";
 
 const {PROJECT_PATH} = constants;
@@ -41,6 +41,7 @@ class ProjectScheduleReport extends Component {
   
 
   state = {
+    year: null,
     dataList: [],
     times: 0,
     orgnameFilter: null,
@@ -131,9 +132,9 @@ class ProjectScheduleReport extends Component {
     }
     if (this.dateFilter) {
       filters.push({
-        fieldName: 'startDate',
-        operator: 'GE',
-        fieldType: 'date',
+        fieldName: 'year',
+        operator: 'EQ',
+        fieldType: 'String',
         value: this.dateFilter,
       });
     }
@@ -146,31 +147,81 @@ class ProjectScheduleReport extends Component {
         title: '项目类型',
         dataIndex: 'projectTypes',
         width: 120,
-        required: false,
+        required: true,
+        render: (text,record) => {
+          if (record.id === "sum") {
+              return {
+                children:<span>合计</span>,
+                props:{colSpan:0}
+            }
+          } else{
+            return text
+          }
+        }
       },
       {
         title: '项目名称',
         dataIndex: 'name',
         width: 250,
-        required: false,
+        required: true,
+        render: (text,record) => {
+          if (record.id === "sum") {
+              return {
+                children:<b>合计</b>,
+                props:{colSpan:0}
+            }
+          } else{
+            return text
+          }
+        }
       },
       {
         title: '启动日期',
         dataIndex: 'startDate',
         width: 120,
-        required: false,
+        required: true,
+        render: (text,record) => {
+          if (record.id === "sum") {
+              return {
+                children:<div>合计</div>,
+                props:{colSpan:5}
+            }
+          } else{
+            return text
+          }
+        }
       },
       {
         title: '计划完成时间',
         dataIndex: 'planFinishDate',
         width: 120,
-        required: false,
+        required: true,
+        render: (text,record) => {
+          if (record.id === "sum") {
+              return {
+                children:<b>合计</b>,
+                props:{colSpan:0}
+            }
+          } else{
+            return text
+          }
+        }
       },
       {
         title: '项目周期（天）',
         dataIndex: 'projectDays',
         width: 120,
-        required: false,
+        required: true,
+        render: (text,record) => {
+          if (record.id === "sum") {
+              return {
+                children:<b>合计</b>,
+                props:{colSpan:0}
+            }
+          } else{
+            return text
+          }
+        }
       },
       {
         title: '推进进度',
@@ -179,37 +230,37 @@ class ProjectScheduleReport extends Component {
             title: '项目启动',
             dataIndex: 'proStart',
             width: 100,
-            required: false,
+            required: true,
           },
           {
             title: '需求制作',
             dataIndex: 'requirement',
             width: 100,
-            required: false,
+            required: true,
           },
           {
             title: '程序开发',
             dataIndex: 'development',
             width: 100,
-            required: false,
+            required: true,
           },
           {
             title: '测试验证',
             dataIndex: 'test',
             width: 100,
-            required: false,
+            required: true,
           },
           {
             title: '应用推广',
             dataIndex: 'promote',
             width: 100,
-            required: false,
+            required: true,
           },
           {
             title: '项目验收',
             dataIndex: 'finish',
             width: 100,
-            required: false,
+            required: true,
           },
         ]
       },
@@ -217,7 +268,7 @@ class ProjectScheduleReport extends Component {
         title: '完成率',
         dataIndex: 'completionRate',
         width: 120,
-        required: false,
+        required: true,
         render:(_, record) => (
           record.completionRate + "%"
         )
@@ -248,7 +299,12 @@ class ProjectScheduleReport extends Component {
             onChange={item => this.memberFilter = item.target.value}
             allowClear
           ></Input>
-          开始日期：<DatePicker onChange={item => this.onDateChange(item)} format="YYYY-MM-DD" />
+          项目年份：
+          <YearPicker 
+            onChange={this.onDateChange} 
+            allowClear 
+            value={this.state.year} 
+            format="YYYY" />
           <Button type="primary" onClick={this.refresh}>查询</Button>
         </Space>
       ),
@@ -273,11 +329,16 @@ class ProjectScheduleReport extends Component {
   };
 
   onDateChange = (data) => {
-    debugger
     if(data){
-      this.dateFilter = data.format('YYYY-MM-DD');
+      this.dateFilter = data;
+      this.setState({
+        year: data
+      })
     }else{
       this.dateFilter = null
+      this.setState({
+        year: null
+      })
     }
   };
 
