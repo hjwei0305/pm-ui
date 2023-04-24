@@ -13,6 +13,9 @@ import logo2 from '../../../static/proj-two.png'
 import logo3 from '../../../static/proj-three.png'
 import logo4 from '../../../static/proj-four.png'
 import logo5 from '../../../static/proj-five.png'
+import logo6 from '../../../static/proj-six.png'
+import logo7 from '../../../static/proj-seven.png'
+import logo8 from '../../../static/proj-eight.png'
 
 const { PROJECT_PATH } = constants;
 const { request } = utils;
@@ -771,7 +774,7 @@ static projTypeFilter = null;
               <Col className="col-content">
                   <div className="item item-color3">
                     <div className="item-img">
-                      <img src={logo3} width={80} height={80}></img>
+                      <img src={logo1} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.sumNum}</div>
                         <div className="item-text2">项目总数</div>
@@ -782,7 +785,7 @@ static projTypeFilter = null;
                 <Col className="col-content">
                   <div className="item item-color1">
                     <div className="item-img">
-                      <img src={logo1} width={80} height={80}></img>
+                      <img src={logo2} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.notStartedNum}</div>
                         <div className="item-text2">未开始</div>
@@ -793,7 +796,7 @@ static projTypeFilter = null;
                 <Col className="col-content">
                   <div className="item item-color2">
                     <div className="item-img">
-                      <img src={logo2} width={80} height={80}></img>
+                      <img src={logo3} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.processingNum}</div>
                         <div className="item-text2">进行中</div>
@@ -816,7 +819,7 @@ static projTypeFilter = null;
                 <Col className="col-content">
                   <div className="item item-color1">
                     <div className="item-img">
-                      <img src={logo1} width={80} height={80}></img>
+                      <img src={logo5} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.preOverTimeNum}</div>
                         <div className="item-text2">预逾期</div>
@@ -827,7 +830,7 @@ static projTypeFilter = null;
                 <Col className="col-content">
                   <div className="item item-color5">
                     <div className="item-img">
-                      <img src={logo5} width={80} height={80}></img>
+                      <img src={logo6} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.overTimeNum}</div>
                         <div className="item-text2">已逾期</div>
@@ -836,9 +839,9 @@ static projTypeFilter = null;
                   </div>
                 </Col>
                 <Col className="col-content">
-                  <div className="item item-color5">
+                  <div className="item item-color3">
                     <div className="item-img">
-                      <img src={logo5} width={80} height={80}></img>
+                      <img src={logo7} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.advanceDay}</div>
                         <div className="item-text2">提前天数</div>
@@ -847,9 +850,9 @@ static projTypeFilter = null;
                   </div>
                 </Col>
                 <Col className="col-content">
-                  <div className="item item-color5">
+                  <div className="item item-color4">
                     <div className="item-img">
-                      <img src={logo5} width={80} height={80}></img>
+                      <img src={logo8} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.overTimeDay}</div>
                         <div className="item-text2">延后天数</div>
@@ -913,7 +916,7 @@ static projTypeFilter = null;
                 }}
               />
               <div className='div-text'>开始日期：</div>
-              <DatePicker onChange={item => this.onDateChange(item)} format="YYYY-MM-DD" />
+              <DatePicker style={{width:"150px"}} onChange={item => this.onDateChange(item)} format="YYYY-MM-DD" />
               <Button onClick={this.handlerSearch}>搜索</Button>
               <Button
                 key="add"

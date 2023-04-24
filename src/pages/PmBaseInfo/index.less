@@ -2,8 +2,11 @@
 
 .container{
     background-color: #F4F8FC;
+    // overflow-x: auto;
     :global{
     .row-content{
+        // xiugai
+        min-width: 960px;
         :global{
         .col-content{
             padding: 16px 5px;
@@ -24,6 +27,10 @@
             .item{
                 height: 120px;
                 border-radius: 4px;
+                // xiugai
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             .item-img{
                 padding: 20px;
@@ -43,11 +50,16 @@
                 background: #FFF2EC;
             }
             .item-color5{
-                background: #FFF8E5;
+                background: #ffd1d1;
             }
         }}
     }
     .choose-content{
+        // xiugai
+        float: left;
+        width: 100%;
+        margin-right: 50px;
+        // height: 50px;
         .div-text {
             width: 70px;
         }
