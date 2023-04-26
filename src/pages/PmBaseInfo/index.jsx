@@ -945,7 +945,7 @@ static projTypeFilter = null;
               <Input style={{width:"150px"}} onChange={item=>this.memberFilter=item.target.value} allowClear></Input>
             </Space>
           </Row>
-          <Row style={{height:"calc(100% - 272px)",padding:"0 12px"}}>
+          <Row style={{height:"calc(100% - 272px)",padding:"0 12px",float:"left"}}>
               <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
           </Row>
         </div>

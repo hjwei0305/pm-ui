@@ -63,6 +63,42 @@ class FormModal extends PureComponent {
         required: true,
         elem:'INPUT',
         editFlag: true,
+        fixed: true,
+      },
+      {
+        title: '项目名称',
+        dataIndex: 'projectName',
+        width: 220,
+        required: true,
+        elem: 'INPUT',
+        editFlag: false,
+        fixed: true,
+      },
+      {
+        title: '主要任务/关键步骤',
+        dataIndex: 'workTodoList',
+        width: 220,
+        required: true,
+        elem: 'INPUT',
+        editFlag: true,
+        fixed: true,
+      },
+      {
+        title: '类别',
+        dataIndex: 'type',
+        width: 100,
+        required: true,
+        elem: 'COMBOLIST',
+        editFlag: true,
+        fixed: true,
+      },
+      {
+        title: '协助人',
+        dataIndex: 'workAssist',
+        width: 150,
+        required: true,
+        elem: 'EMPSELECT',
+        editFlag: true,
       },
       {
         title: '计划开始日期',
@@ -99,39 +135,15 @@ class FormModal extends PureComponent {
       {
         title: '实际天数',
         dataIndex: 'schedureDays',
-        width: 100,
+        width: 80,
         required: true,
         elem: 'INPUT_A',
         editFlag: false,
       },
       {
-        title: '项目名称',
-        dataIndex: 'projectName',
-        width: 220,
-        required: true,
-        elem: 'INPUT',
-        editFlag: false,
-      },
-      {
-        title: '主要任务/关键步骤',
-        dataIndex: 'workTodoList',
-        width: 220,
-        required: true,
-        elem: 'INPUT',
-        editFlag: true,
-      },
-      {
-        title: '类别',
-        dataIndex: 'type',
-        width: 120,
-        required: true,
-        elem: 'COMBOLIST',
-        editFlag: true,
-      },
-      {
         title: '所占比例',
         dataIndex: 'workHouresRate',
-        width: 120,
+        width: 100,
         required: true,
         elem: 'INPUT',
         editFlag: true,
@@ -142,18 +154,10 @@ class FormModal extends PureComponent {
       {
         title: '工作时间(H)',
         dataIndex: 'workHours',
-        width: 120,
+        width: 100,
         required: true,
         elem: 'INPUT',
         editFlag: false,
-      },
-      {
-        title: '协助人',
-        dataIndex: 'workAssist',
-        width: 150,
-        required: true,
-        elem: 'EMPSELECT',
-        editFlag: true,
       },
       {
         title: '第一周进度',
@@ -190,7 +194,7 @@ class FormModal extends PureComponent {
       {
         title: '是否达成',
         dataIndex: 'complete',
-        width: 120,
+        width: 100,
         required: true,
         elem: 'COMBOLIST_SUCCESS',
         editFlag: true,
@@ -417,7 +421,7 @@ class FormModal extends PureComponent {
         }else{
           row.schedureDays = days
           row.workHours = days * 8
-          row.workHouresRate = (row.workHours / 188).toFixed(2)
+          row.workHouresRate = (row.workHours * 100 / 188).toFixed(2)
           this.state.editingKey = 0
         }
       }
