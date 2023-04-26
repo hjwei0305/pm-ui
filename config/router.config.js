@@ -92,6 +92,16 @@ export default [
             path: '/pm/ProjectScheduleReport',
             component: './ProjectScheduleReport',
             title: '项目进度报表',
+          },
+          {
+            path: '/pm/YearProjectReport',
+            component: './YearProjectReport',
+            title: '科室年度项目',
+          },
+          {
+            path: '/pm/PersonalMonthReport',
+            component: './PersonalMonthReport',
+            title: '个人月度计划',
           }
         ],
       },

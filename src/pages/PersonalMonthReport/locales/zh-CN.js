@@ -5,5 +5,5 @@
  * @Last Modified time: 2020-04-24 17:17:40
  */
 export default {
-  ProjectScheduleReport: 'ProjectScheduleReport',
+  PersonalMonthReport: 'PersonalMonthReport',
 };

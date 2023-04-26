@@ -89,6 +89,16 @@ const menuData = [
     id: '703',
     name: '项目进度报表',
     path: '/pm/ProjectScheduleReport',
+  },
+  {
+    id: '703',
+    name: '科室年度项目',
+    path: '/pm/YearProjectReport',
+  },
+  {
+    id: '704',
+    name: '个人月度计划',
+    path: '/pm/PersonalMonthReport',
   }
 ];
 
