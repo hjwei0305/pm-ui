@@ -347,6 +347,7 @@ class FormModal extends PureComponent {
   };
 
   save = () => {
+    const { editData } = this.props
     const save_obj = [];
     this.state.editingKey = 0
     let flag = true
@@ -357,6 +358,9 @@ class FormModal extends PureComponent {
             dataReplace.workAssist = item.workAssist.length === 0 ? '' :item.workAssist.join(",")
             dataReplace.ym = this.monthDate
             dataReplace.complete = dataReplace.complete === '是' ? true : false
+            if(editData){
+              dataReplace.personalMonthReportId = editData.id
+            }
             save_obj.push(dataReplace);
         }else{
           flag = false
@@ -590,8 +594,8 @@ class FormModal extends PureComponent {
     const toolBarProps = {
       left: (
         <Space>
-          <MonthPicker 
-            onChange={(_,dateString) => this.Monthchange(_,dateString)} 
+          <MonthPicker
+            onChange={(_,dateString) => this.Monthchange(_,dateString)}
             placeholder='请选择生成月份'
             defaultValue={this.props.editData ? moment(this.monthDate) : ''}
             disabled = { this.props.editData ? true : false}
