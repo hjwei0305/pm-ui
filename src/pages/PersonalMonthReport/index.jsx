@@ -20,11 +20,19 @@ class PersonalMonthReport extends Component {
       payload:{}
     }).then(res => {
       const { data } = res;
+      const orgObj = []
       for(let item of data){
-        if(item.nodeLevel === 3 || item.name === '系统运维管理部'){
-          this.state.orgnameList.push({code:item.code,name:item.name,extorgname:item.extorgname})
+        if(item.name !== '中心办' && (item.nodeLevel === 3 || item.nodeLevel === 2)){
+          orgObj.push({
+              code:item.code,
+              name:item.name,
+              extorgname:item.extorgname
+          })
         }
       }
+      this.setState({
+        orgnameList : orgObj
+      })
     })
   }
   
@@ -241,20 +249,17 @@ class PersonalMonthReport extends Component {
         <Space>
           汇报科室:{' '}
           <ComboList
-            style={{ width: '150px' }}
-            showSearch={false}
+            style={{ width: 150 }}
             pagination={false}
             dataSource={this.state.orgnameList}
-            allowClear
-            name="name"
-            field={['name']}
+            rowKey="code"
             afterClear={() => this.orgnameFilter = null}
             afterSelect={item => this.orgnameFilter = item.name}
+            allowClear
             reader={{
               name: 'name',
-              field: ['name'],
             }}
-          />
+          />,
           汇报人:{' '}
           <Input 
             style={{width:"150px"}} 
