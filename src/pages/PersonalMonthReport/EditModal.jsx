@@ -268,7 +268,7 @@ class FormModal extends PureComponent {
         if(data){
           for(let [index,item] of data.entries()){
             item.key = index
-            item.workAssist = item.workAssist === '' ? [] : item.workAssist.split(',')
+            item.workAssist = item.workAssist === '' || item.workAssist === null ? [] : item.workAssist.split(',')
             for(let obj of this.state.OrNotStatus){
               if(obj.code === item.complete){
                 item.complete = obj.name
@@ -415,7 +415,7 @@ class FormModal extends PureComponent {
       if(data){
         for(let [index,item] of data.entries()){
           item.key = index
-          item.workAssist = item.workAssist === '' ? [] : item.workAssist.split(',')
+          item.workAssist = item.workAssist === '' || item.workAssist === null ? [] : item.workAssist.split(',')
           // 保存后返回的数据，转换文字
           for(let obj of this.state.OrNotStatus){
             if(obj.code === item.complete){
@@ -852,7 +852,7 @@ class FormModal extends PureComponent {
             key++
             obj.scheNo = scheNo
             scheNo++
-            obj.workAssist = obj.workAssist === '' ? [] : obj.workAssist.split(',')
+            obj.workAssist = obj.workAssist === '' || obj.workAssist === null ? [] : obj.workAssist.split(',')
             for(let item of this.state.OrNotStatus){
               if(item.code === obj.complete){
                 obj.complete = item.name
