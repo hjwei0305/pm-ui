@@ -321,11 +321,12 @@ class PmBaseInfoEdit extends Component {
     debugger
     if(option === 'week'){
       // 由双周子组件带过来的数据，主组件修改的数据没有，需特殊处理
-      data.weekPlanUpdate = moment(new Date()).format('YYYY-MM-DD')
+      // data.weekPlanUpdate = moment(new Date()).format('YYYY-MM-DD')
       var weekData = this.state.dataList
       weekData.weekPlan = data.weekPlan
       weekData.nextWeekPlan = data.nextWeekPlan
       weekData.workRisk = data.workRisk
+      weekData.weekPlanUpdate = moment(new Date()).format('YYYY-MM-DD')
       this.setState({
         dataList: weekData
       })
