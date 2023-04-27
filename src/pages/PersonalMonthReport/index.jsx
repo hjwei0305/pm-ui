@@ -255,7 +255,6 @@ class PersonalMonthReport extends Component {
             rowKey="code"
             afterClear={() => this.orgnameFilter = null}
             afterSelect={item => this.orgnameFilter = item.name}
-            allowClear
             reader={{
               name: 'name',
             }}
