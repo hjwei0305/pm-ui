@@ -253,12 +253,13 @@ class PersonalMonthReport extends Component {
             pagination={false}
             dataSource={this.state.orgnameList}
             rowKey="code"
+            allowClear
             afterClear={() => this.orgnameFilter = null}
             afterSelect={item => this.orgnameFilter = item.name}
             reader={{
               name: 'name',
             }}
-          />,
+          />
           汇报人:{' '}
           <Input 
             style={{width:"150px"}} 
