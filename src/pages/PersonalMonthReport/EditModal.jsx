@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, Button, DatePicker, message, InputNumber, Input, Select } from 'antd';
+import { Form, Button, DatePicker, message, InputNumber, Input, Select, Tag } from 'antd';
 import { ExtModal, ExtTable, Space, ComboList } from 'suid';
 import moment from 'moment';
 
@@ -45,12 +45,16 @@ class FormModal extends PureComponent {
       }],
     OrNotStatus:[
       {
+        code: 0,
+        name: '否',
+      },
+      {
         code: 1,
         name: '是',
       },
       {
-        code: 0,
-        name: '否',
+        code: 2,
+        name: '',
       },
     ],
     columns: [],
@@ -71,7 +75,7 @@ class FormModal extends PureComponent {
         width: 220,
         required: true,
         elem: 'INPUT',
-        editFlag: false,
+        editFlag: true,
         fixed: true,
       },
       {
@@ -200,6 +204,20 @@ class FormModal extends PureComponent {
         editFlag: true,
       },
       {
+        title: '是否生成',
+        dataIndex: 'autoGenerate',
+        width: 100,
+        required: true,
+        elem: 'INPUT',
+        editFlag: false,
+        render: (_, record) => {
+          if (record.autoGenerate) {
+            return <Tag color="green">是</Tag>;
+          }
+          return <Tag color="red">否</Tag>;
+        },
+      },
+      {
         title: '操作',
         key: 'operation',
         width: 85,
@@ -251,7 +269,11 @@ class FormModal extends PureComponent {
           for(let [index,item] of data.entries()){
             item.key = index
             item.workAssist = item.workAssist === '' ? [] : item.workAssist.split(',')
-            item.complete = item.complete ? '是' : '否'
+            for(let obj of this.state.OrNotStatus){
+              if(obj.code === item.complete){
+                item.complete = obj.name
+              }
+            }
           }
           if(data.length > 0){
             this.setState({
@@ -361,7 +383,12 @@ class FormModal extends PureComponent {
             var dataReplace = Object.assign({},item)
             dataReplace.workAssist = item.workAssist.length === 0 ? '' :item.workAssist.join(",")
             dataReplace.ym = this.monthDate
-            dataReplace.complete = dataReplace.complete === '是' ? true : false
+            // 文字转换为数字后保存
+            for(let obj of this.state.OrNotStatus){
+              if(obj.name === dataReplace.complete){
+                dataReplace.complete = obj.code
+              }
+            }
             if(editData){
               dataReplace.personalMonthReportId = editData.id
             }
@@ -385,19 +412,23 @@ class FormModal extends PureComponent {
       payload: data,
     }).then(res =>{
       const { data, msg } = res;
-      debugger
-        if(data){
-          for(let [index,item] of data.entries()){
-            item.key = index
-            item.workAssist = item.workAssist === '' ? [] : item.workAssist.split(',')
-            item.complete = item.complete ? '是' : '否'
-          }
-          if(data.length > 0){
-            this.setState({
-              dataList : data
-            })
+      if(data){
+        for(let [index,item] of data.entries()){
+          item.key = index
+          item.workAssist = item.workAssist === '' ? [] : item.workAssist.split(',')
+          // 保存后返回的数据，转换文字
+          for(let obj of this.state.OrNotStatus){
+            if(obj.code === item.complete){
+              item.complete = obj.name
+            }
           }
         }
+        if(data.length > 0){
+          this.setState({
+            dataList : data
+          })
+        }
+      }
     })
   };
 
@@ -407,7 +438,7 @@ class FormModal extends PureComponent {
     if(c.elem === 'COMBOLIST'){
       row[c.dataIndex] = e.name;
     }else if(c.elem === 'COMBOLIST_SUCCESS'){
-      row[c.dataIndex] = e.name;
+      row[c.dataIndex] = e.code;
     }else if(c.elem === 'DATE_PICK'){
       row[c.dataIndex] = e;
       // 计算实际天数
@@ -479,7 +510,8 @@ class FormModal extends PureComponent {
       secondWeekSituation: '',
       thirdWeekSituation: '',
       fourthWeekSituation: '',
-      complete: '否',
+      complete: '',
+      autoGenerate: 0
     });
     this.setState({
       dataList : add_obj
@@ -788,26 +820,27 @@ class FormModal extends PureComponent {
         }
       }).then(res => {
         const { data, msg } = res;
-        debugger
         if(data){
           const createObj = []
           const dataObj = this.state.dataList
-          let key;
+          let key = 0;
           let scheNo = 1
           // 计算当前key
-          if(dataObj.length > 0){
-            key = Math.max.apply(
-              Math,
-              dataObj.map(item => {
-                return item.key;
-              }),
-            );
-          }else{
-            key = -1;
-          }
-          // 除去type=B的自动生成数据，重排scheNo
+          // if(dataObj.length > 0){
+          //   key = Math.max.apply(
+          //     Math,
+          //     dataObj.map(item => {
+          //       return item.key;
+          //     }),
+          //   );
+          // }else{
+          //   key = -1;
+          // }
+          // 除去自动生成数据，重排scheNo
           for(let [index,item] of dataObj.entries()){
-            if(item.type !== 'B'){
+            if(item.autoGenerate === false){
+              item.key = key
+              key++
               item.scheNo = scheNo
               scheNo++
               createObj.push(item)
@@ -815,11 +848,16 @@ class FormModal extends PureComponent {
           }
           // push重新生成的数据
           for(let [index,obj] of data.entries()){
-            obj.key = key + 1
+            obj.key = key
             key++
             obj.scheNo = scheNo
             scheNo++
             obj.workAssist = obj.workAssist === '' ? [] : obj.workAssist.split(',')
+            for(let item of this.state.OrNotStatus){
+              if(item.code === obj.complete){
+                obj.complete = item.name
+              }
+            }
             createObj.push(obj)
           }
           if(data.length > 0){
