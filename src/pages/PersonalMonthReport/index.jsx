@@ -293,6 +293,7 @@ class PersonalMonthReport extends Component {
       columns,
       bordered: true,
       pagination: true,
+      remotePaging: true,
       showSearch: false,
       toolBar: toolBarProps,
       cascadeParams: {
