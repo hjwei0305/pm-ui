@@ -316,14 +316,23 @@ class PmBaseInfoEdit extends Component {
   };
 
   handleSave = (data, option) => {
-    data.remark = null
+    data.remark = null;
+    var dataReplace;
+    debugger
     if(option === 'week'){
+      // 由双周子组件带过来的数据，主组件修改的数据没有，需特殊处理
       data.weekPlanUpdate = moment(new Date()).format('YYYY-MM-DD')
+      var weekData = this.state.dataList
+      weekData.weekPlan = data.weekPlan
+      weekData.nextWeekPlan = data.nextWeekPlan
+      weekData.workRisk = data.workRisk
       this.setState({
-        dataList: Object.assign({},data)
+        dataList: weekData
       })
+      dataReplace = Object.assign({},weekData)
+    }else {
+      dataReplace = Object.assign({},data)
     }
-    var dataReplace = Object.assign({},data)
     if(typeof(dataReplace.projectTypes) == "string"){
       for(let item of this.state.projTypeList){
         if(item.name == dataReplace.projectTypes){
