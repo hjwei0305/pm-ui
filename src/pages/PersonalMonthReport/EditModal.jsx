@@ -737,6 +737,7 @@ class FormModal extends PureComponent {
                       <ComboList
                         style={{ width: '80px', marginRight: '12px' }}
                         showSearch={false}
+                        allowClear
                         pagination={false}
                         dataSource={this.state.OrNotStatus}
                         afterClear={e => { this.handleCellSave(e, r, c)}}
