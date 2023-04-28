@@ -136,41 +136,41 @@ class FormModal extends PureComponent {
         elem: 'DATE_PICK',
         editFlag: true,
       },
-      {
-        title: '计划天数',
-        dataIndex: 'planDays',
-        width: 80,
-        required: true,
-        elem: 'INPUT_A',
-        editFlag: false,
-      },
-      {
-        title: '实际天数',
-        dataIndex: 'schedureDays',
-        width: 80,
-        required: true,
-        elem: 'INPUT_A',
-        editFlag: false,
-      },
-      {
-        title: '所占比例',
-        dataIndex: 'workHouresRate',
-        width: 100,
-        required: true,
-        elem: 'INPUT',
-        editFlag: true,
-        render:(_, record) => (
-          record.workHouresRate + "%"
-        )
-      },
-      {
-        title: '工作时间(H)',
-        dataIndex: 'workHours',
-        width: 100,
-        required: true,
-        elem: 'INPUT',
-        editFlag: false,
-      },
+      // {
+      //   title: '计划天数',
+      //   dataIndex: 'planDays',
+      //   width: 80,
+      //   required: true,
+      //   elem: 'INPUT_A',
+      //   editFlag: false,
+      // },
+      // {
+      //   title: '实际天数',
+      //   dataIndex: 'schedureDays',
+      //   width: 80,
+      //   required: true,
+      //   elem: 'INPUT_A',
+      //   editFlag: false,
+      // },
+      // {
+      //   title: '所占比例',
+      //   dataIndex: 'workHouresRate',
+      //   width: 100,
+      //   required: true,
+      //   elem: 'INPUT',
+      //   editFlag: true,
+      //   render:(_, record) => (
+      //     record.workHouresRate + "%"
+      //   )
+      // },
+      // {
+      //   title: '工作时间(H)',
+      //   dataIndex: 'workHours',
+      //   width: 100,
+      //   required: true,
+      //   elem: 'INPUT',
+      //   editFlag: false,
+      // },
       {
         title: '第一周进度',
         dataIndex: 'firstWeekSituation',
