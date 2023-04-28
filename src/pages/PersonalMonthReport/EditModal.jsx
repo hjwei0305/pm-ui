@@ -137,6 +137,14 @@ class FormModal extends PureComponent {
         editFlag: true,
       },
       {
+        title: '计划天数',
+        dataIndex: 'planDays',
+        width: 80,
+        required: true,
+        elem: 'INPUT_A',
+        editFlag: false,
+      },
+      {
         title: '实际天数',
         dataIndex: 'schedureDays',
         width: 80,
@@ -456,6 +464,21 @@ class FormModal extends PureComponent {
           this.state.editingKey = 0
         }
       }
+      // 计算计划天数
+      if(c.dataIndex === "planStartDate" || c.dataIndex === "planEndDate"){
+        const planDays = (Date.parse(row.planEndDate) - Date.parse(row.planStartDate)) / 3600 / 1000 /24 + 1;
+        if(Number.isNaN(planDays)){
+          row.planDays = 0
+          // row.workHours = 0
+          // row.workHouresRate = 0
+          this.state.editingKey = 0
+        }else{
+          row.planDays = planDays
+          // row.workHours = days * 8
+          // row.workHouresRate = (row.workHours * 100 / 188).toFixed(2)
+          this.state.editingKey = 0
+        }
+      }
     }else if(c.elem === 'EMPSELECT'){
       row[c.dataIndex] = e;
     }else{
@@ -499,6 +522,7 @@ class FormModal extends PureComponent {
       planEndDate: '',
       actualStartDate: '',
       actualEndDate: '',
+      planDays:0,
       schedureDays: 0,
       projectName: '',
       workTodoList: '',
