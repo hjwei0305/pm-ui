@@ -222,40 +222,40 @@ class PersonalMonthReport extends Component {
           record.compeletionRate + "%"
         )
       },
-      {
-        title: '计划工作小时(H)',
-        dataIndex: 'planHours',
-        width: 150,
-        required: true,
-      },
-      {
-        title: '计划占比',
-        dataIndex: 'planHoursRate',
-        width: 120,
-        required: true,
-        render:(_, record) => (
-          record.planHoursRate + "%"
-        )
-      },
-      {
-        title: '实际工作小时(H)',
-        dataIndex: 'workHours',
-        width: 150,
-        required: true,
-      },
-      {
-        title: '实际占比',
-        dataIndex: 'workHouresRate',
-        width: 120,
-        required: true,
-        render:(_, record) => (
-          record.workHouresRate + "%"
-        )
-      },
+      // {
+      //   title: '计划工作小时(H)',
+      //   dataIndex: 'planHours',
+      //   width: 150,
+      //   required: true,
+      // },
+      // {
+      //   title: '计划占比',
+      //   dataIndex: 'planHoursRate',
+      //   width: 120,
+      //   required: true,
+      //   render:(_, record) => (
+      //     record.planHoursRate + "%"
+      //   )
+      // },
+      // {
+      //   title: '实际工作小时(H)',
+      //   dataIndex: 'workHours',
+      //   width: 150,
+      //   required: true,
+      // },
+      // {
+      //   title: '实际占比',
+      //   dataIndex: 'workHouresRate',
+      //   width: 120,
+      //   required: true,
+      //   render:(_, record) => (
+      //     record.workHouresRate + "%"
+      //   )
+      // },
       {
         title: '更新日期',
         dataIndex: 'lastEditedDate',
-        width: 120,
+        width: 150,
         required: true,
       }
     ];
