@@ -237,21 +237,21 @@ class PersonalMonthReport extends Component {
       //     record.planHoursRate + "%"
       //   )
       // },
-      // {
-      //   title: '实际工作小时(H)',
-      //   dataIndex: 'workHours',
-      //   width: 150,
-      //   required: true,
-      // },
-      // {
-      //   title: '实际占比',
-      //   dataIndex: 'workHouresRate',
-      //   width: 120,
-      //   required: true,
-      //   render:(_, record) => (
-      //     record.workHouresRate + "%"
-      //   )
-      // },
+      {
+        title: '实际工作小时(H)',
+        dataIndex: 'workHours',
+        width: 150,
+        required: true,
+      },
+      {
+        title: '实际占比',
+        dataIndex: 'workHouresRate',
+        width: 120,
+        required: true,
+        render:(_, record) => (
+          record.workHouresRate + "%"
+        )
+      },
       {
         title: '更新日期',
         dataIndex: 'lastEditedDate',

@@ -104,38 +104,38 @@ class FormModal extends PureComponent {
         elem: 'EMPSELECT',
         editFlag: true,
       },
-      {
-        title: '计划开始日期',
-        dataIndex: 'planStartDate',
-        width: 150,
-        required: true,
-        elem: 'DATE_PICK',
-        editFlag: true,
-      },
-      {
-        title: '计划结案日期',
-        dataIndex: 'planEndDate',
-        width: 150,
-        required: true,
-        elem: 'DATE_PICK',
-        editFlag: true,
-      },
-      {
-        title: '实际开始日期',
-        dataIndex: 'actualStartDate',
-        width: 150,
-        required: true,
-        elem: 'DATE_PICK',
-        editFlag: true,
-      },
-      {
-        title: '实际结案日期',
-        dataIndex: 'actualEndDate',
-        width: 150,
-        required: true,
-        elem: 'DATE_PICK',
-        editFlag: true,
-      },
+      // {
+      //   title: '计划开始日期',
+      //   dataIndex: 'planStartDate',
+      //   width: 150,
+      //   required: true,
+      //   elem: 'DATE_PICK',
+      //   editFlag: true,
+      // },
+      // {
+      //   title: '计划结案日期',
+      //   dataIndex: 'planEndDate',
+      //   width: 150,
+      //   required: true,
+      //   elem: 'DATE_PICK',
+      //   editFlag: true,
+      // },
+      // {
+      //   title: '实际开始日期',
+      //   dataIndex: 'actualStartDate',
+      //   width: 150,
+      //   required: true,
+      //   elem: 'DATE_PICK',
+      //   editFlag: true,
+      // },
+      // {
+      //   title: '实际结案日期',
+      //   dataIndex: 'actualEndDate',
+      //   width: 150,
+      //   required: true,
+      //   elem: 'DATE_PICK',
+      //   editFlag: true,
+      // },
       // {
       //   title: '计划天数',
       //   dataIndex: 'planDays',
@@ -171,6 +171,27 @@ class FormModal extends PureComponent {
       //   elem: 'INPUT',
       //   editFlag: false,
       // },
+      {
+        title: '工作时间(H)',
+        dataIndex: 'realWorkHours',
+        width: 120,
+        required: true,
+        elem: 'INPUT',
+        editFlag: true,
+      },
+      {
+        title: '所占比例',
+        dataIndex: 'realWorkHoursRate',
+        width: 100,
+        required: true,
+        elem: 'INPUT',
+        editFlag: true,
+        render:(_, record) => {
+          if(record.realWorkHoursRate || record.realWorkHoursRate === 0){
+            return record.realWorkHoursRate + "%"
+          }
+        }
+      },
       {
         title: '第一周进度',
         dataIndex: 'firstWeekSituation',
@@ -456,12 +477,12 @@ class FormModal extends PureComponent {
           row.schedureDays = 0
           row.workHours = 0
           row.workHouresRate = 0
-          this.state.editingKey = 0
+          // this.state.editingKey = 0
         }else{
           row.schedureDays = days
           row.workHours = days * 8
           row.workHouresRate = (row.workHours * 100 / 188).toFixed(2)
-          this.state.editingKey = 0
+          // this.state.editingKey = 0
         }
       }
       // 计算计划天数
@@ -471,17 +492,20 @@ class FormModal extends PureComponent {
           row.planDays = 0
           // row.workHours = 0
           // row.workHouresRate = 0
-          this.state.editingKey = 0
+          // this.state.editingKey = 0
         }else{
           row.planDays = planDays
           // row.workHours = days * 8
           // row.workHouresRate = (row.workHours * 100 / 188).toFixed(2)
-          this.state.editingKey = 0
+          // this.state.editingKey = 0
         }
       }
     }else if(c.elem === 'EMPSELECT'){
       row[c.dataIndex] = e;
     }else{
+      if(c.dataIndex === "realWorkHours"){
+        row.realWorkHoursRate = (row.realWorkHours * 100 / 188).toFixed(2)
+      }
       row[c.dataIndex] = e.target.value;
     }
     this.editData[r.key] = row;
@@ -535,7 +559,9 @@ class FormModal extends PureComponent {
       thirdWeekSituation: '',
       fourthWeekSituation: '',
       complete: '',
-      autoGenerate: 0
+      autoGenerate: 0,
+      realWorkHours: 0,
+      realWorkHoursRate: 0
     });
     this.setState({
       dataList : add_obj
