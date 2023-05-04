@@ -97,6 +97,28 @@ class YearProjectReport extends Component {
     }
   };
 
+  selectRow = ( record ) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'yearProjectReport/getProInfo',
+      payload:{
+        filters:[
+          {
+            fieldName: 'orgname',
+            operator: 'LK',
+            fieldType: 'string',
+            value: record.name,
+          }
+        ]
+      }
+    }).then(res => {
+      const { rows } = res.data;
+      this.setState({
+        dataList: rows
+      })
+    })
+  }
+
   getTableFilters = () => {
     const filters = [];
     if (this.orgnameFilter) {
@@ -185,16 +207,16 @@ class YearProjectReport extends Component {
             }}
           />
           {/* 汇报人:{' '}
-          <Input 
-            style={{width:"150px"}} 
+          <Input
+            style={{width:"150px"}}
             onChange={item => this.memberFilter = item.target.value}
             allowClear
           ></Input> */}
           项目年份：
-          <YearPicker 
-            onChange={this.onDateChange} 
-            allowClear 
-            value={this.state.year} 
+          <YearPicker
+            onChange={this.onDateChange}
+            allowClear
+            value={this.state.year}
             format="YYYY" />
           <Button type="primary" onClick={this.refresh}>查询</Button>
         </Space>
@@ -202,6 +224,13 @@ class YearProjectReport extends Component {
     };
     const filters = this.getTableFilters();
     return {
+      onRow: record => {
+        return {
+          onClick: () => {
+            this.selectRow(record);
+          },
+        };
+      },
       tableHeaderHeight: 92,
       columns,
       bordered: true,
@@ -234,20 +263,6 @@ class YearProjectReport extends Component {
 
   getSecondExtableProps = () => {
     const columns = [
-      // {
-      //   title: '操作',
-      //   key: 'operation',
-      //   width: 100,
-      //   align: 'center',
-      //   dataIndex: 'id',
-      //   className: 'action',
-      //   required: true,
-      //   render: (_, record) => (
-      //     <Space>
-      //       <div style={{color:"#0066FF",cursor:"pointer"}} onClick={() => this.openModal(record,true)}>查看详情</div>
-      //     </Space>
-      //   ),
-      // },
       {
         title: '系统名称',
         dataIndex: 'sysName',
@@ -423,94 +438,13 @@ class YearProjectReport extends Component {
             }
       },
     ];
-    const toolBarProps = {
-      layout: { leftSpan: 23, rightSpan: 1 },
-      left: (
-        <Space>
-          系统名称：{' '}
-          <Input style={{width:"150px"}} onChange={(event) => this.setState({ nameFilter: event.target.value })} allowClear></Input>
-          当前阶段：{' '}
-          <ComboList
-            style={{ width: '150px' }}
-            showSearch={false}
-            pagination={false}
-            dataSource={this.state.status}
-            allowClear
-            name="name"
-            field={['name']}
-            afterClear={() => this.setState({ currentPeriodFilter: null })}
-            afterSelect={item => this.setState({ currentPeriodFilter: item.name })}
-            reader={{
-              name: 'name',
-              field: ['name'],
-            }}
-          />
-          科室名称：{' '}
-          <ComboList
-            style={{ width: '150px' }}
-            showSearch={false}
-            pagination={false}
-            dataSource={this.state.orgnameList}
-            allowClear
-            name="name"
-            field={['name']}
-            afterClear={item => this.orgnameFilter=null}
-            afterSelect={item => this.orgnameFilter=item.name}
-            reader={{
-              name: 'name',
-              field: ['name'],
-            }}
-          />
-          项目类型：{' '}
-          <ComboList
-            style={{ width: '150px' }}
-            showSearch={false}
-            pagination={false}
-            dataSource={this.state.projTypeList}
-            allowClear
-            name="name"
-            field={['name']}
-            afterClear={item => this.projTypeFilter=null}
-            afterSelect={item => this.projTypeFilter=item.code}
-            reader={{
-              name: 'name',
-              field: ['name'],
-            }}
-          />
-          主导人：{' '}
-          <Input style={{width:"150px"}} onChange={item=>this.projectMasterFilter=item.target.value} allowClear></Input>
-          汇报人：{' '}
-          <Input style={{width:"150px"}} onChange={item=>this.memberFilter=item.target.value} allowClear></Input>
-          开始日期：<DatePicker onChange={item => this.onDateChange(item)} format="YYYY-MM-DD" />
-          <Button onClick={this.handlerSearch}>搜索</Button>
-          <Button
-            key="add"
-            type="primary"
-            onClick={() => {
-              this.openModal({id:'',name:''},false);
-            }}
-            ignore="true"
-          >新建</Button>
-          <Button onClick={this.handlerExport}>导出</Button>
-        </Space>
-      ),
-    };
-    const filters = this.getTableFilters();
     return {
       refreshButton: 'empty',
       showSearch:false,
       columns,
       bordered: true,
-      // toolBar: toolBarProps,
-      cascadeParams: {
-        filters,
-      },
-      remotePaging: true,
-      // store: {
-      //   type: 'POST',
-      //   url: `${PROJECT_PATH}/pmBaseinfo/findByPage`,
-      // },
-
+      pagination: false,
+      dataSource: this.state.dataList,
     };
 
   };
@@ -523,14 +457,16 @@ class YearProjectReport extends Component {
       <>
       <SplitLayout direction="vertical">
         <div>
-          <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
+          <ExtTable
+            onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()}
+          />
         </div>
         <div>
           <ExtTable onTableRef={inst => (this.secondTableRef = inst)} {...this.getSecondExtableProps()} />
         </div>
 
       </SplitLayout>
-        
+
         {/* {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null} */}
       </>
     );

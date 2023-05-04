@@ -160,6 +160,22 @@ class ProjectScheduleReport extends Component {
         }
       },
       {
+        title: '系统名称',
+        dataIndex: 'sysName',
+        width: 250,
+        required: true,
+        render: (text,record) => {
+          if (record.id === "sum") {
+              return {
+                children:<b>合计</b>,
+                props:{colSpan:0}
+            }
+          } else{
+            return text
+          }
+        }
+      },
+      {
         title: '项目名称',
         dataIndex: 'name',
         width: 250,
@@ -184,7 +200,7 @@ class ProjectScheduleReport extends Component {
           if (record.id === "sum") {
               return {
                 children:<div>合计</div>,
-                props:{colSpan:5}
+                props:{colSpan:6}
             }
           } else{
             return text

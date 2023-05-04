@@ -37,8 +37,8 @@ export async function getOrgnameList() {
   });
 }
 
-export async function getDataList(data) {
-  const url = `${PROJECT_PATH}/pmBaseinfo/getProScheduleReport`;
+export async function getProInfo(data) {
+  const url = `${PROJECT_PATH}/pmBaseinfo/findByPage`;
 
   return request.post(url, data);
 }
