@@ -9,7 +9,8 @@ import logo1 from '../../../static/proj-one.png'
 import logo2 from '../../../static/proj-two.png'
 import logo3 from '../../../static/proj-three.png'
 import logo4 from '../../../static/proj-four.png'
-import logo5 from '../../../static/proj-five.png'
+import logo5 from '../../../static/proj-six.png'
+import logo6 from '../../../static/proj-nine.png'
 import EditModal from './EditModal';
 
 const { PROJECT_PATH } = constants;
@@ -318,7 +319,7 @@ class Home extends Component {
             <div style={{ margin: "9px 12px", background: "white", height: "152px", borderRadius: "4px" }}>
               <div>
                 <Col className="col-content">
-                  <div className="item item-color1">
+                  <div className="item item-color3">
                     <div className="item-img">
                       <img src={logo1} width={80} height={80}></img>
                       <div style={{ padding: "0 20px" }}>
@@ -331,7 +332,7 @@ class Home extends Component {
                 <Col className="col-content">
                   <div className="item item-color2">
                     <div className="item-img">
-                      <img src={logo2} width={80} height={80}></img>
+                      <img src={logo3} width={80} height={80}></img>
                       <div style={{ padding: "0 20px" }}>
                         <div className="item-text1">{this.state.processingNum}</div>
                         <div className="item-text2">进行中项目</div>
@@ -340,9 +341,9 @@ class Home extends Component {
                   </div>
                 </Col>
                 <Col className="col-content">
-                  <div className="item item-color3">
+                  <div className="item item-color1">
                     <div className="item-img">
-                      <img src={logo3} width={80} height={80}></img>
+                      <img src={logo6} width={80} height={80}></img>
                       <div style={{ padding: "0 20px" }}>
                         <div className="item-text1">{this.state.onLineNum}</div>
                         <div className="item-text2">本年度已上线项目</div>
@@ -362,7 +363,7 @@ class Home extends Component {
                   </div>
                 </Col>
                 <Col className="col-content">
-                  <div className="item item-color5">
+                  <div className="item item-color6">
                     <div className="item-img">
                       <img src={logo5} width={80} height={80}></img>
                       <div style={{ padding: "0 20px" }}>
