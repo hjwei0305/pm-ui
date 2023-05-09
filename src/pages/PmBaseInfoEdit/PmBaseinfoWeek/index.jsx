@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button, Popconfirm } from 'antd';
-import { ExtTable, ExtIcon, Space, utils } from 'suid';
+import { Button } from 'antd';
+import { ExtTable, ExtIcon, Space } from 'suid';
 import { constants,exportXlsx } from '@/utils';
 import EditModal from './EditModal';
 import AttEditModal from './AttEditModal'
+import TextArea from 'antd/lib/input/TextArea';
 
 const { PROJECT_PATH } = constants;
-const { request } = utils;
 
 @withRouter
 @connect(({ pmBaseInfoEdit, loading }) => ({ pmBaseInfoEdit, loading }))
@@ -141,25 +141,49 @@ class PmBaseinfoWeek extends Component {
       {
         title: '本周计划',
         dataIndex: 'weekPlan',
-        width: 220,
+        width: 300,
         required: true,
+        render: (_, record) => (
+          <TextArea 
+            style={{border:"none",resize:"none"}} 
+            value={record.weekPlan}
+            autoSize
+            disabled
+          ></TextArea>
+        )
       },
       {
         title: '下周计划',
         dataIndex: 'nextWeekPlan',
-        width: 220,
+        width: 300,
         required: true,
+        render: (_, record) => (
+          <TextArea 
+            style={{border:"none",resize:"none",backgroundColor:"#ccc"}} 
+            value={record.nextWeekPlan}
+            autoSize
+            disabled
+          ></TextArea>
+        )
       },
       {
         title: '工作风险',
         dataIndex: 'workRisk',
         width: 220,
         required: true,
+        render: (_, record) => (
+          <TextArea 
+            style={{border:"none",resize:"none"}} 
+            value={record.workRisk}
+            autoSize
+            disabled
+          ></TextArea>
+        )
       },
       {
         title: '产出',
         // dataIndex: 'workRisk',
-        width: 220,
+        width: 120,
         required: true,
         render: (_, record) => (
           <Button type="primary" onClick={() => this.checkUpload(record.id)}>查看附件</Button>
@@ -191,6 +215,7 @@ class PmBaseinfoWeek extends Component {
     }];
     return {
       columns,
+      showSearch: false,
       bordered: false,
       toolBar: toolBarProps,
       remotePaging: true,
