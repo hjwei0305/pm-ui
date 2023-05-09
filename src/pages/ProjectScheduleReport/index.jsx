@@ -162,7 +162,7 @@ class ProjectScheduleReport extends Component {
       {
         title: '系统名称',
         dataIndex: 'sysName',
-        width: 250,
+        width: 200,
         required: true,
         render: (text,record) => {
           if (record.id === "sum") {

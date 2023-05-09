@@ -11,6 +11,7 @@ import ProjectSchedule from './ProjectSchedule'
 import PmLog from './PmLog';
 import moment from 'moment';
 import DoubleWeekPlan from './DoubleWeekPlan'
+import PmBaseinfoWeek from './PmBaseinfoWeek'
 
 const { Option } = Select;
 const { PROJECT_PATH, SERVER_PATH } = constants;
@@ -1196,6 +1197,12 @@ class PmBaseInfoEdit extends Component {
                         id={this.state.dataList.id}
                         onSave={this.handleSave}
                       ></DoubleWeekPlan>
+                    </TabPane>
+                    <TabPane tab="新双周计划" key="8">
+                      <PmBaseinfoWeek
+                        id={this.state.dataList.id}
+                        onSave={this.handleSave}
+                      ></PmBaseinfoWeek>
                     </TabPane>
                   </Tabs>
                 </div>

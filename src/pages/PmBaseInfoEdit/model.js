@@ -10,7 +10,7 @@ import { downFile } from '@/utils';
 import { del, save, saveToDo, delToDo, findEmp,getProOpt, getNewProOpt, syncProjectInfo
   , projPlanDel,projPlanFindByPage,projPlanSave,projPlanSaveBatch
   ,findByIdForSchedule,saveUpload,saveUploadList,uploadMasterPlan, downLoadTemplate, getChildrenNodes,
-  findBaseInfoById } from './service';
+  findBaseInfoById, findWeekPlanById, saveWeekPlan, delWeekPlan, saveWeekPlanAttachList } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -27,6 +27,11 @@ export default modelExtend(model, {
     fileList: null,
     attId: null,
     ScheduleArys: [],
+    weekModalVisible: false, // 双周计划编辑弹框
+    weekAttModalVisible: false, // 双周计划列表查看附件
+    weekData: null,
+    weekAttId: null, // 双周计划查看附件id
+
   },
   effects: {
     *findBaseInfoById({ payload }, { call }) {
@@ -267,6 +272,58 @@ export default modelExtend(model, {
       message.destroy();
       if (success) {
       //  message.success(msg);
+      } else {
+        message.error(msg);
+      }
+      return result;
+    },
+
+    /** pmBaseinfoWeek：根据项目id查询双周计划  */
+    *findWeekPlanById({ payload }, { call }) {
+      const result = yield call(findWeekPlanById, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+      //  message.success(msg);
+      } else {
+        message.error(msg);
+      }
+      return result;
+    },
+
+    /** pmBaseinfoWeek：保存新双周计划  */
+    *saveWeekPlan({ payload }, { call }) {
+      const result = yield call(saveWeekPlan, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+      //  message.success(msg);
+      } else {
+        message.error(msg);
+      }
+      return result;
+    },
+
+    /** pmBaseinfoWeek：删除新双周计划  */
+    *delWeekPlan({ payload }, { call }) {
+      const result = yield call(delWeekPlan, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+      //  message.success(msg);
+      } else {
+        message.error(msg);
+      }
+      return result;
+    },
+
+    /** pmBaseinfoWeek：实体id绑定附件  */
+    *saveWeekPlanAttachList({ payload }, { call }) {
+      const result = yield call(saveWeekPlanAttachList, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+        // message.success(msg);
       } else {
         message.error(msg);
       }

@@ -17,6 +17,7 @@ const contextPath = '/pmBaseInfoEdit';
 const contextToDoPath = '/todoList';
 const ProjPlanPath = '/projectPlan';
 const pmOrganizePath = '/pmOrganize';
+const pmBaseinfoWeek = '/pmBaseinfoWeek';
 
 /** 按id查找项目内容 */
 export async function findBaseInfoById(data) {
@@ -171,5 +172,41 @@ export async function getChildrenNodes() {
   return request({
     url,
     method: 'GET',
+  });
+}
+
+/** 新双周计划：根据id查询 */
+export async function findWeekPlanById() {
+  const url = `${PROJECT_PATH}${pmBaseinfoWeek}/findByPage`;
+  return request({
+    url,
+    method: 'GET',
+  });
+}
+
+/** 新双周计划：保存 */
+export async function saveWeekPlan(data) {
+  const url = `${PROJECT_PATH}${pmBaseinfoWeek}/save`;
+  return request({
+    url,
+    method: 'POST',
+    data
+  });
+  // return request.post(url,data);
+}
+
+/** 新双周计划：删除 */
+export async function delWeekPlan(params) {
+  const url = `${PROJECT_PATH}${pmBaseinfoWeek}/delete/${params.id}`;
+  return request.delete(url);
+}
+
+/** 新双周计划：保存附件列表 */
+export async function saveWeekPlanAttachList(data) {
+  const url = `${PROJECT_PATH}${pmBaseinfoWeek}/saveAttachList`;
+  return request({
+    url,
+    method: 'POST',
+    data
   });
 }
