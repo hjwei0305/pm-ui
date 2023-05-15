@@ -100,23 +100,26 @@ class YearProjectReport extends Component {
 
   selectRow = ( record ) => {
     const { dispatch } = this.props;
+    const filters = [
+      {
+        fieldName: 'orgname',
+        operator: 'LK',
+        fieldType: 'string',
+        value: record.name,
+      },
+    ]
+    if(this.dateFilter){
+      filters.push({
+        fieldName: 'year',
+        operator: 'EQ',
+        fieldType: 'string',
+        value: this.dateFilter
+      })
+    }
     dispatch({
       type: 'yearProjectReport/getProInfo',
       payload:{
-        filters:[
-          {
-            fieldName: 'orgname',
-            operator: 'LK',
-            fieldType: 'string',
-            value: record.name,
-          },
-          {
-            fieldName: 'year',
-            operator: 'EQ',
-            fieldType: 'string',
-            value: this.dateFilter,
-          }
-        ]
+        filters
       }
     }).then(res => {
       const { rows } = res.data;
