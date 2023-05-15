@@ -2,14 +2,22 @@ import constants from './constants';
 import * as userUtils from './user';
 import * as XLSX from 'xlsx';
 
-const exportXlsx = (fileTitle, cols, data) => {
-    const header = [];
-    cols.forEach(t => {
-      header.push(t);
-    });
+const exportXlsx = (fileTitle, cols, data , merges) => {
+    let header = [];
+    // merges 合并单元格，合并设置
+    if(merges){
+      header = cols
+    }else{
+      header.push(cols)
+    }
+    let originCol = 'A' + (header.length + 1)
+
     const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.aoa_to_sheet([header]);
-    XLSX.utils.sheet_add_json(ws, data, { skipHeader: true, origin: 'A2' });
+    const ws = XLSX.utils.aoa_to_sheet(header);
+    if(merges){
+      ws['!merges'] = merges
+    }
+    XLSX.utils.sheet_add_json(ws, data, { skipHeader: true, origin: originCol });
     ws['!cols'] = [];
     header.forEach(() => ws['!cols'].push({ wpx: 150 }));
     XLSX.utils.book_append_sheet(wb, ws, fileTitle);
