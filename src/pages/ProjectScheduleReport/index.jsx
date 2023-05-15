@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Input, Button, DatePicker } from 'antd';
-import { ExtTable, Space, ComboList, YearPicker } from 'suid';
-import {constants} from "@/utils";
+import { Input, Button, message } from 'antd';
+import { ExtTable, Space, ComboList, YearPicker, utils } from 'suid';
+import { constants, exportXlsx } from "@/utils";
 
-const {PROJECT_PATH} = constants;
+const { PROJECT_PATH } = constants;
+const { request } = utils;
 
 @withRouter
 @connect(({ projectScheduleReport, loading }) => ({ projectScheduleReport, loading }))
@@ -322,6 +323,7 @@ class ProjectScheduleReport extends Component {
             value={this.state.year} 
             format="YYYY" />
           <Button type="primary" onClick={this.refresh}>查询</Button>
+          <Button onClick={this.handlerExport}>导出</Button>
         </Space>
       ),
     };
@@ -342,6 +344,66 @@ class ProjectScheduleReport extends Component {
 
       },
     };
+  };
+
+  handlerExport = () => {
+    const tableFilters = this.getTableFilters();
+    request.post(`${PROJECT_PATH}/pmBaseinfo/exportProScheduleReport`, { filters: tableFilters }).then(res => {
+      const { success, data } = res;
+      if (success && data.length > 0) {
+        exportXlsx(
+          '项目进度表',
+          [
+            [
+              '项目类型',
+              '系统名称',
+              '项目名称',
+              '启动日期',
+              '计划完成时间',
+              '项目周期（天）',
+              '推进进度',
+              null,
+              null,
+              null,
+              null,
+              null,
+              '完成率',
+            ],
+            [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              '项目启动',
+              '需求制作',
+              '程序开发',
+              '测试验证',
+              '应用推广',
+              '项目验收',
+              null,
+            ]
+          ]
+          ,
+          data,
+          [
+            // 合并列 0，行 0-1，
+            {s: {r: 0, c: 0}, e: {r: 1, c: 0}},
+            // 合并列 1，行 0-1，
+            {s: {r: 0, c: 1}, e: {r: 1, c: 1}},
+            {s: {r: 0, c: 2}, e: {r: 1, c: 2}},
+            {s: {r: 0, c: 3}, e: {r: 1, c: 3}},
+            {s: {r: 0, c: 4}, e: {r: 1, c: 4}},
+            {s: {r: 0, c: 5}, e: {r: 1, c: 5}},
+            {s: {r: 0, c: 12}, e: {r: 1, c: 12}},
+            {s: {r: 0, c: 6}, e: {r: 0, c: 11}}
+          ]
+        );
+      } else {
+        message.error('没找到数据');
+      }
+    });
   };
 
   onDateChange = (data) => {

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Input, Button, DatePicker, Tag } from 'antd';
-import { ExtTable, Space, ComboList, YearPicker, SplitLayout } from 'suid';
-import {constants} from "@/utils";
+import { Button, Tag, message } from 'antd';
+import { ExtTable, Space, ComboList, YearPicker, SplitLayout, utils } from 'suid';
+import { constants, exportXlsx } from "@/utils";
 
 const {PROJECT_PATH} = constants;
+const { request } = utils;
 
 @withRouter
 @connect(({ yearProjectReport, loading }) => ({ yearProjectReport, loading }))
@@ -108,6 +109,12 @@ class YearProjectReport extends Component {
             operator: 'LK',
             fieldType: 'string',
             value: record.name,
+          },
+          {
+            fieldName: 'year',
+            operator: 'EQ',
+            fieldType: 'string',
+            value: this.dateFilter,
           }
         ]
       }
@@ -219,6 +226,7 @@ class YearProjectReport extends Component {
             value={this.state.year}
             format="YYYY" />
           <Button type="primary" onClick={this.refresh}>查询</Button>
+          <Button onClick={this.handlerExport}>导出</Button>
         </Space>
       ),
     };
@@ -245,6 +253,29 @@ class YearProjectReport extends Component {
         url:`${PROJECT_PATH}/pmBaseinfo/getYearProjectReport`,
       },
     };
+  };
+
+  handlerExport = () => {
+    const tableFilters = this.getTableFilters();
+    request.post(`${PROJECT_PATH}/pmBaseinfo/exportYearProjReport`, { filters: tableFilters }).then(res => {
+      const { success, data } = res;
+      if (success && data.length > 0) {
+        exportXlsx(
+          '科室年度项目',
+          [
+            '部门/科室名称',
+            '科室负责人',
+            '结案数量',
+            '结案数量',
+            '暂停数量',
+            '项目总数',
+          ],
+          data,
+        );
+      } else {
+        message.error('没找到数据');
+      }
+    });
   };
 
   onDateChange = (data) => {

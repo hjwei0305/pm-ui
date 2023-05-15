@@ -30,7 +30,7 @@ export async function del(params) {
 
 /** 组织节点 */
 export async function getOrgnameList() {
-  const url = `${PROJECT_PATH}${pmOrganizePath}/getChildrenNodes?nodeId=EC2FCEF7-A04F-11ED-A883-005056C00001&includeSelf=false`;
+  const url = `${PROJECT_PATH}${pmOrganizePath}/getChildrenNodesNotFrozen?nodeId=EC2FCEF7-A04F-11ED-A883-005056C00001&includeSelf=false`;
   return request({
     url,
     method: 'GET',
