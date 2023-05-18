@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Input , DatePicker, Row, Col, Button,Tag,message  } from 'antd';
-import { ExtTable, ExtIcon, ComboList, Space,utils } from 'suid';
+import { ExtTable, ExtIcon, ComboList, Space,utils, YearPicker } from 'suid';
 import { constants,exportXlsx } from '@/utils';
 import EditModal from './EditModal';
 import ReportEditModal from './ReportEditModal';
@@ -63,6 +63,7 @@ static memberFilter = null;
 static orgnameFilter=null;
 static projTypeFilter = null;
   state = {
+    year: null,
     orgnameList: [],
     notStartedNum: 0,
     processingNum: 0,
@@ -79,6 +80,7 @@ static projTypeFilter = null;
     currentPeriodFilter: null,
    // projectMasterFilter: null,
     dateFilter:null,
+    dateYearFilter: null,
     projTypeList: [
       {
         name: 'KPI项目',
@@ -185,7 +187,7 @@ static projTypeFilter = null;
   };
 
   getTableFilters = () => {
-    const { nameFilter, currentPeriodFilter, dateFilter } = this.state;
+    const { nameFilter, currentPeriodFilter, dateFilter, dateYearFilter } = this.state;
    // const{projectMasterFilter}=this.projectMasterFilter;
     const filters = [];
     if (nameFilter !== null) {
@@ -251,6 +253,14 @@ static projTypeFilter = null;
         operator: 'GE',
         fieldType: 'date',
         value: dateFilter,
+      });
+    }
+    if (dateYearFilter) {
+      filters.push({
+        fieldName: 'year',
+        operator: 'EQ',
+        fieldType: 'String',
+        value: dateYearFilter,
       });
     }
     return filters;
@@ -762,6 +772,20 @@ static projTypeFilter = null;
     }
   };
 
+  onYearDateChange = (data) => {
+    if(data){
+      this.setState({
+        year: data,
+        dateYearFilter: data
+      })
+    }else{
+      this.setState({
+        year: null,
+        dateYearFilter: null,
+      })
+    }
+  };
+
   render() {
     const { pmBaseInfo } = this.props;
     const { modalVisible, reportModalVisible } = pmBaseInfo;
@@ -943,6 +967,13 @@ static projTypeFilter = null;
               <Input style={{width:"150px"}} onChange={item=>this.projectMasterFilter=item.target.value} allowClear></Input>
               <div className='div-text'>汇报人：</div>
               <Input style={{width:"150px"}} onChange={item=>this.memberFilter=item.target.value} allowClear></Input>
+              项目年份：
+              <YearPicker
+                style={{width:"150px"}}
+                onChange={this.onYearDateChange}
+                allowClear
+                value={this.state.year}
+                format="YYYY" />
             </Space>
           </Row>
           <Row style={{height:"calc(100% - 272px)",padding:"0 12px"}}>
