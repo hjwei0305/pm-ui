@@ -102,6 +102,11 @@ export default [
             path: '/pm/PersonalMonthReport',
             component: './PersonalMonthReport',
             title: '个人月度计划',
+          },
+          {
+            path: '/pm/PmBaseInfoWeekReport',
+            component: './PmBaseInfoWeekReport',
+            title: '双周计划明细',
           }
         ],
       },

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
-import { Button } from 'antd';
+import { Button, Tag } from 'antd';
 import { ExtTable, ExtIcon, Space } from 'suid';
 import { constants,exportXlsx } from '@/utils';
 import EditModal from './EditModal';
@@ -188,6 +188,25 @@ class PmBaseinfoWeek extends Component {
         render: (_, record) => (
           <Button type="primary" onClick={() => this.checkUpload(record.id)}>查看附件</Button>
         )
+      },
+      {
+        title: '完成',
+        dataIndex: 'finishPlan',
+        width: 80,
+        required: true,
+        render: (_, record) => {
+          if(record.finishPlan){
+            return <Tag color='green'>是</Tag>
+          }else{
+            return <Tag color='red'>否</Tag>
+          }
+        }
+      },
+      {
+        title: '上次更新时间',
+        dataIndex: 'lastModifiedTime',
+        width: 150,
+        required: true,
       },
     ];
     const toolBarProps = {

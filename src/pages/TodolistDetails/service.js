@@ -78,8 +78,11 @@ export async function getTaskId(param) {
   return request.post(url);
 }
 
-  /** 查询指定人员信息 */
-  export async function getOrgname() {
-    const url = `${PROJECT_PATH}${orgPath}/findClass`;
-    return request.post(url);
-  }
+  /** 查询组织 科室 + 部门 */
+export async function getOrgnameList() {
+  const url = `${PROJECT_PATH}${orgPath}/getChildrenNodesNotFrozen?nodeId=EC2FCEF7-A04F-11ED-A883-005056C00001&includeSelf=false`;
+  return request({
+    url,
+    method: 'GET',
+  });
+}

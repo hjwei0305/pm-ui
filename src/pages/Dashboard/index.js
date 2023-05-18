@@ -99,7 +99,13 @@ const menuData = [
     id: '704',
     name: '个人月度计划',
     path: '/pm/PersonalMonthReport',
+  },
+  {
+    id: '705',
+    name: '双周计划明细',
+    path: '/pm/PmBaseInfoWeekReport',
   }
+  
 ];
 
 const getIcon = icon => {

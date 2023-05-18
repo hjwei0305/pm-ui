@@ -73,14 +73,33 @@ class TodolistDetails extends Component {
     const { dispatch } = props;
     // 科室名称
     dispatch({
-      type: 'todolistDetails/getOrgname',
+      type: 'todolistDetails/getOrgnameList',
+      payload:{}
     }).then(res => {
-      if(res.success){
-        this.setState({
-          orgnameList : res.data
-        })
+      const { data } = res;
+      const orgObj = []
+      for(let item of data){
+        if(item.name !== '中心办' && (item.nodeLevel === 3 || item.nodeLevel === 2)){
+          orgObj.push({
+              code:item.code,
+              name:item.name,
+              extorgname:item.extorgname
+          })
+        }
       }
+      this.setState({
+        orgnameList : orgObj
+      })
     })
+    // dispatch({
+    //   type: 'todolistDetails/getOrgname',
+    // }).then(res => {
+    //   if(res.success){
+    //     this.setState({
+    //       orgnameList : res.data
+    //     })
+    //   }
+    // })
     // 人员名单
     dispatch({
       type: 'todolistDetails/findEmp',
