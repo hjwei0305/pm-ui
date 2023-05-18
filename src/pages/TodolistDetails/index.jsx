@@ -650,7 +650,7 @@ class TodolistDetails extends Component {
           科室名称:{' '}
           <ComboList
             style={{ width: '150px', marginRight: '12px' }}
-            showSearch={false}
+            // showSearch={false}
             pagination={false}
             allowClear
             dataSource={this.state.orgnameList}
