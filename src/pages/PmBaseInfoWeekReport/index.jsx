@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button, Tag, message, Input } from 'antd';
-import { ExtTable, Space, ComboList, utils, YearPicker } from 'suid';
+import { ExtTable, Space, ComboList, utils, YearPicker, SplitLayout } from 'suid';
 import AttEditModal from './AttEditModal'
+import TextArea from 'antd/lib/input/TextArea';
 
 const { authAction } = utils;
 
@@ -19,6 +20,7 @@ class PmBaseInfoWeekReport extends Component {
     dateFilter: null,
     year: null,
     dataList: [],
+    detailDataList: [],
     orgnameList: [],
     status:[{
       code: 0,
@@ -171,7 +173,6 @@ class PmBaseInfoWeekReport extends Component {
                 <a authCode="XMGL-XMGL-SZJC" disabled={editingKey !== ''} onClick={() => this.edit(record)}>编辑</a>
               )}
             </Space>
-            
           )
         },
       },
@@ -213,7 +214,7 @@ class PmBaseInfoWeekReport extends Component {
         }
       }
     })
-    // 获取列表数据
+    // 获取主表数据
     this.getData()
   }
 
@@ -467,6 +468,13 @@ class PmBaseInfoWeekReport extends Component {
       };
     });
     return {
+      onRow: record => {
+        return {
+          onClick: () => {
+            this.selectRow(record);
+          },
+        };
+      },
       columns,
       showSearch:false,
       bordered: true,
@@ -479,6 +487,31 @@ class PmBaseInfoWeekReport extends Component {
     };
   };
 
+  // 选定行触发查询明细
+  selectRow = ( record ) => {
+    const { dispatch } = this.props;
+    const filters = [
+      {
+        fieldName: 'baseinfoId',
+        operator: 'EQ',
+        fieldType: 'string',
+        value: record.id,
+      }
+    ]
+    dispatch({
+      type: 'pmBaseInfoWeekReport/findWeekPlanDetail',
+      payload:{
+        filters
+      }
+    }).then(res => {
+      const { rows } = res.data;
+      this.setState({
+        detailDataList: rows
+      })
+    })
+  }
+
+  //修改项目年份条件
   onDateChange = (data) => {
     if(data){
       this.dateFilter = data;
@@ -536,6 +569,95 @@ class PmBaseInfoWeekReport extends Component {
     };
   };
 
+  // 项目双周明细
+  getSecondExtableProps = () => {
+    const columns = [
+      {
+        title: '周数',
+        dataIndex: 'week',
+        width: 120,
+        required: true,
+      },
+      {
+        title: '本周计划',
+        dataIndex: 'weekPlan',
+        width: 300,
+        required: true,
+        render: (_, record) => (
+          <TextArea 
+            style={{border:"none",resize:"none"}} 
+            value={record.weekPlan}
+            autoSize
+            disabled
+          ></TextArea>
+        )
+      },
+      {
+        title: '下周计划',
+        dataIndex: 'nextWeekPlan',
+        width: 300,
+        required: true,
+        render: (_, record) => (
+          <TextArea 
+            style={{border:"none",resize:"none",backgroundColor:"#ccc"}} 
+            value={record.nextWeekPlan}
+            autoSize
+            disabled
+          ></TextArea>
+        )
+      },
+      {
+        title: '工作风险',
+        dataIndex: 'workRisk',
+        width: 220,
+        required: true,
+        render: (_, record) => (
+          <TextArea 
+            style={{border:"none",resize:"none"}} 
+            value={record.workRisk}
+            autoSize
+            disabled
+          ></TextArea>
+        )
+      },
+      {
+        title: '产出',
+        // dataIndex: 'workRisk',
+        width: 120,
+        required: true,
+        render: (_, record) => (
+          <Button type="primary" onClick={() => this.checkUpload(record.id)}>查看附件</Button>
+        )
+      },
+      {
+        title: '完成',
+        dataIndex: 'finishPlan',
+        width: 80,
+        required: true,
+        render: (_, record) => {
+          if(record.finishPlan){
+            return <Tag color='green'>是</Tag>
+          }else{
+            return <Tag color='red'>否</Tag>
+          }
+        }
+      },
+      {
+        title: '上次更新时间',
+        dataIndex: 'lastModifiedTime',
+        width: 150,
+        required: true,
+      },
+    ];
+    return {
+      showSearch:false,
+      columns,
+      bordered: true,
+      pagination: true,
+      dataSource: this.state.detailDataList,
+    };
+  };
+
   // 弹窗
   // getEditModalProps = () => {
   //   const { loading, pmBaseInfoWeekReport } = this.props;
@@ -583,7 +705,15 @@ class PmBaseInfoWeekReport extends Component {
 
     return (
       <>
-        <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
+        <SplitLayout direction="vertical">
+          <div>
+            <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
+          </div>
+          <div>
+            <ExtTable onTableRef={inst => (this.secondTableRef = inst)} {...this.getSecondExtableProps()} />
+          </div>
+        </SplitLayout>
+          
         {/* {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null} */}
         {weekAttModalVisible ? <AttEditModal {...this.getAttEditModalProps()} /> : null}
       </>

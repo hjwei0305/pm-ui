@@ -6,7 +6,7 @@
  */
 import { message } from 'antd';
 import { utils } from 'suid';
-import { del, save, getOrgnameList, getWeekReport, confirmFinishPlan } from './service';
+import { del, save, getOrgnameList, getWeekReport, confirmFinishPlan, findWeekPlanDetail } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -78,6 +78,18 @@ export default modelExtend(model, {
       message.destroy();
       if (success) {
         message.success(msg);
+      } else {
+        message.error(msg);
+      }
+      return result;
+    },
+
+    *findWeekPlanDetail({ payload }, { call }) {
+      const result = yield call(findWeekPlanDetail, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+        // message.success(msg);
       } else {
         message.error(msg);
       }

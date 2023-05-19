@@ -1198,12 +1198,12 @@ class PmBaseInfoEdit extends Component {
                         onSave={this.handleSave}
                       ></DoubleWeekPlan>
                     </TabPane>
-                    {/* <TabPane tab="新双周计划" key="8">
+                    <TabPane tab="新双周计划" key="8">
                       <PmBaseinfoWeek
                         id={this.state.dataList.id}
                         onSave={this.handleSave}
                       ></PmBaseinfoWeek>
-                    </TabPane> */}
+                    </TabPane>
                   </Tabs>
                 </div>
               </Col>

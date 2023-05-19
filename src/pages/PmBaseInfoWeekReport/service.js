@@ -48,3 +48,8 @@ export async function confirmFinishPlan(data) {
   const url = `${PROJECT_PATH}${weekReportPath}/confirmFinishPlan`;
   return request.post(url, data);
 }
+
+export async function findWeekPlanDetail(data) {
+  const url = `${PROJECT_PATH}${weekReportPath}/findByPage`;
+  return request.post(url, data);
+}
