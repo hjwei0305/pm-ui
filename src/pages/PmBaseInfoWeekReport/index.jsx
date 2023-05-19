@@ -362,6 +362,7 @@ class PmBaseInfoWeekReport extends Component {
             dataList: dataReplace,
           });
         }
+        this.selectRow(record)
       })
     }else{
       message.error('该项目没有新的双周计划，不能保存')
