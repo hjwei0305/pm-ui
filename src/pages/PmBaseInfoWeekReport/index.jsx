@@ -5,8 +5,10 @@ import { Button, Tag, message, Input } from 'antd';
 import { ExtTable, Space, ComboList, utils, YearPicker, SplitLayout } from 'suid';
 import AttEditModal from './AttEditModal'
 import TextArea from 'antd/lib/input/TextArea';
+import { exportXlsx, constants } from "@/utils";
 
-const { authAction } = utils;
+const { authAction, request } = utils;
+const { PROJECT_PATH } = constants;
 
 @withRouter
 @connect(({ pmBaseInfoWeekReport, loading }) => ({ pmBaseInfoWeekReport, loading }))
@@ -456,6 +458,7 @@ class PmBaseInfoWeekReport extends Component {
             value={this.state.year}
             format="YYYY" />
           <Button onClick={this.refresh} type='primary'>查询</Button>
+          <Button onClick={this.handlerExport}>导出</Button>
         </Space>
       ),
     };
@@ -489,6 +492,35 @@ class PmBaseInfoWeekReport extends Component {
       dataSource: this.state.dataList,
       rowKey: 'id',
     };
+  };
+
+  handlerExport = () => {
+    const tableFilters = this.getTableFilters();
+    request.post(`${PROJECT_PATH}/pmBaseinfoWeek/exportWeekPlanReport`, { filters: tableFilters }).then(res => {
+      const { success, data } = res;
+      if (success && data.length > 0) {
+        exportXlsx(
+          '双周计划明细',
+          [
+            '提案名称',
+            '系统名称',
+            '组织名称',
+            '项目类型',
+            '主导人',
+            '当前阶段',
+            '是否暂停',
+            '本周计划',
+            '下周计划',
+            '完成当周计划',
+            '上次修改时间',
+            '最后修改时间',
+          ],
+          data,
+        );
+      } else {
+        message.error('没找到数据');
+      }
+    });
   };
 
   // 观察选定行有无改变，触发查询明细
