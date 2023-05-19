@@ -198,6 +198,7 @@ class PmBaseInfoWeekReport extends Component {
     editingKey: '',
     param: '',
     changeParam: '', 
+    selectRowKey: null,
   };
 
   componentDidMount = () => {
@@ -221,11 +222,16 @@ class PmBaseInfoWeekReport extends Component {
   getData = () => {
     const { dispatch } = this.props;
     const filters = this.getTableFilters()
-    debugger
     dispatch({
       type: 'pmBaseInfoWeekReport/getWeekReport',
       payload:{
         filters,
+        sortOrders: [
+          {
+            property: 'lastEditedDate',
+            direction: 'DESC',
+          }
+        ],
       }
     }).then(res => {
       const { data, msg } = res;
@@ -252,7 +258,6 @@ class PmBaseInfoWeekReport extends Component {
   }
 
   getTableFilters = () => {
-    debugger
     const { nameFilter, currentPeriodFilter, orgnameFilter, 
       projTypeFilter, projectMasterFilter, dateFilter } = this.state;
     const filters = [];
@@ -362,7 +367,7 @@ class PmBaseInfoWeekReport extends Component {
             dataList: dataReplace,
           });
         }
-        this.selectRow(record)
+        this.getWeekPlanDetail(record)
       })
     }else{
       message.error('该项目没有新的双周计划，不能保存')
@@ -472,7 +477,7 @@ class PmBaseInfoWeekReport extends Component {
       onRow: record => {
         return {
           onClick: () => {
-            this.selectRow(record);
+            this.selectRowKey(record);
           },
         };
       },
@@ -481,15 +486,23 @@ class PmBaseInfoWeekReport extends Component {
       bordered: true,
       toolBar: toolBarProps,
       remotePaging: true,
-      sort:{
-        field: { lastEditedDate: 'asc' },
-      },
       dataSource: this.state.dataList,
+      rowKey: 'id',
     };
   };
 
+  // 观察选定行有无改变，触发查询明细
+  selectRowKey = ( record ) => {
+    if(record.id !== this.state.selectRowKey){
+      this.setState({
+        selectRowKey: record.id
+      })
+      this.getWeekPlanDetail(record)
+    }
+  }
+
   // 选定行触发查询明细
-  selectRow = ( record ) => {
+  getWeekPlanDetail = ( record ) => {
     const { dispatch } = this.props;
     const filters = [
       {
@@ -656,6 +669,7 @@ class PmBaseInfoWeekReport extends Component {
       bordered: true,
       pagination: true,
       dataSource: this.state.detailDataList,
+      rowKey:'id'
     };
   };
 
