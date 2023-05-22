@@ -245,7 +245,7 @@ class YearProjectReport extends Component {
       tableHeaderHeight: 92,
       columns,
       bordered: true,
-      pagination:true,
+      pagination:false,
       showSearch:false,
       toolBar: toolBarProps,
       cascadeParams: {
