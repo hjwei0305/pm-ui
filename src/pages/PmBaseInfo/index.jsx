@@ -667,7 +667,7 @@ static projTypeFilter = null;
       cascadeParams: {
         filters,
       },
-      remotePaging: true,
+      remotePaging: true ,
       store: {
         type: 'POST',
         url: `${PROJECT_PATH}/pmBaseinfo/findByPage`,
