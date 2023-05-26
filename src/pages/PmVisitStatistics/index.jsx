@@ -106,7 +106,7 @@ class PmVisitStatistics extends Component {
         width: 200,
       },
       {
-        title: '操作次数',
+        title: '使用次数',
         dataIndex: 'count',
         width: 180,
       },
