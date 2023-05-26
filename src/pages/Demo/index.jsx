@@ -17,7 +17,7 @@ class Demo extends Component {
   };
 
   // 钩子箭头函数
-  componentDidMount = () => { 
+  componentDidMount = () => {
     const { dispatch } = this.props;
     dispatch({
       type: 'demo/getOrgList',
@@ -267,7 +267,7 @@ class Demo extends Component {
       cascadeParams: {
         filters,
       },
-      // table请求 
+      // table请求
       store: {
         type: 'POST',
         url:`${PROJECT_PATH}/pmBaseinfo/getYearProjectReport`,
@@ -345,7 +345,25 @@ class Demo extends Component {
     };
   };
 
-  
+  // 渲染删除按钮
+  renderDelBtn = record => {
+    const { loading } = this.props;
+    return (
+      <ExtIcon
+        key="del"
+        className="del"
+        type="delete"
+        status="danger"
+        tooltip={{ title: '删除' }}
+        loading={loading.effects['demo/del']}
+        record={record}
+        onClick={() => this.handleEvent('del', record)}
+        antd
+      />
+    );
+  }
+
+
 
   render() {
     const { demo } = this.props;
@@ -362,7 +380,7 @@ class Demo extends Component {
         </div>
       </SplitLayout>
       {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null}
-      
+
         {/* <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
         {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null} */}
       </>

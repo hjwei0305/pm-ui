@@ -107,6 +107,11 @@ export default [
             path: '/pm/PmBaseInfoWeekReport',
             component: './PmBaseInfoWeekReport',
             title: '双周计划明细',
+          },
+          {
+            path: '/pm/PmVisitStatistics',
+            component: './PmVisitStatistics',
+            title: '访问量统计',
           }
         ],
       },

@@ -15,6 +15,11 @@ const menuData = [
     path: '/user/login',
   },
   {
+    id: '2',
+    name: 'Demo',
+    path: '/moduleName/demo',
+  },
+  {
     id: '20',
     name: 'pm',
     children: [
@@ -104,6 +109,11 @@ const menuData = [
     id: '705',
     name: '双周计划明细',
     path: '/pm/PmBaseInfoWeekReport',
+  },
+  {
+    id: '705',
+    name: '访问量统计',
+    path: '/pm/PmVisitStatistics',
   }
   
 ];

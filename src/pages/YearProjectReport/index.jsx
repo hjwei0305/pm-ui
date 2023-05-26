@@ -235,6 +235,7 @@ class YearProjectReport extends Component {
     };
     const filters = this.getTableFilters();
     return {
+      // 表格点击
       onRow: record => {
         return {
           onClick: () => {
@@ -245,7 +246,7 @@ class YearProjectReport extends Component {
       tableHeaderHeight: 92,
       columns,
       bordered: true,
-      pagination:false,
+      pagination:true,
       showSearch:false,
       toolBar: toolBarProps,
       cascadeParams: {
