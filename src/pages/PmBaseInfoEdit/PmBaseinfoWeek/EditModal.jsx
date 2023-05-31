@@ -41,6 +41,10 @@ class FormModal extends PureComponent {
               docIdList.push(item.id);
             }
           });
+        }else{
+          // 没有附件 不允许保存
+          message.warning('附件不能为空');
+          return;
         }
       }
       params.attachmentIdList = docIdList
