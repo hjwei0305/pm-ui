@@ -38,7 +38,7 @@ export async function getOrgList(params) {
   return request.get(url, params);
 }
 
-/** 获取组织机构列表 */
+/** 获取访问量 */
 export async function findVisitStatistics(params) {
   const url = `${PROJECT_PATH}${pmLogPath}/findVisitStatistics`;
   return request.post(url, params);
