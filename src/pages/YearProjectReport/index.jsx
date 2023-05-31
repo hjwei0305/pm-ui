@@ -28,6 +28,7 @@ class YearProjectReport extends Component {
   }
 
   state = {
+    secondFilters: [],
     year: null,
     dataList: [],
     times: 0,
@@ -116,17 +117,20 @@ class YearProjectReport extends Component {
         value: this.dateFilter
       })
     }
-    dispatch({
-      type: 'yearProjectReport/getProInfo',
-      payload:{
-        filters
-      }
-    }).then(res => {
-      const { rows } = res.data;
-      this.setState({
-        dataList: rows
-      })
+    this.setState({
+      secondFilters: filters
     })
+    // dispatch({
+    //   type: 'yearProjectReport/getProInfo',
+    //   payload:{
+    //     filters
+    //   }
+    // }).then(res => {
+    //   const { rows } = res.data;
+    //   this.setState({
+    //     dataList: rows
+    //   })
+    // })
   }
 
   getTableFilters = () => {
@@ -297,6 +301,7 @@ class YearProjectReport extends Component {
   };
 
   getSecondExtableProps = () => {
+    const { secondFilters } = this.state
     const columns = [
       {
         title: '系统名称',
@@ -478,8 +483,15 @@ class YearProjectReport extends Component {
       showSearch:false,
       columns,
       bordered: true,
-      pagination: true,
-      dataSource: this.state.dataList,
+      remotePaging: true ,
+      cascadeParams: {
+        filters: secondFilters,
+      },
+      store:{
+        type: 'POST',
+        url:`${PROJECT_PATH}/pmBaseinfo/findByPage`,
+      },
+      // dataSource: this.state.dataList,
     };
 
   };
