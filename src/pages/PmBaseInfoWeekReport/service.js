@@ -50,6 +50,6 @@ export async function confirmFinishPlan(data) {
 }
 
 export async function findWeekPlanDetail(data) {
-  const url = `${PROJECT_PATH}${weekReportPath}/findByPage`;
+  const url = `${PROJECT_PATH}${weekReportPath}/getWeekReportDetail`;
   return request.post(url, data);
 }

@@ -228,12 +228,12 @@ class PmBaseInfoWeekReport extends Component {
       type: 'pmBaseInfoWeekReport/getWeekReport',
       payload:{
         filters,
-        sortOrders: [
-          {
-            property: 'lastEditedDate',
-            direction: 'DESC',
-          }
-        ],
+        // sortOrders: [
+        //   {
+        //     property: 'lastEditedDate',
+        //     direction: 'DESC',
+        //   }
+        // ],
       }
     }).then(res => {
       const { data, msg } = res;
@@ -550,9 +550,9 @@ class PmBaseInfoWeekReport extends Component {
         filters
       }
     }).then(res => {
-      const { rows } = res.data;
+      const { data } = res;
       this.setState({
-        detailDataList: rows
+        detailDataList: data
       })
     })
   }
@@ -700,6 +700,7 @@ class PmBaseInfoWeekReport extends Component {
       columns,
       bordered: true,
       pagination: true,
+      remotePaging: true,
       dataSource: this.state.detailDataList,
       rowKey:'id'
     };
