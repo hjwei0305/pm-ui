@@ -16,6 +16,7 @@ import logo5 from '../../../static/proj-five.png'
 import logo6 from '../../../static/proj-six.png'
 import logo7 from '../../../static/proj-seven.png'
 import logo8 from '../../../static/proj-eight.png'
+import logo10 from '../../../static/proj-ten.png'
 
 const { PROJECT_PATH } = constants;
 const { request } = utils;
@@ -35,6 +36,8 @@ class PmBaseInfo extends Component {
         this.setState({
           notStartedNum: data.notStartedNum,
           processingNum: data.processingNum,
+          finishNum: data.finishNum,
+          pauseNum: data.pauseNum,
           sumNum: data.sumNum,
           advanceFinishNum: data.advanceFinishNum,
           preOverTimeNum:data.preOverTimeNum,
@@ -67,6 +70,8 @@ static projTypeFilter = null;
     orgnameList: [],
     notStartedNum: 0,
     processingNum: 0,
+    finishNum: 0,
+    pauseNum: 0,
     sumNum: 0,
     advanceFinishNum: 0,
     preOverTimeNum:0,
@@ -691,6 +696,8 @@ static projTypeFilter = null;
           notStartedNum: data.notStartedNum,
           processingNum: data.processingNum,
           sumNum: data.sumNum,
+          finishNum: data.finishNum,
+          pauseNum: data.pauseNum,
           advanceFinishNum: data.advanceFinishNum,
           preOverTimeNum:data.preOverTimeNum,
           advanceDay:data.advanceDay,
@@ -712,6 +719,7 @@ static projTypeFilter = null;
             '系统名称',
             '提案名称',
             '主导人',
+            '当前进度',
             '开始日期',
             '计划结案日期',
             '人天',
@@ -786,6 +794,13 @@ static projTypeFilter = null;
     }
   };
 
+  /** 回车触发搜索 */
+  handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.handlerSearch();
+    }
+  };
+
   render() {
     const { pmBaseInfo } = this.props;
     const { modalVisible, reportModalVisible } = pmBaseInfo;
@@ -828,13 +843,23 @@ static projTypeFilter = null;
                     </div>
                   </div>
                 </Col>
-
+                <Col className="col-content">
+                  <div className="item item-color6">
+                    <div className="item-img">
+                      <img src={logo10} width={80} height={80}></img>
+                      <div style={{padding:"0 20px"}}>
+                        <div className="item-text1">{this.state.pauseNum}</div>
+                        <div className="item-text2">暂停</div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
                 <Col className="col-content">
                   <div className="item item-color4">
                     <div className="item-img">
                       <img src={logo4} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
-                        <div className="item-text1">{this.state.advanceFinishNum}</div>
+                        <div className="item-text1">{this.state.finishNum}</div>
                         <div className="item-text2">已完成</div>
                       </div>
                     </div>
@@ -879,7 +904,7 @@ static projTypeFilter = null;
                       <img src={logo8} width={80} height={80}></img>
                       <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.overTimeDay}</div>
-                        <div className="item-text2">延后天数</div>
+                        <div className="item-text2">逾期天数</div>
                       </div>
                     </div>
                   </div>
@@ -964,9 +989,9 @@ static projTypeFilter = null;
           <Row style={{height:"40px",margin:"0 12px",padding:"0 12px",backgroundColor:"white"}} className="choose-content">
             <Space>
               <div className='div-text'>主导人：</div>
-              <Input style={{width:"150px"}} onChange={item=>this.projectMasterFilter=item.target.value} allowClear></Input>
+              <Input style={{width:"150px"}} onChange={item=>this.projectMasterFilter=item.target.value} allowClear onKeyPress={this.handleKeyPress}></Input>
               <div className='div-text'>汇报人：</div>
-              <Input style={{width:"150px"}} onChange={item=>this.memberFilter=item.target.value} allowClear></Input>
+              <Input style={{width:"150px"}} onChange={item=>this.memberFilter=item.target.value} allowClear onKeyPress={this.handleKeyPress}></Input>
               项目年份：
               <YearPicker
                 style={{width:"150px"}}
