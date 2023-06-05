@@ -29,6 +29,14 @@ class PmBaseInfo extends Component {
     dispatch({
       type: 'pmBaseInfo/getProjectInfo',
       payload:{
+        filters:[
+          {
+            fieldName: 'year',
+            operator: 'EQ',
+            fieldType: 'String',
+            value: new Date().getFullYear(),
+          }
+        ]
       }
     }).then(res => {
       const { data } = res
