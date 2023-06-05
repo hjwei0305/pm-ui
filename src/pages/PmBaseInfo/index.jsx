@@ -163,6 +163,14 @@ static projTypeFilter = null;
     //   }
     // })
  // };
+  // 钩子函数
+  componentDidMount = () => {
+    this.setState({
+      year: new Date().getFullYear(),
+      dateYearFilter: new Date().getFullYear(),
+    });
+  }
+
   onDateChange = data => {
     if(data){
       const date = data.format('YYYY-MM-DD');
@@ -804,6 +812,7 @@ static projTypeFilter = null;
   render() {
     const { pmBaseInfo } = this.props;
     const { modalVisible, reportModalVisible } = pmBaseInfo;
+    
     return (
       <>
         <div className={styles['container']}>
