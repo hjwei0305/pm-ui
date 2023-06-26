@@ -95,7 +95,7 @@ class ApproveDetail extends PureComponent {
     dispatch({
       type: 'todolistDetails/findOne',
       payload:{
-        id: id
+        id: 'FF7CC2AD-A044-11ED-AD45-0242AC14002A'
       }
     }).then(res => {
       const { data } = res;
@@ -165,6 +165,7 @@ class ApproveDetail extends PureComponent {
       params.submitDate = formData.submitDate.format('YYYY-MM-DD')
       params.completionDate = formData.completionDate.format('YYYY-MM-DD')
       params.confir1Time = formData.confir1Time != null ? formData.confir1Time.format('YYYY-MM-DD') : null
+      params.isStart = params.isStart == '是' ? true : false
       const result = {
         message:'',
       };
@@ -179,10 +180,9 @@ class ApproveDetail extends PureComponent {
         if(params.newestProgress == '' || params.newestProgress == null){
           return message.warning('请输入最新进度说明');
         }
-        if(params.isStart == '是' && params.isUpload != 1){
+        if(params.isStart == true && params.isUpload != 1){
           return message.warning('已开启项目请上传附件');
         }
-        params.isStart = params.isStart == '是' ? true : false
         params.confir1Time = moment().format('YYYY-MM-DD')
       }else{
         // 审批
