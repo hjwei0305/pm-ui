@@ -56,12 +56,22 @@ class ApproveDetail extends PureComponent {
         name: '不合格',
       }
     ]
+    this.OrNotStatus = [
+      {
+        code: 0,
+        name: '否',
+      },
+      {
+        code: 1,
+        name: '是',
+      }
+    ]
     // 人员名单
     dispatch({
       type: 'todolistDetails/findEmp',
       payload: {
         filters: [
-    
+
         ],
       },
     }).then(res => {
@@ -69,8 +79,8 @@ class ApproveDetail extends PureComponent {
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < data.length; i++) {
         this.employee.push(
-        <Option 
-          key={data[i].employeeName} 
+        <Option
+          key={data[i].employeeName}
           orgname={data[i].orgname.substr(data[i].orgname.lastIndexOf('-') + 1)}
         >
           {data[i].employeeName}
@@ -89,6 +99,7 @@ class ApproveDetail extends PureComponent {
       }
     }).then(res => {
       const { data } = res;
+      data.isStart = data && data.isStart == true ? '是' : '否';
       this.editData = data;
       this.confirm = data && data.flowStatus == 'INPROCESS' && data.confirm1Status == 'true' ? true : false;
       // form.setFieldsValue(this.editData);
@@ -168,6 +179,10 @@ class ApproveDetail extends PureComponent {
         if(params.newestProgress == '' || params.newestProgress == null){
           return message.warning('请输入最新进度说明');
         }
+        if(params.isStart == '是' && params.isUpload != 1){
+          return message.warning('已开启项目请上传附件');
+        }
+        params.isStart = params.isStart == '是' ? true : false
         params.confir1Time = moment().format('YYYY-MM-DD')
       }else{
         // 审批
@@ -180,7 +195,7 @@ class ApproveDetail extends PureComponent {
           result.message = '请输入建议状态、当前完成比率、最新进度说明及上传附件';
           return flowCallBack(result);
         } else if(params.confirm1Status == 'true' &&
-          (formData.closingStatus == undefined || formData.closingStatus == null 
+          (formData.closingStatus == undefined || formData.closingStatus == null
               || formData.remark == undefined || formData.remark == null || formData.remark == '')){
             result.message = '请输入结案状态及备注';
           return flowCallBack(result);
@@ -344,6 +359,27 @@ class ApproveDetail extends PureComponent {
       },
     };
 
+    const stateProps = {
+      style: { width: '200px' },
+      placeholder: '请选择是否启动',
+      form,
+      name: 'name',
+      field: ['name'],
+      dataSource: this.OrNotStatus,
+      searchProperties: ['name'],
+      allowClear: true,
+      showSearch: false,
+      afterClear: () => form.setFieldsValue({ isStart: null }),
+      afterSelect: item =>
+        form.setFieldsValue({
+          isStart: item.name,
+        }),
+      reader: {
+        name: 'name',
+        field: ['name'],
+      },
+    };
+
     const completeProps = {
       style: { width: '200px' },
       placeholder: '请选择合格/不合格',
@@ -436,7 +472,7 @@ class ApproveDetail extends PureComponent {
             </Row>
             <Row gutter={24}>
               <Col span={20}>
-                <FormItem label="待办事项" 
+                <FormItem label="待办事项"
                   labelCol={{span: 4}}
                   wrapperCol={{span: 20}}>
                   {getFieldDecorator('todoList', {
@@ -460,30 +496,30 @@ class ApproveDetail extends PureComponent {
                 </FormItem>
               </Col> */}
               <Col span={10}>
-                <FormItem label="建议状态">
-                  {getFieldDecorator('proposalStatus', {initialValue: this.editData && this.editData.proposalStatus, })
-                  // (<Input placeholder='请输入结案/不结案' disabled={confirm} />)
-                  (<ComboList {...comboListProps} disabled={this.confirm}/>)
+                <FormItem label="是否启动">
+                  {getFieldDecorator('isStart', {initialValue: this.editData && this.editData.isStart, })
+                    (<ComboList {...stateProps} disabled={this.confirm}/>)
                   }
                 </FormItem>
               </Col>
               <Col span={10}>
-                <FormItem label="当前完成比率(%)">
-                  {getFieldDecorator('completion', { initialValue: this.editData && this.editData.completion,})
-                  (<Input 
-                      type="number" 
-                      min={0} 
-                      max={100} 
-                      disabled={this.confirm} />)}
+                <FormItem label="建议状态">
+                  {getFieldDecorator('proposalStatus', {initialValue: this.editData && this.editData.proposalStatus, })
+                  // (<Input placeholder='请输入结案/不结案' disabled={confirm} />)
+                    (<ComboList {...comboListProps} disabled={this.confirm}/>)
+                  }
                 </FormItem>
               </Col>
             </Row>
             <Row gutter={24}>
               <Col span={10}>
-                <FormItem label="最新进度说明">
-                  {getFieldDecorator('newestProgress', {initialValue: this.editData && this.editData.newestProgress})
-                  (<TextArea disabled={this.confirm}/>)
-                  }
+                <FormItem label="当前完成比率(%)">
+                  {getFieldDecorator('completion', { initialValue: this.editData && this.editData.completion,})
+                  (<Input
+                      type="number"
+                      min={0}
+                      max={100}
+                      disabled={this.confirm} />)}
                 </FormItem>
               </Col>
               <Col span={10}>
@@ -491,6 +527,17 @@ class ApproveDetail extends PureComponent {
                   {getFieldDecorator('confir1Time', {initialValue: this.editData && this.editData.confir1Time && moment.utc(this.editData.confir1Time) })
                   (<DatePicker disabled/>)
                   }
+                </FormItem>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={20}>
+                <FormItem label="最新进度说明"
+                  labelCol={{span: 4}}
+                  wrapperCol={{span: 20}}>
+                  {getFieldDecorator('newestProgress', {
+                    initialValue: this.editData && this.editData.newestProgress,
+                  })(<TextArea disabled={this.confirm} />)}
                 </FormItem>
               </Col>
             </Row>
