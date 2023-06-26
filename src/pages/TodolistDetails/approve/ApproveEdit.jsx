@@ -66,6 +66,7 @@ class ApproveDetail extends PureComponent {
       }
     }).then(res => {
       const { data } = res;
+      data.isStart = data && data.isStart == true ? '是' : '否';
       this.editData = data;
       this.confirm = data && data.flowStatus == 'INPROCESS' && data.confirm1Status == 'true' ? true : false;
       // form.setFieldsValue(this.editData);
@@ -358,6 +359,13 @@ class ApproveDetail extends PureComponent {
                     </FormItem>
                   </Col> */}
                   <Col span={10}>
+                    <FormItem label="是否启动">
+                      {getFieldDecorator('isStart', {initialValue: this.editData && this.editData.isStart, })
+                        (<Input disabled />)
+                      }
+                    </FormItem>
+                  </Col>
+                  <Col span={10}>
                     <FormItem label="建议状态">
                       {getFieldDecorator('proposalStatus', {initialValue: this.editData && this.editData.proposalStatus, })
                       // (<Input placeholder='请输入结案/不结案' disabled={confirm} />)
@@ -365,19 +373,12 @@ class ApproveDetail extends PureComponent {
                       }
                     </FormItem>
                   </Col>
+                </Row>  
+                <Row gutter={24}>
                   <Col span={10}>
                     <FormItem label="当前完成比率">
                       {getFieldDecorator('completion', { initialValue: this.editData && this.editData.completion,})
                       (<Input type="number" min={0} max={100} disabled />)}
-                    </FormItem>
-                  </Col>
-                </Row>
-                <Row gutter={24}>
-                  <Col span={10}>
-                    <FormItem label="最新进度说明">
-                      {getFieldDecorator('newestProgress', {initialValue: this.editData && this.editData.newestProgress})
-                      (<TextArea disabled/>)
-                      }
                     </FormItem>
                   </Col>
                   <Col span={10}>
@@ -385,6 +386,17 @@ class ApproveDetail extends PureComponent {
                       {getFieldDecorator('confir1Time', {initialValue: this.editData && this.editData.confir1Time && moment.utc(this.editData.confir1Time) })
                       (<DatePicker disabled/>)
                       }
+                    </FormItem>
+                  </Col>
+                </Row>
+                <Row gutter={24}>
+                  <Col span={20}>
+                    <FormItem label="最新进度说明"
+                      labelCol={{span: 4}}
+                      wrapperCol={{span: 20}}>
+                      {getFieldDecorator('newestProgress', {
+                        initialValue: this.editData && this.editData.newestProgress,
+                      })(<TextArea disabled/>)}
                     </FormItem>
                   </Col>
                 </Row>
