@@ -95,7 +95,8 @@ class ApproveDetail extends PureComponent {
     dispatch({
       type: 'todolistDetails/findOne',
       payload:{
-        id: 'FF7CC2AD-A044-11ED-AD45-0242AC14002A'
+        id: id,
+        // id: 'FF7CC2AD-A044-11ED-AD45-0242AC14002A'
       }
     }).then(res => {
       const { data } = res;
@@ -201,6 +202,9 @@ class ApproveDetail extends PureComponent {
           return flowCallBack(result);
         }else if(params.confirm1Status == 'true' && formData.closingStatus == '不合格'){
           result.message = '结案状态为不合格，不能结束单据';
+          return flowCallBack(result);
+        }else if(params.isStart == false){
+          result.message = '待办请选择启动';
           return flowCallBack(result);
         }
         if(opinion.actionType === 'default'){
