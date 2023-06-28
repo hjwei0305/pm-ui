@@ -138,6 +138,7 @@ class ApproveDetail extends PureComponent {
       }
       const params = {};
       Object.assign(params, this.editData, formData);
+      params.isStart = params.isStart == '是' ? true : false
       params.submitDate = formData.submitDate.format('YYYY-MM-DD')
       params.completionDate = formData.completionDate.format('YYYY-MM-DD')
       params.confir1Time = formData.confir1Time != null ? formData.confir1Time.format('YYYY-MM-DD') : null
