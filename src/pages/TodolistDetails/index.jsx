@@ -3,11 +3,17 @@ import { withRouter } from 'umi';
 import { connect } from 'dva';
 import { Button,Select, Tag, Input } from 'antd';
 import { ExtTable, ExtIcon, Space,ComboList, utils } from 'suid';
-import { message } from 'antd';
+import { message, Row, Col } from 'antd';
 import ExtAction from '@/components/ExtAction';
 import EditModal from './EditModal';
 import { constants, exportXlsx } from "@/utils";
 import BillEditModal from './BillEditModal';
+
+import styles from './index.less'
+import logo1 from '../../../static/proj-one.png'
+import logo3 from '../../../static/proj-three.png'
+import logo4 from '../../../static/proj-four.png'
+import logo6 from '../../../static/proj-six.png'
 
 const { request } = utils;
 const { Option } = Select;
@@ -71,6 +77,7 @@ class TodolistDetails extends Component {
   constructor(props) {
     super(props);
     const { dispatch } = props;
+    this.handlerSearch();
     // 科室名称
     dispatch({
       type: 'todolistDetails/getOrgnameList',
@@ -113,8 +120,8 @@ class TodolistDetails extends Component {
       // eslint-disable-next-line no-plusplus
       for (let i = 0; i < data.length; i++) {
         this.state.employee.push(
-        <Option 
-          key={data[i].employeeName} 
+        <Option
+          key={data[i].employeeName}
           orgname={data[i].orgname.substr(data[i].orgname.lastIndexOf('-') + 1)}
         >
           {data[i].employeeName}
@@ -181,7 +188,7 @@ class TodolistDetails extends Component {
 
   /**
    * 获取过滤条件返回后端
-   * @returns 
+   * @returns
    */
   getTableFilters = () => {
       const {  documentStatusFilter, closingStatusFilter, orgnameFilter, ondutyNameFilter, flowStatusFilter } = this.state;
@@ -394,7 +401,7 @@ class TodolistDetails extends Component {
     ];
     return menusData.filter(a => a.canClick);
   };
-  
+
   toBill = recordItem => {
     // const { dispatch } = this.props;
     // dispatch({
@@ -560,7 +567,7 @@ class TodolistDetails extends Component {
           }else if(row.flowStatus === "COMPLETED"){
             return <Tag color="green">已完成</Tag>;
           }
-          
+
         },
       },
       // {
@@ -681,6 +688,7 @@ class TodolistDetails extends Component {
               field: ['name'],
             }}
           /> */}
+          <Button onClick={() => {this.handlerSearch()}}>查询</Button>
           <Button
             key="add"
             type="primary"
@@ -701,7 +709,6 @@ class TodolistDetails extends Component {
       columns,
       bordered: false,
       toolBar: toolBarProps,
-      remotePaging: true,
       exportData: true,
       showSearch:false,
       searchProperties: ['ondutyName'],
@@ -710,11 +717,12 @@ class TodolistDetails extends Component {
       cascadeParams: {
         filters,
       },
-      store: {
-        type: 'POST',
-        url:
-        `${PROJECT_PATH}/todoList/projFindByPage2`,
-      },
+      dataSource: this.state.dataList,
+      // store: {
+      //   type: 'POST',
+      //   url:
+      //   `${PROJECT_PATH}/todoList/projFindByPage2`,
+      // },
     };
   };
 
@@ -806,13 +814,112 @@ class TodolistDetails extends Component {
     };
   };
 
+  // 查询报表数据
+  handlerSearch = () => {
+    const tableFilters = this.getTableFilters();
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'todolistDetails/projFindByPage2',
+      payload:{
+        filters: tableFilters
+      }
+    }).then(res => {
+      const { data } = res
+      if(res.success){
+        this.setState({
+          dataList: data
+        })
+        this.handlerSummarySearch()
+      }
+    })
+    this.refresh()
+  }
+
+  // 查询统计数据
+  handlerSummarySearch = () => {
+    const tableFilters = this.getTableFilters();
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'todolistDetails/projFindByPage2Summary',
+      payload:{
+        filters: tableFilters
+      }
+    }).then(res => {
+      const { data } = res
+      if(res.success){
+        debugger
+        this.setState({
+          processingNum: data.processingNum,
+          sumNum: data.sumNum,
+          finishNum: data.finishNum,
+          overTimeNum: data.overTimeNum,
+        })
+      }
+    })
+  }
+
   render() {
     const { todolistDetails } = this.props;
     const { modalVisible, billModalVisible } = todolistDetails;
 
     return (
       <>
-        <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
+        <div className={styles['container']}>
+          <Row style={{height:"170px"}} className="row-content">
+              <div style={{margin:"9px 12px",background:"white",height:"152px",borderRadius:"4px"}}>
+                <div>
+                <Col className="col-content">
+                    <div className="item item-color3">
+                      <div className="item-img">
+                        <img src={logo1} width={80} height={80}></img>
+                        <div style={{padding:"0 30px"}}>
+                          <div className="item-text1">{this.state.sumNum}</div>
+                          <div className="item-text2">待办总数</div>
+                        </div>
+                      </div>
+                    </div>
+                </Col>
+                <Col className="col-content">
+                  <div className="item item-color2">
+                    <div className="item-img">
+                      <img src={logo3} width={80} height={80}></img>
+                      <div style={{padding:"0 30px"}}>
+                        <div className="item-text1">{this.state.processingNum}</div>
+                        <div className="item-text2">进行中</div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col className="col-content">
+                  <div className="item item-color4">
+                    <div className="item-img">
+                      <img src={logo4} width={80} height={80}></img>
+                      <div style={{padding:"0 30px"}}>
+                        <div className="item-text1">{this.state.finishNum}</div>
+                        <div className="item-text2">已结案</div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col className="col-content">
+                  <div className="item item-color5">
+                    <div className="item-img">
+                      <img src={logo6} width={80} height={80}></img>
+                      <div style={{padding:"0 30px"}}>
+                        <div className="item-text1">{this.state.overTimeNum}</div>
+                        <div className="item-text2">已逾期</div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              </div>
+            </div>
+          </Row>
+          <Row style={{height:"calc(100% - 182px)",padding:"0 12px"}}>
+            <ExtTable onTableRef={inst => (this.tableRef = inst)} {...this.getExtableProps()} />
+          </Row>
+        </div>
+
         {modalVisible ? <EditModal {...this.getEditModalProps()} /> : null}
         {billModalVisible ? <BillEditModal {...this.getBillEditModalProps()} /> : null}
       </>

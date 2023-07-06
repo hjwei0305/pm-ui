@@ -6,7 +6,7 @@
  */
 import { message } from 'antd';
 import { utils } from 'suid';
-import { del, save, findOne, findEmp, getUserInfo, saveUserId,bindFile,getTaskId, getOrgnameList } from './service';
+import { del, save, findOne, findEmp, getUserInfo, saveUserId,bindFile,getTaskId, getOrgnameList, projFindByPage2, projFindByPage2Summary } from './service';
 
 const { dvaModel } = utils;
 const { modelExtend, model } = dvaModel;
@@ -124,6 +124,28 @@ export default modelExtend(model, {
     },
     *getOrgnameList({ payload }, { call }) {
       const result = yield call(getOrgnameList, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+       // message.success(msg);
+      } else {
+       message.error(msg);
+      }
+      return result;
+    },
+    *projFindByPage2({ payload }, { call }) {
+      const result = yield call(projFindByPage2, payload);
+      const { success, message: msg } = result || {};
+      message.destroy();
+      if (success) {
+       // message.success(msg);
+      } else {
+       message.error(msg);
+      }
+      return result;
+    },
+    *projFindByPage2Summary({ payload }, { call }) {
+      const result = yield call(projFindByPage2Summary, payload);
       const { success, message: msg } = result || {};
       message.destroy();
       if (success) {

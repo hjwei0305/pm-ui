@@ -86,3 +86,21 @@ export async function getOrgnameList() {
     method: 'GET',
   });
 }
+
+export async function projFindByPage2(data) {
+  const url = `${PROJECT_PATH}${contextPath}/projFindByPage2`;
+  return request({
+   url,
+   method: 'POST',
+   data,
+  });
+ }
+
+ export async function projFindByPage2Summary(data) {
+  const url = `${PROJECT_PATH}${contextPath}/projFindByPage2Summary`;
+  return request({
+   url,
+   method: 'POST',
+   data,
+  });
+ }
