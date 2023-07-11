@@ -114,6 +114,11 @@ const menuData = [
     id: '705',
     name: '访问量统计',
     path: '/pm/PmVisitStatistics',
+  },
+  {
+    id: '706',
+    name: '无项目名单列表',
+    path: '/pm/PersonalBaseInfoReport',
   }
   
 ];

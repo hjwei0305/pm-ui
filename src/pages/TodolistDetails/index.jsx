@@ -11,9 +11,13 @@ import BillEditModal from './BillEditModal';
 
 import styles from './index.less'
 import logo1 from '../../../static/proj-one.png'
+import logo2 from '../../../static/proj-two.png'
 import logo3 from '../../../static/proj-three.png'
 import logo4 from '../../../static/proj-four.png'
+import logo5 from '../../../static/proj-five.png'
 import logo6 from '../../../static/proj-six.png'
+import logo7 from '../../../static/proj-seven.png'
+import logo8 from '../../../static/proj-eight.png'
 
 const { request } = utils;
 const { Option } = Select;
@@ -851,8 +855,12 @@ class TodolistDetails extends Component {
         this.setState({
           processingNum: data.processingNum,
           sumNum: data.sumNum,
+          notStartedNum: data.notStartedNum,
           finishNum: data.finishNum,
           overTimeNum: data.overTimeNum,
+          preOverTimeNum: data.preOverTimeNum,
+          overTimeDay: data.overTimeDay,
+          advanceDay: data.advanceDay,
         })
       }
     })
@@ -872,7 +880,7 @@ class TodolistDetails extends Component {
                     <div className="item item-color3">
                       <div className="item-img">
                         <img src={logo1} width={80} height={80}></img>
-                        <div style={{padding:"0 30px"}}>
+                        <div style={{padding:"0 20px"}}>
                           <div className="item-text1">{this.state.sumNum}</div>
                           <div className="item-text2">待办总数</div>
                         </div>
@@ -880,10 +888,21 @@ class TodolistDetails extends Component {
                     </div>
                 </Col>
                 <Col className="col-content">
+                  <div className="item item-color1">
+                    <div className="item-img">
+                      <img src={logo2} width={80} height={80}></img>
+                      <div style={{padding:"0 20px"}}>
+                        <div className="item-text1">{this.state.notStartedNum}</div>
+                        <div className="item-text2">未开始</div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col className="col-content">
                   <div className="item item-color2">
                     <div className="item-img">
                       <img src={logo3} width={80} height={80}></img>
-                      <div style={{padding:"0 30px"}}>
+                      <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.processingNum}</div>
                         <div className="item-text2">进行中</div>
                       </div>
@@ -894,9 +913,20 @@ class TodolistDetails extends Component {
                   <div className="item item-color4">
                     <div className="item-img">
                       <img src={logo4} width={80} height={80}></img>
-                      <div style={{padding:"0 30px"}}>
+                      <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.finishNum}</div>
                         <div className="item-text2">已结案</div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col className="col-content">
+                  <div className="item item-color1">
+                    <div className="item-img">
+                      <img src={logo5} width={80} height={80}></img>
+                      <div style={{padding:"0 20px"}}>
+                        <div className="item-text1">{this.state.preOverTimeNum}</div>
+                        <div className="item-text2">预逾期</div>
                       </div>
                     </div>
                   </div>
@@ -905,9 +935,31 @@ class TodolistDetails extends Component {
                   <div className="item item-color5">
                     <div className="item-img">
                       <img src={logo6} width={80} height={80}></img>
-                      <div style={{padding:"0 30px"}}>
+                      <div style={{padding:"0 20px"}}>
                         <div className="item-text1">{this.state.overTimeNum}</div>
                         <div className="item-text2">已逾期</div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col className="col-content">
+                  <div className="item item-color3">
+                    <div className="item-img">
+                      <img src={logo7} width={80} height={80}></img>
+                      <div style={{padding:"0 20px"}}>
+                        <div className="item-text1">{this.state.advanceDay}</div>
+                        <div className="item-text2">提前天数</div>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+                <Col className="col-content">
+                  <div className="item item-color4">
+                    <div className="item-img">
+                      <img src={logo8} width={80} height={80}></img>
+                      <div style={{padding:"0 20px"}}>
+                        <div className="item-text1">{this.state.overTimeDay}</div>
+                        <div className="item-text2">逾期天数</div>
                       </div>
                     </div>
                   </div>

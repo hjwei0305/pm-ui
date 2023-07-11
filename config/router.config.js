@@ -112,6 +112,11 @@ export default [
             path: '/pm/PmVisitStatistics',
             component: './PmVisitStatistics',
             title: '访问量统计',
+          },
+          {
+            path: '/pm/PersonalBaseInfoReport',
+            component: './PersonalBaseInfoReport',
+            title: '无项目名单列表',
           }
         ],
       },
